@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<!-- saved from url=(0081)https://bguppl.github.io/interpreters/class_material/4.4RecursionToIteration.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>From Recursion to Iteration through CPS | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="From Recursion to Iteration through CPS">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/4.4RecursionToIteration.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/4.4RecursionToIteration.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="From Recursion to Iteration through CPS">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"From Recursion to Iteration through CPS","url":"https://bguppl.github.io/interpreters/class_material/4.4RecursionToIteration.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./From Recursion to Iteration through CPS _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./From Recursion to Iteration through CPS _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-mo {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-stretchy-h {
+  display: inline-table;
+  width: 100%;
+}
+
+mjx-stretchy-h > * {
+  display: table-cell;
+  width: 0;
+}
+
+mjx-stretchy-h > * > mjx-c {
+  display: inline-block;
+  transform: scalex(1.0000001);
+}
+
+mjx-stretchy-h > * > mjx-c::before {
+  display: inline-block;
+  width: initial;
+}
+
+mjx-stretchy-h > mjx-ext {
+  /* IE */ overflow: hidden;
+  /* others */ overflow: clip visible;
+  width: 100%;
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c::before {
+  transform: scalex(500);
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c {
+  width: 0;
+}
+
+mjx-stretchy-h > mjx-beg > mjx-c {
+  margin-right: -.1em;
+}
+
+mjx-stretchy-h > mjx-end > mjx-c {
+  margin-left: -.1em;
+}
+
+mjx-stretchy-v {
+  display: inline-block;
+}
+
+mjx-stretchy-v > * {
+  display: block;
+}
+
+mjx-stretchy-v > mjx-beg {
+  height: 0;
+}
+
+mjx-stretchy-v > mjx-end > mjx-c {
+  display: block;
+}
+
+mjx-stretchy-v > * > mjx-c {
+  transform: scaley(1.0000001);
+  transform-origin: left center;
+  overflow: hidden;
+}
+
+mjx-stretchy-v > mjx-ext {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  border: 0px solid transparent;
+  /* IE */ overflow: hidden;
+  /* others */ overflow: visible clip;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c::before {
+  width: initial;
+  box-sizing: border-box;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c {
+  transform: scaleY(500) translateY(.075em);
+  overflow: visible;
+}
+
+mjx-mark {
+  display: inline-block;
+  height: 0px;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D43F.TEX-I::before {
+  padding: 0.683em 0.681em 0 0;
+  content: "L";
+}
+
+mjx-c.mjx-c35::before {
+  padding: 0.666em 0.5em 0.022em 0;
+  content: "5";
+}
+
+mjx-c.mjx-c36::before {
+  padding: 0.666em 0.5em 0.022em 0;
+  content: "6";
+}
+
+mjx-c.mjx-c37::before {
+  padding: 0.676em 0.5em 0.022em 0;
+  content: "7";
+}
+
+mjx-c.mjx-c1D44E.TEX-I::before {
+  padding: 0.441em 0.529em 0.01em 0;
+  content: "a";
+}
+
+mjx-c.mjx-c1D44F.TEX-I::before {
+  padding: 0.694em 0.429em 0.011em 0;
+  content: "b";
+}
+
+mjx-c.mjx-c1D450.TEX-I::before {
+  padding: 0.442em 0.433em 0.011em 0;
+  content: "c";
+}
+
+mjx-c.mjx-c2212::before {
+  padding: 0.583em 0.778em 0.082em 0;
+  content: "\2212";
+}
+
+mjx-c.mjx-c1D461.TEX-I::before {
+  padding: 0.626em 0.361em 0.011em 0;
+  content: "t";
+}
+
+mjx-c.mjx-c1D452.TEX-I::before {
+  padding: 0.442em 0.466em 0.011em 0;
+  content: "e";
+}
+
+mjx-c.mjx-c1D460.TEX-I::before {
+  padding: 0.442em 0.469em 0.01em 0;
+  content: "s";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./From Recursion to Iteration through CPS _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="from-recursion-to-iteration-through-cps">From Recursion to Iteration through CPS</h1>
+<h2 id="ppl-2023">PPL 2023</h2>
+
+<p>We observed in <a href="https://bguppl.github.io/interpreters/class_material/4.2CPS.html">4.2</a> that with our <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> interpreter because it is executed in a JavaScript interpreter which does NOT implement 
+Tail Call Optimization, we run out of stack space even when we execute a tail-recursive function in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container>.</p>
+
+<p>In this section, we introduce a general method which models recursion explicitly - so that we can properly implement tail-recursion as iteration <strong>even</strong> when our meta-language does not support tail call optimization.  In other words, our implementer <em>explains</em> how to turn tail recursion into iteration.</p>
+
+<p>We first illustrate the general approach on a concrete example (a simple tail recursive function written in TypeScript, which we turn into an equivalent iterative program in JavaScript through gradual semantic transformations).<br>
+We then implement the same method on the <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="2" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> interpreter and obtain an iterative version of the interpreter.  We finally demonstrate that when we
+execute the iterative interpreter on a tail-recursive <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="3" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> program, this yields an iterative execution process which does not consume control memory.<br>
+The end-result is an interpreter which executes tail-recursive programs as iteration even though the meta-language does <strong>not</strong> implement tail recursion optimization.</p>
+
+<h2 id="from-recursion-to-tail-recursion-using-the-cps-transformation">From Recursion to Tail Recursion using the CPS Transformation</h2>
+
+<p>Consider the following recursive function in TypeScript:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ============================================================</span>
+<span class="c1">// regular recursive function: sum all numbers from 0 to n.</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">sum</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="p">(</span><span class="nx">n</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">?</span> <span class="mi">0</span> <span class="p">:</span>
+    <span class="nx">n</span> <span class="o">+</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>This function is recursive (because the recursive call does not appear in tail position).
+We know that if we execute it on a large value for n, it will create a stack overflow error.</p>
+
+<p>We could instead rewrite this function as a tail recursive function:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">sumIter</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">acc</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="p">(</span><span class="nx">n</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">?</span> <span class="nx">acc</span> <span class="p">:</span>
+    <span class="nx">sumIter</span><span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">n</span> <span class="o">+</span> <span class="nx">acc</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>This version is tail-recursive.  On an interpreter that would perform Tail Call Optimization (TCO), this function would be executed in an iterative manner.  But JavaScript does <strong>not</strong> perform TCO, and therefore, this function will also cause a 
+stack overflow when it is executed on a large value of n.</p>
+
+<p>We could of course write the same function directly in an iterative manner:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">sumLoop</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">n</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="nx">sum</span> <span class="o">=</span> <span class="nx">sum</span> <span class="o">+</span> <span class="nx">i</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">sum</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>What we want to obtain instead is a systematic transformation process which will turn any recursive function into a semantically equivalent function which can be executed iteratively – that is, without consuming control memory.
+We demonstrate this transformation as a series of smaller transformations - starting with the CPS transformation, which
+is the key semantic transformation involved in this overall compilation of the recursive program into an equivalent iterative
+program.</p>
+
+<p>Note that when we perform the CPS transformation, we do <strong>not</strong> transform <code class="language-plaintext highlighter-rouge">sum</code> into <code class="language-plaintext highlighter-rouge">sumIter</code>.<br>
+<code class="language-plaintext highlighter-rouge">sumIter</code> implements a different algorithm than <code class="language-plaintext highlighter-rouge">sum</code>.  This is the result of the CPS transformation applied
+on the TypeScript code of <code class="language-plaintext highlighter-rouge">sum</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ============================================================</span>
+<span class="c1">// CPS Procedural transformation of the recursive algorithm</span>
+<span class="kd">type</span> <span class="nx">Cont</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">number</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">sumCPS</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">cont</span><span class="p">:</span> <span class="nx">Cont</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="p">(</span><span class="nx">n</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">?</span> <span class="nx">cont</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">sumCPS</span><span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="nx">sn1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">cont</span><span class="p">(</span><span class="nx">n</span> <span class="o">+</span> <span class="nx">sn1</span><span class="p">));</span>
+
+<span class="c1">// Driver function: same signature as the original function, passes a default cont.</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">sumCPS1</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="nx">sumCPS</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The resulting program is tail recursive (which is always the case for a CPS program).<br>
+But because JavaScript does not apply TCO, when we invoke this program, we still obtain a stack overflow:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">sumCPS1</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+
+<span class="o">--&gt;</span> <span class="nx">RangeError</span><span class="p">:</span> <span class="nx">Maximum</span> <span class="nx">call</span> <span class="nx">stack</span> <span class="nx">size</span> <span class="nx">exceeded</span>
+</code></pre></div></div>
+
+<h2 id="from-procedural-continuations-to-concrete-continuations">From Procedural Continuations to Concrete Continuations</h2>
+
+<p>The reason we still suffer from control memory consumption is that even for tail calls, the JavaScript interpreter internally allocates a stack frame.  That is, in the tail call:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">sumCPS</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="nx">cont</span><span class="p">)</span> <span class="o">--&gt;</span> <span class="nx">sumCPS</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">(</span><span class="nx">sn1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">cont</span><span class="p">(</span><span class="mi">5</span> <span class="o">+</span> <span class="nx">sn1</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>we still allocate a call frame on the stack. 
+In fact, in JavaScript, we <strong>always</strong> allocate a call frame whenever we invoke a function - regardless of the position of the function application.  If we want to avoid allocating call stacks, we must avoid calling functions.  How can we achieve this for the cases of continuations?</p>
+
+<p>We will achieve this objective in two steps:</p>
+<ul>
+  <li>We will transform procedural continuations into concrete data structures which implement the same interface as continuations.</li>
+  <li>We will transform the invocation of continuations into an iterative process without parameter passing and without return address.</li>
+</ul>
+
+<p>Up to this point, we described continuations as closures which receive as parameter the result of the current function and pass this parameter to the continuation of the code.  These closures encapsulate any local variable that does not depend on the result.  When a procedure is transformed in CPS-form, the structure of the resulting function is:</p>
+<ul>
+  <li>A procedure which receives a single parameter</li>
+  <li>All computation which does not invoke a user-defined procedure (any sequence of primitive applications) is performed at the beginning of the computation.</li>
+  <li>The result of this computation is then passed to the continuation.</li>
+</ul>
+
+<p>In this context, when we invoke a CPS function, we <strong>construct</strong> its continuation as the last parameter of the CPS function.
+That is, each time we invoke a CPS function with a continuation, we construct a new continuation instance with the specific parameters this continuation receives.</p>
+
+<p>Within the body of the continuations, we invoke the continuation passed as a parameter with different parameters.</p>
+
+<p>We, accordingly, can distinguish two contexts in which continuations participate:</p>
+<ul>
+  <li>Places where a new continuation is constructed with its specific parameters</li>
+  <li>Places where a continuation is invoked</li>
+</ul>
+
+<p>For example, in the sumCPS example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Cont</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">number</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">sumCPS</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">cont</span><span class="p">:</span> <span class="nx">Cont</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="p">(</span><span class="nx">n</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">?</span> <span class="nx">cont</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span>                   <span class="c1">// The cont parameter is invoked</span>
+    <span class="nx">sumCPS</span><span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="nx">sn1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">cont</span><span class="p">(</span><span class="nx">n</span> <span class="o">+</span> <span class="nx">sn1</span><span class="p">));</span>  <span class="c1">// A new continuation is constructed with n and cont in its memory</span>
+                                            <span class="c1">// In the body of this continuation, the cont continuation is invoked.</span>
+                                            
+<span class="c1">// Driver function: same signature as the original function, passes a default cont.</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">sumCPS1</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="nx">sumCPS</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">);</span>  <span class="c1">// The default identity continuation is constructed (it has no memory)</span>
+</code></pre></div></div>
+
+<h2 id="concrete-continuations-vs-procedural-continuations">Concrete Continuations vs. Procedural Continuations</h2>
+
+<p>In the first step of the transformation from CPS to Iteration, we transform procedural continuations into concrete data structures.  This transformation is systematic:</p>
+<ul>
+  <li>We identify all the types of continuations which appear in the program.  In our trivial <code class="language-plaintext highlighter-rouge">sum</code> example, there are only two distinct continuation types, the one constructed inside <code class="language-plaintext highlighter-rouge">sumCPS</code> and the one constructed in the driver function <code class="language-plaintext highlighter-rouge">sumCPS1</code>.</li>
+  <li>We give them distinct names: in our case, <code class="language-plaintext highlighter-rouge">Cont1</code> and <code class="language-plaintext highlighter-rouge">IdCont</code>.</li>
+  <li>For each type of continuation, we identify which variables are closed in the corresponding closure: those are the variables which must be remembered in the activation frame of the corresponding closure.  In our case, for <code class="language-plaintext highlighter-rouge">Cont1</code> the variables captured in the closure are <code class="language-plaintext highlighter-rouge">cont</code> and <code class="language-plaintext highlighter-rouge">n</code>; for <code class="language-plaintext highlighter-rouge">IdCont</code>, no variables are captured.</li>
+  <li>We define a <strong>disjoint type union system</strong> to represent these continuations.  In our case, we define the interfaces <code class="language-plaintext highlighter-rouge">Cont1</code> and <code class="language-plaintext highlighter-rouge">IdCont</code> - each one with the captured variables as members of the interface, a discriminative tag for each interface, and a parent type union to represent all possible continuations in a polymorphic manner.</li>
+  <li>Finally, we define a polymorphic function <code class="language-plaintext highlighter-rouge">applyCont</code> which dispatches on the type of the cont and executes the body of the continuation according to its type when it is invoked.</li>
+  <li>In all places in the code where a continuation is constructed, we invoke the appropriate continuation constructor with the relevant parameters, and in the places where a continuation is invoked, we explicitly call <code class="language-plaintext highlighter-rouge">applyCont</code> on the concrete <code class="language-plaintext highlighter-rouge">cont</code> parameter.</li>
+</ul>
+
+<p>With this transformation, we obtain the following code for the <code class="language-plaintext highlighter-rouge">sumCPS</code> example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// =============================================================</span>
+<span class="c1">// CPS Concrete transformation of the CPS procedural implementation</span>
+<span class="c1">// Continuations are implemented as data structures instead of procedures.</span>
+
+<span class="kd">type</span> <span class="nx">CCont</span> <span class="o">=</span> <span class="nx">IdCont</span> <span class="o">|</span> <span class="nx">Cont1</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kr">interface</span> <span class="nx">Cont1</span> <span class="p">{</span><span class="nl">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Cont1</span><span class="dl">"</span><span class="p">;</span> <span class="nl">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span> <span class="nl">cont</span><span class="p">:</span> <span class="nx">CCont</span><span class="p">};</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">makeCont1</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">cont</span><span class="p">:</span> <span class="nx">CCont</span><span class="p">):</span> <span class="nx">Cont1</span> <span class="o">=&gt;</span> <span class="p">({</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Cont1</span><span class="dl">"</span><span class="p">,</span> <span class="na">n</span><span class="p">:</span> <span class="nx">n</span><span class="p">,</span> <span class="na">cont</span><span class="p">:</span> <span class="nx">cont</span><span class="p">});</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isCont1</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">Cont1</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">Cont1</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kr">interface</span> <span class="nx">IdCont</span> <span class="p">{</span><span class="nl">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">IdCont</span><span class="dl">"</span><span class="p">};</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">makeIdCont</span> <span class="o">=</span> <span class="p">():</span> <span class="nx">IdCont</span> <span class="o">=&gt;</span> <span class="p">({</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">IdCont</span><span class="dl">"</span><span class="p">});</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isIdCont</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">IdCont</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">IdCont</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">applyCont</span> <span class="o">=</span> <span class="p">(</span><span class="nx">cont</span><span class="p">:</span> <span class="nx">CCont</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="nx">isIdCont</span><span class="p">(</span><span class="nx">cont</span><span class="p">)</span> <span class="p">?</span> <span class="nx">val</span> <span class="p">:</span>
+    <span class="nx">isCont1</span><span class="p">(</span><span class="nx">cont</span><span class="p">)</span> <span class="p">?</span> <span class="nx">applyCont</span><span class="p">(</span><span class="nx">cont</span><span class="p">.</span><span class="nx">cont</span><span class="p">,</span> <span class="nx">cont</span><span class="p">.</span><span class="nx">n</span> <span class="o">+</span> <span class="nx">val</span><span class="p">)</span> <span class="p">:</span>
+    <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">sumCPSC</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">cont</span><span class="p">:</span> <span class="nx">CCont</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="p">(</span><span class="nx">n</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">?</span> <span class="nx">applyCont</span><span class="p">(</span><span class="nx">cont</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">sumCPSC</span><span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">makeCont1</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">cont</span><span class="p">));</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">sumCPS2</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="nx">sumCPSC</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">makeIdCont</span><span class="p">());</span>
+</code></pre></div></div>
+
+<h2 id="registerization-of-concrete-continuations">Registerization of Concrete Continuations</h2>
+
+<p>This implementation of the CPS program with concrete continuations is still not iterative: we invoke JavaScript functions each time we construct a continuation and each time we invoke one.  These are places where we will still consume stack memory.</p>
+
+<p>We use functions in the <code class="language-plaintext highlighter-rouge">sumCPS2</code> program for 3 reasons:</p>
+<ul>
+  <li>To pass the appropriate parameters to the continuation constructors</li>
+  <li>To pass the appropriate parameters to the <code class="language-plaintext highlighter-rouge">applyCont</code> polymorphic method</li>
+  <li>To know where to return in the code execution once the procedures complete so that we can continue processing</li>
+</ul>
+
+<p>Observe, however, that because we are operating on code in CPS form, the function calls are all in tail position.
+This means that we do <strong>not</strong> need to remember where to return to, we can simply go to the next call and never return.</p>
+
+<p>We observe that the continuation constructors all have the same structure – they simply initialize the fields of a record with the parameters.  Hence, we are ensured that invoking a continuation constructor will consume a single stack frame and will not chain to further function calls.</p>
+
+<p>In contrast, <code class="language-plaintext highlighter-rouge">applyCont</code> often yields recursive chains of function calls.</p>
+
+<p>In this step, we remove the need to use a stack frame to pass parameters to the functions involved in the CPS program.
+Instead, we define a finite set of <strong>registers</strong> - that is, a set of variables of the appropriate types which are defined over the scope of the whole program (all the functions involved in the CPS transformation).  There is one register for each parameter of all the continuation constructors and the <code class="language-plaintext highlighter-rouge">applyCont</code> function.</p>
+
+<p>Instead of invoking a function by passing parameters - we initialize the corresponding registers and then call a function of zero parameters.  In our example, this transformation yields the following program:</p>
+
+<ul>
+  <li>We define the registers <code class="language-plaintext highlighter-rouge">nREG</code> and <code class="language-plaintext highlighter-rouge">contREG</code> for the parameters of the <code class="language-plaintext highlighter-rouge">Cont1</code> constructor</li>
+  <li>We define the register <code class="language-plaintext highlighter-rouge">valREG</code> for the parameter to the <code class="language-plaintext highlighter-rouge">applyCont</code> function</li>
+  <li>We initialize the registers in the driver function <code class="language-plaintext highlighter-rouge">sumREG1</code></li>
+  <li>We transform each function invocation with parameters into a sequence of assignments to the registers and then invocation of the function without parameters.</li>
+</ul>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// =============================================================</span>
+<span class="c1">// CPS Registerization transformation of the CPS concrete implementation</span>
+
+<span class="c1">// Define in the scope of the registers all the relevant functions:</span>
+<span class="c1">// - the computation functions in CPS form</span>
+<span class="c1">// - the invoke continuation dispatcher method</span>
+<span class="kd">const</span> <span class="nx">sumREG1VM</span> <span class="o">=</span> <span class="p">(</span><span class="nx">nREG</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">contREG</span><span class="p">:</span> <span class="nx">CCont</span><span class="p">,</span> <span class="nx">valREG</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">sumCPSCReg</span> <span class="o">=</span> <span class="p">():</span> <span class="kr">number</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="c1">// console.log(`sumCPCReg n=${nREG} cont=${JSON.stringify(contREG)}`)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">nREG</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">valREG</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">return</span> <span class="nx">applyContReg</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">contREG</span> <span class="o">=</span> <span class="nx">makeCont1</span><span class="p">(</span><span class="nx">nREG</span><span class="p">,</span> <span class="nx">contREG</span><span class="p">);</span>
+            <span class="nx">nREG</span> <span class="o">=</span> <span class="nx">nREG</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">return</span> <span class="nx">sumCPSCReg</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">const</span> <span class="nx">applyContReg</span> <span class="o">=</span> <span class="p">():</span> <span class="kr">number</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="c1">// console.log(`applyContReg val=${valREG} cont=${JSON.stringify(contREG)}`)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">isIdCont</span><span class="p">(</span><span class="nx">contREG</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">valREG</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">isCont1</span><span class="p">(</span><span class="nx">contREG</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">valREG</span> <span class="o">=</span> <span class="nx">contREG</span><span class="p">.</span><span class="nx">n</span> <span class="o">+</span> <span class="nx">valREG</span><span class="p">;</span>
+            <span class="nx">contREG</span> <span class="o">=</span> <span class="nx">contREG</span><span class="p">.</span><span class="nx">cont</span><span class="p">;</span>
+            <span class="k">return</span> <span class="nx">applyContReg</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">`Bad continuation </span><span class="p">${</span><span class="nx">contREG</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// entry point</span>
+    <span class="k">return</span> <span class="nx">sumCPSCReg</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// Bootstrap the virtual machine</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">sumREG1</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="nx">sumREG1VM</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">makeIdCont</span><span class="p">(),</span> <span class="kc">undefined</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<h3 id="why-registers-can-be-safely-overridden">Why Registers can be Safely Overridden</h3>
+
+<p>The set of registers we defined replace activation frames in a stack.  Consider why in the current state of our transformation, it is safe to use a single flat set of registers instead of stacked activation frames.</p>
+
+<p>The reason is that in CPS form, when we enter a user-defined function, we read the parameters (in our case from the registers), execute a set of primitive computation steps, and then move on to the tail call.  In particular:</p>
+<ul>
+  <li>After a tail call, we do not return to the function from which we invoked the tail call.  This means that we do not need to read values from the activation frame anymore after the tail call is entered.</li>
+  <li>It is, therefore, safe to override the current register values with other values that will be consumed in the tail call.</li>
+</ul>
+
+<p>Realize that the registerization transformation is safe <strong>only on code in CPS form</strong>.</p>
+
+<p>Observe the code in the <code class="language-plaintext highlighter-rouge">sumREG1</code> program.  We still invoke unbounded functions (that is, functions which can invoke more user defined functions in an unbounded chain of calls):</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">applyContReg()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sumCPSReg()</code></li>
+</ul>
+
+<p>These functions have zero-argument by construction, but their invocation still consumes stack frames.
+In the last step of the transformation, called <strong>pipelining</strong>, we now transform these calls into an explicit loop.</p>
+
+<h2 id="from-registers-to-iterative-execution">From Registers to Iterative Execution</h2>
+
+<p>In the register version of the program, we still invoke zero-parameter functions, all in tail positions.
+We want to avoid calling functions altogether to avoid consuming activation frames on the stack.</p>
+
+<p>The solution we introduce is to convert tail calls with no parameters into the equivalent of a “computed GOTO” instruction in a very simple “abstract machine”.  An abstract machine has a set of pre-defined instructions and a set of registers.<br>
+In our case, these instructions are the different types of continuations we can compute in the process of the function execution.  We add a single instruction to indicate that we have reached the end of the computation and that the Virtual Machine can shutdown and return the value of a specific register.</p>
+
+<p>To encode the name of the instruction of the next command to be executed, we introduce an additional register - traditionally called the <strong>Program Counter</strong> (or PC).  The type of this register is an enumeration of the possible continuation types.
+We call this type the <code class="language-plaintext highlighter-rouge">InstructionSet</code> of the virtual machine.</p>
+
+<p>Finally, we define a VM() procedure which implements the logic of the virtual machine:</p>
+<ul>
+  <li>Fetch: the instruction to be executed and the corresponding registers</li>
+  <li>Decode: dispatch the name of the instruction to the appropriate sequence of primitive calls</li>
+  <li>Execute: execute the sequence of primitive calls and update the registers to prepare for the next instruction</li>
+</ul>
+
+<p>All procedures in the implementation are defined in the scope of the registers.
+To invoke a new procedure, we end each call by setting pcREG to the name of the procedure we want to execute next.
+Setting pcREG in tail position is equivalent to invoking a procedure in tail position.</p>
+
+<p>This transformation of calls of procedures in tail position to an explicit loop and dispatch over the PC register yields the following version of the program:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// =============================================================</span>
+<span class="c1">// Iterative CPS transformation of the Registerized CPS version.</span>
+
+<span class="c1">// The set of instructions known by the "Sum Virtual Machine"</span>
+<span class="kd">type</span> <span class="nx">InstructionSet</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">applyContReg2</span><span class="dl">'</span> <span class="o">|</span> <span class="dl">'</span><span class="s1">sumCPSCReg2</span><span class="dl">'</span> <span class="o">|</span> <span class="dl">'</span><span class="s1">halt</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="c1">// Introduce the new register pcREG2 which encodes the name of the "next instruction" to be executed.</span>
+<span class="kd">const</span> <span class="nx">sumREG2VM</span> <span class="o">=</span> <span class="p">(</span><span class="nx">nREG2</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">contREG2</span><span class="p">:</span> <span class="nx">CCont</span><span class="p">,</span> <span class="nx">valREG2</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">pcREG2</span><span class="p">:</span> <span class="nx">InstructionSet</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">sumCPSCReg2</span> <span class="o">=</span> <span class="p">():</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="c1">// console.log(`sumCPCReg n=${nREG2} cont=${JSON.stringify(contREG2)}`)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">nREG2</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">valREG2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="nx">pcREG2</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">applyContReg2</span><span class="dl">'</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">contREG2</span> <span class="o">=</span> <span class="nx">makeCont1</span><span class="p">(</span><span class="nx">nREG2</span><span class="p">,</span> <span class="nx">contREG2</span><span class="p">);</span>
+            <span class="nx">nREG2</span> <span class="o">=</span> <span class="nx">nREG2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="nx">pcREG2</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">sumCPSCReg2</span><span class="dl">'</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">const</span> <span class="nx">applyContReg2</span> <span class="o">=</span> <span class="p">():</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="c1">// console.log(`applyContReg val=${valREG2} cont=${JSON.stringify(contREG2)}`)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">isIdCont</span><span class="p">(</span><span class="nx">contREG2</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">pcREG2</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">halt</span><span class="dl">'</span><span class="p">;</span>
+            <span class="c1">// return valREG;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">isCont1</span><span class="p">(</span><span class="nx">contREG2</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">valREG2</span> <span class="o">=</span> <span class="nx">contREG2</span><span class="p">.</span><span class="nx">n</span> <span class="o">+</span> <span class="nx">valREG2</span><span class="p">;</span>
+            <span class="nx">contREG2</span> <span class="o">=</span> <span class="nx">contREG2</span><span class="p">.</span><span class="nx">cont</span><span class="p">;</span>
+            <span class="nx">pcREG2</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">applyContReg2</span><span class="dl">'</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">pcREG2</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">halt</span><span class="dl">'</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">const</span> <span class="nx">VM</span> <span class="o">=</span> <span class="p">():</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="c1">// Explicitly iterate over each of the possible steps of the computation</span>
+        <span class="c1">// The next instruction to be executed is computed and stored in the pcREG2 register.</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nx">pcREG2</span> <span class="o">!==</span> <span class="dl">'</span><span class="s1">halt</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">pcREG2</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">sumCPSCReg2</span><span class="dl">'</span><span class="p">)</span> <span class="nx">sumCPSCReg2</span><span class="p">();</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">pcREG2</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">applyContReg2</span><span class="dl">'</span><span class="p">)</span> <span class="nx">applyContReg2</span><span class="p">();</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">`Bad instruction </span><span class="p">${</span><span class="nx">pcREG2</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+                <span class="nx">pcREG2</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">halt</span><span class="dl">'</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// entry point</span>
+    <span class="nx">VM</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">valREG2</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">sumREG2</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="nx">sumREG2VM</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">makeIdCont</span><span class="p">(),</span> <span class="kc">undefined</span><span class="p">,</span> <span class="dl">'</span><span class="s1">sumCPSCReg2</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="the-registerized-vm-is-iterative">The Registerized VM is Iterative</h2>
+
+<p>The resulting program is an iterative implementation of the original program.
+Because the original program was tail-recursive, the resulting program is also iterative.</p>
+
+<p>We confirm this through empirical tests:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// =============================================================</span>
+<span class="c1">// TESTS</span>
+<span class="nx">sum</span><span class="p">(</span><span class="mi">10000</span><span class="p">);</span>     <span class="c1">// Stack overflow</span>
+<span class="nx">sumCPS1</span><span class="p">(</span><span class="mi">10000</span><span class="p">);</span> <span class="c1">// Stack overflow</span>
+<span class="nx">sumCPS2</span><span class="p">(</span><span class="mi">10000</span><span class="p">);</span> <span class="c1">// Stack overflow</span>
+<span class="nx">sumREG1</span><span class="p">(</span><span class="mi">10000</span><span class="p">);</span> <span class="c1">// Stack overflow</span>
+<span class="nx">sumREG2</span><span class="p">(</span><span class="mi">10000</span><span class="p">);</span> <span class="c1">// 100 010 000 / 2 = 50 005 000</span>
+</code></pre></div></div>
+
+<h1 id="transforming-the-l5-interpreter-into-an-iterative-interpreter">Transforming the <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="4" style="font-size: 117.3%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> Interpreter into an Iterative Interpreter</h1>
+
+<p>This was quite a lot of work to turn a single tail recursive procedure into an iterative program.
+The benefit of this method is that, by relying on the properties of the CPS transformation, we can transform <strong>any program</strong> into a corresponding iterative program.</p>
+
+<p>In particular, we can transform the code of the <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="5" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> interpreter into an iterative interpreter which does not consume JavaScript stack.  Naturally, this program will still consume “some memory” when it executes a recursive program.  But this memory will be managed explicitly, in the form of a concrete continuation data structure.  It will not rely implicitly on the stack of the metalanguage (JavaScript).</p>
+
+<p>As a consequence, if we execute an <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="6" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> tail-recursive program, this iterative interpreter will consume bounded control memory - as expected of a Scheme interpreter.</p>
+
+<p>We illustrate this transformation in multiple steps:</p>
+<ul>
+  <li><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="7" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> is the original recursive interpreter.  It is recursive because the various evaluation methods are by definition recursive over the inductive structure of the input AST.</li>
+  <li><a href="https://github.com/bguppl/interpreters/blob/master/src/cps/L6-eval.ts"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="8" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c36"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>6</mn></math></mjx-assistive-mml></mjx-container></a> is the CPS transformation of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="9" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container>.  We simply apply the rules of the CPS transformation over the code of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="10" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> in TypeScript.  In this CPS transformation, we only include procedures which can lead to unbounded execution.  Any user-defined procedure which has bounded execution is left unchanged (for example, <code class="language-plaintext highlighter-rouge">applyPrimitive</code> and all the procedures manipulating the AST are left unchanged)</li>
+  <li><a href="https://github.com/bguppl/interpreters/blob/master/src/cps/L7a-eval.ts"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="11" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c37"></mjx-c></mjx-mn><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>7</mn><mi>a</mi></math></mjx-assistive-mml></mjx-container></a> is the transformation of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="12" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c36"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>6</mn></math></mjx-assistive-mml></mjx-container> with explicit continuation ADT but still using closures for the ADT implementation</li>
+  <li><a href="https://github.com/bguppl/interpreters/blob/master/src/cps/L7b-eval.ts"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="13" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c37"></mjx-c></mjx-mn><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44F TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>7</mn><mi>b</mi></math></mjx-assistive-mml></mjx-container></a> turns continuations into concrete data structures</li>
+  <li><a href="https://github.com/bguppl/interpreters/blob/master/src/cps/L7c-eval.ts"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="14" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c37"></mjx-c></mjx-mn><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D450 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>7</mn><mi>c</mi></math></mjx-assistive-mml></mjx-container></a> introduces the iterative version of the interpreter with registers and explicit dispatch according to pcREG.</li>
+  <li><a href="https://github.com/bguppl/interpreters/blob/master/src/cps/L7-eval.ts"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="15" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c37"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>7</mn></math></mjx-assistive-mml></mjx-container></a> iterative version of the interpreter with registers and explicit dispatch according to pcREG.</li>
+  <li><a href="https://github.com/bguppl/interpreters/blob/master/test/cps/L7-tests.ts"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="16" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c37"></mjx-c></mjx-mn><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c2212"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="3"><mjx-c class="mjx-c1D461 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D452 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D460 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D461 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D460 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>7</mn><mo>−</mo><mi>t</mi><mi>e</mi><mi>s</mi><mi>t</mi><mi>s</mi></math></mjx-assistive-mml></mjx-container></a> covers the tests for the different versions of the interpreter.</li>
+</ul>
+
+<p>To validate the transformation, we confirm that the evaluation of the following <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="17" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c37"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>7</mn></math></mjx-assistive-mml></mjx-container> program completes without stack overflow:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">evalParse</span><span class="p">(</span><span class="s2">`
+(L5 (define sumCPS
+      (lambda (n cont)
+        (if (= n 0)
+            (cont 0)
+            (sumCPS (- n 1) (lambda (sn1) (cont (+ n sn1)))))))
+    (sumCPS 10000 (lambda (x) x)))
+`</span><span class="p">),</span> <span class="mi">50005000</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="summary">Summary</h2>
+
+<ul>
+  <li>We introduce a systematic transformation to turn recursive code into semantically equivalent iterative code with explicit stack management (encoded in the form of continuation parameters).</li>
+  <li>The transformation involves the following steps:
+    <ul>
+      <li>Transformation to CPS</li>
+      <li>Transformation of closure-based continuations to concrete data structures for continuations</li>
+      <li>Registerization: transformation of all continuation-constructors and of callCont into zero-parameter procedures and passing the parameters through a flat set of registers.</li>
+      <li>Explicit iteration: transform invocation of functions into setting a PC register with the name of the next instruction and an explicit loop dispatching to the appropriate zero-parameter function based on the value of the PC register.</li>
+    </ul>
+  </li>
+  <li>The transformation steps are safe because they rely on properties of CPS code: all calls to user-defined functions are in tail position</li>
+  <li>We first illustrate this transformation on a simple TypeScript function (sum).</li>
+  <li>We then demonstrate the same exact transformation applied to the code of the <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="18" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> interpreter.</li>
+  <li>The result is an iterative interpreter which explicitly manages control memory in the form of concrete continuation data structures.</li>
+  <li>In particular, this interpreter can execute tail recursive procedures in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="19" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> in an iterative manner even though it is written in a meta-language which does not perform Tail Call Optimization (JavaScript).</li>
+</ul>
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

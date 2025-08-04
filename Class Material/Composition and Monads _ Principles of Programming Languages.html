@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<!-- saved from url=(0066)https://bguppl.github.io/interpreters/class_material/1.5Monad.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Composition and Monads | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Composition and Monads">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/1.5Monad.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/1.5Monad.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Composition and Monads">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Composition and Monads","url":"https://bguppl.github.io/interpreters/class_material/1.5Monad.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Composition and Monads _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Composition and Monads _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Composition and Monads _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="composition-and-monads">Composition and Monads</h1>
+
+<h3 id="ppl-2023">PPL 2023</h3>
+
+<p>We have introduced a taste of functional programming using TypeScript and identified the following practices:</p>
+<ul>
+  <li>Focus on expressions - avoid statements</li>
+  <li>Use immutable variables and data structures - avoid mutations</li>
+  <li>Use functions as the primary abstraction method</li>
+  <li>Use higher-order functions to define high-level patterns</li>
+  <li>Define types using set operations (union, product, intersection, disjoint union)</li>
+  <li>Define recursive data types on the basis of disjoint union of base type and recursive type</li>
+  <li>Define functions over types with the pattern that the structure of the function reflects the structure of the type</li>
+</ul>
+
+<p>This unit introduces a new functional programming practice which focuses on <strong>composition</strong>.
+It defines the <strong>monad</strong> design pattern which inherited its name from <a href="https://en.wikipedia.org/wiki/Category_theory">Category Theory</a>.</p>
+
+<p>It summarizes material presented in the following introductory lectures:</p>
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=C2w45qRc3aU">Absolute Best Intro to Monads for Software Engineers</a> (Video 25mn)</li>
+  <li><a href="https://www.youtube.com/watch?v=i9CU4CuHADQ">Bartosz Mikewski - Category Theory 3.2: Kleisli category</a> (Video 1h10). This is a more mathematical description of the same material.</li>
+  <li><a href="https://www.youtube.com/watch?v=vDe-4o8Uwl8">Scott Waschlin - The Power of Composition</a> (Video 1h05)</li>
+</ul>
+
+<p>The TypeScript code associated to this unit is in <a href="https://github.com/bguppl/interpreters/blob/master/src/monads">monads/</a>.</p>
+
+<h2 id="motivating-example-logging">Motivating Example: Logging</h2>
+
+<p>We have seen how to define complex types and how to compose types with OR and AND operators:</p>
+<ul>
+  <li>AND: tuple or array or map</li>
+  <li>OR: union (discriminated union) usually product types</li>
+</ul>
+
+<p>Given complex values, the following scenario become obstables to “easy composition” of functions:</p>
+<ul>
+  <li>Functions with multiple parameters: for example: <code class="language-plaintext highlighter-rouge">replace(oldValue: string, newValue: string, inputStr: string) =&gt; string</code> - 
+it is difficult to use this function inside a pipe of functions because the previous function would supply only one value and it expects three.
+In general, the solution to this obstacle is to use currying (define a function <code class="language-plaintext highlighter-rouge">replace(oldValue)(newValue)(inputStr)</code> combined with partial functions - functions where some of the parameters are fixed.</li>
+  <li>Functions with one input but multiple possible outputs (the return type is a union). In this case, the next function in the pipe must be able to deal with the multiple options of the union.</li>
+  <li>Different types of inputs - multiple possible outputs</li>
+  <li>Multiple inputs - One output</li>
+  <li>Multiple inputs - Multiple outputs</li>
+</ul>
+
+<p>A general solution to these problems of composition is to wrap unions and products of values into complex types and to override the 
+composition operator for each of these complex types.  We will demonstrate this general approach over multiple examples, and then regroup
+to identify the commonality across these examples.</p>
+
+<p>Consider simple full functions <code class="language-plaintext highlighter-rouge">[number =&gt; number]</code>:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">square</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">inc</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>It is easy to compose them anyway we want:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>inc(square(2));
+
+pipe(square, inc)(2);
+</code></pre></div></div>
+
+<p>Consider a new requirement: We want to trace the calls to all these functions.
+This may be needed for debugging a system in production or for auditing reasons.</p>
+
+<p>We do not want to introduce the I/O operation as part of the computation to avoid breaking separation of concerns and introducing a global dependency on a logger
+which would make it difficult to run these functions in concurrent runtime environment (this would require serialization of the logging operations).</p>
+
+<p>Instead, we settle for this protocol:</p>
+<ul>
+  <li>We wrap the result in a map and add a logs field</li>
+  <li>The logs field accumulates the logs as operations are performed.</li>
+</ul>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nx">inc</span><span class="p">(</span><span class="nx">square</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">--&gt;</span> 
+<span class="p">{</span>
+	<span class="na">result</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+	<span class="na">logs</span><span class="p">:</span> <span class="p">[</span>
+		<span class="dl">"</span><span class="s2">Squared 2 to get 4</span><span class="dl">"</span><span class="p">,</span>
+		<span class="dl">"</span><span class="s2">Added 1 to 4 to get 5</span><span class="dl">"</span>
+	<span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="first-attempt-not-composable">First Attempt: Not Composable</h3>
+
+<p>To support this approach, we introduce a wrapper type which keeps track of the logs list.</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">NumberWithLogs</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">result</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+  <span class="nl">logs</span><span class="p">:</span> <span class="kr">string</span><span class="p">[];</span>
+<span class="p">};</span>
+
+<span class="c1">// First attempt:</span>
+<span class="kd">const</span> <span class="nx">square1</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="nx">NumberWithLogs</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">result</span><span class="p">:</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="p">,</span>
+  <span class="na">logs</span><span class="p">:</span> <span class="p">[</span><span class="s2">`Squared </span><span class="p">${</span><span class="nx">x</span><span class="p">}</span><span class="s2"> to get </span><span class="p">${</span><span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="p">}</span><span class="s2">`</span><span class="p">],</span>
+<span class="p">});</span>
+
+<span class="c1">// the input param is a wrapper which "remembers" what has already been performed.</span>
+<span class="c1">// the operation concatenates a new line to the logs field</span>
+<span class="kd">const</span> <span class="nx">inc1</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">NumberWithLogs</span><span class="p">):</span> <span class="nx">NumberWithLogs</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">result</span><span class="p">:</span> <span class="nx">x</span><span class="p">.</span><span class="nx">result</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="na">logs</span><span class="p">:</span> <span class="p">[...</span><span class="nx">x</span><span class="p">.</span><span class="nx">logs</span><span class="p">,</span> <span class="s2">`Added 1 to </span><span class="p">${</span><span class="nx">x</span><span class="p">.</span><span class="nx">result</span><span class="p">}</span><span class="s2"> to get </span><span class="p">${</span><span class="nx">x</span><span class="p">.</span><span class="nx">result</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span><span class="s2">`</span><span class="p">],</span>
+<span class="p">});</span>
+
+<span class="c1">// { result: 5, logs: [ 'Squared 2 to get 4', 'Added 1 to 4 to get 5' ] }</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">inc1</span><span class="p">(</span><span class="nx">square1</span><span class="p">(</span><span class="mi">2</span><span class="p">)));</span>
+</code></pre></div></div>
+
+<p>We now have a problems these functions are not composable!</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">inc1(5)</code> –&gt; bad type</li>
+  <li><code class="language-plaintext highlighter-rouge">square1(square1(2))</code> –&gt; bad type</li>
+  <li><code class="language-plaintext highlighter-rouge">square1(inc1(2))</code> –&gt; bad type</li>
+</ul>
+
+<p>In general - we observe that “uniform” function types <code class="language-plaintext highlighter-rouge">[N =&gt; N]</code> became “non-uniform” <code class="language-plaintext highlighter-rouge">[N =&gt; NwL]</code> and <code class="language-plaintext highlighter-rouge">[NwL =&gt; NwL]</code>.</p>
+
+<p>To resolve this lack of compasability - let us:</p>
+<ol>
+  <li>disentangle the construction and maintenance of the logs list from the computation.</li>
+  <li>align all operations to the same type</li>
+</ol>
+
+<h3 id="aligning-function-types-to-lifted-functions">Aligning Function Types to Lifted Functions</h3>
+
+<p>Let’s first create a “constructor” for the new type (we will call this a <strong>wrapper</strong>).</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// The wrapper moves the initial parameter into the "NumberWithLogs" domain</span>
+<span class="kd">const</span> <span class="nx">wrapNumberWithLogs</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="nx">NumberWithLogs</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">result</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span>
+  <span class="na">logs</span><span class="p">:</span> <span class="p">[],</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>We then align all the functions to the same shape <code class="language-plaintext highlighter-rouge">[NumberWithLogs =&gt; NumberWithLogs]</code>:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">square2</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">NumberWithLogs</span><span class="p">):</span> <span class="nx">NumberWithLogs</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">result</span><span class="p">:</span> <span class="nx">x</span><span class="p">.</span><span class="nx">result</span> <span class="o">*</span> <span class="nx">x</span><span class="p">.</span><span class="nx">result</span><span class="p">,</span>
+  <span class="na">logs</span><span class="p">:</span> <span class="p">[...</span><span class="nx">x</span><span class="p">.</span><span class="nx">logs</span><span class="p">,</span> <span class="s2">`Squared </span><span class="p">${</span><span class="nx">x</span><span class="p">.</span><span class="nx">result</span><span class="p">}</span><span class="s2"> to get </span><span class="p">${</span><span class="nx">x</span><span class="p">.</span><span class="nx">result</span> <span class="o">*</span> <span class="nx">x</span><span class="p">.</span><span class="nx">result</span><span class="p">}</span><span class="s2">`</span><span class="p">],</span>
+<span class="p">});</span>
+
+<span class="c1">// This mechanism is now composable when we use the wrapper where needed</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">square2</span><span class="p">(</span><span class="nx">square2</span><span class="p">(</span><span class="nx">wrapNumberWithLogs</span><span class="p">(</span><span class="mi">2</span><span class="p">))));</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">inc1</span><span class="p">(</span><span class="nx">wrapNumberWithLogs</span><span class="p">(</span><span class="mi">5</span><span class="p">)));</span>
+
+<span class="nx">pipe</span><span class="p">(</span><span class="nx">wrapNumberWithLogs</span><span class="p">,</span> <span class="nx">inc1</span><span class="p">,</span> <span class="nx">square2</span><span class="p">)(</span><span class="mi">5</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Graphically - we think of two planes:</p>
+<ul>
+  <li>the “plain type” (numbers in our example)</li>
+  <li>the “embellished type” (NumberWithLogs in our example)</li>
+  <li>The last pipe can be described as this route:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NumberWithLogs       NwL[5] -inc1-&gt; NwL[6] --square2--&gt; NwL[36]
+                 /
+              wrap
+              /
+Number          5
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>In this diagram:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">wrap</code> is a <strong>diagonal</strong> operator (from normal type to embellished type)</li>
+  <li><code class="language-plaintext highlighter-rouge">inc1</code> and <code class="language-plaintext highlighter-rouge">square2</code> are <strong>lifted</strong> operators (instead of <code class="language-plaintext highlighter-rouge">[number=&gt;number]</code> - they are <code class="language-plaintext highlighter-rouge">[NumberWithLogs =&gt; NumberWithLogs]</code></li>
+</ul>
+
+<h3 id="disentangling-logs-from-functions-logic">Disentangling Logs from Functions Logic</h3>
+
+<p>When we observe the resulting code, we realize it contains repeated code in the lifted functions:
+We see in all functions of type <code class="language-plaintext highlighter-rouge">[NumberWithLogs =&gt; NumberWithLogs]</code> the same code will appear:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nx">logs</span><span class="p">:</span> <span class="p">[...</span><span class="nx">x</span><span class="p">.</span><span class="nx">logs</span><span class="p">,</span> <span class="s2">`...abc`</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>This repetition is a bad smell of something wrong - we want to abstract it away.
+We also want to fix the violation of “separation of concern”: the new lifted functions (<code class="language-plaintext highlighter-rouge">inc1</code>, <code class="language-plaintext highlighter-rouge">square2</code>) must “know about log concatenation” - we want
+the function to only know about how to compute (increment, square).</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// =================================================</span>
+<span class="c1">// Remove the duplicated code:</span>
+
+<span class="c1">// Just an intermediary step towards a solution:</span>
+<span class="c1">// Separate log concatenation logic from core of function</span>
+<span class="kd">const</span> <span class="nx">square3</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">NumberWithLogs</span><span class="p">):</span> <span class="nx">NumberWithLogs</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// Code that is specific to 'square'</span>
+  <span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">result</span><span class="p">:</span> <span class="nx">x</span><span class="p">.</span><span class="nx">result</span> <span class="o">*</span> <span class="nx">x</span><span class="p">.</span><span class="nx">result</span><span class="p">,</span>
+    <span class="na">logs</span><span class="p">:</span> <span class="p">[</span><span class="s2">`Squared </span><span class="p">${</span><span class="nx">x</span><span class="p">.</span><span class="nx">result</span><span class="p">}</span><span class="s2"> to get </span><span class="p">${</span><span class="nx">x</span><span class="p">.</span><span class="nx">result</span> <span class="o">*</span> <span class="nx">x</span><span class="p">.</span><span class="nx">result</span><span class="p">}</span><span class="s2">`</span><span class="p">],</span>
+  <span class="p">};</span>
+  <span class="c1">// Code is always the same for all [NwL =&gt; NwL] functions</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="na">result</span><span class="p">:</span> <span class="nx">result</span><span class="p">.</span><span class="nx">result</span><span class="p">,</span>
+    <span class="na">logs</span><span class="p">:</span> <span class="p">[...</span><span class="nx">x</span><span class="p">.</span><span class="nx">logs</span><span class="p">,</span> <span class="p">...</span><span class="nx">result</span><span class="p">.</span><span class="nx">logs</span><span class="p">],</span>
+  <span class="p">};</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>Let us now “abstract away” the repeated code in a separate function.
+We will write the application of functions in the “NumberWithlogs domain” as:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Invoke a function on a plain type value:</span>
+<span class="nx">inc</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+
+<span class="c1">// Invoke a function on a NumberWithLogs value</span>
+<span class="nx">runWithLogs</span><span class="p">(</span><span class="nx">wrapWithLogs</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="nx">inc</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>In our intermediary version, we used <code class="language-plaintext highlighter-rouge">inc1(wrapWithLogs(5))</code>.
+Now, <code class="language-plaintext highlighter-rouge">runWithLogs</code> will deal with log concatenation and the function will only do the part that is specific to the transformation it computes.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Infer the type of runWithLogs:</span>
+<span class="kd">const</span> <span class="nx">runWithLogs</span> <span class="o">=</span> <span class="p">(</span>
+  <span class="nx">x</span><span class="p">:</span> <span class="nx">NumberWithLogs</span><span class="p">,</span>
+  <span class="nx">transform</span><span class="p">:</span> <span class="p">(</span><span class="nx">y</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">NumberWithLogs</span>
+<span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// transform is the "parametric" transformation</span>
+  <span class="c1">// different for each function</span>
+  <span class="c1">// It is a diagonal operator</span>
+  <span class="kd">const</span> <span class="nx">newNumberWithLogs</span> <span class="o">=</span> <span class="nx">transform</span><span class="p">(</span><span class="nx">x</span><span class="p">.</span><span class="nx">result</span><span class="p">);</span>
+  <span class="c1">// The constant part is abstacted here</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="na">result</span><span class="p">:</span> <span class="nx">newNumberWithLogs</span><span class="p">.</span><span class="nx">result</span><span class="p">,</span>
+    <span class="na">logs</span><span class="p">:</span> <span class="p">[...</span><span class="nx">x</span><span class="p">.</span><span class="nx">logs</span><span class="p">,</span> <span class="p">...</span><span class="nx">newNumberWithLogs</span><span class="p">.</span><span class="nx">logs</span><span class="p">],</span>
+  <span class="p">};</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>The signature of the “transform” functions is simplified:</p>
+<ul>
+  <li>Take a simple number as parameter</li>
+  <li>Return a NumberWithLogs with a single log message</li>
+</ul>
+
+<p>Such transform functions all have the following structure:</p>
+<ul>
+  <li>Diagonal: from “Normal type” (number) to “Embellished Type” (NumberWithLogs)</li>
+  <li>They do not “know” about how to “compute” the embellished type (concatenate logs)</li>
+</ul>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">square4</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="nx">NumberWithLogs</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">result</span><span class="p">:</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="p">,</span>
+  <span class="na">logs</span><span class="p">:</span> <span class="p">[</span><span class="s2">`Squared </span><span class="p">${</span><span class="nx">x</span><span class="p">}</span><span class="s2"> to get </span><span class="p">${</span><span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="p">}</span><span class="s2">`</span><span class="p">],</span>
+<span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">inc4</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="nx">NumberWithLogs</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">result</span><span class="p">:</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="na">logs</span><span class="p">:</span> <span class="p">[</span><span class="s2">`Added 1 to </span><span class="p">${</span><span class="nx">x</span><span class="p">}</span><span class="s2"> to get </span><span class="p">${</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span><span class="s2">`</span><span class="p">],</span>
+<span class="p">});</span>
+
+<span class="c1">// Usage: we can now combine the calls in any combination</span>
+<span class="c1">//        we only need to start with a "wrapped" value in the embellished type</span>
+<span class="kd">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">wrapNumberWithLogs</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">runWithLogs</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">inc4</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">runWithLogs</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="nx">square4</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">runWithLogs</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">square4</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">d</span><span class="p">);</span>
+<span class="cm">/*
+{
+  result: 1296,
+  logs: [
+    'Added 1 to 5 to get 6',
+    'Squared 6 to get 36',
+    'Squared 36 to get 1296'
+  ]
+}
+*/</span>
+</code></pre></div></div>
+
+<p>If we want to use pipe, we realize the regular <code class="language-plaintext highlighter-rouge">pipe</code> function does not fit:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">NumberWithLogs</span>       <span class="nx">NwL</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>  <span class="nx">NwL</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>  <span class="nx">NwL</span><span class="p">[</span><span class="mi">36</span><span class="p">]</span> <span class="nx">NwL</span><span class="p">[</span><span class="mi">1296</span><span class="p">]</span>
+                     <span class="o">/</span>   <span class="o">|</span>   <span class="sr">/  |   /</span>    <span class="o">|</span>   <span class="sr">/</span><span class="err">
+</span>                   <span class="nx">wrap</span>  <span class="o">|</span> <span class="nx">inc</span>  <span class="o">|</span> <span class="nx">square</span> <span class="o">|</span> <span class="nx">square</span>
+                   <span class="o">/</span>     <span class="o">|</span><span class="sr">/     |/</span>       <span class="o">|</span><span class="sr">/</span><span class="err">
+</span><span class="kr">number</span>            <span class="mi">5</span>      <span class="mi">5</span>      <span class="mi">6</span>       <span class="mi">36</span>
+</code></pre></div></div>
+
+<p>If we want to “connect” diagonal operators, we must add the logic of the <code class="language-plaintext highlighter-rouge">runWithLogs</code> operator to consume the value returned by a function and pass it to the next.
+a new version of pipe is needed - that knows about the logic of this type with its running protocol.</p>
+
+<p>Let us define <code class="language-plaintext highlighter-rouge">pipeWithLogs</code> which combines a sequence of diagonal operators and “overrides” the composition operator by using <code class="language-plaintext highlighter-rouge">runWithLogs</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">isEmpty</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">l</span><span class="p">:</span> <span class="nx">T</span><span class="p">[]):</span> <span class="nx">boolean</span> <span class="o">=&gt;</span> <span class="nx">l</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">;</span>
+<span class="c1">// @Precondition: l is non-empty</span>
+<span class="kd">const</span> <span class="nx">first</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">l</span><span class="p">:</span> <span class="nx">T</span><span class="p">[]):</span> <span class="nx">T</span> <span class="o">=&gt;</span> <span class="nx">l</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="kd">const</span> <span class="nx">rest</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">l</span><span class="p">:</span> <span class="nx">T</span><span class="p">[]):</span> <span class="nx">T</span><span class="p">[]</span> <span class="o">=&gt;</span> <span class="nx">l</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">pipeWithLogs</span> <span class="o">=</span> <span class="p">(</span>
+  <span class="p">...</span><span class="nx">funcs</span><span class="p">:</span> <span class="p">((</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">NumberWithLogs</span><span class="p">)[]</span>
+<span class="p">):</span> <span class="p">((</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">NumberWithLogs</span><span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="nx">isEmpty</span><span class="p">(</span><span class="nx">funcs</span><span class="p">)</span>
+    <span class="p">?</span> <span class="nx">wrapNumberWithLogs</span>
+    <span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">runWithLogs</span><span class="p">(</span><span class="nx">first</span><span class="p">(</span><span class="nx">funcs</span><span class="p">)(</span><span class="nx">x</span><span class="p">),</span> <span class="nx">pipeWithLogs</span><span class="p">(...</span><span class="nx">rest</span><span class="p">(</span><span class="nx">funcs</span><span class="p">)));</span>
+
+<span class="kd">const</span> <span class="nx">e</span> <span class="o">=</span> <span class="nx">pipeWithLogs</span><span class="p">(</span><span class="nx">inc4</span><span class="p">,</span> <span class="nx">square4</span><span class="p">,</span> <span class="nx">square4</span><span class="p">)(</span><span class="mi">5</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="generalization-the-monad-design-pattern">Generalization: The Monad Design Pattern</h2>
+
+<p>The design pattern we just described is called a <strong>Monad</strong>. Its aim is to facilitate composition of complex functions.</p>
+
+<p>Monads have 3 components:</p>
+<ul>
+  <li>Wrapper Type (in our example <code class="language-plaintext highlighter-rouge">NumberWithLogs</code>)</li>
+  <li>Wrap Function (in our example <code class="language-plaintext highlighter-rouge">wrapNumberWithLogs</code>)</li>
+  <li>Run function: runs a diagonal transformation on a monadic value (<code class="language-plaintext highlighter-rouge">runWithLogs</code>)</li>
+</ul>
+
+<p>To be convinced of the generality of this approach, let us examine another well known monad: <code class="language-plaintext highlighter-rouge">Option</code>.</p>
+
+<h3 id="the-option-monad">The Option Monad</h3>
+
+<p>Option is used to encapsulate the fact that a parameter may have a concrete value or be undefined.
+For example:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">x: number</code></li>
+  <li><code class="language-plaintext highlighter-rouge">y: Option&lt;number&gt;</code> can be a number OR nothing</li>
+  <li><code class="language-plaintext highlighter-rouge">Option&lt;User&gt;</code> can be a User OR nothing</li>
+</ul>
+
+<p>We implement <code class="language-plaintext highlighter-rouge">Option</code> with the disjoint union pattern:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nx">Some</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">|</span> <span class="nx">None</span><span class="p">;</span>
+<span class="kd">type</span> <span class="nx">None</span> <span class="o">=</span> <span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">none</span><span class="dl">"</span> <span class="p">};</span>
+<span class="kd">type</span> <span class="nx">Some</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">some</span><span class="dl">"</span><span class="p">;</span> <span class="nl">value</span><span class="p">:</span> <span class="nx">T</span> <span class="p">};</span>
+
+<span class="c1">// Type predicate</span>
+<span class="kd">const</span> <span class="nx">isSome</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">Some</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">some</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">some</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T</span><span class="p">):</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="na">value</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">some</span><span class="dl">"</span> <span class="p">});</span>
+<span class="kd">const</span> <span class="nx">none</span> <span class="o">=</span> <span class="p">():</span> <span class="nx">None</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">none</span><span class="dl">"</span> <span class="p">});</span>
+<span class="kd">const</span> <span class="nx">isNone</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">None</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">none</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="c1">// Wrap factory</span>
+<span class="kd">const</span> <span class="nx">wrap</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T</span> <span class="o">|</span> <span class="kc">undefined</span><span class="p">):</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+  <span class="nx">x</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="p">?</span> <span class="nx">none</span><span class="p">()</span> <span class="p">:</span> <span class="nx">some</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+
+<span class="c1">// Override application operator for Option</span>
+<span class="kd">const</span> <span class="nx">bind</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T1</span><span class="p">,</span> <span class="nx">T2</span><span class="o">&gt;</span><span class="p">(</span>
+  <span class="nx">input</span><span class="p">:</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T1</span><span class="o">&gt;</span><span class="p">,</span>
+  <span class="nx">transform</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T2</span><span class="o">&gt;</span>
+<span class="p">):</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T2</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">isSome</span><span class="p">(</span><span class="nx">input</span><span class="p">)</span> <span class="p">?</span> <span class="nx">transform</span><span class="p">(</span><span class="nx">input</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span> <span class="p">:</span> <span class="nx">input</span><span class="p">);</span>
+
+<span class="c1">// Override composition operator for Option - composition uses bind</span>
+<span class="kd">const</span> <span class="nx">pipeOption2</span> <span class="o">=</span>
+  <span class="o">&lt;</span><span class="nx">T1</span><span class="p">,</span> <span class="nx">T2</span><span class="p">,</span> <span class="nx">T3</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">f1</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T2</span><span class="o">&gt;</span><span class="p">,</span> <span class="nx">f2</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T2</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T3</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">bind</span><span class="p">(</span><span class="nx">f1</span><span class="p">(</span><span class="nx">x</span><span class="p">),</span> <span class="nx">f2</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">pipeOption3</span> <span class="o">=</span>
+  <span class="o">&lt;</span><span class="nx">T1</span><span class="p">,</span> <span class="nx">T2</span><span class="p">,</span> <span class="nx">T3</span><span class="p">,</span> <span class="nx">T4</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="nx">f1</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T2</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="nx">f2</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T2</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T3</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="nx">f3</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T3</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T4</span><span class="o">&gt;</span>
+  <span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">bind</span><span class="p">(</span><span class="nx">bind</span><span class="p">(</span><span class="nx">f1</span><span class="p">(</span><span class="nx">x</span><span class="p">),</span> <span class="nx">f2</span><span class="p">),</span> <span class="nx">f3</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="example-code-without-option">Example Code Without Option</h3>
+
+<p>Let us hypothesize a common situation: we invoke an API call that returns information about the current user, which contains an optional field of type Pet, 
+which also contains an optional nickName field.  All the functions could return an “undefined” value when the object is missing.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">User</span> <span class="o">=</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span> <span class="nl">pet</span><span class="p">:</span> <span class="nx">Pet</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="p">};</span>
+<span class="kd">type</span> <span class="nx">Pet</span> <span class="o">=</span> <span class="p">{</span> <span class="na">nickName</span><span class="p">:</span> <span class="kr">string</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="p">};</span>
+
+<span class="kd">const</span> <span class="nx">getCurrentUser1</span> <span class="o">=</span> <span class="p">():</span> <span class="nx">User</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Michael</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">pet</span><span class="p">:</span> <span class="p">{</span> <span class="na">nickName</span><span class="p">:</span> <span class="dl">"</span><span class="s2">doggy</span><span class="dl">"</span> <span class="p">},</span>
+<span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">getPet1</span> <span class="o">=</span> <span class="p">(</span><span class="nx">user</span><span class="p">:</span> <span class="nx">User</span><span class="p">):</span> <span class="nx">Pet</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="o">=&gt;</span> <span class="nx">user</span><span class="p">.</span><span class="nx">pet</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">getNickName1</span> <span class="o">=</span> <span class="p">(</span><span class="nx">pet</span><span class="p">:</span> <span class="nx">Pet</span><span class="p">):</span> <span class="kr">string</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="o">=&gt;</span> <span class="nx">pet</span><span class="p">.</span><span class="nx">nickName</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Such functions are difficult to compose because they return a union of two incompatible values (true value or undefined).
+We need to add “guards” before passing the return value to another function. This leads to the usage of many <code class="language-plaintext highlighter-rouge">if</code> statements.</p>
+
+<p>We would like to write a simple composition:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">getNickName1</span><span class="p">(</span><span class="nx">getPet1</span><span class="p">(</span><span class="nx">getCurrentUser1</span><span class="p">()));</span>
+<span class="c1">// or:</span>
+<span class="nx">pipe</span><span class="p">(</span><span class="nx">getCurrentUser1</span><span class="p">,</span> <span class="nx">getPet1</span><span class="p">,</span> <span class="nx">getNickName1</span><span class="p">)();</span>
+</code></pre></div></div>
+
+<p>Instead we need to write a complex functions with many <code class="language-plaintext highlighter-rouge">if</code> statements:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">getPetNickName1</span> <span class="o">=</span> <span class="p">():</span> <span class="kr">string</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="na">user</span><span class="p">:</span> <span class="nx">User</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="o">=</span> <span class="nx">getCurrentUser1</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">user</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="k">return</span> <span class="kc">undefined</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="na">userPet</span><span class="p">:</span> <span class="nx">Pet</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="o">=</span> <span class="nx">getPet1</span><span class="p">(</span><span class="nx">user</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">userPet</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="k">return</span> <span class="kc">undefined</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="na">userPetNickName</span><span class="p">:</span> <span class="kr">string</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="o">=</span> <span class="nx">getNickName1</span><span class="p">(</span><span class="nx">userPet</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">userPetNickName</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="k">return</span> <span class="kc">undefined</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nx">userPetNickName</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getPetNickName1</span><span class="p">());</span>
+</code></pre></div></div>
+
+<h3 id="code-with-option">Code With Option</h3>
+
+<p>Let us now encapsulate all the cases of potential undefined use with the Option monad.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">getCurrentUser2</span> <span class="o">=</span> <span class="p">():</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">User</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+  <span class="nx">some</span><span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Michael</span><span class="dl">"</span><span class="p">,</span> <span class="na">pet</span><span class="p">:</span> <span class="p">{</span> <span class="na">nickName</span><span class="p">:</span> <span class="dl">"</span><span class="s2">doggy</span><span class="dl">"</span> <span class="p">}</span> <span class="p">});</span>
+
+<span class="c1">// No mention of "undefined" - no if</span>
+<span class="kd">const</span> <span class="nx">getPetNickName2</span> <span class="o">=</span> <span class="p">():</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="na">user</span><span class="p">:</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">User</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nx">getCurrentUser2</span><span class="p">();</span>
+  <span class="kd">const</span> <span class="na">userPet</span><span class="p">:</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">Pet</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">user</span><span class="p">,</span> <span class="p">(</span><span class="na">user</span><span class="p">:</span> <span class="nx">User</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">wrap</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">pet</span><span class="p">));</span>
+  <span class="kd">const</span> <span class="nx">userPetNickName</span> <span class="o">=</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">userPet</span><span class="p">,</span> <span class="p">(</span><span class="na">pet</span><span class="p">:</span> <span class="nx">Pet</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">wrap</span><span class="p">(</span><span class="nx">pet</span><span class="p">.</span><span class="nx">nickName</span><span class="p">));</span>
+  <span class="k">return</span> <span class="nx">userPetNickName</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getPetNickName2</span><span class="p">());</span>
+</code></pre></div></div>
+
+<p>This function <code class="language-plaintext highlighter-rouge">hides</code> all the potential undefined cases inside the <code class="language-plaintext highlighter-rouge">bind</code> operator of the Option monad.</p>
+
+<p>We could compose the bind calls to highlight the composition nature of the code:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">getPetNickName3</span> <span class="o">=</span> <span class="p">():</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+  <span class="nx">bind</span><span class="p">(</span><span class="nx">getCurrentUser2</span><span class="p">(),</span> <span class="p">(</span><span class="nx">user</span><span class="p">:</span> <span class="nx">User</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">bind</span><span class="p">(</span><span class="nx">wrap</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">pet</span><span class="p">),</span> <span class="p">(</span><span class="nx">pet</span><span class="p">:</span> <span class="nx">Pet</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">wrap</span><span class="p">(</span><span class="nx">pet</span><span class="p">.</span><span class="nx">nickName</span><span class="p">))</span>
+  <span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getPetNickName3</span><span class="p">());</span>
+</code></pre></div></div>
+
+<h3 id="code-with-pipe-functional-composition">Code With “pipe functional composition”</h3>
+
+<p>Operators that can be composed in a bind chain must have type T1 =&gt; Option<t2>.
+They are "diagonal" from "normal types" to "option types".
+The resulting composition is also "diagonal".</t2></p>
+
+<p>We define a <code class="language-plaintext highlighter-rouge">pipeOption</code> composition function which overrides function composition - and instead of compute <code class="language-plaintext highlighter-rouge">f(g(x))</code> (as the normal pipe does),
+will use <code class="language-plaintext highlighter-rouge">bind(g(x), f)</code>.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">getPet2</span> <span class="o">=</span> <span class="p">(</span><span class="nx">user</span><span class="p">:</span> <span class="nx">User</span><span class="p">):</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">Pet</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="nx">wrap</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">pet</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">getNickName2</span> <span class="o">=</span> <span class="p">(</span><span class="nx">pet</span><span class="p">:</span> <span class="nx">Pet</span><span class="p">):</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="nx">wrap</span><span class="p">(</span><span class="nx">pet</span><span class="p">.</span><span class="nx">nickName</span><span class="p">);</span>
+
+<span class="c1">// Can be composed as:</span>
+<span class="kd">const</span> <span class="nx">getPetNickName4</span> <span class="o">=</span> <span class="nx">pipeOption</span><span class="p">(</span><span class="nx">getCurrentUser2</span><span class="p">,</span> <span class="nx">getPet2</span><span class="p">,</span> <span class="nx">getNickName2</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getPetNickName4</span><span class="p">(</span><span class="kc">undefined</span><span class="p">));</span>
+<span class="c1">// =&gt; { value: 'doggy', tag: 'some' }</span>
+</code></pre></div></div>
+
+<h2 id="the-list-monad">The List Monad</h2>
+
+<p>So far we have described two distinct monads:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">NumberWithLogs</code>: encapsulate logs manipulation around numeric computations</li>
+  <li><code class="language-plaintext highlighter-rouge">Option</code>: encapsulate the possibility that computations may return a real value or an undefined value.</li>
+</ul>
+
+<p>We now describe the well-known <code class="language-plaintext highlighter-rouge">List</code> container as a monad - that is, using the terminology of a monadic container type, a wrap constructor and a bind application operator.
+Based on these definitions, we also created a monad-specific pipe operator for generalized composition of diagonal operators.</p>
+
+<p>We will then extend the general interface of monads to include the <code class="language-plaintext highlighter-rouge">map</code> operator and <code class="language-plaintext highlighter-rouge">fold</code> operators which are general to all monads.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Observe the similarity of the functions between two monads: Option and List</span>
+
+<span class="c1">// Recursive Type definition</span>
+<span class="k">export</span> <span class="kd">type</span> <span class="nx">List</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nx">Empty</span> <span class="o">|</span> <span class="nx">NonEmptyList</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">type</span> <span class="nx">Empty</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="k">export</span> <span class="kd">type</span> <span class="nx">NonEmptyList</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T</span><span class="p">,</span> <span class="p">...</span><span class="nb">Array</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">];</span>
+
+<span class="c1">// Type predicates</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isEmpty</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nb">Array</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">Empty</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isNonEmpty</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nb">Array</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">NonEmptyList</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">// Type accessors</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">first</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">NonEmptyList</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">):</span> <span class="nx">T</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">rest</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">NonEmptyList</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">):</span> <span class="nx">List</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">List</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;&gt;</span><span class="nx">x</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="c1">// Wrapper</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">wrapList</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T</span><span class="p">):</span> <span class="nx">NonEmptyList</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="nx">x</span><span class="p">];</span>
+
+<span class="c1">// Bind (for lists, it is also nnown as flatMap)</span>
+<span class="c1">// Since List is a recursive type, bind is a recursive function</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">bindList</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T1</span><span class="p">,</span> <span class="nx">T2</span><span class="o">&gt;</span><span class="p">(</span>
+  <span class="nx">l</span><span class="p">:</span> <span class="nx">List</span><span class="o">&lt;</span><span class="nx">T1</span><span class="o">&gt;</span><span class="p">,</span>
+  <span class="nx">f</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">List</span><span class="o">&lt;</span><span class="nx">T2</span><span class="o">&gt;</span>
+<span class="p">):</span> <span class="nx">List</span><span class="o">&lt;</span><span class="nx">T2</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">isEmpty</span><span class="p">(</span><span class="nx">l</span><span class="p">)</span> <span class="p">?</span> <span class="nx">l</span> <span class="p">:</span> <span class="p">[...</span><span class="nx">f</span><span class="p">(</span><span class="nx">first</span><span class="p">(</span><span class="nx">l</span><span class="p">)),</span> <span class="p">...</span><span class="nx">bindList</span><span class="p">(</span><span class="nx">rest</span><span class="p">(</span><span class="nx">l</span><span class="p">),</span> <span class="nx">f</span><span class="p">)]);</span>
+</code></pre></div></div>
+
+<p>Let us experiment with these functions:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// =================================================</span>
+<span class="c1">// Examples</span>
+
+<span class="kd">const</span> <span class="nx">l1</span><span class="p">:</span> <span class="nx">Empty</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="kd">const</span> <span class="nx">l2</span><span class="p">:</span> <span class="nx">NonEmptyList</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="kd">const</span> <span class="nx">l3</span><span class="p">:</span> <span class="nx">NonEmptyList</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">];</span>
+
+<span class="nx">deepStrictEqual</span><span class="p">(</span><span class="nx">first</span><span class="p">(</span><span class="nx">l2</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
+<span class="nx">deepStrictEqual</span><span class="p">(</span><span class="nx">first</span><span class="p">(</span><span class="nx">l3</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
+
+<span class="nx">deepStrictEqual</span><span class="p">(</span><span class="nx">rest</span><span class="p">(</span><span class="nx">l2</span><span class="p">),</span> <span class="p">[]);</span>
+<span class="nx">deepStrictEqual</span><span class="p">(</span><span class="nx">rest</span><span class="p">(</span><span class="nx">l3</span><span class="p">),</span> <span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+
+<span class="nx">bindList</span><span class="p">([],</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">wrapList</span><span class="p">(</span><span class="nx">x</span><span class="p">));</span>
+<span class="c1">// -&gt; []</span>
+
+<span class="nx">bindList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">wrapList</span><span class="p">(</span><span class="nx">x</span><span class="p">));</span>
+<span class="c1">// -&gt; [1, 2]</span>
+  
+<span class="nx">bindList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">x</span><span class="o">+</span><span class="mi">1</span><span class="p">]);</span>
+<span class="c1">// -&gt; [1,2,2,3]</span>
+  
+<span class="nx">bindList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="o">%</span><span class="mi">2</span> <span class="o">===</span> <span class="mi">0</span> <span class="p">?</span> <span class="p">[</span><span class="nx">x</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span> <span class="p">:</span> <span class="p">[</span><span class="nx">x</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="nx">x</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]);</span>
+<span class="c1">// -&gt; [0.5, 1.5, 1]</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">bindList</code> operates in a way slightly similar to <code class="language-plaintext highlighter-rouge">map</code>: it takes as parameter a list and a diagonal function <code class="language-plaintext highlighter-rouge">f</code> - from <code class="language-plaintext highlighter-rouge">T1 =&gt; List&lt;T2&gt;</code>,
+it applies <code class="language-plaintext highlighter-rouge">f</code> to all the elements in the list and instead of returning the list of all values (like map would do), it returns the concatenation of all the values 
+(because all the values are lists).  For this reason, it is also known as <strong>flatMap</strong>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">pipeList</code> composes a list of diagonal functions using the bindList (flatMap) mechanism.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  
+<span class="c1">// Compose and apply</span>
+<span class="nx">deepStrictEqual</span><span class="p">(</span>
+  <span class="nx">pipeList</span><span class="p">(</span>
+    <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">[],</span>
+    <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">wrapList</span><span class="p">(</span><span class="nx">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">wrapList</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="nx">x</span><span class="p">)</span>
+  <span class="p">)(),</span>
+  <span class="p">[]</span>
+<span class="p">);</span>
+
+<span class="nx">deepStrictEqual</span><span class="p">(</span>
+  <span class="nx">pipeList</span><span class="p">(</span>
+    <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="nx">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="mi">1</span> <span class="o">/</span> <span class="nx">x</span><span class="p">]</span>
+  <span class="p">)(),</span>
+  <span class="p">[</span><span class="mf">0.5</span><span class="p">]</span>
+<span class="p">);</span>
+
+<span class="nx">deepStrictEqual</span><span class="p">(</span>
+  <span class="nx">pipeList</span><span class="p">(</span>
+    <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="c1">//                           [1,    2   ]</span>
+    <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="nx">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">x</span><span class="p">],</span> <span class="c1">//              [0, 1, 1, 2]</span>
+    <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="mi">0</span> <span class="p">?</span> <span class="p">[]</span> <span class="p">:</span> <span class="p">[</span><span class="mi">1</span> <span class="o">/</span> <span class="nx">x</span><span class="p">])</span> <span class="c1">// [   1, 1, 1/2]</span>
+  <span class="p">)(),</span>
+  <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+<span class="p">);</span>
+
+<span class="nx">deepStrictEqual</span><span class="p">(</span>
+  <span class="nx">pipeList</span><span class="p">(</span>
+    <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="c1">//                  [1,               2]</span>
+    <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="nx">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">x</span> <span class="o">*</span> <span class="mi">4</span><span class="p">],</span> <span class="c1">// [2,      4,       4,       8]</span>
+    <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="mi">1</span> <span class="o">/</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="p">]</span> <span class="c1">//  [1/2, 4, 1/4, 16, 1/4, 16, 1/8, 64]</span>
+  <span class="p">)(),</span>
+  <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">,</span> <span class="mi">64</span><span class="p">]</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">pipeList</code> expands a tree of computations, where each operator is applied to each of the previous results and can return 0 values ([]), 1 value ([x]) 
+or multiple values ([x, x+1]).</p>
+
+<h3 id="fold-unlift-from-monad-to-regular-values">Fold: unlift from Monad to Regular Values</h3>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// fold: unlift from the List monad back to normal types</span>
+
+<span class="c1">// foldList is very close to the function we have met under the name reduce</span>
+<span class="c1">// Like bindList (flatMap), foldList is recursive to fold the recursive type into a simple value.</span>
+<span class="c1">// foldList(l:List&lt;T1&gt;, ()=&gt;T2, (firstVal:T1, restFolded: T2)=&gt;T2)</span>
+<span class="c1">// Example:</span>
+<span class="c1">// foldList([], () =&gt; 0, (firstVal: number, restFolded: number) =&gt; firstVal + restFolded) -&gt; 0</span>
+<span class="c1">// foldList([1,2,3], () =&gt; 0, (firstVal: number, restFolded: number) =&gt; firstVal + restFolded) -&gt; 6</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">foldList</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T1</span><span class="p">,</span> <span class="nx">T2</span><span class="o">&gt;</span><span class="p">(</span>
+  <span class="nx">l</span><span class="p">:</span> <span class="nx">List</span><span class="o">&lt;</span><span class="nx">T1</span><span class="o">&gt;</span><span class="p">,</span>
+  <span class="nx">handleEmpty</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">T2</span><span class="p">,</span>
+  <span class="nx">handleNonEmpty</span><span class="p">:</span> <span class="p">(</span><span class="nx">firstVal</span><span class="p">:</span> <span class="nx">T1</span><span class="p">,</span> <span class="nx">restFolded</span><span class="p">:</span> <span class="nx">T2</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">T2</span>
+<span class="p">):</span> <span class="nx">T2</span> <span class="o">=&gt;</span>
+  <span class="nx">isEmpty</span><span class="p">(</span><span class="nx">l</span><span class="p">)</span>
+    <span class="p">?</span> <span class="nx">handleEmpty</span><span class="p">()</span>
+    <span class="p">:</span> <span class="nx">handleNonEmpty</span><span class="p">(</span><span class="nx">first</span><span class="p">(</span><span class="nx">l</span><span class="p">),</span> <span class="nx">foldList</span><span class="p">(</span><span class="nx">rest</span><span class="p">(</span><span class="nx">l</span><span class="p">),</span> <span class="nx">handleEmpty</span><span class="p">,</span> <span class="nx">handleNonEmpty</span><span class="p">));</span>
+
+<span class="c1">// Examples</span>
+<span class="nx">deepStrictEqual</span><span class="p">(</span>
+  <span class="nx">foldList</span><span class="p">(</span>
+    <span class="nx">l1</span><span class="p">,</span>
+    <span class="p">()</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="nx">val</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">acc</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">val</span> <span class="o">+</span> <span class="nx">acc</span>
+  <span class="p">),</span>
+  <span class="mi">0</span>
+<span class="p">);</span>
+
+<span class="nx">deepStrictEqual</span><span class="p">(</span>
+  <span class="nx">foldList</span><span class="p">(</span>
+    <span class="nx">l2</span><span class="p">,</span>
+    <span class="p">()</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="nx">acc</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">val</span> <span class="o">+</span> <span class="nx">acc</span>
+  <span class="p">),</span>
+  <span class="mi">1</span>
+<span class="p">);</span>
+
+<span class="nx">deepStrictEqual</span><span class="p">(</span>
+  <span class="nx">foldList</span><span class="p">(</span>
+    <span class="nx">l3</span><span class="p">,</span>
+    <span class="p">()</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="nx">acc</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">val</span> <span class="o">+</span> <span class="nx">acc</span>
+  <span class="p">),</span>
+  <span class="mi">3</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>In the same way we defined <code class="language-plaintext highlighter-rouge">foldList</code>, we can define <code class="language-plaintext highlighter-rouge">foldOption</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// foldOption(o:Option&lt;T1&gt;, ()=&gt;T2, (val:T1)=&gt;T3)</span>
+<span class="c1">// Example:</span>
+<span class="c1">// foldOption(none(), () =&gt; undefined, (val: number) =&gt; val) -&gt; undefined</span>
+<span class="c1">// foldOption(some(1), () =&gt; undefined, (val: number) =&gt; val) -&gt; 1</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">foldOption</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T1</span><span class="p">,</span> <span class="nx">T2</span><span class="p">,</span> <span class="nx">T3</span><span class="o">&gt;</span><span class="p">(</span>
+  <span class="nx">o</span><span class="p">:</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T1</span><span class="o">&gt;</span><span class="p">,</span>
+  <span class="nx">handleNone</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">T2</span><span class="p">,</span>
+  <span class="nx">handleSome</span><span class="p">:</span> <span class="p">(</span><span class="nx">val</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">T3</span>
+<span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">isSome</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">?</span> <span class="nx">handleSome</span><span class="p">(</span><span class="nx">o</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span> <span class="p">:</span> <span class="nx">handleNone</span><span class="p">());</span>
+
+<span class="c1">// Examples</span>
+<span class="nx">deepStrictEqual</span><span class="p">(</span>
+  <span class="nx">foldOption</span><span class="p">(</span>
+    <span class="nx">none</span><span class="p">(),</span>
+    <span class="p">()</span> <span class="o">=&gt;</span> <span class="kc">undefined</span><span class="p">,</span>
+    <span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">val</span>
+  <span class="p">),</span>
+  <span class="kc">undefined</span>
+<span class="p">);</span>
+
+<span class="nx">deepStrictEqual</span><span class="p">(</span>
+  <span class="nx">foldOption</span><span class="p">(</span>
+    <span class="nx">some</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+    <span class="p">()</span> <span class="o">=&gt;</span> <span class="kc">undefined</span><span class="p">,</span>
+    <span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">val</span>
+  <span class="p">),</span>
+  <span class="mi">1</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>Observe how similar the two fold functions are: <code class="language-plaintext highlighter-rouge">foldList</code> and <code class="language-plaintext highlighter-rouge">foldOption</code> are both used to <code class="language-plaintext highlighter-rouge">unlift</code> a monadic value into a simple type.
+They have as parameters a monadic value, and a handler function that matches each of the component subtypes of the monad type (none and some for Option,
+empty and non-empty for List).</p>
+
+<h3 id="map-lift-functions">Map: Lift Functions</h3>
+
+<p>The curried mapList operator takes as input a flat function <code class="language-plaintext highlighter-rouge">[T1 =&gt; T2]</code> and returns a lifted function <code class="language-plaintext highlighter-rouge">[List&lt;T1&gt; =&gt; List&lt;T2&gt;]</code>.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// mapList</span>
+<span class="c1">// Known as map</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">mapList</span> <span class="o">=</span>
+  <span class="o">&lt;</span><span class="nx">T1</span><span class="p">,</span> <span class="nx">T2</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">f</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">T2</span><span class="p">):</span> <span class="p">((</span><span class="nx">y</span><span class="p">:</span> <span class="nx">List</span><span class="o">&lt;</span><span class="nx">T1</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">List</span><span class="o">&lt;</span><span class="nx">T2</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="p">(</span><span class="nx">l</span><span class="p">:</span> <span class="nx">List</span><span class="o">&lt;</span><span class="nx">T1</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">bindList</span><span class="p">(</span><span class="nx">l</span><span class="p">,</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">wrapList</span><span class="p">(</span><span class="nx">f</span><span class="p">(</span><span class="nx">x</span><span class="p">)));</span>
+
+<span class="c1">// Examples</span>
+<span class="nx">deepStrictEqual</span><span class="p">(</span><span class="nx">mapList</span><span class="p">((</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)([]),</span> <span class="p">[]);</span>
+<span class="nx">deepStrictEqual</span><span class="p">(</span><span class="nx">mapList</span><span class="p">((</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)([</span><span class="mi">1</span><span class="p">]),</span> <span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+<span class="nx">deepStrictEqual</span><span class="p">(</span><span class="nx">mapList</span><span class="p">((</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]),</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>Similarly, we can define a <code class="language-plaintext highlighter-rouge">mapOption</code> operator for the Option monad:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// mapOption: flat [T1=&gt;T2] to lifted [Option&lt;T1&gt;=&gt;Option&lt;T2&gt;]</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">mapOption</span> <span class="o">=</span>
+  <span class="o">&lt;</span><span class="nx">T1</span><span class="p">,</span> <span class="nx">T2</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">f</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">T2</span><span class="p">):</span> <span class="p">((</span><span class="nx">y</span><span class="p">:</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T1</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T2</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="p">(</span><span class="nx">y</span><span class="p">:</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T1</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">bindOption</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">wrapOption</span><span class="p">(</span><span class="nx">f</span><span class="p">(</span><span class="nx">x</span><span class="p">)));</span>
+
+<span class="c1">// Examples</span>
+<span class="nx">deepStrictEqual</span><span class="p">(</span><span class="nx">mapOption</span><span class="p">((</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)(</span><span class="nx">none</span><span class="p">()),</span>  <span class="nx">none</span><span class="p">());</span>
+<span class="nx">deepStrictEqual</span><span class="p">(</span><span class="nx">mapOption</span><span class="p">((</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)(</span><span class="nx">some</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="nx">some</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>Observe that the map functions for List and Option are defined in an almost identical manner: we compose bind, wrap and f in a specific manner, according to the general logic of monads.</p>
+
+<h3 id="chain-lift-diagonal-functions">Chain: Lift Diagonal Functions</h3>
+
+<p>In some cases, we are interested in combining a sequence of diagonal operators in which case the specialized pipeOption or pipeList functions will work.
+But in other cases, we would like to combine diagonal and flat operators (‘[T1 =&gt; Option<t2>]` and `[T1 =&gt; T2]`).  In this case, neither `pipe` nor `pipeOption`
+are appropriate.</t2></p>
+
+<p>For such cases, we define the <code class="language-plaintext highlighter-rouge">chain</code> operator which lifts a diagonal operator into a lifted operator:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">chainList</span> <span class="o">=</span>
+  <span class="o">&lt;</span><span class="nx">T1</span><span class="p">,</span> <span class="nx">T2</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">f</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">List</span><span class="o">&lt;</span><span class="nx">T2</span><span class="o">&gt;</span><span class="p">):</span> <span class="p">((</span><span class="nx">y</span><span class="p">:</span> <span class="nx">List</span><span class="o">&lt;</span><span class="nx">T1</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">List</span><span class="o">&lt;</span><span class="nx">T2</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="p">(</span><span class="nx">y</span><span class="p">:</span> <span class="nx">List</span><span class="o">&lt;</span><span class="nx">T1</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">bindList</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="nx">f</span><span class="p">);</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">chainOption</span> <span class="o">=</span>
+  <span class="o">&lt;</span><span class="nx">T1</span><span class="p">,</span> <span class="nx">T2</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">f</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T2</span><span class="o">&gt;</span><span class="p">):</span> <span class="p">((</span><span class="nx">y</span><span class="p">:</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T1</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T2</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="p">(</span><span class="nx">y</span><span class="p">:</span> <span class="nx">Option</span><span class="o">&lt;</span><span class="nx">T1</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">bindOption</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="nx">f</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Here is an example of a lifted composition:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// All the functions are lifted in the monadic domain [Option&lt;T&gt; =&gt; Option&lt;T&gt;]</span>
+<span class="c1">// We can now combine safe and unsafe functions in a single pipe.</span>
+<span class="nx">pipe</span><span class="p">(</span>
+	<span class="nx">wrapOption</span><span class="p">,</span>                                       <span class="c1">// lift the parameter </span>
+	<span class="nx">mapOption</span><span class="p">((</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="p">),</span>                  <span class="c1">// safe function - always succeeds, map it</span>
+	<span class="nx">chainOption</span><span class="p">((</span><span class="nx">x</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">===</span> <span class="mi">0</span> <span class="p">?</span> <span class="nx">none</span><span class="p">()</span> <span class="p">:</span> <span class="nx">some</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="nx">x</span><span class="p">)),</span> <span class="c1">// unsafe function - chain it</span>
+	<span class="nx">mapOption</span><span class="p">((</span><span class="nx">x</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="p">)</span>                           <span class="c1">// safe function - map it</span>
+<span class="p">)(</span><span class="mi">5</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="the-monad-interface">The Monad Interface</h2>
+
+<p>We can now summarize the key operators defined consistently over any monad <code class="language-plaintext highlighter-rouge">M</code>:</p>
+
+<ul>
+  <li><strong>bind</strong>: apply a diagonal transform <code class="language-plaintext highlighter-rouge">f: [T1 =&gt; M[T2]]</code> to monadic value <code class="language-plaintext highlighter-rouge">M[t1]</code>. 
+This is the most basic operator, which overrides function application for normal types. Instead of calling <code class="language-plaintext highlighter-rouge">f(x)</code> we use <code class="language-plaintext highlighter-rouge">bind(x, f)</code>.</li>
+  <li><strong>wrap</strong>: wraps a plain value into a monadic value. <code class="language-plaintext highlighter-rouge">wrap: T =&gt; M[T]</code>.  wrap is the unit (neutral) element of composition: <code class="language-plaintext highlighter-rouge">bind(x, wrap) -&gt; x</code> and <code class="language-plaintext highlighter-rouge">pipeM()</code> returns wrap.</li>
+  <li><strong>map</strong>: lifts horizontal transform from values to monadic values: for <code class="language-plaintext highlighter-rouge">f: T1 =&gt; T2</code>, we have <code class="language-plaintext highlighter-rouge">map(f): M[T1] =&gt; M[T2]</code></li>
+  <li><strong>chain</strong>: lifts diagonal transforms to lifted transform: <code class="language-plaintext highlighter-rouge">chain: (T1 =&gt; M[T2]) =&gt; (M[T1] =&gt; M[T2])</code></li>
+  <li><strong>pipeM</strong>: specialized composition of a sequence of diagonal operators - its value is itself a diagonal operator.</li>
+  <li><strong>fold</strong>: convert a monadic value to a plain value with handlers for each sub-type of the monadic type. <code class="language-plaintext highlighter-rouge">fold: (x: M[T1], handleA: () =&gt; T2, handleB: (curr: T1, acc: T2) =&gt; T2) =&gt; T2</code></li>
+</ul>
+
+<p>The most useful monads are:</p>
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">Option&lt;T&gt;</code></strong> = <code class="language-plaintext highlighter-rouge">None | Some&lt;T&gt;</code>: encapsulates the logic of having a value or none</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">Result&lt;T&gt;</code></strong> = <code class="language-plaintext highlighter-rouge">Failure | Ok&lt;T&gt;</code>: which we use extensively in the rest of the semester, encapsulates the logic of succeeding a computation or failing with an error</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">Either&lt;T1, T2&gt;</code></strong> = <code class="language-plaintext highlighter-rouge">Left&lt;T1&gt; | Right&lt;T2&gt;</code>: encapsulates the logic of two divergent results for a computation</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">List&lt;T&gt;</code></strong> = <code class="language-plaintext highlighter-rouge">Empty | NonEmpty&lt;T&gt;</code>: encapsulates the logic of computations that may return 0, 1  or more results.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">Task&lt;T&gt;</code></strong>: encapsulate the logic of asynchronous computations that may fail or timeout</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">State&lt;T&gt;</code></strong>: encapsulate stateful computations which may update a shared state and return a value.</li>
+</ul>
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

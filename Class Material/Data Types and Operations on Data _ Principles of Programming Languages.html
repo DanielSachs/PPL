@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<!-- saved from url=(0079)https://bguppl.github.io/interpreters/class_material/1.4TypesAndOperations.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Data Types and Operations on Data | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Data Types and Operations on Data">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/1.4TypesAndOperations.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/1.4TypesAndOperations.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Data Types and Operations on Data">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Data Types and Operations on Data","url":"https://bguppl.github.io/interpreters/class_material/1.4TypesAndOperations.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Data Types and Operations on Data _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Data Types and Operations on Data _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mo {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-stretchy-h {
+  display: inline-table;
+  width: 100%;
+}
+
+mjx-stretchy-h > * {
+  display: table-cell;
+  width: 0;
+}
+
+mjx-stretchy-h > * > mjx-c {
+  display: inline-block;
+  transform: scalex(1.0000001);
+}
+
+mjx-stretchy-h > * > mjx-c::before {
+  display: inline-block;
+  width: initial;
+}
+
+mjx-stretchy-h > mjx-ext {
+  /* IE */ overflow: hidden;
+  /* others */ overflow: clip visible;
+  width: 100%;
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c::before {
+  transform: scalex(500);
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c {
+  width: 0;
+}
+
+mjx-stretchy-h > mjx-beg > mjx-c {
+  margin-right: -.1em;
+}
+
+mjx-stretchy-h > mjx-end > mjx-c {
+  margin-left: -.1em;
+}
+
+mjx-stretchy-v {
+  display: inline-block;
+}
+
+mjx-stretchy-v > * {
+  display: block;
+}
+
+mjx-stretchy-v > mjx-beg {
+  height: 0;
+}
+
+mjx-stretchy-v > mjx-end > mjx-c {
+  display: block;
+}
+
+mjx-stretchy-v > * > mjx-c {
+  transform: scaley(1.0000001);
+  transform-origin: left center;
+  overflow: hidden;
+}
+
+mjx-stretchy-v > mjx-ext {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  border: 0px solid transparent;
+  /* IE */ overflow: hidden;
+  /* others */ overflow: visible clip;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c::before {
+  width: initial;
+  box-sizing: border-box;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c {
+  transform: scaleY(500) translateY(.075em);
+  overflow: visible;
+}
+
+mjx-mark {
+  display: inline-block;
+  height: 0px;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D434.TEX-I::before {
+  padding: 0.716em 0.75em 0 0;
+  content: "A";
+}
+
+mjx-c.mjx-c1D435.TEX-I::before {
+  padding: 0.683em 0.759em 0 0;
+  content: "B";
+}
+
+mjx-c.mjx-c228E::before {
+  padding: 0.598em 0.667em 0.022em 0;
+  content: "\228E";
+}
+
+mjx-c.mjx-c3D::before {
+  padding: 0.583em 0.778em 0.082em 0;
+  content: "=";
+}
+
+mjx-c.mjx-c28::before {
+  padding: 0.75em 0.389em 0.25em 0;
+  content: "(";
+}
+
+mjx-c.mjx-cD7::before {
+  padding: 0.491em 0.778em 0 0;
+  content: "\D7";
+}
+
+mjx-c.mjx-c7B::before {
+  padding: 0.75em 0.5em 0.25em 0;
+  content: "{";
+}
+
+mjx-c.mjx-c30::before {
+  padding: 0.666em 0.5em 0.022em 0;
+  content: "0";
+}
+
+mjx-c.mjx-c7D::before {
+  padding: 0.75em 0.5em 0.25em 0;
+  content: "}";
+}
+
+mjx-c.mjx-c29::before {
+  padding: 0.75em 0.389em 0.25em 0;
+  content: ")";
+}
+
+mjx-c.mjx-c222A::before {
+  padding: 0.598em 0.667em 0.022em 0;
+  content: "\222A";
+}
+
+mjx-c.mjx-c31::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "1";
+}
+
+mjx-c.mjx-c2C::before {
+  padding: 0.121em 0.278em 0.194em 0;
+  content: ",";
+}
+
+mjx-c.mjx-c32::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "2";
+}
+
+mjx-c.mjx-c33::before {
+  padding: 0.665em 0.5em 0.022em 0;
+  content: "3";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Data Types and Operations on Data _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="data-types-and-operations-on-data">Data Types and Operations on Data</h1>
+
+<h3 id="ppl-2023">PPL 2023</h3>
+
+<p>In previous sections, we reviewed tools a programming language provides that help programmers design set of values that have common properties.  The concrete form is a type language with which we can express type annotations.  These type annotations denote sets of values.  They are associated to variables or function parameters and function return values.</p>
+
+<p>Such type annotations are useful to enable type checking - the process through which a compiler can ensure that variables will always be bound to values that belong to a specified type for all possible executions of the program - and issue errors when such assurance cannot be proven.
+Type annotations are also useful in documenting the intention of the programmer.</p>
+
+<p>Type definitions have a third important function: they help the programmer structure the code that operates on complex values in a way that reflects the structure of the data type.<br>
+In other words, knowing the structure of a data type helps the programmer write correct functions that operates over values of this type.</p>
+
+<p>Reversely, programmers design and name types for sets of values that will be processed by the same set of functions. 
+That is, type definitions allow the definition of uniform functional interfaces.</p>
+
+<p>We illustrate this point through 4 examples:</p>
+<ul>
+  <li>Homogeneous array types and the sequence interface (<code class="language-plaintext highlighter-rouge">map</code>, <code class="language-plaintext highlighter-rouge">filter</code>, <code class="language-plaintext highlighter-rouge">reduce</code>, …)</li>
+  <li>Modeling trees</li>
+  <li>Mutable data types in FP</li>
+  <li>Disjoint types and Disjoint Unions to enable uniform functional interfaces</li>
+</ul>
+
+<h2 id="homogeneous-array-types-and-the-sequence-interface">Homogeneous Array Types and the Sequence Interface</h2>
+
+<p>Array values can be homogeneous (all items have the same type) or heterogeneous (items of different types appear).</p>
+
+<p>The <em>natural</em> way to operate over arrays is to use the sequence interface - that is, a set of higher-order functions 
+which can be applied on arrays.  For example:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">map(f, array)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">filter(pred, array)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">reduce(f, array, init)</code></li>
+</ul>
+
+<p>and similar functions (such as <code class="language-plaintext highlighter-rouge">every</code>, <code class="language-plaintext highlighter-rouge">some</code>, <code class="language-plaintext highlighter-rouge">find</code>).</p>
+
+<p>When we analyze the type of these functions, we realize that such operations will be easy and natural if the type of the function passed as a parameter is a simple type.  For example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">map</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">ramda</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">let</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
+<span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">arr</span><span class="p">);</span> <span class="c1">// ==&gt; [ 1, 4, 9 ]</span>
+
+<span class="c1">// Or in curried manner:</span>
+<span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="p">)(</span><span class="nx">arr</span><span class="p">);</span> 
+</code></pre></div></div>
+
+<p>This operation over the array <em>works well</em> because the type of the mapper function is simple and can be derived from the type of the array:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">arr</code> is of type <code class="language-plaintext highlighter-rouge">number[]</code></li>
+  <li><code class="language-plaintext highlighter-rouge">x =&gt; x * x</code> is a function of type <code class="language-plaintext highlighter-rouge">number =&gt; number</code> - it can thus be applied to all the items in <code class="language-plaintext highlighter-rouge">arr</code></li>
+  <li>the resulting array is also of type <code class="language-plaintext highlighter-rouge">number[]</code></li>
+  <li>the function <code class="language-plaintext highlighter-rouge">map(x =&gt; x * x)</code> is a function of type <code class="language-plaintext highlighter-rouge">number[] =&gt; number[]</code> - we say it is lifted from <code class="language-plaintext highlighter-rouge">number</code> to <code class="language-plaintext highlighter-rouge">number[]</code>.</li>
+</ul>
+
+<p>Similarly, if we use a mapper function of type <code class="language-plaintext highlighter-rouge">number =&gt; boolean</code> - we know the return value of <code class="language-plaintext highlighter-rouge">map</code> will be <code class="language-plaintext highlighter-rouge">boolean[]</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">map</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">ramda</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">let</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
+<span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">arr</span><span class="p">);</span> <span class="c1">// ==&gt; [ false, false, true ]</span>
+</code></pre></div></div>
+
+<p>Operating over a heterogeneous array like <code class="language-plaintext highlighter-rouge">[1, "a" ,true]</code> would make the usage of these functions much more challenging - because the mapper function would need to know what to do for each type of parameter.</p>
+
+<p><strong>Summary:</strong> Homogeneous array types encourage the use of a simple functional interface - including map, filter, reduce. This functional interface (set of functions which operate on the same data structure) receive a function parameter with a simple type signature and abstract many forms of loops over repeated values of the same type.</p>
+
+<h2 id="modeling-trees-with-types">Modeling Trees with Types</h2>
+
+<p>Let us review the definition of a binary tree:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">BinTree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">root</span><span class="p">:</span> <span class="nx">T</span><span class="p">;</span>
+    <span class="nl">left</span><span class="p">?:</span> <span class="nx">BinTree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">;</span>
+    <span class="nl">right</span><span class="p">?:</span> <span class="nx">BinTree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">bt</span><span class="p">:</span> <span class="nx">BinTree</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">left</span><span class="p">:</span> <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">2</span> <span class="p">},</span> <span class="na">right</span><span class="p">:</span> <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">3</span> <span class="p">}</span> <span class="p">};</span>
+
+<span class="nx">bt</span><span class="p">;</span> <span class="c1">// ==&gt; { root: 1, left: { root: 2 }, right: { root: 3 } }</span>
+</code></pre></div></div>
+
+<p>When we write operations that operate over such trees, we must write code that operates according to the expected structure of the values in this type.</p>
+
+<p>For example, let us write a function that traverses a <code class="language-plaintext highlighter-rouge">BinTree</code> in Depth-First order:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">traverseDFS</span><span class="p">:</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">t</span><span class="p">:</span> <span class="nx">BinTree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">void</span> <span class="o">=</span> <span class="nx">t</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">root</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">left</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="nx">traverseDFS</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">left</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">right</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="nx">traverseDFS</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">right</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="nx">traverseDFS</span><span class="p">(</span><span class="nx">bt</span><span class="p">);</span>
+<span class="c1">// ==&gt;</span>
+<span class="c1">// 1</span>
+<span class="c1">// 2</span>
+<span class="c1">// 3</span>
+</code></pre></div></div>
+
+<p>The structure of this function follows the structure of the type definition - when we process a value of type <code class="language-plaintext highlighter-rouge">BinTree</code>, we know that accessing the field <code class="language-plaintext highlighter-rouge">t.root</code> is safe (will not return <code class="language-plaintext highlighter-rouge">undefined</code> or throw an exception).
+To access <code class="language-plaintext highlighter-rouge">t.left</code> we must first check whether it is <code class="language-plaintext highlighter-rouge">undefined</code> since the type allows for this (base case of the recursion). If it is not, we know it must be a value of type <code class="language-plaintext highlighter-rouge">BinTree</code>.</p>
+
+<p>In addition to these assurances, we also know that after checking these conditions we have checked all possible configurations of values (that is, the function exhaustively covers all possible <code class="language-plaintext highlighter-rouge">BinTree</code> values).</p>
+
+<p>Let us consider a variant task where we actually build values of type <code class="language-plaintext highlighter-rouge">BinTree</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">bt2</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">root</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="na">left</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">root</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="na">left</span><span class="p">:</span> <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">4</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="na">right</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">root</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="na">right</span><span class="p">:</span> <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">6</span> <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">const</span> <span class="nx">square</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">number</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">squareTree</span><span class="p">:</span> <span class="p">(</span><span class="nx">t</span><span class="p">:</span> <span class="nx">BinTree</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">BinTree</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nx">t</span> <span class="o">=&gt;</span>
+    <span class="nx">t</span><span class="p">.</span><span class="nx">left</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">&amp;&amp;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">right</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="p">?</span> <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="nx">square</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">root</span><span class="p">)</span> <span class="p">}</span> <span class="p">:</span>
+    <span class="nx">t</span><span class="p">.</span><span class="nx">left</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="p">?</span> <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="nx">square</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">root</span><span class="p">),</span> <span class="na">right</span><span class="p">:</span> <span class="nx">squareTree</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">right</span><span class="p">)</span> <span class="p">}</span> <span class="p">:</span>
+    <span class="nx">t</span><span class="p">.</span><span class="nx">right</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="p">?</span> <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="nx">square</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">root</span><span class="p">),</span> <span class="na">left</span><span class="p">:</span> <span class="nx">squareTree</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">left</span><span class="p">)</span> <span class="p">}</span> <span class="p">:</span>
+    <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="nx">square</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">root</span><span class="p">),</span> <span class="na">left</span><span class="p">:</span> <span class="nx">squareTree</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">left</span><span class="p">),</span> <span class="na">right</span><span class="p">:</span> <span class="nx">squareTree</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">right</span><span class="p">)</span> <span class="p">};</span>
+
+<span class="nx">squareTree</span><span class="p">(</span><span class="nx">bt2</span><span class="p">);</span>
+<span class="c1">// ==&gt;</span>
+<span class="c1">// {</span>
+<span class="c1">//   root: 4,</span>
+<span class="c1">//   left: { root: 9, left: { root: 16 } },</span>
+<span class="c1">//   right: { root: 25, right: { root: 36 } }</span>
+<span class="c1">// }</span>
+</code></pre></div></div>
+
+<p>The function <code class="language-plaintext highlighter-rouge">squareTree</code> operates over a <code class="language-plaintext highlighter-rouge">BinTree</code> value and creates a new <code class="language-plaintext highlighter-rouge">BinTree</code> return value.
+It considers all possible configurations of <code class="language-plaintext highlighter-rouge">BinTree</code> (only root, root and left, root and right, root and left and right) and invokes the function <code class="language-plaintext highlighter-rouge">squareTree</code> recursively on each child value accordingly.</p>
+
+<p>In this case as well - type analysis allows us to verify that all accesses to the fields of the <code class="language-plaintext highlighter-rouge">BinTree</code> value are <em>safe</em> and that all recursive calls pass values of the right type as parameters.  In addition, we can verify that the function is <em>exhaustive</em> in checking all possible configurations for the value.</p>
+
+<p>We can <em>relax</em> the type checking - and accept to receive values of type <code class="language-plaintext highlighter-rouge">undefined</code> in addition - yielding slightly shorter and more readable code, as shown below:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">let</span> <span class="nx">bt3</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">root</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="na">left</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">root</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="na">left</span><span class="p">:</span> <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">4</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="na">right</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">root</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="na">right</span><span class="p">:</span> <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">6</span> <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">const</span> <span class="nx">square</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">number</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">squareTree2</span><span class="p">:</span> <span class="p">(</span><span class="nx">t</span><span class="p">:</span> <span class="nx">BinTree</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="o">|</span> <span class="kc">undefined</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">BinTree</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="o">=</span> <span class="nx">t</span> <span class="o">=&gt;</span>
+    <span class="nx">t</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="p">?</span> <span class="kc">undefined</span> <span class="p">:</span>
+    <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="nx">square</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">root</span><span class="p">),</span> <span class="na">left</span><span class="p">:</span> <span class="nx">squareTree2</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">left</span><span class="p">),</span> <span class="na">right</span><span class="p">:</span> <span class="nx">squareTree2</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">right</span><span class="p">)</span> <span class="p">};</span>
+
+<span class="nx">squareTree2</span><span class="p">(</span><span class="nx">bt3</span><span class="p">);</span>
+<span class="c1">// ==&gt;</span>
+<span class="c1">// {</span>
+<span class="c1">//   root: 4,</span>
+<span class="c1">//   left: {</span>
+<span class="c1">//     root: 9,</span>
+<span class="c1">//     left: { root: 16, left: undefined, right: undefined },</span>
+<span class="c1">//     right: undefined</span>
+<span class="c1">//   },</span>
+<span class="c1">//   right: {</span>
+<span class="c1">//     root: 25,</span>
+<span class="c1">//     left: undefined,</span>
+<span class="c1">//     right: { root: 36, left: undefined, right: undefined }</span>
+<span class="c1">//   }</span>
+<span class="c1">// }</span>
+</code></pre></div></div>
+
+<p>Observe that in this version:</p>
+<ul>
+  <li>We extended the expected values of type <code class="language-plaintext highlighter-rouge">BinTree</code> to also include the value <code class="language-plaintext highlighter-rouge">undefined</code>.</li>
+  <li>We explicitly test for this value as the first base case in the recursive function <code class="language-plaintext highlighter-rouge">squareTree2</code>.</li>
+  <li>The recursive calls are now simplified as we don’t need to avoid the recursive calls with a value <code class="language-plaintext highlighter-rouge">undefined</code></li>
+  <li>The return value has values marked explicitly as <code class="language-plaintext highlighter-rouge">undefined</code> - these are semantically equivalent to <em>absent</em> values - but in the syntax of the object, they still appear.</li>
+</ul>
+
+<p>We can get rid of them using a simple idiom:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span>
+    <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+        <span class="na">root</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="na">left</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">root</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+            <span class="na">left</span><span class="p">:</span> <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="na">left</span><span class="p">:</span> <span class="kc">undefined</span><span class="p">,</span> <span class="na">right</span><span class="p">:</span> <span class="kc">undefined</span> <span class="p">},</span>
+            <span class="na">right</span><span class="p">:</span> <span class="kc">undefined</span>
+        <span class="p">},</span>
+        <span class="na">right</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">root</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+            <span class="na">left</span><span class="p">:</span> <span class="kc">undefined</span><span class="p">,</span>
+            <span class="na">right</span><span class="p">:</span> <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">36</span><span class="p">,</span> <span class="na">left</span><span class="p">:</span> <span class="kc">undefined</span><span class="p">,</span> <span class="na">right</span><span class="p">:</span> <span class="kc">undefined</span> <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">})</span>
+<span class="p">);</span>
+<span class="c1">// ==&gt;</span>
+<span class="c1">// {</span>
+<span class="c1">//   root: 4,</span>
+<span class="c1">//   left: { root: 9, left: { root: 16 } },</span>
+<span class="c1">//   right: { root: 25, right: { root: 36 } }</span>
+<span class="c1">// }</span>
+</code></pre></div></div>
+
+<p>The difference between the two versions is a matter of style preference.
+In general, the presence of <code class="language-plaintext highlighter-rouge">undefined</code> values complicates type analysis, but it is difficult to avoid dealing with it explicitly.</p>
+
+<h2 id="mutable-persistent-data-types-in-fp"><em>Mutable</em> (Persistent) Data Types in FP</h2>
+
+<p>We indicated earlier that FP encourages immutable variables and data structures to achieve the goals of determinism (calling the same function with the same arguments should return the same value) and safe concurrency (avoid shared mutable data across threads).</p>
+
+<p>Yet, some data types are thought of a <strong>mutable</strong> in their definition.  Consider the example of a <strong>stack</strong>.  It is defined as a container of values that enforces a specific access pattern through an interface:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">push(x)</code>: modifies the stack by adding a new value x on top of it.</li>
+  <li><code class="language-plaintext highlighter-rouge">pop()</code>: modifies the stack by removing the top value of the stack and returning its value.</li>
+  <li><code class="language-plaintext highlighter-rouge">empty()</code>: determines whether the stack is empty.</li>
+</ul>
+
+<p>As was discussed in SPL (for those who took this course), in OOP and Imperative Langauges, it is useful to split the Stack interface into <strong>Queries</strong> (functions that only return information about the data structure without changing it) and <strong>Commands</strong> (functions which only modify the data structure and do not return any value). Such distinction makes writing tests much easier (see <a href="https://en.wikipedia.org/wiki/Command%E2%80%93query_separation">Command Query Separation pattern</a>).</p>
+
+<p>To adopt this distinction, we split the <code class="language-plaintext highlighter-rouge">pop()</code> method into two distinct methods:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">peek()</code>: returns the value of the top element in the stack (this is a query method).</li>
+  <li><code class="language-plaintext highlighter-rouge">pop()</code>: modifies the stack by removing the top element (this is a command method - that just has a side effect and no return value).</li>
+</ul>
+
+<p>This definition is inherently procedural - as it defines the data type in terms of mutation (with the commands <code class="language-plaintext highlighter-rouge">push()</code> and <code class="language-plaintext highlighter-rouge">pop()</code>) in addition to the queries <code class="language-plaintext highlighter-rouge">peek()</code> and <code class="language-plaintext highlighter-rouge">empty()</code>.</p>
+
+<p>Note that according to this methodology, even the queries are <strong>not</strong> pure functions - because they are not deterministic (that is, we can call the same function twice on the same variable at different times and obtain different answers). Let us illustrate these points with a simple implementation of Stacks in TypeScript:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Mutable implementation of stacks (NON Functional)</span>
+
+<span class="c1">// Constructor</span>
+<span class="kd">const</span> <span class="nx">makeStack</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">initValues</span><span class="p">:</span> <span class="nx">T</span><span class="p">[]):</span> <span class="nx">T</span><span class="p">[]</span> <span class="o">=&gt;</span> <span class="nx">initValues</span><span class="p">;</span>
+
+<span class="c1">// peek and empty are queries - they do not mutate the stack</span>
+<span class="kd">const</span> <span class="nx">peek</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">stack</span><span class="p">:</span> <span class="nx">T</span><span class="p">[]):</span> <span class="nx">T</span> <span class="o">=&gt;</span> <span class="nx">stack</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="kd">const</span> <span class="nx">empty</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">stack</span><span class="p">:</span> <span class="nx">T</span><span class="p">[]):</span> <span class="nx">boolean</span> <span class="o">=&gt;</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">// push() and pop() are commands - they mutate the stack and return void (no return value)</span>
+<span class="kd">const</span> <span class="nx">push</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">stack</span><span class="p">:</span> <span class="nx">T</span><span class="p">[],</span> <span class="nx">newVal</span><span class="p">:</span> <span class="nx">T</span><span class="p">):</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">stack</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="nx">newVal</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">const</span> <span class="nx">pop</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">stack</span><span class="p">:</span> <span class="nx">T</span><span class="p">[]):</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">stack</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">let</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">makeStack</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]);</span>
+<span class="nx">push</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="nx">s</span><span class="p">;</span> <span class="c1">// ==&gt; [ 0, 1, 2, 3 ]</span>
+</code></pre></div></div>
+
+<p>This implementation relies on an array encoding for Stack values.
+It relies on generic data types in TypeScript so that we can use it for Stacks of any type - as long as it is a homogeneous stack.</p>
+
+<p>It relies on the fact that arrays in JavaScript are mutable - and implements <code class="language-plaintext highlighter-rouge">push()</code> using the primitive <code class="language-plaintext highlighter-rouge">unshift()</code> operation on arrays, and <code class="language-plaintext highlighter-rouge">pop()</code> using the primitive <code class="language-plaintext highlighter-rouge">shift()</code> operation.</p>
+
+<p>We skipped checking the preconditions to simplify the presentation.</p>
+
+<p>Note the specific style: commands (functions that have a side-effect - in this case <code class="language-plaintext highlighter-rouge">push()</code> and <code class="language-plaintext highlighter-rouge">pop()</code>) have no return value - we mark them as <code class="language-plaintext highlighter-rouge">void</code> in TypeScript.</p>
+
+<p>In contrast, queries (functions that have no side-effect and only return information about the data structure - in this case <code class="language-plaintext highlighter-rouge">peek()</code> and <code class="language-plaintext highlighter-rouge">empty()</code>) return a value.</p>
+
+<p>Given that the underlying data type is mutable, we cannot obtain deterministic behavior:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">makeStack</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]);</span>
+<span class="nx">push</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">peek</span><span class="p">(</span><span class="nx">s</span><span class="p">));</span> <span class="c1">// ==&gt; 0</span>
+<span class="nx">pop</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">peek</span><span class="p">(</span><span class="nx">s</span><span class="p">));</span> <span class="c1">// ==&gt; 1</span>
+</code></pre></div></div>
+
+<p>The same operation <code class="language-plaintext highlighter-rouge">peek(s)</code> on the same variable <code class="language-plaintext highlighter-rouge">s</code> returns different values when mutation has occurred between the two calls. This is a case of <em>non-determinism</em> due to mutation.</p>
+
+<h3 id="functional-stack-step-1">Functional Stack: Step 1</h3>
+
+<p>Can we define a <strong>functional data structure</strong> for the Stack data type?</p>
+
+<p>For example, can we define a Stack data structure that operates as an immutable data structure, while still offering the same interface to its clients (<code class="language-plaintext highlighter-rouge">peek</code>, <code class="language-plaintext highlighter-rouge">empty</code>, <code class="language-plaintext highlighter-rouge">push</code>, <code class="language-plaintext highlighter-rouge">pop</code>)?</p>
+
+<p>The key change that is required to obtain such immutable functional data types is to modify the <strong>commands</strong> so that instead of mutating the existing data structure and returning <code class="language-plaintext highlighter-rouge">void</code> (that is, having no return value), the commands will return a new copy of the data structure.</p>
+
+<p>This imposes first a change on the type of the functions, next a change on the client side.  Let us illustrate this first round of changes (which we will find out is necessary but not sufficient):</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Implementation 2 of stacks (Towards Functional - not yet)</span>
+
+<span class="c1">// To document the type, we give it a name - distinct from its implementation.</span>
+<span class="kd">type</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nx">T</span><span class="p">[];</span>
+
+<span class="c1">// Constructor</span>
+<span class="kd">const</span> <span class="nx">makeStack</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">initValues</span><span class="p">:</span> <span class="nx">T</span><span class="p">[]):</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="nx">initValues</span><span class="p">;</span>
+
+<span class="c1">// peek and empty are queries - they do not mutate the stack - no change needed from V1 above.</span>
+<span class="kd">const</span> <span class="nx">peek</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">stack</span><span class="p">:</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">):</span> <span class="nx">T</span> <span class="o">=&gt;</span> <span class="nx">stack</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="kd">const</span> <span class="nx">empty</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">stack</span><span class="p">:</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">):</span> <span class="nx">boolean</span> <span class="o">=&gt;</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">// push() and pop() are commands - they return a new version of the stack (instead of void in V1)</span>
+<span class="kd">const</span> <span class="nx">push</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">stack</span><span class="p">:</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="nx">newVal</span><span class="p">:</span> <span class="nx">T</span><span class="p">):</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">stack</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="nx">newVal</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">stack</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="kd">const</span> <span class="nx">pop</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">stack</span><span class="p">:</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">):</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">stack</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">stack</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">let</span> <span class="nx">s1</span> <span class="o">=</span> <span class="nx">makeStack</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]);</span>
+<span class="kd">let</span> <span class="nx">s2</span> <span class="o">=</span> <span class="nx">push</span><span class="p">(</span><span class="nx">s1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// This is a new stack</span>
+<span class="nx">s2</span><span class="p">;</span> <span class="c1">// ==&gt; [ 0, 1, 2, 3 ]</span>
+</code></pre></div></div>
+
+<p>This modification in the signature of the commands requires clients to change as well: each time a command is invoked, we must bind the return value to a new variable so that it can be used further:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">s1</span> <span class="o">=</span> <span class="nx">makeStack</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]);</span>
+<span class="kd">let</span> <span class="nx">s2</span> <span class="o">=</span> <span class="nx">push</span><span class="p">(</span><span class="nx">s1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// This is a new stack</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">peek</span><span class="p">(</span><span class="nx">s2</span><span class="p">));</span> <span class="c1">// ==&gt; 0</span>
+<span class="kd">let</span> <span class="nx">s3</span> <span class="o">=</span> <span class="nx">pop</span><span class="p">(</span><span class="nx">s2</span><span class="p">);</span> <span class="c1">// Another stack</span>
+<span class="nx">peek</span><span class="p">(</span><span class="nx">s3</span><span class="p">);</span> <span class="c1">// ==&gt; 1</span>
+</code></pre></div></div>
+
+<h3 id="value-aliasing">Value Aliasing</h3>
+
+<p>In this new style, we do not observe direct mutation - the calls seem to be deterministic.</p>
+
+<p><strong>Unfortunately, this is an illusion:</strong></p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">s1</span> <span class="o">=</span> <span class="nx">makeStack</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]);</span>
+<span class="kd">const</span> <span class="nx">s2</span> <span class="o">=</span> <span class="nx">push</span><span class="p">(</span><span class="nx">s1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">s3</span> <span class="o">=</span> <span class="nx">pop</span><span class="p">(</span><span class="nx">s2</span><span class="p">);</span>
+<span class="nx">peek</span><span class="p">(</span><span class="nx">s1</span><span class="p">);</span> <span class="c1">// ==&gt; 1</span>
+<span class="nx">pop</span><span class="p">(</span><span class="nx">s1</span><span class="p">);</span> <span class="c1">// ==&gt; [ 2, 3 ]</span>
+<span class="nx">peek</span><span class="p">(</span><span class="nx">s1</span><span class="p">);</span> <span class="c1">// ==&gt; 2</span>
+</code></pre></div></div>
+
+<p>The implementation relies on JavaScript arrays - which are internally mutable. 
+We did not prevent this mutation by just changing the signature of the methods, because in the body of the commands we still call mutators on the internal representation of the stack.</p>
+
+<p>The situation is even worse because we have created a very risky situation called <strong>variable aliasing</strong> - the stacks <code class="language-plaintext highlighter-rouge">s2</code> and <code class="language-plaintext highlighter-rouge">s3</code> share in memory cells that are used by <code class="language-plaintext highlighter-rouge">s1</code>.  As a result, operations on <code class="language-plaintext highlighter-rouge">s1</code> end up modifying the state of <code class="language-plaintext highlighter-rouge">s2</code>.
+If we now call the same expression <code class="language-plaintext highlighter-rouge">peek(s2)</code> and <code class="language-plaintext highlighter-rouge">peek(s3)</code> - we obtain different values from the earlier results (0 and 1) <strong>even though no direct mutation of <code class="language-plaintext highlighter-rouge">s2</code> and <code class="language-plaintext highlighter-rouge">s3</code> was performed</strong>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">peek</span><span class="p">(</span><span class="nx">s2</span><span class="p">)</span> <span class="c1">// This was 0 before invoking pop(s1)</span>
+<span class="c1">// ==&gt; 2</span>
+<span class="nx">peek</span><span class="p">(</span><span class="nx">s3</span><span class="p">)</span> <span class="c1">// This was 1 before invoking pop(s1)</span>
+<span class="c1">// ==&gt; 2</span>
+</code></pre></div></div>
+
+<p>The reason the stacks <code class="language-plaintext highlighter-rouge">s2</code> and <code class="language-plaintext highlighter-rouge">s3</code> were changed when we applied mutation on <code class="language-plaintext highlighter-rouge">s1</code> is because the 3 stacks actually share parts of their value in memory - because Arrays in JavaScript behave like pointers to values in C++.</p>
+
+<h3 id="functional-stack-step-2">Functional Stack: Step 2</h3>
+
+<p>The solution to this problem is to require that commands actually <strong>copy</strong> the data structure when they need to modify it - so that each returned value is indeed a new value - and not an <strong>alias</strong> of the previous value.</p>
+
+<p>This can be achieved by this new version of the Stack code:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Implementation 3 of stacks (Functional - but inefficient)</span>
+
+<span class="c1">// To document the type, we give it a name - distinct from its implementation.</span>
+<span class="kd">type</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nx">T</span><span class="p">[];</span>
+
+<span class="c1">// A utility to clone an array - relies on the fact that concat copies</span>
+<span class="c1">// This is a shallow copy</span>
+<span class="kd">const</span> <span class="nx">cloneArray</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">array</span><span class="p">:</span> <span class="nx">T</span><span class="p">[]):</span> <span class="nx">T</span><span class="p">[]</span> <span class="o">=&gt;</span> <span class="p">[].</span><span class="nx">concat</span><span class="p">(</span><span class="nx">array</span><span class="p">);</span>
+
+<span class="c1">// Constructor</span>
+<span class="kd">const</span> <span class="nx">makeStack</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">initValues</span><span class="p">:</span> <span class="nx">T</span><span class="p">[]):</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="nx">cloneArray</span><span class="p">(</span><span class="nx">initValues</span><span class="p">);</span>
+
+<span class="c1">// peek and empty are queries - they do not mutate the stack - no change needed from V1.</span>
+<span class="kd">const</span> <span class="nx">peek</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">stack</span><span class="p">:</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">):</span> <span class="nx">T</span> <span class="o">=&gt;</span> <span class="nx">stack</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="kd">const</span> <span class="nx">empty</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">stack</span><span class="p">:</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">):</span> <span class="nx">boolean</span> <span class="o">=&gt;</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">// push() and pop() are commands - they return a new copy of the stack</span>
+<span class="kd">const</span> <span class="nx">push</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">stack</span><span class="p">:</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="nx">newVal</span><span class="p">:</span> <span class="nx">T</span><span class="p">):</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">res</span> <span class="o">=</span> <span class="nx">cloneArray</span><span class="p">(</span><span class="nx">stack</span><span class="p">);</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="nx">newVal</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">res</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="kd">const</span> <span class="nx">pop</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">stack</span><span class="p">:</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">):</span> <span class="nx">Stack</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">res</span> <span class="o">=</span> <span class="nx">cloneArray</span><span class="p">(</span><span class="nx">stack</span><span class="p">);</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">res</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">let</span> <span class="nx">s1</span> <span class="o">=</span> <span class="nx">makeStack</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]);</span>
+<span class="kd">let</span> <span class="nx">s2</span> <span class="o">=</span> <span class="nx">push</span><span class="p">(</span><span class="nx">s1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// This is a new stack</span>
+<span class="nx">s2</span><span class="p">;</span> <span class="c1">// ==&gt; [ 0, 1, 2, 3 ]</span>
+</code></pre></div></div>
+
+<p>Let us verify that this new implementation provides deterministic behavior for the Stack functions and no aliasing:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">s1</span> <span class="o">=</span> <span class="nx">makeStack</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]);</span>
+<span class="kd">let</span> <span class="nx">s2</span> <span class="o">=</span> <span class="nx">push</span><span class="p">(</span><span class="nx">s1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// This is a new stack</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">peek</span><span class="p">(</span><span class="nx">s2</span><span class="p">));</span> <span class="c1">// Should be 0</span>
+<span class="c1">// ==&gt; 0</span>
+<span class="kd">let</span> <span class="nx">s3</span> <span class="o">=</span> <span class="nx">pop</span><span class="p">(</span><span class="nx">s2</span><span class="p">);</span> <span class="c1">// Another stack</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">peek</span><span class="p">(</span><span class="nx">s3</span><span class="p">));</span> <span class="c1">// Should be 1</span>
+<span class="c1">// ==&gt; 1</span>
+
+<span class="c1">// Let's now change s1 and</span>
+<span class="c1">// verify s2 and s3 are not affected</span>
+<span class="nx">pop</span><span class="p">(</span><span class="nx">s1</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">peek</span><span class="p">(</span><span class="nx">s1</span><span class="p">));</span> <span class="c1">// Should remain 1</span>
+<span class="c1">// ==&gt; 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">peek</span><span class="p">(</span><span class="nx">s2</span><span class="p">));</span> <span class="c1">// Should remain 0</span>
+<span class="c1">// ==&gt; 0</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">peek</span><span class="p">(</span><span class="nx">s3</span><span class="p">));</span> <span class="c1">// Should remain 1</span>
+<span class="c1">// ==&gt; 1</span>
+</code></pre></div></div>
+
+<p>This implementation is <strong>safe</strong> - it does not introduce unexepected side effects to the data structures, and the data structures remain immutable.</p>
+
+<p>The cost of this implementation, though, is that each mutation requires a full copy of the data structure.
+This is inefficient in RAM (we obtain many copies of the same objects) and in CPU (the copying operations are expensive).</p>
+
+<h3 id="efficient-functional-data-structures-step-3">Efficient Functional Data Structures: Step 3</h3>
+
+<p>Based on the technique of <strong>amortization</strong>, the work of Okasaki has demonstrated how one can design <strong>efficient functional data structures</strong> that are immutable and still avoid unnecessary copying.</p>
+
+<p>The book: <em>Purely Functional Data Structures</em> Chris Okasaki, Cambridge University Press, 1999 presents this general approach.  It has become the standard reference to design efficient data structures for FP.  In particular, it has been the basis for the design of the Clojure programming language.</p>
+
+<p>The library <strong>Immutable</strong> <a href="https://immutable-js.com/">https://immutable-js.com/</a> has been developed in TypeScript by Facebook.
+It provides an efficient immutable implementation of the main collection data structures (Map, Stack, Queue, Lists, Set) based on Okasaki’s original description.</p>
+
+<p>Using the Immutable Stack implementation is performed as follows:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Stack</span> <span class="k">as</span> <span class="nx">iStack</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">Immutable</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">let</span> <span class="nx">s1</span> <span class="o">=</span> <span class="nx">iStack</span><span class="p">.</span><span class="k">of</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">s2</span> <span class="o">=</span> <span class="nx">s1</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`s1.size = </span><span class="p">${</span><span class="nx">s1</span><span class="p">.</span><span class="nx">size</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; s1.size = 3</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`s2.size = </span><span class="p">${</span><span class="nx">s2</span><span class="p">.</span><span class="nx">size</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; s2.size = 4</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`s1.peek() = </span><span class="p">${</span><span class="nx">s1</span><span class="p">.</span><span class="nx">peek</span><span class="p">()}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; s1.peek() = 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`s2.peek() = </span><span class="p">${</span><span class="nx">s2</span><span class="p">.</span><span class="nx">peek</span><span class="p">()}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; s2.peek() = 0</span>
+<span class="kd">let</span> <span class="nx">s3</span> <span class="o">=</span> <span class="nx">s1</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
+<span class="kd">let</span> <span class="nx">s4</span> <span class="o">=</span> <span class="nx">s2</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">After performing s1.pop() and s2.pop()</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`s1.size = </span><span class="p">${</span><span class="nx">s1</span><span class="p">.</span><span class="nx">size</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; s1.size = 3</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`s2.size = </span><span class="p">${</span><span class="nx">s2</span><span class="p">.</span><span class="nx">size</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; s2.size = 4</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`s3.size = </span><span class="p">${</span><span class="nx">s3</span><span class="p">.</span><span class="nx">size</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; s3.size = 2</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`s4.size = </span><span class="p">${</span><span class="nx">s4</span><span class="p">.</span><span class="nx">size</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; s4.size = 3</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`s1.peek() = </span><span class="p">${</span><span class="nx">s1</span><span class="p">.</span><span class="nx">peek</span><span class="p">()}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; s1.peek() = 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`s2.peek() = </span><span class="p">${</span><span class="nx">s2</span><span class="p">.</span><span class="nx">peek</span><span class="p">()}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; s2.peek() = 0</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`s3.peek() = </span><span class="p">${</span><span class="nx">s3</span><span class="p">.</span><span class="nx">peek</span><span class="p">()}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; s3.peek() = 2</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`s4.peek() = </span><span class="p">${</span><span class="nx">s4</span><span class="p">.</span><span class="nx">peek</span><span class="p">()}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; s4.peek() = 1</span>
+</code></pre></div></div>
+
+<p>We confirm that the Stack functions behave in a deterministic manner, with no aliasing. Yet, internally, minimal copying was performed.</p>
+
+<p>Immutable works well with JSON and encourages the usage of embedded data structures in a safe immutable and efficient manner. It thus provides an essential component of FP in TypeScript.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">s1</span><span class="p">);</span> <span class="c1">// ==&gt; '[1,2,3]'</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Stack</span> <span class="k">as</span> <span class="nx">iStack</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">Immutable</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">personsStack</span> <span class="o">=</span> <span class="nx">iStack</span><span class="p">(</span>
+    <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="dl">'</span><span class="s1">[{"name":"avi", "age":23}, {"name":"bob", "age":26}]</span><span class="dl">'</span><span class="p">)</span>
+<span class="p">);</span>
+<span class="nx">personsStack</span><span class="p">.</span><span class="nx">peek</span><span class="p">();</span> <span class="c1">// ==&gt; { name: 'avi', age: 23 }</span>
+</code></pre></div></div>
+
+<p>Another approach to functional immutable data structures is implemented in the <a href="https://immerjs.github.io/immer/">https://immerjs.github.io/immer/</a> Immer library.
+Such libraries (Immutable.js or Immer) are essential in frontend programming for efficient state management.</p>
+
+<h2 id="disjoint-types-and-disjoint-union">Disjoint Types and Disjoint Union</h2>
+
+<p>We have highlighted the perspective of Data Types as denoting sets of values over which common operations can be performed.
+On the basis of this understanding, we defined operations over types which correspond to Set operations - such as Union and Intersection.</p>
+
+<p>Such operations are provided for example in TypeScript, and we can define types such as:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">NoS</span> <span class="o">=</span> <span class="kr">number</span> <span class="o">|</span> <span class="kr">string</span><span class="p">;</span>   <span class="c1">// union: values that are either numbers or strings</span>
+<span class="kd">type</span> <span class="nx">SoB</span> <span class="o">=</span> <span class="kr">string</span> <span class="o">|</span> <span class="nx">boolean</span><span class="p">;</span>  <span class="c1">// union: either string or boolean</span>
+<span class="kd">type</span> <span class="nx">S</span> <span class="o">=</span> <span class="nx">NoS</span> <span class="o">&amp;</span> <span class="nx">SoB</span><span class="p">;</span>           <span class="c1">// intersection - should be back to string.</span>
+</code></pre></div></div>
+
+<p>Type union can be used for example if we want to model the set of values that can be denoted by the JSON notation - as a recursive union of possible values:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Json</span> <span class="o">=</span>
+  <span class="c1">// Atomic values</span>
+  <span class="o">|</span> <span class="kr">string</span>
+  <span class="o">|</span> <span class="kr">number</span>
+  <span class="o">|</span> <span class="nx">boolean</span>
+  <span class="o">|</span> <span class="kc">null</span>
+  <span class="c1">// Compound values - maps and arrays</span>
+  <span class="o">|</span> <span class="p">{</span> <span class="p">[</span><span class="na">property</span><span class="p">:</span> <span class="kr">string</span><span class="p">]:</span> <span class="nx">Json</span> <span class="p">}</span> <span class="c1">// A map where the keys are all strings</span>
+  <span class="o">|</span> <span class="nx">Json</span><span class="p">[];</span>
+</code></pre></div></div>
+
+<p>We have also defined that the type system implemented in Typescript follows <strong>structural subtyping</strong> as opposed to <strong>nominal subtyping</strong>.  For example, if we define two types:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Person</span> <span class="o">=</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span> <span class="nl">address</span><span class="p">:</span> <span class="kr">string</span> <span class="p">};</span>    <span class="c1">// a person record in a Database</span>
+<span class="kd">type</span> <span class="nx">Variable</span> <span class="o">=</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span> <span class="nl">address</span><span class="p">:</span> <span class="kr">string</span> <span class="p">};</span>  <span class="c1">// a variable declaration in an Interpreter</span>
+
+<span class="kd">let</span> <span class="nx">p</span><span class="p">:</span> <span class="nx">Person</span> <span class="o">=</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">a</span><span class="dl">"</span><span class="p">,</span> <span class="na">address</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2</span><span class="dl">"</span> <span class="p">};</span>
+<span class="kd">let</span> <span class="nx">v</span><span class="p">:</span> <span class="nx">Variable</span> <span class="o">=</span> <span class="nx">p</span><span class="p">;</span> <span class="c1">// Compiles ok</span>
+</code></pre></div></div>
+
+<p>Under <strong>nominal typing</strong> (like it exists in Java for example), these two types would be disjoint - values of type Person and values of type Variable would be different.</p>
+
+<p>Under <strong>structural typing</strong> (like it exists in Typescript), these two types are actually equal - they describe the same set of values.</p>
+
+<p>When modeling data types, we are often interested in distinguishing such types - so that the values we describe are distinct, and we cannot confuse a Person value with a Variable value.</p>
+
+<p>The way to obtain this behavior is to add a discriminant field - called a <strong>tag</strong> - to distinguish values that are intended of being of different types.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">PERSON</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">person</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">VARIABLE</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">variable</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">type</span> <span class="nx">Person</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">tag</span><span class="p">:</span> <span class="k">typeof</span> <span class="nx">PERSON</span><span class="p">;</span>
+    <span class="nl">name</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="nl">address</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<span class="p">}</span> <span class="c1">// a person record in a Database</span>
+
+<span class="kd">type</span> <span class="nx">Variable</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">tag</span><span class="p">:</span> <span class="k">typeof</span> <span class="nx">VARIABLE</span><span class="p">;</span>
+    <span class="nl">name</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="nl">address</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<span class="p">}</span> <span class="c1">// a variable declaration in an Interpreter</span>
+
+<span class="kd">let</span> <span class="nx">p</span><span class="p">:</span> <span class="nx">Person</span> <span class="o">=</span> <span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="nx">PERSON</span><span class="p">,</span> <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">a</span><span class="dl">"</span><span class="p">,</span> <span class="na">address</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2</span><span class="dl">"</span> <span class="p">};</span>
+<span class="kd">let</span> <span class="nx">v</span><span class="p">:</span> <span class="nx">Variable</span> <span class="o">=</span> <span class="nx">p</span><span class="p">;</span> <span class="c1">// Does NOT compile:</span>
+<span class="c1">// message:</span>
+<span class="c1">// Type 'Person' is not assignable to type 'Variable'.</span>
+<span class="c1">//   Types of property 'tag' are incompatible.</span>
+<span class="c1">//     Type '"person"' is not assignable to type '"variable"'.</span>
+</code></pre></div></div>
+
+<p>In this example, the type of the <code class="language-plaintext highlighter-rouge">tag</code> field is a set of a single value - the string <code class="language-plaintext highlighter-rouge">"person"</code> or the string <code class="language-plaintext highlighter-rouge">"variable"</code>.</p>
+
+<p>With the addition of the <code class="language-plaintext highlighter-rouge">tag</code> field with these specifications, the two types <code class="language-plaintext highlighter-rouge">Person</code> and <code class="language-plaintext highlighter-rouge">Variable</code> have become <strong>disjoint</strong> - that is, the set of values these type annotations denote are disjoint.</p>
+
+<h3 id="disjoint-union">Disjoint Union</h3>
+
+<p>The possibility to define disjoint types can be combined into a very common pattern called <strong>disjoint union</strong>.</p>
+
+<p>In set theory, the <strong>disjoint union of two sets</strong> <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D434 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>A</mi></math></mjx-assistive-mml></mjx-container> and <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D435 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>B</mi></math></mjx-assistive-mml></mjx-container> (<a href="https://en.wikipedia.org/wiki/Disjoint_union">https://en.wikipedia.org/wiki/Disjoint_union</a>) is a binary operator that combines all distinct elements of a pair of given sets, while retaining the original set membership as a distinguishing characteristic of the union set.</p>
+
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" display="true" tabindex="0" ctxtmenu_counter="2" style="font-size: 117.4%; position: relative;"><mjx-math display="true" class="MJX-TEX" aria-hidden="true" style="margin-left: 0px; margin-right: 0px;"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D434 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c228E"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="3"><mjx-c class="mjx-c1D435 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c3D"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D434 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-cD7"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c7B"></mjx-c></mjx-mo><mjx-mn class="mjx-n"><mjx-c class="mjx-c30"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c7D"></mjx-c></mjx-mo><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c222A"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D435 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-cD7"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c7B"></mjx-c></mjx-mo><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c7D"></mjx-c></mjx-mo><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>A</mi><mo>⊎</mo><mi>B</mi><mo>=</mo><mo stretchy="false">(</mo><mi>A</mi><mo>×</mo><mo fence="false" stretchy="false">{</mo><mn>0</mn><mo fence="false" stretchy="false">}</mo><mo stretchy="false">)</mo><mo>∪</mo><mo stretchy="false">(</mo><mi>B</mi><mo>×</mo><mo fence="false" stretchy="false">{</mo><mn>1</mn><mo fence="false" stretchy="false">}</mo><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container>
+
+<p>For example:</p>
+
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" display="true" tabindex="0" ctxtmenu_counter="3" style="font-size: 117.4%; position: relative;"><mjx-math display="true" class="MJX-TEX" aria-hidden="true" style="margin-left: 0px; margin-right: 0px;"><mjx-mo class="mjx-n"><mjx-c class="mjx-c7B"></mjx-c></mjx-mo><mjx-mn class="mjx-n"><mjx-c class="mjx-c30"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="2"><mjx-c class="mjx-c31"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="2"><mjx-c class="mjx-c32"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c7D"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c228E"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c7B"></mjx-c></mjx-mo><mjx-mn class="mjx-n"><mjx-c class="mjx-c32"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="2"><mjx-c class="mjx-c33"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c7D"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c3D"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c7B"></mjx-c></mjx-mo><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mn class="mjx-n"><mjx-c class="mjx-c30"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="2"><mjx-c class="mjx-c30"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="2"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="2"><mjx-c class="mjx-c30"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="2"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mn class="mjx-n"><mjx-c class="mjx-c32"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="2"><mjx-c class="mjx-c30"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="2"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mn class="mjx-n"><mjx-c class="mjx-c32"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="2"><mjx-c class="mjx-c31"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="2"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mn class="mjx-n"><mjx-c class="mjx-c33"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="2"><mjx-c class="mjx-c31"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo><mjx-mo class="mjx-n"><mjx-c class="mjx-c7D"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mo fence="false" stretchy="false">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo fence="false" stretchy="false">}</mo><mo>⊎</mo><mo fence="false" stretchy="false">{</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo fence="false" stretchy="false">}</mo><mo>=</mo><mo fence="false" stretchy="false">{</mo><mo stretchy="false">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo stretchy="false">)</mo><mo>,</mo><mo stretchy="false">(</mo><mn>1</mn><mo>,</mo><mn>0</mn><mo stretchy="false">)</mo><mo>,</mo><mo stretchy="false">(</mo><mn>2</mn><mo>,</mo><mn>0</mn><mo stretchy="false">)</mo><mo>,</mo><mo stretchy="false">(</mo><mn>2</mn><mo>,</mo><mn>1</mn><mo stretchy="false">)</mo><mo>,</mo><mo stretchy="false">(</mo><mn>3</mn><mo>,</mo><mn>1</mn><mo stretchy="false">)</mo><mo fence="false" stretchy="false">}</mo></math></mjx-assistive-mml></mjx-container>
+
+<p>We identify in that operation that the elements (0, 1) added to each pair play a role similar to the <code class="language-plaintext highlighter-rouge">tag</code> field we added to map types to make them disjoint.</p>
+
+<p>In type descriptions, in order to define a <strong>disjoint union type</strong>, we define the union of two (or more) map types which are made disjoint by using the same <code class="language-plaintext highlighter-rouge">tag</code> field.</p>
+
+<p><strong>NOTE</strong>: <code class="language-plaintext highlighter-rouge">tag</code> is just a key, any other key could be used - for example, <code class="language-plaintext highlighter-rouge">type</code> or <code class="language-plaintext highlighter-rouge">kind</code> are often used.  The key must be used consistently across all the types that appear in the union.</p>
+
+<p>For example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Shape</span> <span class="o">=</span> <span class="nx">Circle</span> <span class="o">|</span> <span class="nx">Rectangle</span> <span class="o">|</span> <span class="nx">Triangle</span><span class="p">;</span>
+
+<span class="kd">type</span> <span class="nx">Circle</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">circle</span><span class="dl">"</span><span class="p">;</span>
+    <span class="nl">center</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span> <span class="nl">y</span><span class="p">:</span> <span class="kr">number</span> <span class="p">};</span>
+    <span class="nl">radius</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">Rectangle</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">rectangle</span><span class="dl">"</span><span class="p">;</span>
+    <span class="nl">upperLeft</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span> <span class="nl">y</span><span class="p">:</span> <span class="kr">number</span> <span class="p">};</span>
+    <span class="nl">lowerRight</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span> <span class="nl">y</span><span class="p">:</span> <span class="kr">number</span> <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">Triangle</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">triangle</span><span class="dl">"</span><span class="p">;</span>
+    <span class="nl">p1</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span> <span class="nl">y</span><span class="p">:</span> <span class="kr">number</span> <span class="p">};</span>
+    <span class="nl">p2</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span> <span class="nl">y</span><span class="p">:</span> <span class="kr">number</span> <span class="p">};</span>
+    <span class="nl">p3</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span> <span class="nl">y</span><span class="p">:</span> <span class="kr">number</span> <span class="p">};</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>These type definitions allow this type of processing - which is “case by case” processing of all the options in the disjoint union:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">area</span> <span class="o">=</span> <span class="p">(</span><span class="nx">s</span><span class="p">:</span> <span class="nx">Shape</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">tag</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="dl">"</span><span class="s2">circle</span><span class="dl">"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nx">s</span><span class="p">.</span><span class="nx">radius</span> <span class="o">*</span> <span class="nx">s</span><span class="p">.</span><span class="nx">radius</span> <span class="o">*</span> <span class="mf">3.14</span><span class="p">;</span>
+        <span class="k">case</span> <span class="dl">"</span><span class="s2">rectangle</span><span class="dl">"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">upperLeft</span><span class="p">.</span><span class="nx">x</span> <span class="o">-</span> <span class="nx">s</span><span class="p">.</span><span class="nx">lowerRight</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">upperLeft</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="nx">s</span><span class="p">.</span><span class="nx">lowerRight</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span>
+        <span class="k">case</span> <span class="dl">"</span><span class="s2">triangle</span><span class="dl">"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// I do not know the formula :(</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">area</span><span class="p">({</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">circle</span><span class="dl">"</span><span class="p">,</span> <span class="na">center</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">y</span><span class="p">:</span> <span class="mi">0</span> <span class="p">},</span> <span class="na">radius</span><span class="p">:</span> <span class="mi">2</span> <span class="p">});</span> <span class="c1">// ==&gt; 12.56</span>
+</code></pre></div></div>
+
+<p>The tool of disjoint union together with the corresponding <code class="language-plaintext highlighter-rouge">switch</code> construct achieves an effect similar to sub-classes with virtual classes in Object-Oriented Programming.  It allows the function to dispatch to different computations based on the type of the actual value received as a parameter.</p>
+
+<p>We prefer in the course the following functional notation instead of <code class="language-plaintext highlighter-rouge">switch</code>, using the simple conditional expression:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">area</span> <span class="o">=</span> <span class="p">(</span><span class="nx">s</span><span class="p">:</span> <span class="nx">Shape</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="nx">s</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">circle</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">s</span><span class="p">.</span><span class="nx">radius</span> <span class="o">*</span> <span class="nx">s</span><span class="p">.</span><span class="nx">radius</span> <span class="o">*</span> <span class="mf">3.14</span> <span class="p">:</span>
+    <span class="nx">s</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">rectangle</span><span class="dl">"</span> <span class="p">?</span> <span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">upperLeft</span><span class="p">.</span><span class="nx">x</span> <span class="o">-</span> <span class="nx">s</span><span class="p">.</span><span class="nx">lowerRight</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">upperLeft</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="nx">s</span><span class="p">.</span><span class="nx">lowerRight</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">s</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">triangle</span><span class="dl">"</span> <span class="p">?</span> <span class="mi">0</span> <span class="p">:</span>
+    <span class="nx">s</span> <span class="c1">// s is understood as a variable of type "never" here - it can be returned without affecting the return type of the function which remains number</span>
+</code></pre></div></div>
+
+<p>The conditional expression when it is chained as in this example has the same semantic as a <code class="language-plaintext highlighter-rouge">switch</code> case where all the cases are exclusive.
+The difference is that in the last step, the syntax of the expression requires an <code class="language-plaintext highlighter-rouge">else</code> case which is a priori not needed.
+The type inference mechanism of TypeScript recognizes that after each test, the type of the variable <code class="language-plaintext highlighter-rouge">s</code> has less and less possible options.
+In the last <code class="language-plaintext highlighter-rouge">else</code> option, however, <code class="language-plaintext highlighter-rouge">s</code> is known to have no possible values.  In this case, it is understood to have a type called <code class="language-plaintext highlighter-rouge">never</code> (which denotes
+the empty set, the opposite of the type <code class="language-plaintext highlighter-rouge">any</code> which denotes all possible values).  In this case, we can just return <code class="language-plaintext highlighter-rouge">s</code>, which does not contradict the return
+type of the function, because we know that the function will return either one of the cases in the first 3 clauses (which is <code class="language-plaintext highlighter-rouge">number</code>) or <code class="language-plaintext highlighter-rouge">never</code> – altogether,
+the function returns <code class="language-plaintext highlighter-rouge">number</code> union <code class="language-plaintext highlighter-rouge">never</code> which is <code class="language-plaintext highlighter-rouge">number</code>.</p>
+
+<p>Both the usage of <code class="language-plaintext highlighter-rouge">switch</code> and the conditional expression are safe against future changes in the code: if the programmer extends the definition of the type <code class="language-plaintext highlighter-rouge">Shape</code>
+with another option, then the code for the function <code class="language-plaintext highlighter-rouge">area</code> will not compile anymore.</p>
+
+<p>The definition of the Union type in this specific context makes sense because it expresses the intention of the programmer:</p>
+<ul>
+  <li>these are disjoint types - they have no commonality in structure</li>
+  <li>but they have a similar functional interface - we <em>consume</em> them in a similar manner.</li>
+</ul>
+
+<p>The type checker can determine that the switch construct covers all possible options - based on the structure of the type union - and for each case, it can check the expected keys based on the value of the tag key.</p>
+
+<h2 id="summary">Summary</h2>
+
+<ul>
+  <li>Type definitions help the programmer structure the code that operates on complex values in a way that reflects the structure of the data type.</li>
+  <li>
+    <p>Programmers design and name types for sets of values that will be processed by the same set of functions.</p>
+  </li>
+  <li>Homogeneous array types encourage the programmer to consume them using the sequence interface (map, filter, reduce) with processing functions applied to each item of the same type.</li>
+  <li>Recursive types are processed by recursive functions which inspect the values accordig to the type definition - and can determine the base case and the inductive case.  We illustrated this with Tree processing functions.</li>
+  <li>Mutable data types can be modelled in a Functional Programming style by making sure <em>commands</em> are written as <em>constructors</em> which return a new version of the values, instead of mutating an existing value.  We illustrated this on the case of the <strong>stack</strong> data type.</li>
+  <li>Disjoint types and Disjoint Unions enable the definition of uniform functional interfaces over types of values that are not structurally similar.</li>
+</ul>
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

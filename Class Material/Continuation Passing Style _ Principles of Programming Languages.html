@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://bguppl.github.io/interpreters/class_material/4.2CPS.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Continuation Passing Style | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Continuation Passing Style">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/4.2CPS.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/4.2CPS.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Continuation Passing Style">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Continuation Passing Style","url":"https://bguppl.github.io/interpreters/class_material/4.2CPS.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Continuation Passing Style _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Continuation Passing Style _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D43F.TEX-I::before {
+  padding: 0.683em 0.681em 0 0;
+  content: "L";
+}
+
+mjx-c.mjx-c35::before {
+  padding: 0.666em 0.5em 0.022em 0;
+  content: "5";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Continuation Passing Style _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="continuation-passing-style">Continuation Passing Style</h1>
+<h2 id="ppl-2023">PPL 2023</h2>
+
+<p>We return to Scheme and investigate functional techniques to model and understand advanced control structures in addition
+to conditionals, function invocation and iteration.</p>
+
+<h2 id="conditionals-sequence-recursion-and-iteration-in-scheme">Conditionals, Sequence, Recursion and Iteration in Scheme</h2>
+
+<p>The traditional control structures in programming languages are:</p>
+<ul>
+  <li><strong>Conditionals</strong>: are provided in Scheme with the special forms <code class="language-plaintext highlighter-rouge">if</code> and <code class="language-plaintext highlighter-rouge">cond</code> - they must be supported as part of the operational semantics of the language.</li>
+  <li><strong>Sequence</strong>: are supported in Scheme in the body of procedures and let expressions; they are useful when we execute procedures with side effects.</li>
+  <li><strong>Recursion and Iteration</strong>: There is no special form in Scheme for loops and iterations.  Instead, loops are implemented using a specific form of recursion and are supported by the <strong>letrec</strong> special form.</li>
+</ul>
+
+<p>Consider the comparison between these two functions computing the factorial of a number n:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">fact</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="mi">1</span>
+      <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="p">(</span><span class="nf">fact</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+      
+<span class="p">(</span><span class="k">define</span> <span class="nv">fact-iter</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span> <span class="nv">acc</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="nv">acc</span>
+        <span class="p">(</span><span class="nf">fact-iter</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="nv">acc</span><span class="p">)))))</span>
+</code></pre></div></div>
+
+<p>The evaluation of fact generates a <strong>recursive</strong> process - the steps of the evaluation look as follows:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">fact</span> <span class="mi">6</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">*</span> <span class="mi">6</span> <span class="p">(</span><span class="nf">fact</span> <span class="mi">5</span><span class="p">))</span>
+<span class="o">...</span>
+<span class="p">(</span><span class="nb">*</span> <span class="mi">6</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">5</span> <span class="p">(</span><span class="o">...</span><span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="p">(</span><span class="nf">fact</span> <span class="mi">1</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">*</span> <span class="mi">6</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">5</span> <span class="p">(</span><span class="o">...</span><span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="mi">1</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="p">(</span><span class="nb">*</span> <span class="mi">6</span> <span class="mi">120</span><span class="p">)</span>
+<span class="mi">720</span>
+</code></pre></div></div>
+
+<p>In contrast, the <code class="language-plaintext highlighter-rouge">fact-iter</code> function generates an <strong>iterative</strong> process - the steps of the evaluation look as follows:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">fact-iter</span> <span class="mi">6</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">fact-iter</span> <span class="mi">5</span> <span class="mi">6</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">fact-iter</span> <span class="mi">4</span> <span class="mi">30</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">fact-iter</span> <span class="mi">3</span> <span class="mi">120</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">fact-iter</span> <span class="mi">2</span> <span class="mi">360</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">fact-iter</span> <span class="mi">1</span> <span class="mi">720</span><span class="p">)</span>
+<span class="mi">720</span>
+</code></pre></div></div>
+
+<p>Observe that each call of <code class="language-plaintext highlighter-rouge">fact</code> in the trace is executed in a <strong>control context</strong> - which indicates what computation is to be done after the call completes.  We see that this context grows in each successive call - until the base case of the recursion is reached.  At this point, the accumulated context is executed, step by step, and this control context is consumed, until the result of the recursion is obtained.  This type of recursive process execution consumes memory in this case proportional to the input parameter <code class="language-plaintext highlighter-rouge">n</code>.  The memory is consumed on a stack of frames.</p>
+
+<p>In contrast, in the process generated by <code class="language-plaintext highlighter-rouge">fact-iter</code> there is no control context generated: each time the call to <code class="language-plaintext highlighter-rouge">fact-iter</code> is executed, there is no <em>next</em> computation that needs to be done with the return value of <code class="language-plaintext highlighter-rouge">fact-iter</code>.  We say that <code class="language-plaintext highlighter-rouge">fact-iter</code> occurs in <strong>tail position</strong> in the function.  Such procedures can be executed without consuming stack frames.</p>
+
+<p>The operational semantics of Scheme requires that the execution of <strong>tail recursive</strong> procedures do not consume control memory.
+Hence, tail recursion is the construct used in Scheme to support <strong>iteration</strong>.</p>
+
+<p>Observe that the iterative procedure <code class="language-plaintext highlighter-rouge">fact-iter</code> has two parameters - one represents the current number over which is to be computed, the second one is an accumulator, in which we incrementally compute the result of the computation.</p>
+
+<h3 id="tail-recursive-implementation">Tail Recursive Implementation</h3>
+
+<p>While Scheme requires that tail recursion be implemented in an iterative manner, JavaScript does not impose this behavior.
+How can we find out whether Node.js implementation is tail-recursive?</p>
+
+<p>The easiest way is to try it: recursive calls consume memory on a stack.  This stack is usually limited in size to avoid an infinite recursive call from consuming all the RAM of the process.  If we run a tail-recursive procedure in JavaScript in Node.js, we find out it fails with an error of type “Stack Overflow” - which indicates the execution consumes stack memory - or in other words, Node.js does <strong>not</strong> implement tail recursion in an iterative manner.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">factIter</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">res</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="p">(</span><span class="nx">n</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">?</span> <span class="nx">res</span> <span class="p">:</span>
+    <span class="nx">factIter</span><span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">n</span> <span class="o">*</span> <span class="nx">res</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">factIter</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>When executed - we obtain an error:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">factIter</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">res</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+                 <span class="o">^</span>
+<span class="nx">RangeError</span><span class="p">:</span> <span class="nx">Maximum</span> <span class="nx">call</span> <span class="nx">stack</span> <span class="nx">size</span> <span class="nx">exceeded</span>
+</code></pre></div></div>
+
+<p>What can we infer from this fact about the following question:</p>
+<ul>
+  <li>Our interpreter for L5 is written in JavaScript, which does not implement tail recursion as iteration
+(See <a href="https://github.com/bguppl/interpreters/blob/master/src/L5/L5-eval.ts">L5-eval.ts</a>).</li>
+  <li>Does our interpreter implement tail recursion as iteration?</li>
+</ul>
+
+<p>We can test empirically this question using the same method as we did for testing whether Node.js implements tail recursion as iteration: run the following L5 program in our interpreter:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">evalParse</span><span class="p">(</span><span class="o">`</span>
+<span class="p">(</span><span class="nf">L5</span> <span class="p">(</span><span class="k">define</span> <span class="nv">factIter</span>
+      <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span> <span class="nv">res</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="nv">res</span>
+            <span class="p">(</span><span class="nf">factIter</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="nv">res</span><span class="p">)))))</span>
+    <span class="p">(</span><span class="nf">factIter</span> <span class="mi">10000</span> <span class="mi">1</span><span class="p">))</span>
+<span class="o">`</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>When we execute this program in our L5 interpreter, we get the same error:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">RangeError</span><span class="p">:</span> <span class="nx">Maximum</span> <span class="nx">call</span> <span class="nx">stack</span> <span class="nx">size</span> <span class="nx">exceeded</span>
+</code></pre></div></div>
+
+<p>In other words, L5 does not implement the Scheme requirement that the interpreter execute tail-recursive programs in an iterative manner.</p>
+
+<p>In this chapter, we design a strategy that enables us to meet this requirement: implement an interpreter that executes tail-recursive programs in an iterative manner <strong>even though</strong> the meta-language (JavaScript in our case) does <strong>not</strong> provide this behavior.  We do not complete the code for this interpreter, but develop the strategy through the analysis of a general code transformation strategy called <strong>CPS - Continuation Passing Style</strong>.</p>
+
+<p><strong>NOTE</strong>: Understand which part of the L5 interpreter consumes stack memory when it executes a tail-recursive program.  Point to the exact procedure that causes this memory consumption.</p>
+
+<h2 id="delayed-computation-in-scheme">Delayed Computation in Scheme</h2>
+
+<p>An important usage of procedure expressions is delaying computation: when a procedure returns a closure, the computation embedded in the returned closure is not applied; instead it is delayed until the closure is applied.</p>
+
+<p>For example:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">make-delayed</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+      <span class="p">(</span><span class="nf">fact</span> <span class="nv">n</span><span class="p">))))</span>
+</code></pre></div></div>
+
+<p>When invoked, this function constructs a delayed computation:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">f4</span> <span class="p">(</span><span class="nf">make-delayed</span> <span class="mi">4</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">do-something</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">f4</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">f4</code> is a procedure of no argument which encapsulates the computation <code class="language-plaintext highlighter-rouge">(fact 4)</code>.  When it is created, a closure is constructed - but it is not invoked.  We can then do other activities, and later, when the programmer decides, in the future, this delayed computation can be invoked in the form <code class="language-plaintext highlighter-rouge">(f4)</code>.  This closure plays a role similar to the <strong>tasks</strong> we reviewed in the previous lecture when discussing the Node event loop and asynchronous functions.  The difference is that, in the Scheme case, we have not yet defined the framework in which we post tasks and which decides when to invoke these tasks (the equivalent of the event loop).</p>
+
+<p>This simple mechanism of using closures for delayed computations allows the Scheme programmer to design advanced control structures.</p>
+
+<p>Let us consider two examples where this technique is applied:</p>
+<ul>
+  <li>Write procedures which compute explicitly delayed computations with one or two continuations</li>
+  <li>Model streams which are similar to the generator pattern reviewed in JavaScript.</li>
+</ul>
+
+<h2 id="continuation-passing">Continuation Passing</h2>
+
+<p>Consider these two variants of the factorial procedure:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">fact</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="mi">1</span>
+        <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="p">(</span><span class="nf">fact</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">fact$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span> <span class="nv">cont</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">cont</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">fact$</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> 
+                <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">res</span><span class="p">)</span> <span class="p">(</span><span class="nf">cont</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="nv">res</span><span class="p">)))))))</span>
+</code></pre></div></div>
+
+<p>Observe the function <code class="language-plaintext highlighter-rouge">fact$</code> (we use the convention of naming procedures which follow this pattern with a dollar sign at the end).  This procedure receives a parameter which we conventionally name <code class="language-plaintext highlighter-rouge">cont</code> which represents a delayed computation - that is, a procedure which expects a single parameter, and applies a delayed computation to this value.<br>
+The type of this parameter is simply a closure which receives as argument the type that the overall function returns - in the case of <code class="language-plaintext highlighter-rouge">fact$</code> it has type <code class="language-plaintext highlighter-rouge">[Number -&gt; T]</code>.</p>
+
+<p>The procedure <code class="language-plaintext highlighter-rouge">fact$</code> models the following computation:</p>
+<ul>
+  <li>If the base case of the recursion is reached, apply the continuation cont to the base value <code class="language-plaintext highlighter-rouge">(cont 1)</code>.</li>
+  <li>Else, build a new continuation <code class="language-plaintext highlighter-rouge">(lambda (res) (cont (* n res)))</code> which represents the context of “what should be done after we compute the recursive case <code class="language-plaintext highlighter-rouge">(fact (- n 1))</code> - then recursively invoke <code class="language-plaintext highlighter-rouge">(fact$ (- n 1))</code> with this new continuation.</li>
+</ul>
+
+<p>Let us trace this function to understand how it models the control context explicitly:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">fact$</span> <span class="mi">3</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span> <span class="nv">=&gt;</span>                <span class="c1">;; let us call: k3 = (lambda (x) x)</span>
+<span class="p">(</span><span class="nf">fact$</span> <span class="mi">2</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">res</span><span class="p">)</span> <span class="p">(</span><span class="nf">k3</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">3</span> <span class="nv">res</span><span class="p">))))</span> <span class="nv">=&gt;</span> <span class="c1">;; let us call: k2 = (lambda (res) (k3 (* 3 res)))</span>
+<span class="p">(</span><span class="nf">fact$</span> <span class="mi">1</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">res</span><span class="p">)</span> <span class="p">(</span><span class="nf">k2</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="nv">res</span><span class="p">))))</span> <span class="nv">=&gt;</span> <span class="c1">;; let us call: k1 = (lambda (res) (k2 (* 2 res)))</span>
+<span class="p">(</span><span class="nf">k1</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">=&gt;</span>
+<span class="p">(</span><span class="nf">k2</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="mi">1</span><span class="p">))</span> <span class="nv">=&gt;</span>
+<span class="p">(</span><span class="nf">k3</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">3</span> <span class="mi">2</span><span class="p">))</span> <span class="nv">=&gt;</span>
+<span class="mi">6</span>
+</code></pre></div></div>
+
+<p>The execution of the function does not consume stack space - <code class="language-plaintext highlighter-rouge">fact$</code> is a tail recursive iterative function.
+But observe that the parameter <code class="language-plaintext highlighter-rouge">cont</code> <strong>grows</strong> in each successive call:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">k3</span> <span class="nv">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+<span class="nv">k2</span> <span class="nv">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">res</span><span class="p">)</span> <span class="p">(</span><span class="nf">k3</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">3</span> <span class="nv">res</span><span class="p">)))</span> <span class="nv">=</span> 
+     <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">res</span><span class="p">)</span> 
+       <span class="p">((</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span> 
+        <span class="p">(</span><span class="nb">*</span> <span class="mi">3</span> <span class="nv">res</span><span class="p">)))</span>
+<span class="nv">k1</span> <span class="nv">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">res</span><span class="p">)</span> <span class="p">(</span><span class="nf">k2</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="nv">res</span><span class="p">)))</span> <span class="nv">=</span> 
+     <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">res</span><span class="p">)</span> 
+       <span class="p">((</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">res</span><span class="p">)</span>
+          <span class="p">((</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+           <span class="p">(</span><span class="nb">*</span> <span class="mi">3</span> <span class="nv">res</span><span class="p">)))</span>
+        <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="nv">res</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>In a schematic manner, we see that this version explicitly represents the control context in the form of a closure.
+We can think of this procedure as an iterative procedure which constructs its own control stack in its local parameter <code class="language-plaintext highlighter-rouge">cont</code>
+instead of relying on the interpreter’s control stack.</p>
+
+<h3 id="characterizing-iteration-head-and-tail-positions">Characterizing Iteration: Head and Tail Positions</h3>
+
+<p>How can we tell a program will yield an iterative process when it is evaluated in Scheme as opposed to a recursive one?
+In other words, let us determine through <strong>static analysis</strong> of the syntactic structure of a program whether its evaluation
+will consume unbounded control space - stack space which is proportional to the arguments and thus can grow to a non-constant size.  This analysis can be formalized and automated, so that an expression can be proven to create iterative processes.</p>
+
+<p>This analysis is based on the distinction of two syntactic positions within the AST of the language:</p>
+<ul>
+  <li><strong>Head position</strong>: sub-expressions of an expression which must be evaluated before the value of the overall expression is computed through primitive combination.</li>
+  <li><strong>Tail position</strong>: sub-expressions of an expression which are evaluated and whose value is not further combined with any other computation to return the value of the overall expression.</li>
+</ul>
+
+<p>For example, consider the expression: <code class="language-plaintext highlighter-rouge">(if (&gt; x 2) (* x 3) x)</code>.
+To compute this expression, according to the computation rule of <code class="language-plaintext highlighter-rouge">if-exp</code> AST nodes in the operational semantics of the language, we must first compute the test sub-expression <code class="language-plaintext highlighter-rouge">(&gt; x 2)</code>.  This sub-expression is in Head position.  Then, based on the value which is obtained, we compute either <code class="language-plaintext highlighter-rouge">(* x 3)</code> or <code class="language-plaintext highlighter-rouge">x</code> - without combining their resulting value with any other computation.  These sub-expressions are in Tail position of the <code class="language-plaintext highlighter-rouge">if-exp</code> expression.</p>
+
+<p>Tail positions are positions whose evaluations is the last to occur.</p>
+
+<p>Let us review the whole abstract syntax of our language and identify Head positions marked as H and tail positions marked as T.
+We only need to review compound expressions, since the definition of Head and Tail positions is only relevant for positions within a compound expression:</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">(define var H)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(if H T T)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(lambda (var1 ... varn) E ... E)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(let ( (var1 H) ...) H ... T)</code></li>
+  <li>Application: <code class="language-plaintext highlighter-rouge">(H ... H)</code></li>
+</ol>
+
+<p>In a procedure expression (<code class="language-plaintext highlighter-rouge">lambda</code>), the sub-expressions are neither Head nor Tail position - since they are not computed when we compute the value of the lambda expression - and we note this with E position.  However, if we want to analyze a complete program to determine whether it has the potential to create a non-iterative process, we must also analyze the body of all the procedures as if they could be applied.  When we perform this analysis, we must also analyze the body of the procedures and attribute positions H for all the sub-expressions in the sequence except the last which is Tail - as in the body of let-exp.</p>
+
+<p><strong>Definition</strong>: An expression is in <strong>tail form</strong> iff:</p>
+<ol>
+  <li>its head positions do not include applications with non-primitive operators,</li>
+  <li>and its sub-expressions are all in tail form.</li>
+</ol>
+
+<p>Atomic expressions and combinations of atomic applications are in tail form.</p>
+
+<p><strong>Examples</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">(+ 1 x)</code> is in tail form.</li>
+  <li><code class="language-plaintext highlighter-rouge">(* (* x x) (+ x x))</code> is in tail form (combination of primitive applications).</li>
+  <li><code class="language-plaintext highlighter-rouge">(if p x (+ 1 (+ 1 x)))</code> is in tail form.</li>
+  <li><code class="language-plaintext highlighter-rouge">(f (+ x y))</code> is in tail form.</li>
+  <li><code class="language-plaintext highlighter-rouge">(+ 1 (f x))</code> is not in tail form (but <code class="language-plaintext highlighter-rouge">(f x)</code> is in tail form) because after <code class="language-plaintext highlighter-rouge">(f x)</code> is computed, the result must be passed to further computation.</li>
+  <li><code class="language-plaintext highlighter-rouge">(if p x (f (- x 1)))</code> is in tail form.</li>
+  <li><code class="language-plaintext highlighter-rouge">(if (f x) x (f (- x 1)))</code> is not in tail form - because the head call <code class="language-plaintext highlighter-rouge">(f x)</code> must be followed by other calls.</li>
+  <li><code class="language-plaintext highlighter-rouge">(lambda (x) (f x))</code> is in tail form.</li>
+  <li><code class="language-plaintext highlighter-rouge">(lambda (x) (+ 1 (f x)))</code> is not in tail form because the sub-expression <code class="language-plaintext highlighter-rouge">(+ 1 (f x))</code> is not in tail form.</li>
+  <li><code class="language-plaintext highlighter-rouge">(lambda (x) (g (f 5)))</code> is not in tail form.</li>
+</ul>
+
+<p>Expressions in tail form create iterative processes when they are evaluated.<br>
+We will present an argument supporting this conclusion later.</p>
+
+<p>First, let us present a systematic transformation which generates a tail-form expression for any given expression which is equivalent to the original expression in a specific sense.</p>
+
+<h2 id="continuation-passing-style-cps">Continuation Passing Style (CPS)</h2>
+
+<p>Continuation Passing Style (CPS) is a programming technique which assumes that every user defined procedure <code class="language-plaintext highlighter-rouge">f$</code> has a specific argument called its continuation, which is used to carry the control context of the computation.</p>
+
+<p>Consider a regular function <code class="language-plaintext highlighter-rouge">f</code> - used in a specific context:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">a</span> <span class="nv">a</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>The context in which <code class="language-plaintext highlighter-rouge">(f a)</code> is invoked is:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nb">+</span> <span class="nv">&lt;r&gt;</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">a</span> <span class="nv">a</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>where <code class="language-plaintext highlighter-rouge">&lt;r&gt;</code> represents the result of computing <code class="language-plaintext highlighter-rouge">(f a)</code>.</p>
+
+<p>In CPS, we encapsulate this context into a <strong>continuation</strong> procedure - which receives the result of computing <code class="language-plaintext highlighter-rouge">(f a)</code> and pass it to the CPS function <code class="language-plaintext highlighter-rouge">f$</code>:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">f$</span> <span class="nv">a</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">res</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">res</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">a</span> <span class="nv">a</span><span class="p">))))</span>
+</code></pre></div></div>
+
+<p>In general, the continuation parameter passed to CPS functions represents the future computation that needs to be applied once the computation of <code class="language-plaintext highlighter-rouge">f$</code> ends.</p>
+
+<h3 id="cps-equivalence">CPS Equivalence</h3>
+
+<p>We say that a procedure <code class="language-plaintext highlighter-rouge">(f$ x1 ... xn cont)</code> is CPS-equivalent to a function <code class="language-plaintext highlighter-rouge">(f x1 ... xn)</code> if - for every parameters <code class="language-plaintext highlighter-rouge">(x1 ... xn)</code>, and every continuation procedure <code class="language-plaintext highlighter-rouge">(k res)</code> - <code class="language-plaintext highlighter-rouge">(f$ x1 ... xn k) = (k (f x1 ... xn))</code>.</p>
+
+<p>Note the type relations between a procedure <code class="language-plaintext highlighter-rouge">f</code> and its CPS-equivalent procedure <code class="language-plaintext highlighter-rouge">f$</code>:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">f:</span> <span class="p">[</span><span class="nf">T1</span> <span class="nv">*</span> <span class="o">...</span> <span class="nv">*</span> <span class="nv">Tn</span> <span class="nv">-&gt;</span> <span class="nv">T</span><span class="p">]</span>
+<span class="nv">f$:</span> <span class="p">[</span><span class="nf">T1</span> <span class="nv">*</span> <span class="o">...</span> <span class="nv">*</span> <span class="nv">Tn</span> <span class="nv">*</span> <span class="p">[</span><span class="nf">T</span> <span class="nv">-&gt;</span> <span class="nv">K</span><span class="p">]</span> <span class="nv">-&gt;</span> <span class="nv">K</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>In particular, using the identity procedure <code class="language-plaintext highlighter-rouge">Id = (lambda (x) x)</code>, the equivalent <code class="language-plaintext highlighter-rouge">(f$ x1 ... xn id) = (f x1 ... xn)</code> holds when <code class="language-plaintext highlighter-rouge">f</code> and <code class="language-plaintext highlighter-rouge">f$</code> are CPS-equivalent for all possible arguments <code class="language-plaintext highlighter-rouge">(x1 ... xn)</code>.</p>
+
+<h2 id="cps-transformation">CPS Transformation</h2>
+
+<p>It is surprisingly possible to transform systematically any expression of our language <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> to a CPS-equivalent expression which is in tail-form.  The method consists of identifying any head position in the expression which is not a primitive combination, to extract it as the first call of the CPS version, and to encapsulate the resulting context as the continuation of the CPS version.  The process is repeated until all head positions in the expression are left as primitive compositions and all the user-procedure calls are encapsulated into nested continuations.</p>
+
+<p>Let us review examples of this transformation:</p>
+
+<h3 id="cps-of-tail-form-expressions">CPS of tail form expressions</h3>
+
+<p>In the following cases, the original procedures are already in tail-form, the CPS transformation consists of simply adding a continuation parameter:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">square</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">add1</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">square$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">cont</span><span class="p">)</span> <span class="p">(</span><span class="nf">cont</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">add1$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">cont</span><span class="p">)</span> <span class="p">(</span><span class="nf">cont</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">))))</span>
+</code></pre></div></div>
+
+<p>Let us consider the next increment of complexity, with an expression which is still in tail-form - but with a user-defined procedure.  In this case, we transform the user procedure with its CPS-equivalent and simply pass the continuation argument to the CPS version:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">h</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">add1</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">h$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">cont</span><span class="p">)</span> <span class="p">(</span><span class="nf">add1$</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">cont</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<h3 id="cps-of-nested-applications">CPS of Nested Applications</h3>
+
+<p>The next case is a nested user procedure call: the function is not in tail-form.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">h1</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nf">add1</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)))))</span>
+  
+<span class="p">(</span><span class="k">define</span> <span class="nv">h1$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">cont</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">add1$</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">add1-res</span><span class="p">)</span> <span class="p">(</span><span class="nf">square$</span> <span class="nv">add1-res</span> <span class="nv">cont</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>In this case, we identify the first head position in the body of the procedure: this is the call <code class="language-plaintext highlighter-rouge">(add1 (+ x 1))</code>.
+This sub-expression is the first expression which is evaluated when the body of the procedure is evaluated.
+It is evaluated in a non-tail position – because the result of this evaluation must be passed to the context:
+<code class="language-plaintext highlighter-rouge">(square &lt;res&gt;)</code>.  The CPS transformation abstracts away this context into the continuation and moves the inner-most
+user-function application as the body of the procedure.  The context is:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">cont1</span> <span class="nv">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">add1-res</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">add1-res</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>We read the resulting CPS h1$ functions as:</p>
+<ul>
+  <li>First compute the user procedure <code class="language-plaintext highlighter-rouge">(add1$ (+ x 1) ...)</code></li>
+  <li>And pass the result of this procedure to the continuation <code class="language-plaintext highlighter-rouge">(lambda (add1-res) ...)</code>.  Note that by convention we name the parameter of the continuation with the name <code class="language-plaintext highlighter-rouge">&lt;name-of-user-procedure&gt;-res</code> - in this case <code class="language-plaintext highlighter-rouge">add1-res</code> - to indicate that this parameter will be bound to the result of the add1 application when the continuation will be invoked.</li>
+  <li>Transform the context procedure into a CPS form - <code class="language-plaintext highlighter-rouge">(square add1-res)</code> becomes <code class="language-plaintext highlighter-rouge">(square$ add1-res cont)</code> - as was discussed in the previous example.</li>
+</ul>
+
+<h3 id="cps-determines-the-order-of-evaluation-of-arguments">CPS Determines the Order of Evaluation of Arguments</h3>
+
+<p>When we specified the operational semantics of application expressions in applicative order, we indicated that the Scheme semantics specificaly indicates that the order of evaluation of arguments within an application <code class="language-plaintext highlighter-rouge">(rator rand1 ... randn)</code> is not specified and can be determined by the implementation.  That is, the interpreter is free to evaluate <code class="language-plaintext highlighter-rouge">rand2</code> before <code class="language-plaintext highlighter-rouge">rand1</code> or vice-versa.</p>
+
+<p>When we transform an expression of this type to CPS, we <em>must</em> select a sub-expression (an operand) that will become the first head to be evaluated.  Consider the following example:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">mult</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">h2</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">mult</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">add1</span> <span class="nv">y</span><span class="p">))))</span>
+
+<span class="c1">;; In CPS:</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">mult$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">y</span> <span class="nv">cont</span><span class="p">)</span> <span class="p">(</span><span class="nf">cont</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">h2-1$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">y</span> <span class="nv">cont</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">square$</span> <span class="nv">x</span>
+      <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">square-res</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">add1$</span> <span class="nv">y</span>
+               <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">add1-res</span><span class="p">)</span> 
+                 <span class="p">(</span><span class="nf">mult$</span> <span class="nv">square-res</span> <span class="nv">add1-res</span> <span class="nv">cont</span><span class="p">)))))))</span>
+</code></pre></div></div>
+
+<p>In this transformation, we identified two user-procedure applications - square and add1 - in non-tail position (within the context of <code class="language-plaintext highlighter-rouge">(mult s a)</code>.  We decide to move the first operand <code class="language-plaintext highlighter-rouge">(square x)</code> to the first evaluated expression in CPS - and 
+move the rest of the calls to the continuation.  The order of evaluations in the <code class="language-plaintext highlighter-rouge">h2-1$</code> version is:</p>
+<ol>
+  <li>First compute <code class="language-plaintext highlighter-rouge">(square x)</code></li>
+  <li>Then pass the result <code class="language-plaintext highlighter-rouge">square-res</code> to the continuation which computes <code class="language-plaintext highlighter-rouge">(add1 y)</code></li>
+  <li>Then pass the result <code class="language-plaintext highlighter-rouge">add1-res</code> to the continuation which computes <code class="language-plaintext highlighter-rouge">(mult s a)</code></li>
+</ol>
+
+<p>We can also generate the alternative version where <code class="language-plaintext highlighter-rouge">(add1 y)</code> is first computed, and <code class="language-plaintext highlighter-rouge">(square x)</code> second:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">h2-2$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">y</span> <span class="nv">cont</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">add1$</span> <span class="nv">y</span>
+      <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">add1-res</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">square$</span> <span class="nv">x</span>
+          <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">square-res</span><span class="p">)</span> 
+            <span class="p">(</span><span class="nf">mult$</span> <span class="nv">square-res</span> <span class="nv">add1-res</span> <span class="nv">cont</span><span class="p">)))))))</span>
+</code></pre></div></div>
+
+<p>By convention, in the CPS transformation we will select arguments in left-to-right order - even if this is not the only possible transformation.</p>
+
+<h3 id="cps-of-tree-recursion-procedures">CPS of Tree Recursion Procedures</h3>
+
+<p>Let us consider the following example of a recursion which generates a tree-recursive process when evaluated, and transform it to a CPS-equivalent version:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">sum-odd-squares</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">tree</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">empty?</span> <span class="nv">tree</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+          <span class="p">((</span><span class="nb">not</span> <span class="p">(</span><span class="nb">list?</span> <span class="nv">tree</span><span class="p">))</span>
+           <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">odd?</span> <span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">tree</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
+          <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nf">sum-odd-squares</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">tree</span><span class="p">))</span>
+                   <span class="p">(</span><span class="nf">sum-odd-squares</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">tree</span><span class="p">)))))))</span>
+</code></pre></div></div>
+
+<p>We consider the branches of the <code class="language-plaintext highlighter-rouge">cond</code> expression one by one.<br>
+In branches 1 and 2, both tests are primitive combinations, and the consequents are in tail-form.
+The else branch has no user-procedure call in head position. Hence the CPS-transformation does not change the structure of the cond expression.  The first stage of the transformation is thus:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">sum-odd-squares$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">tree</span> <span class="nv">cont</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">empty?</span> <span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">cont</span> <span class="mi">0</span><span class="p">))</span>
+          <span class="p">((</span><span class="nb">not</span> <span class="p">(</span><span class="nb">list?</span> <span class="nv">tree</span><span class="p">))</span>
+           <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">odd?</span> <span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">square$</span> <span class="nv">tree</span> <span class="nv">cont</span><span class="p">)</span> <span class="p">(</span><span class="nf">cont</span> <span class="mi">0</span><span class="p">)))</span>
+          <span class="p">(</span><span class="k">else</span> <span class="nv">&lt;&lt;CPS-transform</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nf">sum-odd-squares</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">tree</span><span class="p">))</span>
+                                   <span class="p">(</span><span class="nf">sum-odd-squares</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">tree</span><span class="p">)))</span><span class="nv">&gt;&gt;</span> <span class="p">))))</span>
+</code></pre></div></div>
+
+<p>Let us now consider the consequent of the last branch.  There are two user-procedure calls which are in non-tail position.
+We pick the first one, and turn it as the first call of the CPS.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">sum-odd-squares$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">tree</span> <span class="nv">cont</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">empty?</span> <span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">cont</span> <span class="mi">0</span><span class="p">))</span>
+          <span class="p">((</span><span class="nb">not</span> <span class="p">(</span><span class="nb">list?</span> <span class="nv">tree</span><span class="p">))</span>
+           <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">odd?</span> <span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">square$</span> <span class="nv">tree</span> <span class="nv">cont</span><span class="p">)</span> <span class="p">(</span><span class="nf">cont</span> <span class="mi">0</span><span class="p">)))</span>
+          <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">sum-odd-squares$</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">tree</span><span class="p">)</span>
+                  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">sum-odd-squares-car-res</span><span class="p">)</span>
+                    <span class="nv">&lt;&lt;CPS-transform</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">sum-odd-squares-car-res</span> <span class="p">(</span><span class="nf">sum-odd-squares</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">tree</span><span class="p">)))</span><span class="nv">&gt;&gt;</span> <span class="p">))))))</span>
+</code></pre></div></div>
+
+<p>We have pushed the CPS transformation inside - let us complete it:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">sum-odd-squares$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">tree</span> <span class="nv">cont</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">empty?</span> <span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">cont</span> <span class="mi">0</span><span class="p">))</span>
+          <span class="p">((</span><span class="nb">not</span> <span class="p">(</span><span class="nb">list?</span> <span class="nv">tree</span><span class="p">))</span>
+           <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">odd?</span> <span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">square$</span> <span class="nv">tree</span> <span class="nv">cont</span><span class="p">)</span> <span class="p">(</span><span class="nf">cont</span> <span class="mi">0</span><span class="p">)))</span>
+          <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">sum-odd-squares$</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">tree</span><span class="p">)</span>
+                  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">sum-odd-squares-car-res</span><span class="p">)</span>
+                    <span class="p">(</span><span class="nf">sum-odd-squares$</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">tree</span><span class="p">)</span>
+                      <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">sum-odd-square-cdr-res</span><span class="p">)</span>
+                        <span class="p">(</span><span class="nf">cont</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">sum-odd-square-car-res</span> <span class="nv">sum-odd-square-cdr-res</span><span class="p">))))))))))</span>
+</code></pre></div></div>
+
+<h3 id="cps-transformation-of-higher-order-procedures">CPS Transformation of Higher-Order Procedures</h3>
+
+<p>Let us consider the transformation of function which receives a function as a parameter - for example the <code class="language-plaintext highlighter-rouge">map</code> operator:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">map</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">list</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">list</span><span class="p">)</span>
+        <span class="nv">list</span>
+        <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">list</span><span class="p">))</span>
+              <span class="p">(</span><span class="nb">map</span> <span class="nv">f</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">list</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<p>This procedure includes two user-procedure calls, nested within a cons application - hence not in tail position. 
+Therefore, the process is not iterative. The two nested user procedure calls appear in the arguments of the cons application.</p>
+
+<p>Note that the test of the if-exp and the then-part are all primitive combinations, hence, no CPS transformation is required besides wrapping the tail value in the cont call.</p>
+
+<p>We select the first argument of cons as the first nested call and move it as the first step of the CPS-transformed version:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">map$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f$</span> <span class="nv">list</span> <span class="nv">cont</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">list</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">cont</span> <span class="nv">list</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">f$</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">list</span><span class="p">)</span>
+            <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f-res</span><span class="p">)</span>
+              <span class="nv">&lt;&lt;CPS-transform</span> <span class="p">(</span><span class="nb">cons</span> <span class="nv">f-res</span> <span class="p">(</span><span class="nb">map</span> <span class="nv">f</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">list</span><span class="p">)))</span><span class="nv">&gt;&gt;</span> <span class="p">)))))</span>
+</code></pre></div></div>
+
+<p>Note that in this transformation, we consider that the f parameter we receive is a user procedure in CPS format as well.
+This is necessary, because CPS as a discipline is an all-or-nothing proposition: all user-defined procedures must be transformed in CPS to be able to obtain a coherent CPS program.</p>
+
+<p>We next observe the remaining segment to be transformed in CPS: <code class="language-plaintext highlighter-rouge">(cons f-res (map f (cdr list)))</code>.
+The first sub-expression to be evaluated in this context is <code class="language-plaintext highlighter-rouge">(map f (cdr list))</code> which we push outside as the first step of the CPS transformation - and we eventually obtain:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">map$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f$</span> <span class="nv">list</span> <span class="nv">cont</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">list</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">cont</span> <span class="nv">list</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">f$</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">list</span><span class="p">)</span>
+            <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f-car-res</span><span class="p">)</span>
+              <span class="p">(</span><span class="nf">map$</span> <span class="nv">f$</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">list</span><span class="p">)</span>
+                <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">map-f-cdr-res</span><span class="p">)</span>
+                  <span class="p">(</span><span class="nf">cont</span> <span class="p">(</span><span class="nb">cons</span> <span class="nv">f-car-res</span> <span class="nv">map-f-cdr-res</span><span class="p">)))))))))</span>                  
+</code></pre></div></div>
+
+<h3 id="cps-transformation-of-conditionals-with-non-primitive-tests">CPS Transformation of Conditionals with non-primitive Tests</h3>
+
+<p>Consider the CPS transformation of the <code class="language-plaintext highlighter-rouge">filter</code> procedure:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">filter</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">pred?</span> <span class="nv">list</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">empty?</span> <span class="nv">list</span><span class="p">)</span> <span class="nv">list</span><span class="p">)</span>
+          <span class="p">((</span><span class="nf">pred?</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">list</span><span class="p">))</span> 
+           <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">list</span><span class="p">)</span> <span class="p">(</span><span class="nf">filter</span> <span class="nv">pred?</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">list</span><span class="p">))))</span>
+          <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">filter</span> <span class="nv">pred?</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">list</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<p>The new configuration we meet is that the test part of the second branch is a user-procedure application <code class="language-plaintext highlighter-rouge">(pred? (car list))</code>.
+In this case, we must change the structure of the <code class="language-plaintext highlighter-rouge">cond</code> so that we first compute the test value <em>outside</em> the cond, then route the conditional inside the continuation:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">filter$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">pred?</span> <span class="nv">list</span> <span class="nv">cont</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">empty?</span> <span class="nv">list</span><span class="p">)</span> <span class="p">(</span><span class="nf">cont</span> <span class="nv">list</span><span class="p">))</span>
+          <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">pred?$</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">list</span><span class="p">)</span>
+                  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">pred-res</span><span class="p">)</span>
+                    <span class="nv">&lt;&lt;CPS-transformation</span> 
+                    <span class="p">(</span><span class="k">cond</span> <span class="p">(</span><span class="nf">pred-res</span> <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">list</span><span class="p">)</span> <span class="p">(</span><span class="nf">filter</span> <span class="nv">pred?</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">list</span><span class="p">))))</span>
+                          <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">filter</span> <span class="nv">pred?</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">list</span><span class="p">))))</span><span class="nv">&gt;&gt;</span> <span class="p">))))))</span>
+</code></pre></div></div>
+
+<p>The transformation here is that the cond structure is split - in branches which can be evaluated all in tail-form and those which follow the test evaluation.</p>
+
+<p>The next step of the CPS-transform is as observed in previous examples:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">filter$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">pred?</span> <span class="nv">list</span> <span class="nv">cont</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">empty?</span> <span class="nv">list</span><span class="p">)</span> <span class="p">(</span><span class="nf">cont</span> <span class="nv">list</span><span class="p">))</span>
+          <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">pred?$</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">list</span><span class="p">)</span>
+                  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">pred-res</span><span class="p">)</span>
+                    <span class="p">(</span><span class="k">cond</span> <span class="p">(</span><span class="nf">pred-res</span> <span class="p">(</span><span class="nf">filter$</span> <span class="nv">pred?$</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">list</span><span class="p">)</span>
+                                      <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">filter-cdr-res</span><span class="p">)</span>
+                                        <span class="p">(</span><span class="nf">cont</span> <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">list</span><span class="p">)</span> <span class="nv">filter-cdr-res</span><span class="p">)))))</span>
+                          <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">filter$</span> <span class="nv">pred?$</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">list</span><span class="p">)</span> <span class="nv">cont</span><span class="p">)))))))))</span>
+</code></pre></div></div>
+
+<h3 id="summary-cps-transformation">Summary: CPS Transformation</h3>
+
+<p>We have learned how to transform any expression in the language into a tail-form CPS-equivalent expression.
+When evaluating the CPS-equivalent version of the expression, our interpreter yields a tail-recursive iterative
+process which does not consume control space (the stack does not grow in an unbounded way dependent on the parameters
+fed to the program).  Instead, the explicit continuation parameter which is added to all procedure calls records the
+control context of the procedure applications.  This parameter does grow according to the size of the parameters.</p>
+
+<p>Note how the CPS transformation is similar to the transformation from synchronous function calls to asynchronous function calls which we discussed in the previous lecture: application expressions appear in the CPS version in the same order in which they are evaluated; composed functions appear nested inside the body of the continuation in the same way as they appeared nested in the body of the callbacks of the asynchronous functions.</p>
+
+<p>The difference between the event-driven model we discussed in the Node.js environment and the CPS model discussed in Scheme is that in the asynchronous model, the continuations (the tasks generated by asynchronous functions) are posted on the task-queue and executed by the interpreter according to the event-model while in the CPS model in Scheme, continuations are immediately invoked when the preceding call completes.</p>
+
+<h2 id="success-fail-continuations">Success-Fail Continuations</h2>
+
+<p>A variant of the CPS model just introduced allows us to handle error conditions in a more flexible manner than was possible in the style we have discussed so far. (Success-fail continuations remind us of the structure of callbacks in Node.js and of promises - which expect one continuation for successful calls - passed in the <code class="language-plaintext highlighter-rouge">.then(success)</code> method, and one for the failure cases, passed in the <code class="language-plaintext highlighter-rouge">.catch(fail)</code> method.)</p>
+
+<p>Consider a procedure which receives a heterogeneous list and computes the sum of the numeric items in the list.
+If any item in the list is not a number - we want to trigger an error and stop the computation (that is, we stop the traversal of the list as soon as a non-number item is detected).</p>
+
+<p>Let us first write a traditional implementation of this procedure, using the <code class="language-plaintext highlighter-rouge">error</code> primitive, which is the equivalent of throwing an exception:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Signature: sumlist(li)</span>
+<span class="c1">;; Purpose: Sum the elements of a number list. </span>
+<span class="c1">;; If the list includes a non number element -- produce an error.</span>
+<span class="c1">;; Type: [List -&gt; Number union ???]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">sumlist</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">li</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">empty?</span> <span class="nv">li</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+          <span class="p">((</span><span class="nb">not</span> <span class="p">(</span><span class="nb">number?</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">li</span><span class="p">)))</span> <span class="p">(</span><span class="nf">error</span> <span class="s">"non numeric value!"</span><span class="p">))</span>
+          <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">li</span><span class="p">)</span> <span class="p">(</span><span class="nf">sumlist</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">li</span><span class="p">)))))))</span>
+</code></pre></div></div>
+
+<p>Consider an iterative CPS version of this procedure, which uses success/fail continuations:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">sumlist2</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">li</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">letrec</span> <span class="p">((</span><span class="nf">sumlist$</span>
+               <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">li</span> <span class="nv">succ-cont</span> <span class="nv">fail-cont</span><span class="p">)</span>
+                 <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">empty?</span> <span class="nv">li</span><span class="p">)</span> <span class="p">(</span><span class="nf">succ-cont</span> <span class="mi">0</span><span class="p">))</span>
+                       <span class="p">((</span><span class="nb">number?</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">li</span><span class="p">))</span>
+                        <span class="p">(</span><span class="nf">sumlist$</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">li</span><span class="p">)</span>
+                                  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">sum-cdr</span><span class="p">)</span> <span class="c1">;success continuation</span>
+                                    <span class="p">(</span><span class="nf">succ-cont</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">li</span><span class="p">)</span> <span class="nv">sum-cdr</span><span class="p">)))</span>
+                                  <span class="nv">fail-cont</span><span class="p">))</span>
+                       <span class="c1">;; error condition: invoke error handler</span>
+                       <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">fail-cont</span><span class="p">))))))</span>
+       <span class="p">(</span><span class="nf">sumlist$</span> <span class="nv">li</span>
+                 <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+                 <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nb">display</span> <span class="s">"non numeric value!"</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<p>Observe first that the presence of errors is problematic for our type system.
+We do not know how to indicate, in the type of the procedure, the fact that it potentially throws an exception.
+For comparison, think of how this condition is handled in Java.</p>
+
+<p>In the CPS style, we handle errors by using continuations - instead of using one continuation as we did in the transformation discussed above, we carry 2 continuations: one for the successful computation path, and one for error conditions.</p>
+
+<p>Observe the type of the <code class="language-plaintext highlighter-rouge">sumlist$</code> procedure above:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="nf">List</span> <span class="nv">*</span> <span class="p">[</span><span class="nf">Number</span> <span class="nv">-&gt;</span> <span class="nv">Number</span><span class="p">]</span> <span class="nv">*</span> <span class="p">[</span><span class="nf">Empty</span> <span class="nv">-&gt;</span> <span class="nv">Void</span><span class="p">]</span> <span class="nv">-&gt;</span> <span class="p">(</span><span class="nf">Number</span> <span class="nv">|</span> <span class="nv">Void</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<p>This type indicates explicitly the fact that the procedure may follow two distinct paths - either the success leading to the <code class="language-plaintext highlighter-rouge">[Number -&gt; Number]</code> continuation, 
+or the failure path leading to the <code class="language-plaintext highlighter-rouge">[Empty -&gt; Void]</code> path.</p>
+
+<h3 id="using-success-fail-continuations-for-search">Using Success-Fail Continuations for Search</h3>
+
+<p>Let us consider a procedure which traverses a data structure (for example an AST), searching for a node that meets a given criterion.  If such a node is met, we perform a success computation; else we perform a fail computation.</p>
+
+<p>In this case, we will use the <code class="language-plaintext highlighter-rouge">success</code> continuation to indicate that the search has completed, and that we continue the computation by processing the element found; while the <code class="language-plaintext highlighter-rouge">fail</code> continuation will be used to drive the search for other elements within the data structure, until, possibly, the data structure has been exhausted, in which case, the original fail continuation is applied, indicating a failure to find an element meeting the criterion.</p>
+
+<p>The tree in this example is an unlabeled tree, that is, a tree whose branches are unlabeled,
+and whose leaves are labeled by atomic values. This is the standard view of an
+heterogeneous list. For example, ((3 4) 5 1) is a list representation of such a tree.</p>
+
+<p>Tree interface:</p>
+<ul>
+  <li>Constructors: <code class="language-plaintext highlighter-rouge">make-tree(t1,t2, ...), add-subtree(first,rest), make-leaf(data), empty-tree;</code></li>
+  <li>Accessors: <code class="language-plaintext highlighter-rouge">first-subtree(tree), rest-subtree(tree), leaf-data(leaf);</code></li>
+  <li>Predicates: <code class="language-plaintext highlighter-rouge">composite-tree?(t), leaf?(t), empty-tree?(t);</code></li>
+</ul>
+
+<p>In our simple implementation, we use:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">make-tree</span> <span class="nv">list</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">add-subtree</span> <span class="nv">cons</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">make-leaf</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">empty-tree?</span> <span class="nv">empty?</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">first-subtree</span> <span class="nv">car</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">rest-subtree</span> <span class="nv">cdr</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">leaf-data</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">composite-tree?</span> <span class="nv">list?</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">leaf?</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nf">composite-tree?</span> <span class="nv">x</span><span class="p">))))</span>
+</code></pre></div></div>
+
+<p>The CPS procedure uses a success and a fail continuations.</p>
+
+<p>The important point in this procedure, is that when an interior node is processed, the procedure makes a non-deterministic decision: it starts the traversal of the first sub-tree, which may or may not contain the searched item.
+If this first traversal succeeds, the search procedure completes; else we need to backtrack and search the other sub-trees.
+We need to keep track of this decision point explicitly - so that this further search can be performed in the future if needed.
+This is accomplished by constructing a fail-continuation which remembers what are the next sub-trees to be traversed.
+The fail continuation is applied when the search reaches a leaf and fails.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Signature: leftmost-even(tree)</span>
+<span class="c1">;; Purpose: Find the leftmost even leaf of an unlabeled tree whose leaves are labeled by numbers. </span>
+<span class="c1">;; If no leaf is even, return #f.</span>
+<span class="c1">;; Type: [List -&gt; Number union Boolean]</span>
+<span class="c1">;; Examples: (leftmost-even ’((1 2) (3 4 5))) ==&gt; 2</span>
+<span class="c1">;;           (leftmost-even ’((1 1) (3 3) 5)) ==&gt; #f</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">leftmost-even</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">tree</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">leftmost-even$</span> <span class="nv">tree</span> 
+                    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span> 
+                    <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="no">#f</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">leftmost-even$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">tree</span> <span class="nv">succ-cont</span> <span class="nv">fail-cont</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">empty-tree?</span> <span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">fail-cont</span><span class="p">))</span>
+          <span class="p">((</span><span class="nf">leaf?</span> <span class="nv">tree</span><span class="p">)</span>
+           <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">even?</span> <span class="p">(</span><span class="nf">leaf-data</span> <span class="nv">tree</span><span class="p">))</span>
+               <span class="p">(</span><span class="nf">succ-cont</span> <span class="nv">tree</span><span class="p">)</span>
+               <span class="p">(</span><span class="nf">fail-cont</span><span class="p">)))</span>
+          <span class="p">(</span><span class="k">else</span> <span class="c1">; Composite tree</span>
+            <span class="p">(</span><span class="nf">leftmost-even$</span> <span class="p">(</span><span class="nf">first-subtree</span> <span class="nv">tree</span><span class="p">)</span>
+                            <span class="nv">succ-cont</span>
+                            <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">leftmost-even$</span> <span class="p">(</span><span class="nf">rest-subtrees</span> <span class="nv">tree</span><span class="p">)</span> <span class="c1">; (@)</span>
+                                                       <span class="nv">succ-cont</span>
+                                                       <span class="nv">fail-cont</span><span class="p">)))))))</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">leftmost-even</code> procedure performs an exhaustive search on the tree, until an even leaf is found. 
+Whenever the search in the first sub-tree fails, it invokes a recursive search on the rest of the sub-trees. 
+This kind of search is a backtracking search policy: If the decision to search in the first sub-tree appears wrong, a retreat to the decision point occurs, and an alternative route is selected.</p>
+
+<p>Note that the fail continuation that is passed to the fail continuation that is constructed in the decision point (marked by @) is the fail continuation that is passed to leftmost-even$ as an argument. To understand that think about the decision points:</p>
+<ul>
+  <li>If the search in (first-subtree tree) succeeds, then the future is succ-cont.</li>
+  <li>If it fails, then the future is the search in (rest-subtrees tree).</li>
+  <li>If the search in (rest-subtrees tree) succeeds, the future is succ-cont.</li>
+  <li>If it fails, then the future is fail-cont.</li>
+</ul>
+
+<p>At last, a non-CPS version:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">leftmost-even</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">tree</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">letrec</span> <span class="p">((</span><span class="nf">iter</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">tree</span><span class="p">)</span>
+                     <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">empty-tree?</span> <span class="nv">tree</span><span class="p">)</span> <span class="no">#f</span><span class="p">)</span>
+                           <span class="p">((</span><span class="nf">leaf?</span> <span class="nv">tree</span><span class="p">)</span>
+                            <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">even?</span> <span class="p">(</span><span class="nf">leaf-data</span> <span class="nv">tree</span><span class="p">))</span> 
+                                <span class="p">(</span><span class="nf">leaf-data</span> <span class="nv">tree</span><span class="p">)</span> 
+                                <span class="no">#f</span><span class="p">))</span>
+                           <span class="p">(</span><span class="k">else</span>
+                             <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">res-first</span> <span class="p">(</span><span class="nf">iter</span> <span class="p">(</span><span class="nf">first-subtree</span> <span class="nv">tree</span><span class="p">))))</span>
+                               <span class="p">(</span><span class="k">if</span> <span class="nv">res-first</span>
+                                   <span class="nv">res-first</span>
+                                   <span class="p">(</span><span class="nf">iter</span> <span class="p">(</span><span class="nf">rest-subtrees</span> <span class="nv">tree</span><span class="p">)))))))))</span>
+       <span class="p">(</span><span class="nf">iter</span> <span class="nv">tree</span><span class="p">))))</span>
+</code></pre></div></div>
+
+<h2 id="summary">Summary</h2>
+
+<ul>
+  <li>The operational semantics for the language we have considered support traditional control structures: conditionals, sequence and function invocation.</li>
+  <li>
+    <p>In Scheme, iterative processes are modeled using tail-recursive procedures - that is, procedures where recursive calls all occur in tail position, without any control context awaiting the result of the recursive call.</p>
+  </li>
+  <li>
+    <p>Given the operational semantics of Scheme we have implemented, we can determine whether a program will generate an iterative program through static analysis: if all user-procedure calls appear in tail positions only.  Expressions which meet this criterion are in <strong>tail form</strong>.</p>
+  </li>
+  <li>We can transform any expression in the language to another expression in Continuation Passing Style (CPS) which is CPS-equivalent to the original expression and is in tail-form.</li>
+  <li>
+    <p>Procedures in CPS have an additional parameter called the <em>continuation</em> which determine how the result of the computation is to be processed.</p>
+  </li>
+  <li>One can adopt the success-fail continuation pattern to model procedures with error handlers or search procedures which may find items within complex data structures or fail to find them.</li>
+  <li>When appropriate, success-fail continuation procedures are often simpler and easier to analyze than the corresponding non-CPS procedures.</li>
+</ul>
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

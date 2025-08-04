@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<!-- saved from url=(0071)https://bguppl.github.io/interpreters/class_material/4.3Generators.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Generators, Lazy Lists | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Generators, Lazy Lists">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/4.3Generators.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/4.3Generators.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Generators, Lazy Lists">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Generators, Lazy Lists","url":"https://bguppl.github.io/interpreters/class_material/4.3Generators.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Generators, Lazy Lists _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Generators, Lazy Lists _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D43F.TEX-I::before {
+  padding: 0.683em 0.681em 0 0;
+  content: "L";
+}
+
+mjx-c.mjx-c35::before {
+  padding: 0.666em 0.5em 0.022em 0;
+  content: "5";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Generators, Lazy Lists _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="generators-lazy-lists">Generators, Lazy Lists</h1>
+<h2 id="ppl-2023">PPL 2023</h2>
+
+<p>In this section, we continue our analysis of control structures and the relation it has with <em>delayed computation</em>.
+We first return to the notion of <strong>coroutines</strong>, which we met in <a href="https://bguppl.github.io/interpreters/class_material/4.1AsyncProgramming.html">Section 4.1</a> in JavaScript, and attempt
+to simulate coroutines in the programming language <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container>.</p>
+
+<p>We then refine our understanding of such coroutines by describing them as an abstract data type which involves closures as delayed computations.  We call this type is called a <strong>lazy list</strong> (also known as <em>streams</em>).  We present a programming style based on lazy lists which has become known as the 
+<a href="https://en.wikipedia.org/wiki/Functional_reactive_programming">functional reactive programming</a> paradigm.  This style is particularly important 
+in User Interface programming, and is prevalent in popular frameworks such as <a href="https://angular.io/guide/rx-library">Angular with RxJS</a> and 
+<a href="http://reactivex.io/intro.html">ReactiveX</a>.</p>
+
+<h2 id="constructing-coroutines-with-delayed-computation">Constructing Coroutines with Delayed Computation</h2>
+
+<p>Consider the following generator example in JavaScript, using the language constructs of function*, <strong>yield</strong> and the
+<strong>Iterator</strong> interface with the <strong>IteratorResult</strong> data type:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">f1</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">n</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
+<span class="kd">function</span> <span class="nx">f2</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">n</span><span class="o">+</span><span class="mi">2</span><span class="p">;</span> <span class="p">}</span>
+<span class="kd">function</span> <span class="nx">f3</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">n</span><span class="o">+</span><span class="mi">3</span><span class="p">;</span> <span class="p">}</span>
+<span class="kd">function</span><span class="o">*</span> <span class="nx">gen1</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">yield</span> <span class="nx">f1</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+  <span class="k">yield</span> <span class="nx">f2</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+  <span class="k">yield</span> <span class="nx">f3</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">g11</span> <span class="o">=</span> <span class="nx">gen1</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="nx">g11</span><span class="p">.</span><span class="nx">next</span><span class="p">()</span>
+<span class="c1">// --&gt; { value: 1, done: false }</span>
+
+<span class="nx">g11</span><span class="p">.</span><span class="nx">next</span><span class="p">()</span>
+<span class="c1">// --&gt; { value: 2, done: false }</span>
+
+<span class="nx">g11</span><span class="p">.</span><span class="nx">next</span><span class="p">()</span>
+<span class="c1">// --&gt; { value: 3, done: false }</span>
+
+<span class="nx">g11</span><span class="p">.</span><span class="nx">next</span><span class="p">()</span>
+<span class="c1">// --&gt; { value: undefined, done: true }</span>
+</code></pre></div></div>
+
+<p>Let us build a function which behaves in a similar manner in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container>.</p>
+
+<h3 id="using-lambda---to-delay-computation">Using (lambda () …) to Delay Computation</h3>
+
+<p>The basis of the model is to use (lambda () …) to delay computation we do not want to execute immediately.
+This is similar to the way we proceeded when defining the CPS approach: delayed computation is wrapped in closures.</p>
+
+<h3 id="a-functional-version-of-iterators">A Functional Version of Iterators</h3>
+
+<p>There are two ingredients to coroutines in JavaScript:</p>
+<ul>
+  <li>The Iterator interface and the IteratorResult datatype.</li>
+  <li>The function* and yield mechanism</li>
+</ul>
+
+<p>Let us model iterators in our functional language <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="2" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container>.
+An IteratorResult in JavaScript has two fields: value and done.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">interface</span> <span class="nx">IteratorResult</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="p">{</span> <span class="na">value</span><span class="p">:</span> <span class="nx">T</span><span class="p">;</span> <span class="nl">done</span><span class="p">:</span> <span class="nx">boolean</span><span class="p">;</span> <span class="p">}</span>
+<span class="kr">interface</span> <span class="nx">Iterator</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="p">{</span> <span class="nx">next</span><span class="p">():</span> <span class="nx">IteratorResult</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">;</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Through the usage of the method <code class="language-plaintext highlighter-rouge">next()</code>, we understand that objects which implement the <code class="language-plaintext highlighter-rouge">Iterator</code> interface are mutable.  For example, the state of the generator <code class="language-plaintext highlighter-rouge">g11</code> in the example above is updated, so that each time we call <code class="language-plaintext highlighter-rouge">g11.next()</code> we obtain a different value.  Each time <code class="language-plaintext highlighter-rouge">next()</code> is invoked, the generator advances to the next step of the computation - and it stops before completing the rest of the computation, until a new <code class="language-plaintext highlighter-rouge">next()</code> invocation.</p>
+
+<p>To adapt this mechanism to a functional language, we must disentangle the mutation from the aspect of delaying computation.
+We thus define a data type for iterators which is immutable.  We adopt the general approach of <em>persistent mutable datatypes</em> in Functional Programming which we discussed in <a href="https://bguppl.github.io/interpreters/class_material/1.4TypesAndOperations.html">Section 1.4</a> with the <code class="language-plaintext highlighter-rouge">Stack</code> example.  The key ingredient of this approach is to define each mutator function as a constructor.
+We thus obtain an iterator data type with two constructors: <code class="language-plaintext highlighter-rouge">yield</code> and <code class="language-plaintext highlighter-rouge">next</code>:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; An iterator is either the "done" iterator or a pair with the </span>
+<span class="c1">;; current value of the iterator and a continuation which returns</span>
+<span class="c1">;; the next value of the iterator when evaluated.</span>
+<span class="c1">;; Type Iterator&lt;T&gt; = done | Pair(T, (Empty -&gt; Iterator&lt;T&gt;))</span>
+
+<span class="c1">;; Purpose: The yield Iterator constructor takes 2 arguments:</span>
+<span class="c1">;; - The value to return to the caller</span>
+<span class="c1">;; - The continuation to be executed when the Iterator is resumed (by invoking next())</span>
+<span class="c1">;; Signature: yield(result, continuation)</span>
+<span class="c1">;; Type: [T * [Empty -&gt; Iterator&lt;T&gt;] -&gt; Iterator&lt;T&gt;]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">yield</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">res</span> <span class="nv">cont</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">cons</span> <span class="nv">res</span> <span class="nv">cont</span><span class="p">)))</span>
+
+<span class="c1">;; An iterator has 2 fields:</span>
+<span class="c1">;; - Next: execute the next step of the computation of the generator</span>
+<span class="c1">;; - Value: access the current value of the generator</span>
+<span class="c1">;; And a state predicate </span>
+<span class="c1">;; - done?: determines whether the generator has reached the end of the </span>
+<span class="c1">;;          computation.</span>
+
+<span class="c1">;; The accessors are iter-&gt;next, iter-&gt;value and iter-&gt;done?</span>
+<span class="c1">;; iter-&gt;next computes the next step of the iterator.</span>
+
+<span class="c1">;; Iter-&gt;next is a constructor - it returns the value of the next</span>
+<span class="c1">;; iterator by invoking the continuation.</span>
+<span class="c1">;; Once an iterator is done, next keeps returning done.</span>
+<span class="c1">;; Else - next computes the next step of the iterator by invoking the continuation.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">iter-&gt;next</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">iter</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">iter-&gt;done?</span> <span class="nv">iter</span><span class="p">)</span>
+        <span class="nv">iter</span>
+        <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">cont</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">iter</span><span class="p">)))</span>
+          <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">eq?</span> <span class="nv">cont</span> <span class="ss">'done</span><span class="p">)</span>
+              <span class="nv">cont</span>
+              <span class="p">(</span><span class="nf">cont</span><span class="p">))))))</span>
+
+<span class="c1">;; The value of a done iterator is 'done.</span>
+<span class="c1">;; Else read it from the pair.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">iter-&gt;value</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">iter</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">iter-&gt;done?</span> <span class="nv">iter</span><span class="p">)</span>
+        <span class="nv">iter</span>
+        <span class="p">(</span><span class="nb">car</span> <span class="nv">iter</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">iter-&gt;done?</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">iter</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">eq?</span> <span class="nv">iter</span> <span class="ss">'done</span><span class="p">)))</span>
+
+</code></pre></div></div>
+
+<h3 id="using-the-iterator-adt-to-construct-a-generator-in-l5">Using the Iterator ADT to construct a Generator in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="3" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container></h3>
+
+<p>Let us now use the iterator datatype we just defined to implement in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="4" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> the coroutine <code class="language-plaintext highlighter-rouge">g2</code> which mimics the same behavior as <code class="language-plaintext highlighter-rouge">g1</code> in JavaScript.</p>
+
+<p>The implementation is a bit unpleasant because we need to explicitly add (lambda () …) to delay the next steps
+of the computation after a yield.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Consider the following function g1</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">f1</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">print</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">f2</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">print</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">f3</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">print</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">3</span><span class="p">)))</span>
+        
+<span class="p">(</span><span class="k">define</span> <span class="nv">g1</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">f1</span> <span class="nv">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">f2</span> <span class="nv">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">f3</span> <span class="nv">n</span><span class="p">)))</span>
+
+<span class="c1">;; Coroutine version of g1 with interruptions after each sub-function</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">g2</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">yield</span> <span class="p">(</span><span class="nf">f1</span> <span class="nv">n</span><span class="p">)</span> 
+           <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+             <span class="p">(</span><span class="nf">yield</span> <span class="p">(</span><span class="nf">f2</span> <span class="nv">n</span><span class="p">)</span>
+                    <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+                      <span class="p">(</span><span class="nf">yield</span> <span class="p">(</span><span class="nf">f3</span> <span class="nv">n</span><span class="p">)</span>
+                             <span class="ss">'done</span><span class="p">)))))))</span>
+
+<span class="c1">;; Invoke g2 and resume it</span>
+<span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">iter</span> <span class="p">(</span><span class="nf">g2</span> <span class="mi">0</span><span class="p">)))</span>
+  <span class="c1">;; Iter is of the form (res . continuation)</span>
+  <span class="p">(</span><span class="nf">print</span> <span class="p">(</span><span class="nf">iter-&gt;value</span> <span class="nv">iter</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">iter-&gt;next</span> <span class="nv">iter</span><span class="p">))</span>
+  
+<span class="c1">;--&gt; 112'(2 . #&lt;procedure:...c/coroutine1.rkt:101:20&gt;)</span>
+</code></pre></div></div>
+
+<p>The execution yields the following process:</p>
+<ul>
+  <li>When <code class="language-plaintext highlighter-rouge">(g2 0)</code> is executed, we execute <code class="language-plaintext highlighter-rouge">(yield (f1 0) ...)</code> - which as a side-effect prints 1.
+The local variable <code class="language-plaintext highlighter-rouge">iter</code> is now bound to the value returned by this yield.</li>
+  <li>We then print <code class="language-plaintext highlighter-rouge">(iter-&gt;value iter)</code> which prints the current value of the iterator, which is 1.</li>
+  <li>We then resume the coroutine by invoking <code class="language-plaintext highlighter-rouge">(iter-&gt;next iter)</code> - this executes <code class="language-plaintext highlighter-rouge">(yield 2 ...)</code> - which as a side effect, prints 2.</li>
+</ul>
+
+<p>As was the case in JavaScript, we can use the Iterator Abstract Data Type to model infinite sequences.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; ========================================================</span>
+<span class="c1">;; An infinite generator with yield</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">integers</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">from</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">letrec</span> <span class="p">((</span><span class="nf">loop</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+                     <span class="p">(</span><span class="nf">yield</span> <span class="nv">n</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)))))))</span>
+      <span class="p">(</span><span class="nf">loop</span> <span class="nv">from</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">id1</span> <span class="p">(</span><span class="nf">integers</span> <span class="mi">0</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h3 id="consuming-generators">Consuming Generators</h3>
+
+<p>In JavaScript, we used the generalized loop construct <code class="language-plaintext highlighter-rouge">for x of gen ...</code> to conveniently consume the values produced by a generator.<br>
+Similarly, we define functions to ease the consumption of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="5" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> generators.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; ========================================================</span>
+<span class="c1">;; Generator / Iterator manipulators</span>
+
+<span class="c1">;; Purpose: add one item at the end of a list.</span>
+<span class="c1">;; Type: [List(T) * T -&gt; List(T)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">concat</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">elts</span> <span class="nv">item</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">append</span> <span class="nv">elts</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">item</span><span class="p">))))</span>
+
+<span class="c1">;; Purpose: convert a finite iterator to a list.</span>
+<span class="c1">;; Warning: would enter in an infinite loop on an infinite generator.</span>
+<span class="c1">;; Type: [Iterator(T) -&gt; List(T)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">iter-&gt;list</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">iter</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">letrec</span> <span class="p">((</span><span class="nf">loop</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">iter</span> <span class="nv">res</span><span class="p">)</span>
+                     <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">iter-&gt;done?</span> <span class="nv">iter</span><span class="p">)</span>
+                         <span class="nv">res</span>
+                         <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nf">iter-&gt;next</span> <span class="nv">iter</span><span class="p">)</span>
+                               <span class="p">(</span><span class="nf">concat</span> <span class="nv">res</span> <span class="p">(</span><span class="nf">iter-&gt;value</span> <span class="nv">iter</span><span class="p">)))))))</span>
+      <span class="p">(</span><span class="nf">loop</span> <span class="nv">iter</span> <span class="p">(</span><span class="nb">list</span><span class="p">)))))</span>
+
+<span class="c1">;; Purpose: return the first n elements generated by an iterator as a list.</span>
+<span class="c1">;; Type: [Iterator(T) * Number -&gt; List(T)]</span>
+<span class="c1">;; Returns a list of up to n elements - can be less if the generator is done before.</span>
+<span class="c1">;; On a done iterator, returns an empty list.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">iter-&gt;take</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">iter</span> <span class="nv">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">letrec</span> <span class="p">((</span><span class="nf">loop</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">iter</span> <span class="nv">n</span> <span class="nv">res</span><span class="p">)</span>
+                     <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">&lt;=</span> <span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+                         <span class="nv">res</span>
+                         <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">iter-&gt;done?</span> <span class="nv">iter</span><span class="p">)</span>
+                             <span class="nv">res</span>
+                             <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nf">iter-&gt;next</span> <span class="nv">iter</span><span class="p">)</span>
+                                   <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+                                   <span class="p">(</span><span class="nf">concat</span> <span class="nv">res</span> <span class="p">(</span><span class="nf">iter-&gt;value</span> <span class="nv">iter</span><span class="p">))))))))</span>
+      <span class="p">(</span><span class="nf">loop</span> <span class="nv">iter</span> <span class="nv">n</span> <span class="p">(</span><span class="nb">list</span><span class="p">)))))</span>
+
+<span class="c1">;; Purpose: return an iterator that yields at most n elements from another (possibly longer or infinite) iterator.</span>
+<span class="c1">;; Type: [Iterator(T) * Number -&gt; Iterator(T)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">iter-&gt;take*</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">iter</span> <span class="nv">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="ss">'done</span>
+        <span class="p">(</span><span class="nf">yield</span> <span class="p">(</span><span class="nf">iter-&gt;value</span> <span class="nv">iter</span><span class="p">)</span>
+               <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">iter-&gt;take*</span> <span class="p">(</span><span class="nf">iter-&gt;next</span> <span class="nv">iter</span><span class="p">)</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)))))))</span>
+</code></pre></div></div>
+
+<p>With these functions, we can easily consume elements from a generator:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">iter-&gt;list</span> <span class="p">(</span><span class="nf">g2</span> <span class="mi">0</span><span class="p">))</span>
+<span class="c1">;--&gt; '(1 2 3)</span>
+
+<span class="p">(</span><span class="nf">iter-&gt;take</span> <span class="p">(</span><span class="nf">integers</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">10</span><span class="p">)</span>
+<span class="c1">;--&gt; '(0 1 2 3 4 5 6 7 8 9)</span>
+</code></pre></div></div>
+
+<h3 id="higher-order-generator-functions">Higher-Order Generator Functions</h3>
+
+<p>One can refer to generators as <em>lists in comprehension</em>, and accordingly define higher-order functions
+similar to the map/filter/reduce family we explored in Chapter 1 for lists.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Purpose: apply the procedure proc on each of the elements of a generator.</span>
+<span class="c1">;; This consumes all the elements of the generator.</span>
+<span class="c1">;; Type: [(T1 -&gt; T2) * Iterator(T1) -&gt; Void]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">iter-&gt;for-each</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">proc</span> <span class="nv">iter</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">iter-&gt;done?</span> <span class="nv">iter</span><span class="p">)</span> <span class="nv">iter</span><span class="p">)</span>
+          <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">proc</span> <span class="p">(</span><span class="nf">iter-&gt;value</span> <span class="nv">iter</span><span class="p">))</span>
+                <span class="p">(</span><span class="nf">iter-&gt;for-each</span> <span class="nv">proc</span> <span class="p">(</span><span class="nf">iter-&gt;next</span> <span class="nv">iter</span><span class="p">))))))</span>
+
+<span class="c1">;; Purpose: create a new generator returning (proc x) for each item x generated by iter.</span>
+<span class="c1">;; Type: [(T1 -&gt; T2) * Iterator(T1) -&gt; Iterator(T2)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">iter-&gt;map</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">proc</span> <span class="nv">iter</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">iter-&gt;done?</span> <span class="nv">iter</span><span class="p">)</span>
+        <span class="nv">iter</span>
+        <span class="p">(</span><span class="nf">yield</span> <span class="p">(</span><span class="nf">proc</span> <span class="p">(</span><span class="nf">iter-&gt;value</span> <span class="nv">iter</span><span class="p">))</span>
+               <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">iter-&gt;map</span> <span class="nv">proc</span> <span class="p">(</span><span class="nf">iter-&gt;next</span> <span class="nv">iter</span><span class="p">)))))))</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">iter-&gt;map</code> constructs a new generator on the basis of an existing one.
+The resulting generator produces the same number of items as the original one.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">iter-&gt;take</span> <span class="p">(</span><span class="nf">iter-&gt;map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">))</span> <span class="p">(</span><span class="nf">integers</span> <span class="mi">0</span><span class="p">))</span> <span class="mi">10</span><span class="p">)</span>
+<span class="c1">;--&gt; '(0 1 4 9 16 25 36 49 64 81)</span>
+
+<span class="p">(</span><span class="nf">iter-&gt;for-each</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">i</span><span class="p">)</span> <span class="p">(</span><span class="nf">print</span> <span class="nv">i</span><span class="p">))</span> <span class="p">(</span><span class="nf">iter-&gt;take*</span> <span class="p">(</span><span class="nf">integers</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">10</span><span class="p">))</span>
+<span class="c1">;--&gt; 0123456789'done</span>
+</code></pre></div></div>
+
+<h3 id="a-mutable-alternative-implementation-of-generators">A Mutable Alternative Implementation of Generators</h3>
+
+<p>We could design a slight variant of the generators abstract data type using mutation.
+This gives a result which behaves in a manner more similar to JavaScript generators.</p>
+
+<p>The main idea of this model is that the <code class="language-plaintext highlighter-rouge">next()</code> operation must now actually mutate the generator.
+Hence, the generator must hold a state - which remembers at any given stage the current value and the 
+continuation needed to produce the next state.</p>
+
+<p>The following funtion illustrates how we obtain this behavior.<br>
+In this function, the <code class="language-plaintext highlighter-rouge">make-generator</code> constructor creates a closure
+which encapsulates the state of the generator - which is a generator as described above.
+The closure we construct exposes an interface for a <code class="language-plaintext highlighter-rouge">'next!</code> operation and a <code class="language-plaintext highlighter-rouge">value</code> accessor operation.
+The client interfaces with the generator by sending a message with the name of the operation it wants to run.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">make-generator</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">thunk</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">gen</span> <span class="p">(</span><span class="nf">yield</span> <span class="ss">'init</span> <span class="nv">thunk</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">op</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nb">eq?</span> <span class="nv">op</span> <span class="ss">'next!</span><span class="p">)</span>
+               <span class="p">(</span><span class="k">set!</span> <span class="nv">gen</span> <span class="p">(</span><span class="nf">iter-&gt;next</span> <span class="nv">gen</span><span class="p">))</span>
+               <span class="p">(</span><span class="nf">iter-&gt;value</span> <span class="nv">gen</span><span class="p">))</span>
+              <span class="p">((</span><span class="nb">eq?</span> <span class="nv">op</span> <span class="ss">'value</span><span class="p">)</span>
+               <span class="p">(</span><span class="nf">iter-&gt;value</span> <span class="nv">gen</span><span class="p">))</span>
+              <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">error</span> <span class="s">"Unknown operation"</span><span class="p">)))))))</span>
+
+<span class="c1">;; Same as g1 with interruptions and resume with mutable generator</span>
+<span class="c1">;; g3 behaves like the value of function* in JS</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">g3</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">make-generator</span> 
+     <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+       <span class="p">(</span><span class="nf">yield</span> <span class="p">(</span><span class="nf">f1</span> <span class="nv">n</span><span class="p">)</span> 
+              <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+                <span class="p">(</span><span class="nf">yield</span> <span class="p">(</span><span class="nf">f2</span> <span class="nv">n</span><span class="p">)</span>
+                       <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+                         <span class="p">(</span><span class="nf">yield</span> <span class="p">(</span><span class="nf">f3</span> <span class="nv">n</span><span class="p">)</span>
+                                <span class="ss">'done</span><span class="p">)))))))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">gen</span> <span class="p">(</span><span class="nf">g3</span> <span class="mi">0</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">gen</span> <span class="ss">'next!</span><span class="p">)</span>
+<span class="c1">;--&gt; 11</span>
+<span class="p">(</span><span class="nf">gen</span> <span class="ss">'next!</span><span class="p">)</span>
+<span class="c1">;--&gt; 22</span>
+<span class="p">(</span><span class="nf">gen</span> <span class="ss">'value</span><span class="p">)</span>
+<span class="c1">;--&gt; 2</span>
+<span class="p">(</span><span class="nf">gen</span> <span class="ss">'next!</span><span class="p">)</span>
+<span class="c1">;--&gt; 33</span>
+<span class="p">(</span><span class="nf">gen</span> <span class="ss">'next!</span><span class="p">)</span>
+<span class="c1">;--&gt; 'done</span>
+</code></pre></div></div>
+
+<h2 id="lazy-lists-derivation-as-abstract-data-types">Lazy Lists Derivation as Abstract Data Types</h2>
+
+<p>We derived above the definition of Generators in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="6" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> by mimicking the behavior of coroutines in JavaScript and attempting to derive a functional 
+implementation of coroutines using delayed computation with <code class="language-plaintext highlighter-rouge">(lambda () ...)</code> as the delaying operator and functional mutable data structures.</p>
+
+<p>Let us revisit this derivation of functional generators with one more model, based on type analysis.
+We obtain an almost identical result - the focus here is on describing generators as sequences by describing their 
+data type. (This material is from <a href="https://www.cs.bgu.ac.il/~mira/ppl-book-full.pdf">PPL Book, Mira Balaban 4.2</a>).</p>
+
+<h3 id="reminder-the-list-data-type-in-scheme">Reminder: The List Data Type in Scheme</h3>
+
+<p>We define the regular list data type through an inductive type definition:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">List</span><span class="p">(</span><span class="nf">T</span><span class="p">)</span> <span class="nv">=</span> <span class="nv">Empty</span> <span class="nv">|</span> <span class="nv">Pair</span><span class="p">(</span><span class="nf">T,</span> <span class="nv">List</span><span class="p">(</span><span class="nf">T</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>This means that the set of all <code class="language-plaintext highlighter-rouge">List(T)</code> values contains:</p>
+<ul>
+  <li>The Empty list (which we write: <code class="language-plaintext highlighter-rouge">'()</code>)</li>
+  <li>Non-empty lists - which are made up of a pair with a first element of type <code class="language-plaintext highlighter-rouge">T</code> and a second element of type <code class="language-plaintext highlighter-rouge">List(T)</code>.</li>
+</ul>
+
+<p>We define a functional interface on this data type consisting a value constructor (<code class="language-plaintext highlighter-rouge">cons</code>), two accessors (<code class="language-plaintext highlighter-rouge">first</code> and <code class="language-plaintext highlighter-rouge">rest</code> also known as <code class="language-plaintext highlighter-rouge">car</code> and <code class="language-plaintext highlighter-rouge">cdr</code>) 
+and two type predicates <code class="language-plaintext highlighter-rouge">empty?</code> and <code class="language-plaintext highlighter-rouge">list?</code>.</p>
+
+<h3 id="adapting-the-list-data-type-to-lazy-lists">Adapting the List Data Type to Lazy-Lists</h3>
+
+<p>We derive a similar type definition for <strong>lazy lists</strong> – that is, lists whose first element is known and the rest of the list is a delayed computation which describes how to compute the rest of the list.  The list is not built <code class="language-plaintext highlighter-rouge">in extension</code> by filling it in memory with its items, but <code class="language-plaintext highlighter-rouge">in comprehension</code> by describing which elements belong to the list as a computation instead of listing the elements that belong to the list.</p>
+
+<p>The way this idea is implemented in a large range of programming languages is described in this <a href="https://en.wikipedia.org/wiki/List_comprehension">Wikipedia article on List Comprehensions</a>.  List Comprehensions are particularly popular in Python.</p>
+
+<p>To describe this idea as a data type definition, we use the following type equation defining the new <strong>Lzl</strong> data type (which stands for <em>Lazy List</em>):</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">Lzl</span><span class="p">(</span><span class="nf">T</span><span class="p">)</span> <span class="nv">=</span> <span class="nv">Empty-Lzl</span> <span class="nv">|</span> <span class="nv">Pair</span><span class="p">(</span><span class="nf">T,</span> <span class="p">(</span><span class="nf">Empty</span> <span class="nv">-&gt;</span> <span class="nv">Lzl</span><span class="p">(</span><span class="nf">T</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>In words, this means a value belongs to the type <code class="language-plaintext highlighter-rouge">Lzl(T)</code> either if it is the empty lazy list (<code class="language-plaintext highlighter-rouge">Empty-Lzl</code>) or if it is a pair with a first element of type T and the second element is a continuation, which when computed produces a <code class="language-plaintext highlighter-rouge">Lzl(T)</code> value.</p>
+
+<p>We derive from this type definition the functional interface to manipulate values that belong to the type:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; The empty lazy list value (a singleton datatype)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">empty-lzl</span> <span class="o">'</span><span class="p">())</span>
+
+<span class="c1">;; Purpose: Value constructor for non-empty lazy-list values</span>
+<span class="c1">;; Type: [T * [Empty -&gt; LZL(T)] -&gt; LZT(T)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">cons-lzl</span> <span class="nv">cons</span><span class="p">)</span>
+
+<span class="c1">;; Accessors</span>
+<span class="c1">;; Type: [LZL(T) -&gt; T]</span>
+<span class="c1">;; Precondition: Input is non-empty</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">head</span> <span class="nv">car</span><span class="p">)</span>
+
+<span class="c1">;; Type: [LZL(T) -&gt; LZL(T)]</span>
+<span class="c1">;; Precondition: Input is non-empty</span>
+<span class="c1">;; Note that this *executes* the continuation </span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">tail</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">lzl</span><span class="p">)</span>
+    <span class="p">((</span><span class="nb">cdr</span> <span class="nv">lzl</span><span class="p">))))</span>
+
+<span class="c1">;; Type predicate</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">empty-lzl?</span> <span class="nv">empty?</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This definition parallels that of regular lists - as recursive data types defined inductively.
+The only difference is that the tail of the list is <em>delayed</em> by using a <code class="language-plaintext highlighter-rouge">(lambda () ...)</code> wrapper.</p>
+
+<p>Explore the behavior of these definitions on simple values:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">lzl1</span> <span class="nv">empty-lzl</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">lzl2</span> <span class="p">(</span><span class="nf">cons-lzl</span> <span class="mi">1</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="nv">lzl1</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">lzl3</span> <span class="p">(</span><span class="nf">cons-lzl</span> <span class="mi">2</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="nv">lzl2</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nf">head</span> <span class="nv">lzl3</span><span class="p">)</span> 
+<span class="c1">;--&gt; 2</span>
+
+<span class="p">(</span><span class="nf">tail</span> <span class="nv">lzl3</span><span class="p">)</span>
+<span class="c1">;--&gt; '(1 . #&lt;procedure&gt;)</span>
+
+<span class="p">(</span><span class="nf">head</span> <span class="p">(</span><span class="nf">tail</span> <span class="nv">lzl3</span><span class="p">))</span>
+<span class="c1">;--&gt; 1</span>
+
+<span class="p">(</span><span class="nf">emptly-lzl?</span> <span class="p">(</span><span class="nf">tail</span> <span class="p">(</span><span class="nf">tail</span> <span class="nv">lzl3</span><span class="p">)))</span>
+<span class="c1">;--&gt; #t</span>
+</code></pre></div></div>
+
+<p>Because the tail of lazy lists is computed, we can build inductively infinite sequences.
+In contrast to regular recursive functions, lazy lists can be defined inductivey <strong>without</strong> a base case to terminate the recursion.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Signature: integers-from(n)</span>
+<span class="c1">;; Type: [number -&gt; LZL(number)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">integers-from</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">cons-lzl</span> <span class="nv">n</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">integers-from</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">ints</span> <span class="p">(</span><span class="nf">integers-from</span> <span class="mi">0</span><span class="p">))</span>
+
+<span class="nv">ints</span>
+<span class="c1">;--&gt; '(0 . #&lt;procedure&gt;)</span>
+</code></pre></div></div>
+
+<h3 id="manipulation-of-lzl-values">Manipulation of LZL Values</h3>
+
+<p>To manipulate easily <code class="language-plaintext highlighter-rouge">LZL</code> values, we define an extended functional interface - which is equivalent to the loops that we used in JavaScript.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Signature: take(lz-lst,n)</span>
+<span class="c1">;; Type: [LzL * Number -&gt; List]</span>
+<span class="c1">;; If n &gt; length(lz-lst) then the result is lz-lst as a List</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">take</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">lz-lst</span> <span class="nv">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="k">or</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">empty-lzl?</span> <span class="nv">lz-lst</span><span class="p">))</span>
+      <span class="nv">empty-lzl</span>
+      <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">head</span> <span class="nv">lz-lst</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">take</span> <span class="p">(</span><span class="nf">tail</span> <span class="nv">lz-lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+
+<span class="c1">; Signature: nth(lz-lst,n)</span>
+<span class="c1">;; Type: [LzL * Number -&gt; T]</span>
+<span class="c1">;; Pre-condition: n &lt; length(lz-lst)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">nth</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">lz-lst</span> <span class="nv">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">head</span> <span class="nv">lz-lst</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">nth</span> <span class="p">(</span><span class="nf">tail</span> <span class="nv">lz-lst</span><span class="p">)</span> <span class="p">(</span><span class="nf">sub1</span> <span class="nv">n</span><span class="p">)))))</span>
+</code></pre></div></div>
+
+<p>Observe that when we evaluate the following calls, the successive steps of the expansion of the integers-from lazy-list are repeated:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">take</span> <span class="nv">ints</span> <span class="mi">10</span><span class="p">)</span>
+<span class="c1">;--&gt; '(0 1 2 3 4 5 6 7 8 9)</span>
+
+<span class="p">(</span><span class="nf">take</span> <span class="nv">ints</span> <span class="mi">5</span><span class="p">)</span>
+<span class="c1">;--&gt; '(0 1 2 3 4)</span>
+</code></pre></div></div>
+
+<h2 id="computing-with-lazy-lists">Computing with Lazy-Lists</h2>
+
+<p>Besides representing sequences in comprehension, the model of lazy lists is a useful abstraction to describe recursive processes.</p>
+
+<p>Let us start with a simple idea: repeating a value an unbounded number of times.</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">ones</span> <span class="p">(</span><span class="nf">cons-lzl</span> <span class="mi">1</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="nv">ones</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nf">take</span> <span class="nv">ones</span> <span class="mi">7</span><span class="p">)</span>
+<span class="c1">;--&gt; '(1 1 1 1 1 1 1)</span>
+</code></pre></div></div>
+
+<p>This computation is interesting because it is a form of infinite loop which is controlled by the caller.</p>
+
+<p>Let us now describe a list of values which are built incrementally on top of each other.
+Let us build the list of all factorial values.</p>
+
+<p>We start with a simple definition:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">fact</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span> 
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="mi">1</span>
+        <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="p">(</span><span class="nf">fact</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+        
+<span class="c1">;; Type: [Number -&gt; LzL(Number)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">facts-from</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">cons-lzl</span> <span class="p">(</span><span class="nf">fact</span> <span class="nv">n</span><span class="p">)</span> 
+              <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">facts-from</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<p>When we observe the computation, we realize though, that if we know the prefix of this lazy-list, we can compute the next element in a faster way than by invoking <code class="language-plaintext highlighter-rouge">(fact (+ n 1))</code> - as long as we have access to the first element when we compute the tail.  We derive the following pattern of lazy-list construction:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">facts-gen</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+    <span class="p">(</span><span class="k">letrec</span> <span class="p">((</span><span class="nf">loop</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span> <span class="nv">fact-n</span><span class="p">)</span>
+                     <span class="p">(</span><span class="nf">cons-lzl</span> <span class="nv">fact-n</span> 
+                               <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> 
+                                                <span class="p">(</span><span class="nb">*</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">fact-n</span><span class="p">)))))))</span>
+      <span class="p">(</span><span class="nf">loop</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))))</span>
+      
+<span class="p">(</span><span class="nf">take</span> <span class="p">(</span><span class="nf">facts-gen</span><span class="p">)</span> <span class="mi">6</span><span class="p">)</span>
+<span class="c1">;--&gt; '(1 2 6 24 120 720)</span>
+</code></pre></div></div>
+
+<p>A good way to think about facts-gen is as the <em>unrolling of the fact computation</em>.  It returns the list of the values of a recursive computation.  The structure of the function is typical: the local function loop <em>remembers</em> the last computed value <code class="language-plaintext highlighter-rouge">fact-n</code> and passes it to the delayed computation in the tail.</p>
+
+<p><strong>Exercise:</strong> Write a function <code class="language-plaintext highlighter-rouge">fibo-gen</code> which generates the successive values of the Fibonacci series.
+Hint: the local function loop will have one more argument when compared to fact-gen.</p>
+
+<h3 id="composition-of-lazy-lists">Composition of Lazy Lists</h3>
+
+<p>Lazy list composition functions operate over lzl values and return new lzl values.</p>
+
+<p>Let us consider the lzl-add operator: given two lzl(number), it returns the lzl of the sum of their respective values.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Signature: lzl-add(lz1,lz2)</span>
+<span class="c1">;; Type: [LzL(Number) * LzL(Number) -&gt; LzL(number)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">lzl-add</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">lz1</span> <span class="nv">lz2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">empty-lzl?</span> <span class="nv">lz1</span><span class="p">)</span> <span class="nv">lz2</span><span class="p">)</span>
+          <span class="p">((</span><span class="nf">empty-lzl?</span> <span class="nv">lz2</span><span class="p">)</span> <span class="nv">lz1</span><span class="p">)</span>
+          <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">cons-lzl</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nf">head</span> <span class="nv">lz1</span><span class="p">)</span> <span class="p">(</span><span class="nf">head</span> <span class="nv">lz2</span><span class="p">))</span>
+                          <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">lzl-add</span> <span class="p">(</span><span class="nf">tail</span> <span class="nv">lz1</span><span class="p">)</span> <span class="p">(</span><span class="nf">tail</span> <span class="nv">lz2</span><span class="p">))))))))</span>
+</code></pre></div></div>
+
+<p>This operator allows us to re-define the sequence of integers using lazy-list addition:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">integers</span> 
+  <span class="p">(</span><span class="nf">cons-lzl</span> <span class="mi">0</span> 
+            <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">lzl-add</span> <span class="nv">ones</span> <span class="nv">integers</span><span class="p">))))</span>
+</code></pre></div></div>
+
+<p>Similarly, let us define the sequence of Fibonacci numbers using lazy-list addition:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">fib-numbers</span>
+  <span class="p">(</span><span class="nf">cons-lzl</span> <span class="mi">0</span>
+            <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">cons-lzl</span> <span class="mi">1</span> 
+                                 <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> 
+                                   <span class="p">(</span><span class="nf">lzl-add</span> <span class="p">(</span><span class="nf">tail</span> <span class="nv">fib-numbers</span><span class="p">)</span> <span class="nv">fib-numbers</span><span class="p">))))))</span>
+<span class="p">(</span><span class="nf">take</span> <span class="nv">fib-numbers</span> <span class="mi">7</span><span class="p">)</span>
+<span class="c1">;--&gt; '(0 1 1 2 3 5 8)</span>
+</code></pre></div></div>
+
+<p>What is remarkable about these definitions is that they replace loops and recursive functions (the inner functions <code class="language-plaintext highlighter-rouge">loop</code> in the examples above) with recursive data flow: the fib-numbers list is built incrementally from the prefix of the fib-numbers list.</p>
+
+<h3 id="append-and-interleave-of-lazy-lists">Append and Interleave of Lazy Lists</h3>
+
+<p>Recall the definition of the <code class="language-plaintext highlighter-rouge">append</code> function for regular lists to return a list which contains all the elements in l1 followed by those in l2:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Type: [List(T) * List(T) -&gt; List(T)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">append</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">l1</span> <span class="nv">l2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">l1</span><span class="p">)</span>
+        <span class="nv">l2</span>
+        <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">l1</span><span class="p">)</span>
+              <span class="p">(</span><span class="nb">append</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">l1</span><span class="p">)</span> <span class="nv">l2</span><span class="p">)))))</span>
+</code></pre></div></div>
+
+<p>Let us define a similar function for lazy lists:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Signature: lzl-append(lz1, lz2)</span>
+<span class="c1">;; Type: [Lzl(T) * Lzl(T) -&gt; Lzl(T)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">lzl-append</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">lz1</span> <span class="nv">lz2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty-lzl?</span> <span class="nv">lz1</span><span class="p">)</span>
+        <span class="nv">lz2</span>
+        <span class="p">(</span><span class="nf">cons-lzl</span> <span class="p">(</span><span class="nf">head</span> <span class="nv">lz1</span><span class="p">)</span>
+                  <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">lzl-append</span> <span class="p">(</span><span class="nf">tail</span> <span class="nv">lz1</span><span class="p">)</span> <span class="nv">lz2</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<p>Observe the elements of the appended list: we see that all elements of the first lazy-list come before the second lazy-list. What if the first list is infinite? There is no way to reach the second list.</p>
+
+<p>This version does not satisfy a fundamental property of lazy-list functions: 
+<strong>Every finite part of a lazy-list “depends” on at most a finite part of the lazy-list.</strong></p>
+
+<p>Therefore, when dealing with possibly infinite lists, <code class="language-plaintext highlighter-rouge">append</code> is replaced by a different function we call <code class="language-plaintext highlighter-rouge">interleave()</code>.
+<code class="language-plaintext highlighter-rouge">interleave()</code> returns the elements of the lazy-lists in a way that guarantees that every element of the lazy-lists is reached within finite time:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Signature: interleave(lz1, lz2)</span>
+<span class="c1">;; Type: [Lzl(T) * Lzl(T) -&gt; Lzl(T)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">interleave</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">lz1</span> <span class="nv">lz2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty-lzl?</span> <span class="nv">lz1</span><span class="p">)</span>
+        <span class="nv">lz2</span>
+        <span class="p">(</span><span class="nf">cons-lzl</span> <span class="p">(</span><span class="nf">head</span> <span class="nv">lz1</span><span class="p">)</span>
+                  <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">interleave</span> <span class="nv">lz2</span> <span class="p">(</span><span class="nf">tail</span> <span class="nv">lz1</span><span class="p">)))))))</span>
+                  
+<span class="p">(</span><span class="nf">take</span> <span class="p">(</span><span class="nf">lzl-append</span> <span class="p">(</span><span class="nf">integers-from</span> <span class="mi">100</span><span class="p">)</span> <span class="nv">fib-numbers</span><span class="p">)</span> <span class="mi">7</span><span class="p">)</span>
+<span class="c1">;--&gt; '(100 101 102 103 104 105 106)</span>
+<span class="p">(</span><span class="nf">take</span> <span class="p">(</span><span class="nf">interleave</span> <span class="p">(</span><span class="nf">integers-from</span> <span class="mi">100</span><span class="p">)</span> <span class="nv">fib-numbers</span><span class="p">)</span> <span class="mi">7</span><span class="p">)</span>
+<span class="ss">'--&gt;</span> <span class="o">'</span><span class="p">(</span><span class="nf">100</span> <span class="mi">0</span> <span class="mi">101</span> <span class="mi">1</span> <span class="mi">102</span> <span class="mi">1</span> <span class="mi">103</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="higher-order-lazy-list-functions">Higher Order Lazy List Functions</h3>
+
+<p>Looking at <code class="language-plaintext highlighter-rouge">LZL</code> values as sequences, it is natural to adapt the sequence interface of map/filter/reduce to this data type as well.<br>
+This perspective allows us to define interesting data dependencies to capture recursive relations in a compact way.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Signature: lzl-map(f, lz)</span>
+<span class="c1">;; Type: [[T1 -&gt; T2] * Lzl(T1) -&gt; Lzl(T2)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">lzl-map</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">lzl</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty-lzl?</span> <span class="nv">lzl</span><span class="p">)</span>
+        <span class="nv">lzl</span>
+        <span class="p">(</span><span class="nf">cons-lzl</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nf">head</span> <span class="nv">lzl</span><span class="p">))</span>
+                  <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">lzl-map</span> <span class="nv">f</span> <span class="p">(</span><span class="nf">tail</span> <span class="nv">lzl</span><span class="p">)))))))</span>
+                  
+<span class="p">(</span><span class="nf">take</span> <span class="p">(</span><span class="nf">lzl-map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">))</span> <span class="nv">ints</span><span class="p">)</span> <span class="mi">5</span><span class="p">)</span>
+<span class="c1">;--&gt; '(0 1 4 9 16)</span>
+</code></pre></div></div>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Signature: lzl-filter(p,lz)</span>
+<span class="c1">;; Type: [[T1 -&gt; Boolean] * Lzl(T1) -&gt; LzL(T1)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">lzl-filter</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">p</span> <span class="nv">lzl</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">empty-lzl?</span> <span class="nv">lzl</span><span class="p">)</span> <span class="nv">lzl</span><span class="p">)</span>
+          <span class="p">((</span><span class="nf">p</span> <span class="p">(</span><span class="nf">head</span> <span class="nv">lzl</span><span class="p">))</span> <span class="p">(</span><span class="nf">cons-lzl</span> <span class="p">(</span><span class="nf">head</span> <span class="nv">lzl</span><span class="p">)</span> 
+                                    <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">lzl-filter</span> <span class="nv">p</span> <span class="p">(</span><span class="nf">tail</span> <span class="nv">lzl</span><span class="p">)))))</span>
+          <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">lzl-filter</span> <span class="nv">p</span> <span class="p">(</span><span class="nf">tail</span> <span class="nv">lzl</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<p>Let us explore ways to define complex recursive definitions using these higher-order functions.
+We develop here a generator of the sequence of prime numbers based on the sieve method:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">divisible?</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">=</span> <span class="p">(</span><span class="nb">remainder</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">no-sevens</span> <span class="p">(</span><span class="nf">lzl-filter</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nf">divisible?</span> <span class="nv">x</span> <span class="mi">7</span><span class="p">)))</span> <span class="nv">ints</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nf">nth</span> <span class="nv">no-sevens</span> <span class="mi">100</span><span class="p">)</span> <span class="c1">;The 100th integer not divisible by 7:</span>
+<span class="c1">;--&gt; 117</span>
+</code></pre></div></div>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; lazy-list scaling: return (c*x for x in lzl)</span>
+<span class="c1">;; Signature: lzl-scale(c, lzl)</span>
+<span class="c1">;; Type: [Number * Lzl(Number) -&gt; Lzl(Number)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">lzl-scale</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">c</span> <span class="nv">lzl</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">lzl-map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">c</span><span class="p">))</span> <span class="nv">lzl</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>In a way similar to which we defined Fibonacci numbers as a recursive equation involving the Fib-nums sequence,
+we define the generator of the powers of 2 as follows:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; The lazy-list of powers of 2:</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">double</span> <span class="p">(</span><span class="nf">cons-lzl</span> <span class="mi">1</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">lzl-scale</span> <span class="mi">2</span> <span class="nv">double</span><span class="p">))))</span>
+<span class="p">(</span><span class="nf">take</span> <span class="nv">double</span> <span class="mi">7</span><span class="p">)</span>
+<span class="c1">;--&gt; '(1 2 4 8 16 32 64)</span>
+</code></pre></div></div>
+
+<h3 id="lazy-list-iteration">Lazy-list Iteration</h3>
+
+<p>Recall the integers lazy-list creation function:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">integers-from</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">cons-lzl</span> <span class="nv">n</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">integers-from</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<p>It can be re-written as follows, where we explicitly abstract the step operation which makes us proceed from one element in the list to the next as the operation <code class="language-plaintext highlighter-rouge">(lambda (k) (+ k 1))</code>:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">integers-from</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">cons-lzl</span> <span class="nv">n</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">integers-from</span> <span class="p">((</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">k</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">k</span> <span class="mi">1</span><span class="p">))</span> <span class="nv">n</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<p>A further generalization replaces the concrete step function <code class="language-plaintext highlighter-rouge">(lambda (k) (+ k 1))</code> by a function parameter:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Signature: integers-iterate(f,n)</span>
+<span class="c1">;; Type: [[Number -&gt; Number] * Number -&gt; Lzl(Number)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">integers-iterate</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">cons-lzl</span> <span class="nv">n</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">integers-iterate</span> <span class="nv">f</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">n</span><span class="p">))))))</span>
+    
+<span class="p">(</span><span class="nf">take</span> <span class="p">(</span><span class="nf">integers-iterate</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">k</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">k</span> <span class="mi">1</span><span class="p">))</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">7</span><span class="p">)</span>
+<span class="c1">;--&gt; '(3 4 5 6 7 8 9)</span>
+
+<span class="p">(</span><span class="nf">take</span> <span class="p">(</span><span class="nf">integers-iterate</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">k</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">k</span> <span class="mi">2</span><span class="p">))</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">7</span><span class="p">)</span>
+<span class="c1">;--&gt; '(3 6 12 24 48 96 192)</span>
+
+<span class="p">(</span><span class="nf">take</span> <span class="p">(</span><span class="nf">integers-iterate</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">k</span><span class="p">)</span> <span class="nv">k</span><span class="p">)</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">7</span><span class="p">)</span>
+<span class="c1">;--&gt; '(3 3 3 3 3 3 3)</span>
+</code></pre></div></div>
+
+<p>Observe that this simple generalization of <code class="language-plaintext highlighter-rouge">integers</code> covers the examples we defined above of the repetition (ones), the simple integers sequence, and the powers of two.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Primes – First definition</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">primes</span>
+  <span class="p">(</span><span class="nf">cons-lzl</span> <span class="mi">2</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">lzl-filter</span> <span class="nv">prime?</span> <span class="p">(</span><span class="nf">integers-from</span> <span class="mi">3</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">prime?</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">letrec</span> <span class="p">((</span><span class="nf">iter</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">lz</span><span class="p">)</span>
+                     <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nf">sqr</span> <span class="p">(</span><span class="nf">head</span> <span class="nv">lz</span><span class="p">))</span> <span class="nv">n</span><span class="p">)</span> <span class="no">#t</span><span class="p">)</span>
+                           <span class="p">((</span><span class="nf">divisible?</span> <span class="nv">n</span> <span class="p">(</span><span class="nf">head</span> <span class="nv">lz</span><span class="p">))</span> <span class="no">#f</span><span class="p">)</span>
+                           <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">iter</span> <span class="p">(</span><span class="nf">tail</span> <span class="nv">lz</span><span class="p">)))))))</span>
+      <span class="p">(</span><span class="nf">iter</span> <span class="nv">primes</span><span class="p">))))</span>
+      
+<span class="p">(</span><span class="nf">take</span> <span class="nv">primes</span> <span class="mi">6</span><span class="p">)</span>
+<span class="c1">;--&gt; '(2 3 5 7 11 13)</span>
+</code></pre></div></div>
+
+<p>The second definition we present avoids the redundancy of the computation above.
+It implements the <strong>sieve</strong> algorithm. The lazy-list of primes can be created as follows:</p>
+<ul>
+  <li>Start with the integers lazy-list: <code class="language-plaintext highlighter-rouge">[2,3,4,5,....]</code>.</li>
+  <li>Select the first prime: <code class="language-plaintext highlighter-rouge">2</code>.</li>
+  <li>Filter the current lazy-list from all multiples of 2: <code class="language-plaintext highlighter-rouge">[2,3,5,7,9,...]</code></li>
+  <li>Select the next element on the list: <code class="language-plaintext highlighter-rouge">3</code>.</li>
+  <li>Filter the current lazy-list from all multiples of 3: <code class="language-plaintext highlighter-rouge">[2,3,5,6,11,13,17,...]</code>.</li>
+  <li>i-th step: Select the next element on the list: <code class="language-plaintext highlighter-rouge">k</code>. Surely it is a prime, since it is not a multiplication of any smaller integer.</li>
+  <li>Filter the current lazy-list from all multiples of <code class="language-plaintext highlighter-rouge">k</code>.</li>
+  <li>All elements of the resulting lazy-list are primes, and all primes are in the resulting lazy-list.</li>
+</ul>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Signature: sieve(lzl)</span>
+<span class="c1">;; Type: [Lzl(Number) -&gt; Lzl(Number)]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">sieve</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">lzl</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">cons-lzl</span> <span class="p">(</span><span class="nf">head</span> <span class="nv">lzl</span><span class="p">)</span>
+              <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+                <span class="p">(</span><span class="nf">sieve</span> <span class="p">(</span><span class="nf">lzl-filter</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nf">divisible?</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">head</span> <span class="nv">lzl</span><span class="p">))))</span>
+                                   <span class="p">(</span><span class="nf">tail</span> <span class="nv">lzl</span><span class="p">)))))))</span>
+                                   
+<span class="p">(</span><span class="k">define</span> <span class="nv">primes1</span> <span class="p">(</span><span class="nf">sieve</span> <span class="p">(</span><span class="nf">integers-from</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="p">(</span><span class="nf">take</span> <span class="nv">primes1</span> <span class="mi">7</span><span class="p">)</span>
+<span class="c1">;--&gt; '(2 3 5 7 11 13 17)</span>
+</code></pre></div></div>
+
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

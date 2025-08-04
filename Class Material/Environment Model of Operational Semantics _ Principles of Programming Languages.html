@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<!-- saved from url=(0077)https://bguppl.github.io/interpreters/class_material/2.7EnvironmentModel.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Environment Model of Operational Semantics | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Environment Model of Operational Semantics">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/2.7EnvironmentModel.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/2.7EnvironmentModel.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Environment Model of Operational Semantics">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Environment Model of Operational Semantics","url":"https://bguppl.github.io/interpreters/class_material/2.7EnvironmentModel.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Environment Model of Operational Semantics _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Environment Model of Operational Semantics _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D43F.TEX-I::before {
+  padding: 0.683em 0.681em 0 0;
+  content: "L";
+}
+
+mjx-c.mjx-c31::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "1";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Environment Model of Operational Semantics _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="environment-model-of-operational-semantics">Environment Model of Operational Semantics</h1>
+<h2 id="ppl-2023">PPL 2023</h2>
+
+<p>In the substitution model we just presented <a href="https://bguppl.github.io/interpreters/class_material/class_material/2.6SubstitutionModel.html">2.6 Substitution Model</a> procedure application involves the following operations:</p>
+<ol>
+  <li>Argument evaluation</li>
+  <li>Renaming</li>
+  <li>Substitution</li>
+  <li>Reduction</li>
+</ol>
+
+<p>The substitution operation applies the pairing of procedure parameters with the corresponding arguments. 
+Renaming is an annoying by-product of substitution - and it cannot be “compiled away” easily in this model - we need to
+rename the body of the closure each time it is applied (convince yourself of this by finding an example that requires repeated renaming).</p>
+
+<p>The main problem of this approach is that substitution requires repeated analysis of procedure bodies. 
+In every application, the entire procedure body is repeatedly renamed, substituted and reduced.  These operations on ASTs 
+actually <strong>copy</strong> the structure of the whole AST - leading to extensive memory allocation / garbage collection when dealing
+with large programs.  In fact, the substitution interpreter we reviewed is so slow that it is barely usable.</p>
+
+<p>We introduce a new operational semantics model which aims at optimizing the substitution model into an efficient procedure execution algorithm: the <strong>environment based operational semantics model</strong> replaces substitution and renaming by a data structure – the environment – which is associated with every procedure application, is created when a closure is created and accessed when a closure is applied.  We call the procedure that maps expressions to values according to this model <code class="language-plaintext highlighter-rouge">env-eval</code>.</p>
+
+<p>This model is introduced to be an optimization of the applicative-eval model, but it does <strong>not change the operational semantics</strong> of the language:<code class="language-plaintext highlighter-rouge">env-eval</code> returns the same values on the same programs as <code class="language-plaintext highlighter-rouge">applicative-eval</code> and enters into loops on the same programs, and throws exceptions on the same programs.  It does all of this much faster than <code class="language-plaintext highlighter-rouge">applicative-eval</code>.</p>
+
+<p>The distinction between substitution and environment models is orthogonal to the distinction between applicative and normal evaluation strategies.  We can combine these 2 options independently of each other and obtain 4 distinct evaluation algorithms, which implement two distinct operational semantics (applicative vs. normal).</p>
+
+<p>As we have introduced when presenting the 
+<a href="https://bguppl.github.io/interpreters/class_material/class_material/2.5OperationalSemantics.html"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 121%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> substitution model</a>, an environment is a finite mapping from variables (the parameters) to values (the argument values). In the substitution model, we used only a single environment - the global environment.<br>
+In the <strong>environment-based model</strong>, we will manipulate <strong>multiple related environments</strong>.</p>
+
+<p>Consider what the steps performed as part of the <code class="language-plaintext highlighter-rouge">apply-procedure</code> step of the substitution applicative-order model when we apply a closure to a list of arguments:</p>
+<ul>
+  <li>We computed the values of the arguments</li>
+  <li>We renamed bound variables in the body</li>
+  <li>We replaced all free occurrences of type <code class="language-plaintext highlighter-rouge">VarRef</code> of the parameters of the body with the computed values.</li>
+</ul>
+
+<p>The objective of this manipulation was to pre-process <code class="language-plaintext highlighter-rouge">VarRef</code> expressions in the body of the procedure - so that, when we reduce the body (evaluate the body after the substitution step), we do not reach variables such as <code class="language-plaintext highlighter-rouge">x</code>, but instead find the value to which <code class="language-plaintext highlighter-rouge">x</code> was bound at the time of the closure application.</p>
+
+<p>The environment-based model turns this process around by making the <code class="language-plaintext highlighter-rouge">VarRef</code> substitution a <strong>lazy operation</strong>: instead of replacing <code class="language-plaintext highlighter-rouge">VarRef</code>s before reduction, we start reduction with a substitution object on the side, and if and when we reach a <code class="language-plaintext highlighter-rouge">VarRef</code>, then we resolve it with the substitution - instead of using the global environment. It turns out that we can use exactly the same environment data structure to keep track of the required lazy substitution as we used to maintain the 
+global environment when dealing with <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 121%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container>.</p>
+
+<h2 id="elements-of-the-environment-model">Elements of the Environment Model</h2>
+
+<p>The elements of the environment model include:</p>
+
+<ol>
+  <li>Data structures
+    <ul>
+      <li>The environment data structure is organized as a linked list of <strong>frames</strong> - each frame maps variables to values.
+The links in the list of frames correspond to nested invocations of closures.</li>
+      <li>The <strong>closure</strong> data structure is modified to carry an environment.
+The environment associated to the closure remembers the set of variables that were accessible when the closure was created.</li>
+    </ul>
+  </li>
+  <li>Evaluation rules
+    <ul>
+      <li>Expressions are evaluated with respect to an environment. 
+The environment plays the role of a context for the evaluation - 
+so that, the same expression evaluated in different contexts will yield different values.<br>
+For example, <code class="language-plaintext highlighter-rouge">(* x x)</code> evaluated in the context of an environment <code class="language-plaintext highlighter-rouge">{x=2}</code> results in 4, in an environment <code class="language-plaintext highlighter-rouge">{x=3}</code>, 9.</li>
+      <li>The evaluation rule for procedure application is modified, so to replace substitution (and renaming) by environment creation.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="the-environment-data-structure">The Environment Data Structure</h2>
+
+<h3 id="environment-terminology">Environment Terminology</h3>
+<ol>
+  <li>An environment is a finite sequence of <strong>frames</strong>: <code class="language-plaintext highlighter-rouge">&lt;f1; f2; ... ; fn&gt;</code>.</li>
+  <li>A frame represents a substitution of variables by values. A variable-value pair in a frame is called a <strong>binding</strong>.</li>
+  <li>Environments can overlap. An environment <code class="language-plaintext highlighter-rouge">&lt;f1; f2; ... ; fn&gt;</code> includes n embedded environments: <code class="language-plaintext highlighter-rouge">&lt;f1; f2; ... ; fn&gt;</code>; 
+<code class="language-plaintext highlighter-rouge">&lt;f2; ... ; fn&gt;</code>; … ; <code class="language-plaintext highlighter-rouge">&lt;fn&gt;</code>;.</li>
+  <li>The empty sequence of frames is called the <strong>empty environment</strong>.</li>
+  <li>The environment <code class="language-plaintext highlighter-rouge">&lt;fi+1; fi+2; ... ; fn&gt;</code> is the <strong>enclosing environment</strong> of the frame <code class="language-plaintext highlighter-rouge">fi</code> in <code class="language-plaintext highlighter-rouge">&lt;f1; f2; ... ; fn&gt;</code>, and <code class="language-plaintext highlighter-rouge">fi</code> extends the environment <code class="language-plaintext highlighter-rouge">&lt;fi+1; fi+2; ... ; fn&gt;</code>.</li>
+  <li>Another form of environment overlapping is <strong>tail sharing</strong>, i.e., environments that share ancestors environment, as in 
+<code class="language-plaintext highlighter-rouge">&lt;k; f1; f2; ... ; fn&gt;</code> and <code class="language-plaintext highlighter-rouge">&lt;l; f1; f2; ... ; fn&gt;</code>.</li>
+</ol>
+
+<h3 id="variable-value-definitions-apply-env-operation">Variable Value Definitions (Apply-env Operation)</h3>
+<ol>
+  <li>The value of a variable <code class="language-plaintext highlighter-rouge">x</code> in a frame <code class="language-plaintext highlighter-rouge">f</code> is given by <code class="language-plaintext highlighter-rouge">f(x)</code> (an operation we call <code class="language-plaintext highlighter-rouge">apply-frame(f,x)</code>).</li>
+  <li>The value of a variable <code class="language-plaintext highlighter-rouge">x</code> in an environment <code class="language-plaintext highlighter-rouge">E</code> is the value of <code class="language-plaintext highlighter-rouge">x</code> in the first frame of <code class="language-plaintext highlighter-rouge">E</code> in which it is defined. 
+If <code class="language-plaintext highlighter-rouge">x</code> is not defined in any frame of <code class="language-plaintext highlighter-rouge">E</code>, it is unbound in <code class="language-plaintext highlighter-rouge">E</code>.</li>
+  <li>Calculating the value of a variable <code class="language-plaintext highlighter-rouge">x</code> in an environment E is the operation <strong>apply-env(E, x)</strong> - this is a recursive operation across the linked list of frames in the environment.</li>
+</ol>
+
+<p>The interface of the Frame and Environment data types thus includes:</p>
+
+<ol>
+  <li>Value constructors
+    <ul>
+      <li>Frame: <code class="language-plaintext highlighter-rouge">make-frame(vars,vals)</code> - we will denote frames as <code class="language-plaintext highlighter-rouge">{var=val, ...}</code></li>
+      <li>Environment: <code class="language-plaintext highlighter-rouge">make-empty-env()</code>, <code class="language-plaintext highlighter-rouge">extend-env(env, frame)</code></li>
+    </ul>
+  </li>
+  <li>Accessors
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">apply-frame(frame, var)</code> - which we will denote <code class="language-plaintext highlighter-rouge">frame(var)</code></li>
+      <li><code class="language-plaintext highlighter-rouge">apply-env(env, var)</code> - which we will denote <code class="language-plaintext highlighter-rouge">env(var)</code></li>
+      <li><code class="language-plaintext highlighter-rouge">env-&gt;frame(env)</code> and <code class="language-plaintext highlighter-rouge">env-&gt;enclosing-env(env)</code></li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="direct-evaluation-of-let-expressions">Direct Evaluation of Let-expressions</h2>
+
+<p>Let us consider an evaluation rule for the direct computation of a let-expression:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;let-exp&gt; ::= (let (&lt;binding&gt;*) &lt;cexp&gt;+) // let-exp(bindings:List(Binding), body:List(Cexp))
+&lt;binding&gt; ::= (&lt;var&gt; &lt;cexp&gt;) // binding(var:Var-decl, val:Cexp)
+</code></pre></div></div>
+
+<p>For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(let ((x 1) (y 2)) (+ x y))
+</code></pre></div></div>
+
+<p>We saw earlier (<a href="https://github.com/bguppl/interpreters/blob/master/src/L3/rewrite.ts">rewrite.ts</a>) that let-exp can be considered syntactic sugar (or syntactic abbreviation) for procedure application - and hence a syntactic rewrite operation leads us to a form that we know how to evaluate using closure creation and closure application.</p>
+
+<p>We now introduce a direct evaluation rule for let-expressions to illustrate the use of environments.
+The two evaluation rules are semantically equivalent - that is, they will always produce exactly the same results.</p>
+
+<p>How do we evaluate the let-expression using environments instead of substitution?</p>
+
+<p>What we want to achieve, is to evaluate the body of the let-expression in a context such that when we ask to compute the VarRef x and y, we obtain the corresponding values (1 and 2).</p>
+
+<p>In order to achieve this goal, we construct a new environment with a frame in which x and y are bound to 1 and 2, and then evaluate the body in this environment: compute(<code class="language-plaintext highlighter-rouge">(+ a b)</code>, env({a=1, b=2})).</p>
+
+<p>But this is not sufficient. Consider the following program:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(let ((a 1))
+    (let ((b (+ a a)))
+        (+ a b)))
+</code></pre></div></div>
+
+<p>There are 2 let-expressions embedded in each other.  By the rule we just presented, we will evaluate the inner-let expression in an environment in which a is bound to 1 - let us denote it env({a=1}).</p>
+
+<p>We first compute the new environment for the inner-let - by computing the expression <code class="language-plaintext highlighter-rouge">(+ a a)</code> in env({a=1}) - yielding 2.
+We then evaluate the inner-let body <code class="language-plaintext highlighter-rouge">(+ a b)</code> in a new environment env({b=2}).</p>
+
+<p>We realize that it is not sufficient to evaluate the body in an environment that binds the let variables - we also need to <strong>inherit the bindings from the current environment</strong>.  So that the inner-let needs to be evaluated in an environment:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eval-env((+ a b), &lt;{b=2};{a=1}&gt;)
+</code></pre></div></div>
+
+<p>We generalize from this observation the evaluation rule for let-expressions which crucially relies on <strong>nested-environments</strong>:</p>
+
+<h3 id="let-evaluation-rule">Let Evaluation Rule</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>If exp = let-exp(bindings, body):
+  env-eval(exp, env) is computed by:
+      let vars = variables in bindings
+          vals = value expressions in bindings
+          let cvals = eval(val, env) for val in vals
+              return eval-sequence(body, 
+                                   extend-env(env, make-frame(vars, cvals)))
+</code></pre></div></div>
+
+<p>There are two key points to note in this evaluation rule:</p>
+<ul>
+  <li>The values of each var in the let declaration are evaluated in the current environment. Thus, they are outside the scope of the new variable declarations - and the variables defined in the let cannot be used in the right-hand side of the bindings.</li>
+  <li>The body of the let expression is evaluated in a new environment that has a new frame which represents the new variable declarations bound to their computed values.</li>
+</ul>
+
+<h2 id="from-let-to-closure">From Let to Closure</h2>
+
+<p>Let us recall that a let-expression is semantically equivalent to the construction of a procedure and its application:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(let ((a 1) (b 2)) &lt;body&gt;) ~ 
+((lambda (a b) &lt;body&gt;)
+ 1 2)
+</code></pre></div></div>
+
+<p>By the same reasoning as for let-expressions, let us try to derive the evaluation rule in env-eval of a procedure application as follows:</p>
+
+<h3 id="application-evaluation-rule-attempt-1">Application Evaluation Rule (Attempt 1)</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>If exp=app-exp(rator, rands):
+   env-eval(exp, env) is computed by:
+       let proc = env-eval(rator, env)
+           args = eval(rand, env) fro rand in rands
+           if proc is a closure:
+             let params = closure.params(proc)
+               body = closure.body(proc)
+               return eval-sequence(body,
+                                    extend-env(env, make-frame(params, args))) ### !! See below  !!
+           else
+             return apply-primitive(proc, args)
+</code></pre></div></div>
+
+<p>If we try to apply this rule to the following program - all seems to be ok:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>env-eval[ ((lambda (a b) (+ a b)) 1 2), &lt;&gt; ]
+==&gt; env-eval[ (+ a b) , &lt;{a=1, b=2}&gt; ]
+==&gt; 3
+</code></pre></div></div>
+
+<p>But consider now what happens if we evaluate the following program:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(let ((x 1))                       ;; E1
+  (let ((p (lambda (y) (+ x y))))  ;; E2
+    (let ((x 2))                   ;; E3
+      (p x))))
+</code></pre></div></div>
+
+<p>The computation of p returns a closure <code class="language-plaintext highlighter-rouge">(closure (y) (+ x y))</code>.
+We then enter the body of the third inner-let and compute <code class="language-plaintext highlighter-rouge">(p x)</code> in the following environment:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>E1 = extend-env(empty-env, {x=1}) = &lt;{x=1}&gt;
+E2 = extend-env(E1, {p = (closure (y) (+ x y))}) = &lt;{p=(closure..)};{x=1}&gt;
+E3 = extend-env(E2, {x = 2}) = &lt;{x=2&gt;;&lt;p=(closure...);{x=1}&gt;
+</code></pre></div></div>
+
+<p>In this environment, we compute <code class="language-plaintext highlighter-rouge">(p x)</code> - which means we apply the application rule we tried to define above and obtain:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let proc = (closure (y) (+ x y))
+    args = (2)
+    let params = (y)
+        body = ((+ x y))
+        return env-eval-sequence(body, extend-env(E3, {y=2})
+</code></pre></div></div>
+
+<p>Eventually, we evaluate <code class="language-plaintext highlighter-rouge">(+ x y)</code> in an environment E4 = &lt;{y = 2} ; {x = 2} ; { p = …} ; {x = 1}&gt;</p>
+
+<p>The key observation, is that the inner frame binding x to 2 hides the outer frame binding x to 1.
+The result of this reduction is thus 4.</p>
+
+<p>This is <strong>wrong</strong>: this program yields 3 in Scheme and in the applicative-eval substitution model.</p>
+
+<h3 id="fixing-the-application-evaluation-rule-enforcing-lexical-scoping">Fixing the Application Evaluation Rule: Enforcing Lexical Scoping</h3>
+
+<p>The root of the problem is that the closure that we computed in step 2 must <strong>remember</strong> the bindings of the variables that occur free in its body - not only the bindings of its parameters.</p>
+
+<p>If we look at the procedure p - <code class="language-plaintext highlighter-rouge">(lambda (y) (+ x y))</code> - it has one <strong>explicit</strong> parameter, y, but it also has an <strong>implicit dependency on the free variable x</strong>.</p>
+
+<p>Scheme (and most sane programming languages) resolve these implicit dependencies by using the rules of <strong>lexical scoping</strong> which we reviewed in 
+<a href="https://bguppl.github.io/interpreters/class_material/class_material/2.4SyntacticOperations.html">Syntactic Properties of Expressions</a> when we defined lexical addressing.</p>
+
+<p>The rule we wrote above does not respect these rules - because it leaves the free variables in the body of the closure free until the moment of the closure application.  This leads to the wrong effect of <strong>variable capture</strong> that we have observed above - where x was captured by the inner let in E3.</p>
+
+<p>To fix this problem, we must <strong>add memory to the closure</strong> data structure: in addition to the list of parameters (which will be bound when the closure is applied to its arguments), we must also remember the <strong>binding of the free variables in the context in which the closure was created</strong>.  In the example above, the closure must remember the binding of x in the context of E1.</p>
+
+<p><strong>NOTE</strong>: This behavior is what justifies the name of the <em>closure</em> - it <em>closes bindings</em> inside its memory.</p>
+
+<p>When we evaluate a closure application, we must then use the environment which the closure remembers - <strong>instead of the current environment</strong>.</p>
+
+<p>To fix the evaluation rule, we must therefore:</p>
+
+<ul>
+  <li>Update the definition of the <code class="language-plaintext highlighter-rouge">closure</code> data structure to include: params, body <em>and</em> environment at closure creation time.</li>
+  <li>Change the closure application rule to use the closure env as a basis for the extend-env instead of the current env.</li>
+</ul>
+
+<p><strong>NOTE</strong>: Why didn’t we see this problem when we specified the evaluation rule for let-expressions?</p>
+
+<h3 id="correct-evaluation-rule-for-applications">Correct Evaluation Rule for Applications</h3>
+
+<p>The closure data-structure is updated to include a new <code class="language-plaintext highlighter-rouge">env</code> field:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;closure&gt; ::= closure(params:List(Var-decl), body:List(CExp), env:Env)
+</code></pre></div></div>
+
+<p>The closure.env field is initialized when the closure is <strong>created</strong> - that is, when a proc-exp expression is evaluated:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>If exp=proc-exp(params, body):
+   env-eval(exp, env) is computed by:
+       return make-closure(params, body, env)
+</code></pre></div></div>
+
+<p>The closure.env field remembers the environment with the bindings for all the variables that may occur free in its body beyond its parameters.  This field is eventually used when the closure is applied:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>If exp=app-exp(rator, rands):
+   env-eval(exp, env) is computed by:
+       let proc = env-eval(rator, env)
+           args = eval(rand, env) for rand in rands
+           if proc is a closure:
+             let params = closure.params(proc)
+                 body = closure.body(proc)
+                 closure-env = closure.env(proc)
+               ;; Extend the **closure-env** and **not** the current env
+               return eval-sequence(body,
+                                    extend-env(closure-env, make-frame(params, args))) 
+           else
+             return apply-primitive(proc, args)
+</code></pre></div></div>
+
+<p>When we apply this new and corrected evaluation rule to the case above, we now obtain the expected result:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>env-eval [ (let ((x 1))                       ;; E1
+             (let ((p (lambda (y) (+ x y))))  ;; E2
+               (let ((x 2))                   ;; E3
+                  (p x)))), 
+           empty-env() ] ==&gt;
+           
+  env-eval [ (let ((p (lambda (y) (+ x y))))  ;; E2
+               (let ((x 2))                   ;; E3
+                  (p x))), 
+             ext-env({}, {x=1}) ]  ==&gt;
+           
+    env-eval [ (let ((x 2)) ;; E3
+                  (p x)),
+               ext-env({}; {x=1}; {p = (closure (y) (+ x y) {};{x=1}) ] ==&gt;   ;; #1: Store env
+             
+      env-eval[ (p x),
+                ext-env({};{x=1};{p=(closure(y)(+ x y) {};{x=1});{x=2} ] ==&gt;
+                
+        env-eval[ (+ x y),                                                    ;; #2: Use stored env
+                  ext-env( {};{x=1};{y=2} ) ] ==&gt; 3
+</code></pre></div></div>
+
+<p>As expected, <code class="language-plaintext highlighter-rouge">env-eval</code> returns the same value as the substitution model (and as Scheme).</p>
+
+<h2 id="env-eval-interpreter">Env-Eval Interpreter</h2>
+
+<p>The env-eval model is implemented in the following code <a href="https://github.com/bguppl/interpreters/tree/master/src/L4">L4</a>:</p>
+<ul>
+  <li>AST for L4 with let and letrec expressions: <a href="https://github.com/bguppl/interpreters/blob/master/src/L4/L4-ast.ts">L4-ast.ts</a></li>
+  <li>Immutable environment data type - empty-env, extend-env: <a href="https://github.com/bguppl/interpreters/blob/master/src/L4/L4-env.ts">L4-env.ts</a></li>
+  <li>Values datatype for L4 with Closures that include a reference to environment: <a href="https://github.com/bguppl/interpreters/blob/master/src/L4/L4-value.ts">L4-value.ts</a></li>
+  <li>Environment-based interpreter: <a href="https://github.com/bguppl/interpreters/blob/master/src/L4/L4-eval.ts">L4-eval.ts</a></li>
+  <li>Tests: <a href="https://github.com/bguppl/interpreters/blob/master/test/L4/L4-eval.test.ts">L4-eval.tests.ts</a></li>
+</ul>
+
+<p>The interpreter is <strong>identical</strong> to that of the substitution model for L3 we reviewed previously except for the following places:</p>
+<ul>
+  <li>Support for direct evaluation of let-exp expressions with extend-env.</li>
+  <li>An expanded version of the closure data structure with the env field.</li>
+  <li>The evaluation rule for proc-exp which stores the current env in the created closure.</li>
+  <li>The procedure apply-proc.</li>
+</ul>
+
+<h2 id="visual-notation-for-the-environment-model">Visual Notation for the Environment Model</h2>
+
+<p>To properly understand the process of expression evaluation using the environment model, we develop a visual notation to trace the development of environments and their relation.  As a program evaluation proceeds, multiple environments are created, with various relations between them:</p>
+
+<ul>
+  <li>When a closure is created, the closure refers to the environment in which it was created.</li>
+  <li>When a closure is applied, a new environment is created which extends the closure environment.
+The new closure also refers to the current environment (in which the application is evaluated) - this reference is called 
+the <strong>return control</strong> relation.</li>
+  <li>When a let-expression is evaluated, a new environment is created which extends the current environment.</li>
+</ul>
+
+<p>A frame is represented as a box containing bindings - denoted var:val.</p>
+
+<p>An environment is represented as a frame which links to its enclosing environment as a chain of frame boxes.</p>
+
+<p><img src="./Environment Model of Operational Semantics _ Principles of Programming Languages_files/1_1.png" alt="env as chain of frame boxes"></p>
+
+<p>The environment diagrams display all the environments constructed over the process of an expression evaluation using env-eval.
+Each environment is identified by a unique name and a serial number in the order of environment construction.
+By convention, we use the names E1, E2, …, where the environment named Ei is the i-th in the construction order. 
+The global environment is named GE.</p>
+
+<p>Each environment is associated with a lexical block in the evaluated code, and its code.</p>
+
+<p>Each environment has a return control link and a return value. 
+The return control link points to the environment where computation continues, once the evaluation of the code of the environment is over. The return value is the value of the evaluation of the code of the environment.</p>
+
+<h3 id="scoping-and-control">Scoping and Control</h3>
+
+<ul>
+  <li>The tree structured lexical scopes of the program are reflected in the tree structure of frames in an environment diagram.</li>
+  <li>The sequential computation is reflected in the linear order of frames.</li>
+</ul>
+
+<p>Therefore, the environment links (from environment to enclosing environment) – create a tree structure, while the return control links create a linear order.</p>
+
+<h3 id="visual-representation-of-closures">Visual Representation of Closures</h3>
+
+<p>The visual notation for a closure includes is a double circle - the left circle is annotated with the params and body of the closure; the right circle is an arrow which points to the environment in which the closure was created.</p>
+
+<p><img src="./Environment Model of Operational Semantics _ Principles of Programming Languages_files/1_2.png" alt="env diagram with closure"></p>
+
+<p>When the diagram refers to source code, we identify the lexical blocks in the source code with identifiers such as B1, B2.</p>
+
+<p>Consider the source code:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(define sq (lambda (x) (* x x)))
+(define sum-of-square (lambda (x y) (+ (sq x) (sq y))))
+(define f (lambda (a) (sum-of-squares (+ a 1) (* a 2))))
+</code></pre></div></div>
+
+<p>The corresponding environment diagram showing the 3 created closures (sq, sum-of-squares and f) is:</p>
+
+<p><img src="./Environment Model of Operational Semantics _ Principles of Programming Languages_files/3_1.png" alt="env diagram sq, sum-of-squares, f"></p>
+
+<p>When we evaluate the program <code class="language-plaintext highlighter-rouge">(f 5)</code> - the resulting environment diagram is:</p>
+
+<p><img src="./Environment Model of Operational Semantics _ Principles of Programming Languages_files/3_2.png" alt="env diagram when evaluating (f 5)"></p>
+
+<p><strong>NOTES</strong>:</p>
+<ol>
+  <li>The environments E1, E2, E3 and E4 are created each time a closure is applied.</li>
+  <li>The block of code associated to each environment is written as B3, B2, B1 (for example, E1 results from the application of the closure <code class="language-plaintext highlighter-rouge">f</code> - whose body is B3.</li>
+  <li>These environments extend the environment in which the applied closure was created - in this case, all 4 environments refer to the Global Environment GE.</li>
+  <li>The return control arrow indicates for each environment to which environment it returns once its body computation completes, and which value the body reduction returns.</li>
+</ol>
+
+<p>Learn to draw such environments from code and to retrieve code from an environment.</p>
+
+<h3 id="historical-note-dynamic-scoping">Historical Note: Dynamic Scoping</h3>
+
+<p>The distinction we made above between using the <em>current environment</em> or the <em>closure environment</em> when applying a procedure was clarified only in the late 1970s (between 1975 and 1980).  The confusion was caused by the fact that in most programming languages there was no first class functions, and only the restricted form of let-expressions known as local variables. As we have noted above, in the case of let-expression, the closure-env and the current-env happen to be the same.</p>
+
+<p>The first interpreters of the Lisp-family languages used a scoping policy called <strong>dynamic scoping</strong> which consists of using the current env instead of the closure env when applying a closure.  This is in contrast to the <strong>lexical scoping</strong> discipline we just described.</p>
+
+<p>In general, using dynamic scoping is not a good idea - as it creates unexpected dependencies between unrelated variables and functions which only appear at runtime.</p>
+
+<h2 id="using-closures">Using Closures</h2>
+
+<p>The environment model refined our understanding of closures.<br>
+Closures capture a reference to bindings in the environment in which they are created.</p>
+
+<p>We will now explore programming techniques which exploit this property of features.</p>
+
+<h3 id="frames-lifecycle-in-the-presence-of-closures">Frames Lifecycle in the presence of closures</h3>
+
+<p>Consider the case in which we construct a closure in the scope of a variable, and then exit this scope.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(let ((a 1))            ;; E1
+  (lambda (x) (+ x a)))
+</code></pre></div></div>
+
+<p>When we exit the scope of the let-expression, the environment E1 is usually discarded.
+This is what happens in the usual stack-management of frames as was discussed in SPL: 
+when the process enters a block which defines local variables, we allocate a frame on the stack.<br>
+When the process exits the block, the frame is discarded (popped from the stack).</p>
+
+<p>When a closure is created within this scope though, the frame may need to be kept accessible for a longer period.
+Consider this configuration:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(let ((f (let ((a 1))               ;; E1: &lt;{a=1}&gt;
+            (lambda (x) (+ x a))))) 
+    (f 10))                         ;; E2: &lt;{f=(closure (x) (+x a) E1)}&gt;
+</code></pre></div></div>
+
+<p>The body of the closure f is evaluated in the environment &lt;{x=10};{a=1}&gt; - even though the environment E1 has already been exited and is not accessible anymore.  To wit, if we were to compute:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(let ((f (let ((a 1))               ;; E1: &lt;{a=1}&gt;
+            (lambda (x) (+ x a))))) 
+    a)                         ;; E2: &lt;{f=(closure (x) (+x a) E1)}&gt;
+</code></pre></div></div>
+
+<p>we would obtain a variable undefined error - because a is not accessible anymore in the environment E2.</p>
+
+<p>Following this analysis, we conclude that the lifecycle of frames in the presence of closures must take into account the references that closures keep to frames.</p>
+
+<h3 id="closure-factories">Closure Factories</h3>
+
+<p>The following program pattern exploits the environment memory in closures to create <em>objects</em> with their private environment.</p>
+
+<p>In general - we will understand the evaluation of a lambda-expression (a procedure) as the construction of a closure.</p>
+
+<p>We can thus write “closure maker” functions which, given parameters, construct a closure which remembers these parameters.
+For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(define make-adder
+  (lambda (a)           ;; Parameters to the closure maker
+    (lambda (x)         ;; Construction of the closure
+      (+ a x))))        ;; Body of the closure - refers to the private environment of the closure
+      
+(define a3 (make-adder 3)) ;; This adder has a private state a=3
+(define a5 (make-adder 5)) ;; a5 has a private state a=5
+
+(a3 2) =&gt; 5
+(a5 2) =&gt; 7
+((make-adder 1) 2) =&gt; 3
+</code></pre></div></div>
+
+<p>We constructed various instances of the general adder function - each with its own private state.
+The returned object is a closure, which is a procedure and that we use as a regular function.</p>
+
+<h3 id="using-closures-to-implement-compound-data-structures">Using Closures to Implement Compound Data Structures</h3>
+
+<p>We can then exploit this pattern to represent compound data structures in a purely functional manner - without requiring 
+primitives to construct compound data structures such as pairs or lists or maps.</p>
+
+<p>Here is a closure-based implementation of the pair data structure:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>;; Purpose: closure-based pair value constructor
+;; Signature: make-pair(a,b)
+;; Type: [T1 * T2 -&gt; Closure-Pair(T1,T2)]
+(define make-pair
+  (lambda (a b)                        ;; Parameters of the pair constructor
+    (lambda (msg)                      ;; Interface of the pair object
+      (cond ((eq? msg 'car) a)         ;; Dispatch method for the pair object
+            ((eq? msg 'cdr) b)))))
+
+(let ((p1 (make-pair 1 2))
+      (p2 (make-pair 3 4)))
+   (+ (p1 'car) (p2 'cdr)))
+=&gt; 5
+</code></pre></div></div>
+
+<p>We consider a pair as the aggregation of two values a and b of types T1 and T2.
+We construct a closures which remembers the two provided values in a private environment with bindings for variables a and b.</p>
+
+<p>We must next think of a way to provide access to these values according to the functional interface of the Pair data type.
+We achieve this by writing the body of the closure as a <strong>message-dispatch</strong> pattern: the closure receives as an argument the name of the operation we want to achieve on the pair data structure, and the message dispatch logic computes the operation in the context in which a and b are accessible.</p>
+
+<p>In the case of the Pair datatype, the functional interface we want to expose is <code class="language-plaintext highlighter-rouge">car</code> to access the <code class="language-plaintext highlighter-rouge">a</code> member and <code class="language-plaintext highlighter-rouge">cdr</code> to access the <code class="language-plaintext highlighter-rouge">b</code> member.  We thus implement a message dispatch which knows to receive the <code class="language-plaintext highlighter-rouge">messages</code> <code class="language-plaintext highlighter-rouge">car</code> and <code class="language-plaintext highlighter-rouge">cdr</code> and routes them to the right branch in the cond which executes the right code (retrieve the value of <code class="language-plaintext highlighter-rouge">a</code> or <code class="language-plaintext highlighter-rouge">b</code>).</p>
+
+<p>Assume now we want to extend the functional interface of this compound data type with a method <code class="language-plaintext highlighter-rouge">sum</code> to compute <code class="language-plaintext highlighter-rouge">a+b</code>.
+The direct approach consists of extending the dispatch method:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>;; Purpose: closure-based pair value constructor with add support
+;; Signature: make-adder-pair(a,b)
+;; Type: [Number * Number -&gt; Adder-Pair]
+(define make-adder-pair
+  (lambda (a b)                        ;; Parameters of the pair constructor
+    (lambda (msg)                      ;; Interface of the pair object
+      (cond ((eq? msg 'car) a)         ;; Dispatch method for the adder-pair object
+            ((eq? msg 'cdr) b)
+            ((eq? msg 'add) (+ a b))
+            ))))
+
+(let ((p1 (make-adder-pair 1 2))
+      (p2 (make-adder-pair 3 4)))
+   (+ (p1 'add) (p2 'add)))
+=&gt; 10
+</code></pre></div></div>
+
+<p>How would we handle the case of a method in the data structures which requires a parameter?</p>
+
+<p>There are different ways to support this case - we present here one technique which exploits closures again:</p>
+
+<p>For example, let us extend the adder-pair interface with a method <code class="language-plaintext highlighter-rouge">scale</code> which takes a parameter <code class="language-plaintext highlighter-rouge">k</code> and returns a new pair <code class="language-plaintext highlighter-rouge">[k*a, k*b]</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>;; Purpose: closure-based pair value constructor with scale
+;; Signature: make-scale-pair(a,b)
+;; Type: [Number * Number -&gt; Scale-Pair]
+(define make-scale-pair
+  (lambda (a b)                        ;; Parameters of the pair constructor
+    (lambda (msg)                      ;; Interface of the pair object
+      (cond ((eq? msg 'car) a)         ;; Dispatch method for the adder-pair object
+            ((eq? msg 'cdr) b)
+            ((eq? msg 'scale)          ;; Method with a parameter k
+             (lambda (k) (make-scale-pair (* k a) (* k b))))
+            ))))
+
+(let ((p1 (make-scale-pair 1 2)))
+   (let ((kp1 ((p1 'scale) 3)))         ;; Observe how the parameter k is passed to the method scale
+     (kp1 'cdr))) 
+=&gt; 
+6
+</code></pre></div></div>
+
+<p>To receive a parameter to the method, we actually construct a method closure from within the pair dispatcher.
+Because this closure is constructed in a closure which is activated in the environment in which a and b are accessible,
+the returned closure also has access to the private a and b state binding of the object.  The client code can then
+use this returned closure and pass it the required parameter k.</p>
+
+<h3 id="functional-selectors-for-closure-based-compound-data-structures">Functional Selectors for Closure-based Compound Data Structures</h3>
+
+<p>Instead of adding a new branch in the message-dispatch cond of the closure body, we can generalize the access pattern to the
+fields of a closure-based compound data structure by accepting a functional parameter.</p>
+
+<p>Consider this alternative implementation of the closure-based pair data structure:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>;; Purpose: value constructor for pair-sel data structure
+;; Signature: make-pair-sel(a,b)
+;; Type: [T1 * T2 -&gt; Pair-Sel(T1,T2)
+(define make-pair-sel
+  (lambda (a b)         ;; parameters to the constructor
+    (lambda (sel)       ;; closure constructor
+      (sel a b))))      ;; body of the closure - general selector application
+
+;; Purpose: access the first element in a pair-sel
+;; Signature: pair-first(pair-sel)
+;; Type: [Pair-sel(T1, T2) -&gt; T1]
+(define pair-first
+  (lambda (pair)
+    (pair (lambda (a b) a))))   ;; Pass the a selector
+    
+;; Purpose: access the second element in a pair-sel
+;; Signature: pair-second(pair-sel)
+;; Type: [Pair-sel(T1, T2) -&gt; T2]
+(define pair-second
+  (lambda (pair)
+    (pair (lambda (a b) b))))
+    
+(let ((p1 (make-pair-sel 1 2))
+      (p2 (make-pair-sel 3 4)))
+   (+ (pair-first p1) (pair-second p2)))
+=&gt; 5
+
+(let ((p3 (make-pair-sel 5 6)))
+  (p3 (lambda (a b) (+ a b))))
+=&gt; 11
+
+;; Scale pair - as above, the selector constructs a closure method
+;; which accepts the k parameter.
+(let ((p4 (make-pair-sel 7 8)))
+  (let ((p5-scale (p4 (lambda (a b) 
+                        (lambda (k) 
+                          (make-pair-sel (* k a) (* k b)))))))
+    (pair-first (p5-scale 2))))
+=&gt; 14    
+</code></pre></div></div>
+
+<p>We observe that this functional accessor method generalizes the variants we have observed above.
+It allows the client to pass to the data structure a method which will be invoked in the context of the data structure.</p>
+
+<p>This technique is a variant of the <a href="https://en.wikipedia.org/wiki/Visitor_pattern"><strong>visitor</strong> design pattern</a>.</p>
+
+<h3 id="comparison-closure-based-techniques-with-object-oriented-programming">Comparison Closure-based Techniques with Object Oriented Programming</h3>
+
+<p>The closure-based functional techniques we have just reviewed as closely related to the paradigm of Object-oriented programming.
+(See this <a href="http://people.csail.mit.edu/gregs/ll1-discuss-archive-html/msg03277.html">entertaining Zen story</a> about this comparison.)</p>
+
+<p>The key similarity is that a closure with its private environment is similar to an object with its private state.</p>
+
+<p>The closure exposes a limited functional interface (it can be applied), while an object can expose an interface with multiple methods.</p>
+
+<p>We also did not discuss the aspects of inheritance, composition and interface extension in the closure-based techniques above.  These are all important aspect of OO programming.</p>
+
+<p>Finally, we did not discuss ways in which the syntax of the programming language can make using such techniques easy and approachable.</p>
+
+<h2 id="summary">Summary</h2>
+
+<ol>
+  <li>The environment model is an optimization of the substitution applicative model of the operational semantics.</li>
+  <li>The optimization consists of avoiding the cost of substitution and renaming when applying closures to their arguments - and instead delay the decision of how to map variable references to their value; to allow this decision an environment data structure is maintained and passed to the eval procedure.</li>
+  <li>The environment structure is made up of frames which are linked in a list structure.  Each frame contains bindings of variables to values.</li>
+  <li>When a closure is constructed, a new field in the closure remembers the environment that was active when the closure was created.</li>
+  <li>When a closure is applied to arguments, the body of the closure is evaluated in the environment which extends the closure env with the frame mapping the parameters of the closure to the values of the arguments.</li>
+  <li>
+    <p>Dynamic scoping is a different, unattractive, method to maintain the environment structure - which leads to a <strong>different</strong> operational semantics for a given language.  In dynamic scoping, closures do not remember their environment, and when they are applied, they are applied in the current environment.</p>
+  </li>
+  <li>
+    <p>Environment diagrams illustrate the structure of lexical scopes, the bindings of variables and the control order of environments creation.</p>
+  </li>
+  <li>Closures can be used to remember bindings and maintain private state.</li>
+  <li>Invoking a lambda expression in the context of a function consists of constructing a new closure (make-adder example).</li>
+  <li>Compound data structures can be implemented using closures with a message dispatch pattern (make-pair example).</li>
+  <li>Compound data structures can also be implemented using closures and a functional selector pattern (make-pair-sel example).</li>
+</ol>
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>
