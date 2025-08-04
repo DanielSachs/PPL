@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://bguppl.github.io/interpreters/practice_sessions/ps3.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Scheme Intro | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Scheme Intro">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/practice_sessions/ps3.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/practice_sessions/ps3.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Scheme Intro">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Scheme Intro","url":"https://bguppl.github.io/interpreters/practice_sessions/ps3.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Scheme Intro _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Scheme Intro _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Scheme Intro _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="scheme-intro">Scheme Intro</h1>
+
+<h2 id="practical-session---week-3-pplbgu">Practical Session - Week 3 PPL@BGU</h2>
+
+<p>In this session, we review:</p>
+<ul>
+  <li>Dr. Racket (Scheme)</li>
+  <li>Atomic expressions</li>
+  <li>Compound expressions</li>
+  <li>Primitives in Scheme</li>
+  <li>Design by Contract</li>
+  <li>Types</li>
+  <li>Iterative Functions and Recursive Functions</li>
+</ul>
+
+<h2 id="introduction-to-drracket">Introduction to DrRacket</h2>
+
+<p>In the following practical sessions, we will use the programming language Scheme.
+We use the Racket interpreter of Scheme.
+Program files in Racket are saved with extension *.rkt.</p>
+
+<p>You should install DrRacket software as explained in <a href="https://bguppl.github.io/interpreters/useful_links.html">Useful Links</a></p>
+
+<p>The first time you open DrRacket, you should:</p>
+<ul>
+  <li>Choose a language: Choose Language -&gt; Language -&gt; choose ‘Use the language declared in the source’.</li>
+  <li>Close the software and run it again.</li>
+  <li>All the files should start with the line: <code class="language-plaintext highlighter-rouge">#lang racket</code></li>
+</ul>
+
+<h2 id="atomic-expressions">Atomic Expressions</h2>
+
+<p>Scheme expressions are evaluated by the Interpreter, which computes the expression’s value.</p>
+
+<p>Atomic expressions are expressions that do not consist of other sub-expressions.
+There are several atomic expression types:</p>
+
+<ul>
+  <li>Numbers
+    <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="mi">3</span>
+<span class="mi">3</span>
+<span class="nv">&gt;</span> <span class="mf">3.75</span>
+<span class="mf">3.75</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Booleans:
+    <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="no">#t</span>
+<span class="no">#t</span>
+<span class="nv">&gt;</span> <span class="no">#f</span> 
+<span class="no">#f</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Primitive procedures:
+Primitives get their values from the programming language (in our case Scheme).
+    <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="nv">+</span>
+<span class="o">#</span><span class="nv">&lt;procedure:+&gt;</span>
+<span class="nv">&gt;</span> <span class="nv">not</span>
+<span class="o">#</span><span class="nv">&lt;procedure:not&gt;</span>
+<span class="nv">&gt;</span> <span class="nv">eq?</span>
+<span class="o">#</span><span class="nv">&lt;procedure:eq?&gt;</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>(<code class="language-plaintext highlighter-rouge">&gt;</code> is the Interpreter’s prompt.)</p>
+
+<h2 id="compound-expressions-not-atomic">Compound Expressions (not atomic)</h2>
+
+<p>Compound expressions are expressions that contain nested expressions.
+In Scheme, these expressions are all marked using parentheses <code class="language-plaintext highlighter-rouge">(   )</code>.</p>
+
+<p>Scheme’s syntax is based on <em>prefix notation</em>, which means the procedures (operator) appear before their arguments (operands) in compound expressions. 
+For example:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nb">-</span> <span class="mi">25</span> <span class="mi">5</span><span class="p">)</span>
+<span class="mi">20</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">number?</span> <span class="mf">3.75</span><span class="p">)</span>
+<span class="no">#t</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">4</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="nb">/</span> <span class="mi">4</span> <span class="mi">2</span><span class="p">))</span>
+<span class="no">#t</span>
+</code></pre></div></div>
+
+<h3 id="how-compound-expressions-are-evaluated">How Compound Expressions are Evaluated</h3>
+
+<ul>
+  <li>evaluate the sub-expressions recursively</li>
+  <li>apply the value of the operator on the values of the operands</li>
+</ul>
+
+<p>We can represent that evaluation in an <em>evaluation tree</em>:</p>
+
+<p><img src="./Scheme Intro _ Principles of Programming Languages_files/PS3_img1.png" alt="evaluation_tree"></p>
+
+<h2 id="abstraction">Abstraction</h2>
+
+<p>We can give names to values of expressions by using a <code class="language-plaintext highlighter-rouge">define</code> expression. For example:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="k">define</span> <span class="nv">pi</span> <span class="mf">3.14159</span><span class="p">)</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="k">define</span> <span class="nv">radius</span> <span class="mi">10</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Pay attention! <code class="language-plaintext highlighter-rouge">define</code> is a <em>special form</em>: it is a compound expression which is not evaluated like regular compound expressions.</p>
+
+<p>If we evaluate <code class="language-plaintext highlighter-rouge">define</code> in standard way, then the variable <code class="language-plaintext highlighter-rouge">radius</code> would have to be evaluated - which would lead to an error, (because the whole point of define is to give a value to the variable!).</p>
+
+<h3 id="interpreter-operation---define-var-exp">Interpreter Operation - (define var exp)</h3>
+
+<ul>
+  <li>evaluate the expression <code class="language-plaintext highlighter-rouge">exp</code></li>
+  <li>add the variable <code class="language-plaintext highlighter-rouge">var</code> and the value to the global environment - it is called a <em>binding</em> between the variable and the value.</li>
+</ul>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="nv">pi</span>
+<span class="mf">3.14159</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">pi</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">radius</span> <span class="nv">radius</span><span class="p">))</span>
+<span class="mf">314.159</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="k">define</span> <span class="nv">perimeter</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="nv">pi</span> <span class="nv">radius</span><span class="p">))</span>
+
+<span class="nv">&gt;</span> <span class="nv">perimeter</span>
+<span class="mf">62.8318</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: the evaluation of a define form does not return any value.</p>
+
+<p><strong>Note</strong>: in our course, we do not allow nested <code class="language-plaintext highlighter-rouge">define</code> expressions (that is expressions where define appears embedded inside other expressions).</p>
+
+<h2 id="primitives-in-scheme">Primitives in Scheme</h2>
+
+<p>We will introduce Scheme primitives as we go.</p>
+
+<p>Note that <strong>in contrast to JavaScript</strong>, primitives in Scheme are strongly typed: they expect a specific type as argument, and they throw an error at runtime
+when they are passed a parameter which does not match the expected type.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="no">#t</span><span class="p">)</span>
+<span class="nv">+:</span> <span class="nv">contract</span> <span class="nv">violation</span>
+  <span class="nv">expected:</span> <span class="nv">number?</span>
+  <span class="nv">given:</span> <span class="no">#t</span>
+  <span class="nv">argument</span> <span class="nv">position:</span> <span class="mi">2</span><span class="nv">nd</span>
+  <span class="nv">other</span> <span class="nv">arguments</span><span class="o">...</span><span class="nv">:</span>
+   <span class="mi">1</span>
+</code></pre></div></div>
+
+<p>As a starting point, the following primitives are all numeric primitives - that is, their type is [Number * Number -&gt; Number]: <code class="language-plaintext highlighter-rouge">+, *, -, /</code></p>
+
+<p>The following procedures are numeric predicates - that is their type is [Number * Number -&gt; Boolean]: <code class="language-plaintext highlighter-rouge">&lt;&gt;, &lt;, &gt;=, &lt;=, =</code></p>
+
+<p>(Note: most primitives in Scheme can take a variable number of parameters as in <code class="language-plaintext highlighter-rouge">(+ 1 2 3)</code>.)</p>
+
+<h2 id="procedure-type">Procedure Type</h2>
+
+<p>We can define new user procedures (not primitive) by using <code class="language-plaintext highlighter-rouge">lambda</code> expressions, which is also a special form:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="nv">&lt;formal-parameters&gt;</span> <span class="nv">&lt;body&gt;</span><span class="p">)</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">rad</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">pi</span> <span class="nv">rad</span> <span class="nv">rad</span><span class="p">))</span>
+<span class="o">#</span><span class="nv">&lt;procedure&gt;</span>
+</code></pre></div></div>
+
+<p>lambda is a value constructor of procedures.</p>
+
+<p>The value of a lambda expression is called <code class="language-plaintext highlighter-rouge">closure</code>.  Remember to distinguish between syntax (lambda expression) and semantics (closure value).</p>
+
+<p>lambda defines anonymous procedures:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">((</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">rad</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">pi</span> <span class="nv">rad</span> <span class="nv">rad</span><span class="p">))</span> <span class="mi">10</span><span class="p">)</span>
+<span class="mf">314.159</span>
+</code></pre></div></div>
+
+<p>In this example, rad is a formal parameter of the anonymous procedures.
+The value 10 is an argument for this procedure.</p>
+
+<p>To compute the application of a closure to parameters, the interpreter replaces every occurrence of the formal parameter <code class="language-plaintext highlighter-rouge">rad</code> in the body of the function with the value 10.</p>
+
+<p>We can combine a <code class="language-plaintext highlighter-rouge">define</code> expression with <code class="language-plaintext highlighter-rouge">lambda</code> expressions to define named procedures:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="k">define</span> <span class="nv">average</span> 
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> 
+      <span class="p">(</span><span class="nb">/</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">2</span><span class="p">)))</span>
+
+<span class="nv">&gt;</span> <span class="nv">average</span>
+<span class="o">#</span><span class="nv">&lt;procedure:average&gt;</span>
+</code></pre></div></div>
+
+<h3 id="procedures-summary">Procedures Summary</h3>
+
+<p>The definition of a procedure consists of:</p>
+<ul>
+  <li>formal parameters</li>
+  <li>body - list of expressions</li>
+</ul>
+
+<p><big>Example 1:</big></p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">average1</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">/</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">2</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>The return value of the procedure above is the last expression.
+The previous expressions are evaluated and the Interpreter ignores them.</p>
+
+<p>So why do we allow multiple expressions in the body of a procedure? When is it useful?</p>
+
+<p><big>Example 2 - procedure with side effects:</big></p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">average2</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">display</span> <span class="nv">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>       <span class="c1">;; Useless in this context</span>
+    <span class="p">(</span><span class="nb">newline</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">display</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">newline</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">/</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">;; Return value of the procedure</span>
+  <span class="p">))</span> 
+</code></pre></div></div>
+
+<p>The variables <code class="language-plaintext highlighter-rouge">display</code> and <code class="language-plaintext highlighter-rouge">newline</code> denote Scheme primitives.</p>
+
+<p>The return value of <code class="language-plaintext highlighter-rouge">display</code> and <code class="language-plaintext highlighter-rouge">newline</code> expressions is <code class="language-plaintext highlighter-rouge">void</code>, but they have a side effect - they print to stdout.
+(<code class="language-plaintext highlighter-rouge">void</code> is a special value which is used in Scheme to indicate the returned value is of no importance - it is returned by the <code class="language-plaintext highlighter-rouge">(void)</code> procedure).</p>
+
+<p>The expression <code class="language-plaintext highlighter-rouge">(+ x y)</code> is unnecessary, because it does not have a side effect and is in the middle of the sequence of expressions.</p>
+
+<p>The semantics of the execution of the body is to execute all the expressions in sequence - in the order in which they occur in the body.</p>
+
+<p>Order is important because of the side-effects.  Sequence is only meaningful when there are side-effects.</p>
+
+<h3 id="functional-equivalence">Functional Equivalence</h3>
+
+<p><strong>Definition:</strong> Two procedures are functionally equivalent if and only if they either: 
+enter into an infinite loop on the same inputs, or throw exceptions on the same inputs, or halt on the same inputs and return the same value on these parameters.</p>
+
+<p><big>Question 1:</big> Are the procedures <code class="language-plaintext highlighter-rouge">average1</code> and <code class="language-plaintext highlighter-rouge">average2</code> functionally equivalent?</p>
+
+<p><big>Question 2:</big> look at the following procedure:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">addition</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">display</span> <span class="ss">'ok</span><span class="p">)))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">addition</span> <span class="mi">2</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nv">ok</span>
+</code></pre></div></div>
+
+<p>What should be the value of the expression?</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nf">void?</span> <span class="p">(</span><span class="nf">addition</span> <span class="mi">2</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nv">ok</span><span class="no">#t</span>
+</code></pre></div></div>
+
+<p>What is the return value?</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">addition</span> <span class="mi">2</span> <span class="p">(</span><span class="nf">addition</span> <span class="mi">3</span> <span class="mi">5</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h2 id="design-by-contract">Design By Contract</h2>
+
+<p>When writing procedures, we follow the <em>Design by Contract</em> methodology.</p>
+
+<p>Practically, this means we first specify the contract that the procedure must enforce.
+We document it as a formatted set of comments before the procedure definition:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: area-of-ring(outer,inner)</span>
+<span class="c1">; Purpose: To compute the area of a ring whose radius is</span>
+<span class="c1">;          ’outer’ and whose hole has a radius of ’inner’</span>
+<span class="c1">; Type: [Number*Number -&gt; Number]</span>
+<span class="c1">; Example: (area-of-ring 5 3) should produce 50.24</span>
+<span class="c1">; Pre-conditions: outer &gt;= 0, inner &gt;= 0, outer &gt;= inner</span>
+<span class="c1">; Post-condition: result = PI * outer^2 - PI * inner^2</span>
+<span class="c1">; Tests: (area-of-ring 5 3) ==&gt; 50.24</span>
+</code></pre></div></div>
+
+<p><strong>Signature</strong> specifies the name of the procedure, and its parameters.</p>
+
+<p><strong>Purpose</strong> is a short textual description.</p>
+
+<p><strong>Type</strong> specifies the types of the input parameters and of the returned value. 
+The types of number-valued and boolean-valued expressions are Number and Boolean, respectively.
+The type of a procedure is denoted:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[(type of arg1) *...* (type of argn) –&gt; (return type)].
+</code></pre></div></div>
+
+<p><strong>Example</strong> gives examples of procedure applications and their expected return values.</p>
+
+<p><strong>Pre-conditions</strong> specify conditions that the input parameters are obliged to satisfy - beyond those expressed by the type.</p>
+
+<p><strong>Post-conditions</strong> specify conditions that the returned value is responsible to satisfy.</p>
+
+<p><strong>Tests</strong> provide test cases.</p>
+
+<p>For important procedures, it is good practice to include all of these fields in the contract.</p>
+
+<p>For <strong>all</strong> procedures, we require in all Scheme code produced in the class to have at least
+these 3 components:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: area-of-ring(outer,inner)</span>
+<span class="c1">; Purpose: To compute the area of a ring whose radius is</span>
+<span class="c1">;          ’outer’ and whose hole has a radius of ’inner’</span>
+<span class="c1">; Type: [Number*Number -&gt; Number]</span>
+</code></pre></div></div>
+
+<p>If the pre-condition is not trivial (that is, always true), then you must specify it as well.</p>
+
+<p>For example:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: fact(n)</span>
+<span class="c1">; Type: [Number -&gt; Number]</span>
+<span class="c1">; Purpose: compute the factorial of n.</span>
+<span class="c1">; Pre-conditions: n is a natural number</span>
+<span class="c1">; Tests:  (fact 5) =&gt; 120              </span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">fact</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span>	<span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="mi">1</span>
+      <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="p">(</span><span class="nf">fact</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<p>If there are no pre-conditions, you should write <code class="language-plaintext highlighter-rouge">true</code>. 
+The programmer of the procedure should not check the pre-conditions - it is the responsibility of the client to make sure pre-conditions are met before calling the procedure.</p>
+
+<p>The central idea of DbC is a metaphor on how elements of a software system collaborate
+with each other, on the basis of mutual obligations and benefits. The metaphor comes
+from business life, where a client and a supplier agree on a contract. The contract defines
+obligations and benefits. If a routine provides a certain functionality, it may:</p>
+<ul>
+  <li>Impose a certain obligation to be guaranteed on entry by any client module that calls it: The routine’s precondition – an obligation for the client, and a benefit for the supplier.</li>
+  <li>Guarantee a certain property on exit: The routine’s post-condition is an obligation for the supplier, and a benefit for the client.</li>
+  <li>Maintain an invariant.</li>
+</ul>
+
+<p>The contract is the formalization of these obligations and benefits.</p>
+
+<p>The separation of responsibilities between caller and implementer of the procedures is:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---------------------------------------------------------------------
+            |          Client                       Supplier
+------------|--------------------------------------------------------
+Obligation: | Guarantee precondition         Guarantee post-condition
+Benefit:    | Guaranteed post-condition      Guaranteed precondition
+---------------------------------------------------------------------
+</code></pre></div></div>
+
+<h2 id="compound-types">Compound Types</h2>
+
+<p>In Scheme, we will use two compound types (others exist in Scheme, but we restrict ourselves to these 2 types):</p>
+<ul>
+  <li>Pair type</li>
+  <li>List type</li>
+</ul>
+
+<h3 id="pair-type">Pair Type</h3>
+
+<p>A pair value combines 2 values into a single unit.</p>
+
+<p>For values a (of type T1) and b (of type T2), we create a new value (of type Pair(T1,T2)) with the value constructor “cons”:
+<code class="language-plaintext highlighter-rouge">(cons a b)</code></p>
+
+<p>The type of the return value is Pair(T1,T2).</p>
+
+<p>Procedures on the Pair type:</p>
+
+<ul>
+  <li>cons    Type: [T1 * T2 -&gt; Pair (T1, T2)]</li>
+  <li>getters:
+    <ul>
+      <li>car:  Type:  [Pair(T1, T2) -&gt; T1]</li>
+      <li>cdr:  Type:  [Pair(T1, T2) -&gt; T2]</li>
+    </ul>
+  </li>
+  <li>predicates:
+    <ul>
+      <li>pair?: Type: [Any -&gt; Boolean]</li>
+    </ul>
+  </li>
+</ul>
+
+<p>For example:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">1</span> <span class="no">#t</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="o">.</span> <span class="no">#t</span><span class="p">)</span>
+</code></pre></div></div>
+<p>The type of the return value is Pair(Number,Boolean).</p>
+
+<p>Note: (cons 1 #t) is a syntactic form - the application of a primitive operator to 2 arguments - ‘(1 . 2) is the semantic value.</p>
+
+<p>Scheme also provides a syntactic form to represent literal compound values of type Pair.
+It is:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="o">.</span> <span class="no">#t</span><span class="p">)</span>  <span class="c1">;; starts with the quote symbol - followed by a parenthesis and `.` between the first and second member of the pair.</span>
+</code></pre></div></div>
+
+<p>When a pair is embedded as the second member of a pair, the literal form in Scheme is changed.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span>
+<span class="c1">;; instead of '(1 . (2 . 3)), it happens because DrRacket does not know</span>
+<span class="c1">;; if it prints pair of pairs or list (see later), until it's too late</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span> <span class="o">.</span> <span class="mi">3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="box-representation---pair-and-cons-cells">Box Representation - Pair and Cons-cells</h3>
+
+<p>Traditionally, pairs are represented graphically as rectangles split in two halves.
+These rectangles are called <em>cons cells</em> - they help understand the structure of compound recursive pair structures.</p>
+
+<p>For people with C++ background, it helps to think of a cons-cell (a pair) as 2 pointers to other values.</p>
+
+<p><big>Example 1:</big></p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="o">.</span> <span class="mi">2</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="./Scheme Intro _ Principles of Programming Languages_files/PS3_img2.png" alt="cons_cell1"></p>
+
+<p><big>Example 2:</big></p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">2</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">))))</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span> <span class="o">.</span> <span class="o">#</span><span class="nv">&lt;procedure&gt;</span><span class="p">)</span>
+</code></pre></div></div>
+<p><img src="./Scheme Intro _ Principles of Programming Languages_files/PS3_img3.png" alt="cons_cell2"></p>
+
+<p>We can use compound accessors to traverse recursive pairs.<br>
+These are convenient abbreviations of combinations of <code class="language-plaintext highlighter-rouge">car</code> and <code class="language-plaintext highlighter-rouge">cdr</code>: the <code class="language-plaintext highlighter-rouge">cdd...dr</code> procedures (maximum 4-<code class="language-plaintext highlighter-rouge">d</code>):</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="k">define</span> <span class="nv">c</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">cons</span> <span class="ss">'cat</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">3</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)))))</span>
+<span class="nv">&gt;</span> <span class="nv">c</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="nv">cat</span> <span class="mi">3</span> <span class="mi">4</span> <span class="o">.</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">cdddr</span> <span class="nv">c</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">4</span> <span class="o">.</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">cdr</span> <span class="p">(</span><span class="nb">cdr</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">c</span><span class="p">)))</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">4</span> <span class="o">.</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">caddr</span> <span class="nv">c</span><span class="p">)</span> <span class="c1">;; equivalent to (car (cdr (cdr c)))</span>
+<span class="mi">3</span>
+</code></pre></div></div>
+
+<h3 id="list-type">List Type</h3>
+
+<p>The type List is defined inductively:</p>
+<ul>
+  <li>an empty list is a list - ‘() or (list)</li>
+  <li>a pair where the second argument is a list, is a list</li>
+</ul>
+
+<p>It helps to define List(T) as Union(EmptyList, NEList(T)) [NEList(T) are the non empty list values]. It also helps to define heterogeneous lists types as Union(EmptyList, NEList) [NEList are the non empty heterogeneous list values].</p>
+
+<p>We distinguish:</p>
+<ul>
+  <li>homogeneous list - all members are the same type T - List(T)</li>
+  <li>heterogeneous list - members with different types - List</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">list</code> - is a value constructor (to create a list). This procedure is a variadic (it can get any number of parameters).
+In particular, (list) returns the empty list.</p>
+
+<p><code class="language-plaintext highlighter-rouge">'()</code> also denotes the empty list.</p>
+
+<p><code class="language-plaintext highlighter-rouge">cons</code> - is a value constructor too.</p>
+
+<p>List primitives:</p>
+<ul>
+  <li>list    Type: [T * T …. -&gt; List(T)]</li>
+  <li>cons    Type: [T * List(T) -&gt; NEList(T)]</li>
+  <li>getters:
+    <ul>
+      <li>car:    Type:  [NEList(T) -&gt; T]</li>
+      <li>cdr:    Type:  [NEList(T) -&gt; List(T)]</li>
+    </ul>
+  </li>
+  <li>predicates:
+    <ul>
+      <li>list?:  Type:  [Any -&gt; Boolean]</li>
+      <li>empty?: Type:  [Any -&gt; Boolean]</li>
+    </ul>
+  </li>
+</ul>
+
+<p>NOTE: We use the same <code class="language-plaintext highlighter-rouge">cons</code> primitive as for pairs - but we <em>think of it</em> as a primitive with a different type.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="o">'</span><span class="p">()</span>
+
+<span class="nv">&gt;</span> <span class="o">'</span><span class="p">()</span>
+<span class="o">'</span><span class="p">()</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">list</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="o">.</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">list</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">2</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">3</span> <span class="o">'</span><span class="p">())))</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="box-representation---list">Box Representation - List</h3>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nb">list</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>
+<span class="o">'</span><span class="p">((</span><span class="nf">1</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>
+</code></pre></div></div>
+<p><img src="./Scheme Intro _ Principles of Programming Languages_files/PS3_img4.png" alt="cons_cell3"></p>
+
+<h3 id="atomic--compound-values-and-equality-testing">Atomic / Compound Values and Equality Testing</h3>
+
+<p>To test whether 2 values are equal, there are multiple predicates in Scheme.</p>
+<ul>
+  <li>(= n1 n2) only works for numeric arguments.</li>
+  <li>(eq? v1 v2) - compares addresses</li>
+  <li>(equal? v1 v2) - compares values</li>
+  <li>There is no way to test that 2 functions are equal (why?)</li>
+</ul>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nb">=</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
+<span class="no">#t</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">=</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>
+<span class="no">#f</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">=</span> <span class="no">#t</span> <span class="no">#t</span><span class="p">)</span>
+<span class="nv">=:</span> <span class="nv">contract</span> <span class="nv">violation</span>
+  <span class="nv">expected:</span> <span class="nv">number?</span>
+  <span class="nv">given:</span> <span class="no">#t</span>
+  <span class="nv">argument</span> <span class="nv">position:</span> <span class="mi">1</span><span class="nv">st</span>
+  <span class="nv">other</span> <span class="nv">arguments</span><span class="o">...</span><span class="nv">:</span>
+   <span class="no">#t</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">eq?</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
+<span class="no">#t</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">eq?</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>
+<span class="no">#f</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">eq?</span> <span class="no">#t</span> <span class="no">#t</span><span class="p">)</span>
+<span class="no">#t</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">eq?</span> <span class="no">#t</span> <span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span><span class="p">))</span>
+<span class="no">#f</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">eq?</span> <span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span><span class="p">)</span> <span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span><span class="p">))</span>
+<span class="no">#f</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="k">define</span> <span class="nv">l12</span> <span class="p">(</span><span class="nb">list</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">eq?</span> <span class="nv">l12</span> <span class="nv">l12</span><span class="p">)</span>
+<span class="no">#t</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">equal?</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
+<span class="no">#t</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">equal?</span> <span class="mi">3</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="no">#f</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">equal?</span> <span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span><span class="p">)</span> <span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span><span class="p">))</span>
+<span class="no">#t</span>
+</code></pre></div></div>
+
+<h3 id="structure-of-procedures-operating-on-lists">Structure of Procedures Operating on Lists</h3>
+
+<p>The general recipe for a procedure that operates on Lists follows the inductive definition of the type:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">&lt;recipeOnList&gt;</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">listOfT</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">listOfT</span><span class="p">)</span>
+       <span class="c1">;; base case</span>
+       <span class="nv">do</span> <span class="nv">if</span> <span class="nv">true</span>
+       <span class="c1">;; recursive case</span>
+       <span class="nv">do</span> <span class="nv">if</span> <span class="nv">false</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>Let us analyze examples of this recipe:</p>
+
+<p><big>Question 1:</big></p>
+
+<p>Write the procedure <code class="language-plaintext highlighter-rouge">remove</code>:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: remove(x lst)</span>
+<span class="c1">; Type: [T * List(T) -&gt; List(T)]</span>
+<span class="c1">; Purpose: remove the first appearance of x in lst</span>
+<span class="c1">; Pre-conditions: true</span>
+<span class="c1">; Tests:  (remove 2 (list 1 3 2 2)) =&gt; '(1 3 2)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">remove</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">lst</span><span class="p">)</span>
+        <span class="nv">lst</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">equal?</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">lst</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+            <span class="p">(</span><span class="nb">cdr</span> <span class="nv">lst</span><span class="p">)</span>
+            <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nf">remove</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">lst</span><span class="p">)))))))</span>
+</code></pre></div></div>
+
+<p><big>Question 2:</big></p>
+
+<p>Write the procedure <code class="language-plaintext highlighter-rouge">remove-all</code>:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: remove-all(x lst)</span>
+<span class="c1">; Type: [T * List(T) -&gt; List(T)]</span>
+<span class="c1">; Purpose: remove all the occurrences of x in lst</span>
+<span class="c1">; Pre-conditions: true</span>
+<span class="c1">; Tests:  (remove-all 2 (list 1 3 2 2)) =&gt; '(1 3)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">remove-all</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">lst</span><span class="p">)</span>
+        <span class="nv">lst</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">equal?</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">lst</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">remove-all</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">lst</span><span class="p">))</span>
+            <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nf">remove-all</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">lst</span><span class="p">)))))))</span>
+</code></pre></div></div>
+
+<p>We saw in the lecture the procedure <code class="language-plaintext highlighter-rouge">filter</code>:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: filter(pred,lst)</span>
+<span class="c1">; Type: [ (T-&gt;Boolean) * List(T) -&gt; List(T) ]</span>
+<span class="c1">; Purpose: Return the list of elements in lst that satisfy pred.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">filter</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">pred</span> <span class="nv">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">lst</span><span class="p">)</span>
+        <span class="o">'</span><span class="p">()</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">pred</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">lst</span><span class="p">))</span>
+            <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nf">filter</span> <span class="nv">pred</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">lst</span><span class="p">)))</span>
+            <span class="p">(</span><span class="nf">filter</span> <span class="nv">pred</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">lst</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<p><big>Question 3:</big> Write the procedure <code class="language-plaintext highlighter-rouge">remove-all</code> using <code class="language-plaintext highlighter-rouge">filter</code>:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: remove-all(x lst)</span>
+<span class="c1">; Type: [T * List(T) -&gt; List(T)]</span>
+<span class="c1">; Purpose: remove the all appearances of x in lst</span>
+<span class="c1">; Pre-conditions: lst is a list</span>
+<span class="c1">; Tests:  (remove-all 2 (list 1 3 2 2)) =&gt; '(1 3)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">remove-all</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">filter</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nb">equal?</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>
+            <span class="nv">lst</span><span class="p">)))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">remove-all</span> <span class="mi">1</span> <span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">3</span> <span class="mi">1</span><span class="p">))</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">2</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">remove-all</span> <span class="o">'</span><span class="p">(</span><span class="nf">a</span> <span class="nv">b</span><span class="p">)</span> <span class="o">'</span><span class="p">((</span><span class="nf">a</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">a</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">a</span> <span class="nv">b</span><span class="p">)</span> <span class="p">(</span><span class="nf">a</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="nf">a</span> <span class="nv">b</span><span class="p">)))</span>
+<span class="o">'</span><span class="p">((</span><span class="nf">a</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">a</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">a</span> <span class="mi">3</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p><big>Question 4:</big> Can we write the procedure <code class="language-plaintext highlighter-rouge">remove</code> using <code class="language-plaintext highlighter-rouge">filter</code>?</p>
+
+<p>No - the decision implemented in filter is independent of the other decisions taken on the list.
+Remove requires us to take a different decision depending on the decisions already taken.</p>
+
+<p><big>Question 5:</big> Write a procedure that finds a pair in a list of pairs by the value of the first element.</p>
+
+<p>Let us define a data type that is similar in functionally to Maps in JavaScript: a list of pairs.
+Traditionally, this is a called an <em>association list</em> in Scheme - or in short AList.</p>
+
+<p><code class="language-plaintext highlighter-rouge">AList(T1, T2) = List(Pair(T1,T2))</code></p>
+
+<p>We think of an AList as a list of values of type T2 indexed by keys of type T1.
+For example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>;; AList(Number,Number)
+'((1 . 10) (2 . 20) (3 . 30))
+
+;; AList(Boolean,Number)
+'((#t . 1) (#f . 0))
+</code></pre></div></div>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Purpose: find a value in an AList given its key.</span>
+<span class="c1">; Signature: alist-get(alist, key)</span>
+<span class="c1">; Type: [AList(T1,T2) * T1 -&gt; T2 | '()]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">alist-get</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">alist</span> <span class="nv">key</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">alist</span><span class="p">)</span>
+        <span class="o">'</span><span class="p">()</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">equal?</span> <span class="p">(</span><span class="nb">caar</span> <span class="nv">alist</span><span class="p">)</span> <span class="nv">key</span><span class="p">)</span>
+            <span class="p">(</span><span class="nb">cdar</span> <span class="nv">alist</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">alist-get</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">alist</span><span class="p">)</span> <span class="nv">key</span><span class="p">)))))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">alist-get</span> <span class="o">'</span><span class="p">((</span><span class="nf">1</span> <span class="o">.</span> <span class="mi">10</span><span class="p">)</span> <span class="p">(</span><span class="nf">2</span> <span class="o">.</span> <span class="mi">20</span><span class="p">)</span> <span class="p">(</span><span class="nf">3</span> <span class="o">.</span> <span class="mi">30</span><span class="p">))</span> <span class="mi">2</span><span class="p">)</span>
+<span class="mi">20</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">alist-get</span> <span class="o">'</span><span class="p">((</span><span class="nf">1</span> <span class="o">.</span> <span class="mi">10</span><span class="p">)</span> <span class="p">(</span><span class="nf">2</span> <span class="o">.</span> <span class="mi">20</span><span class="p">)</span> <span class="p">(</span><span class="nf">3</span> <span class="o">.</span> <span class="mi">30</span><span class="p">))</span> <span class="mi">0</span><span class="p">)</span>
+<span class="o">'</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Can you define <code class="language-plaintext highlighter-rouge">alist-get</code> using filter?</p>
+
+<h2 id="let-expression">Let Expression</h2>
+
+<p>A <code class="language-plaintext highlighter-rouge">let</code> expression gives us the ability to define local variables.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">a</span> <span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="nf">b</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="p">(</span><span class="nb">+</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">))</span>
+<span class="mi">11</span>
+</code></pre></div></div>
+
+<p>Be careful that the values of the variables are computed <strong>outside the scope of the variables</strong>:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">a</span> <span class="mi">1</span><span class="p">)</span> 
+        <span class="p">(</span><span class="nf">b</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">a</span> <span class="mi">3</span><span class="p">)))</span> 
+    <span class="p">(</span><span class="nb">+</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">))</span>
+
+<span class="nv">Error:</span> <span class="nv">a:</span> <span class="nv">undefined</span><span class="c1">; cannot reference an identifier before its definition</span>
+</code></pre></div></div>
+
+<h2 id="iterative-and-recursive-functions">Iterative and Recursive Functions</h2>
+
+<p>We need to implement the function ‘exp’:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: exp(b e) </span>
+<span class="c1">; Type: [Number * Number -&gt; Number] </span>
+<span class="c1">; Purpose: to calculate b to the power e. </span>
+<span class="c1">; Pre-conditions: b &gt;= 0, e is natural. </span>
+<span class="c1">; Tests: (exp 2 3) =&gt; 8</span>
+<span class="c1">;        (exp 2 4) =&gt; 16</span>
+<span class="c1">;        (exp 3 4) =&gt; 81</span>
+</code></pre></div></div>
+
+<p><big>Question 1:</big> write a recursive version</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">exp</span> 
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">b</span> <span class="nv">e</span><span class="p">)</span> 
+       <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">zero?</span> <span class="nv">e</span><span class="p">)</span> 
+           <span class="mi">1</span>
+           <span class="p">(</span><span class="nb">*</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">exp</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">e</span> <span class="mi">1</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<p><big>Question 2:</big> write an iterative version of exp</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Purpose: compute b^e in an iterative manner</span>
+<span class="c1">;; Signature: exp-iter(b,e,1)</span>
+<span class="c1">;; Type: [Number * Number * Number -&gt; Number]</span>
+<span class="c1">;; Pre-conditions: e is a natural number</span>
+<span class="c1">;; Example: (exp-iter 2 10 1) =&gt; 1024</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">exp-iter</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">b</span> <span class="nv">e</span> <span class="nv">acc</span><span class="p">)</span> 
+       <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">zero?</span> <span class="nv">e</span><span class="p">)</span> 
+           <span class="nv">acc</span>
+           <span class="p">(</span><span class="nf">exp-iter</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">e</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">b</span> <span class="nv">acc</span><span class="p">)))))</span>
+</code></pre></div></div>
+
+<p>This version is iterative because the call to exp-iter is in tail position.</p>
+
+<p>It is a different algorithm than the one shown above.</p>
+
+<p>We can use the <code class="language-plaintext highlighter-rouge">trace</code> function of Racket to see exactly how a recursive function runs vs. an iterative function:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">require</span> <span class="nv">racket/trace</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">exp</span> <span class="o">...</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">exp-iter</span> <span class="o">...</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">trace</span> <span class="nv">exp</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">trace</span> <span class="nv">exp-iter</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nb">exp</span> <span class="mi">2</span> <span class="mi">5</span><span class="p">)</span>
+<span class="nv">&gt;</span><span class="p">(</span><span class="nb">exp</span> <span class="mi">2</span> <span class="mi">5</span><span class="p">)</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">exp</span> <span class="mi">2</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nv">&gt;</span> <span class="nv">&gt;</span><span class="p">(</span><span class="nb">exp</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nv">&gt;</span> <span class="nv">&gt;</span> <span class="p">(</span><span class="nb">exp</span> <span class="mi">2</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nv">&gt;</span> <span class="nv">&gt;</span> <span class="nv">&gt;</span><span class="p">(</span><span class="nb">exp</span> <span class="mi">2</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nv">&gt;</span> <span class="nv">&gt;</span> <span class="nv">&gt;</span> <span class="p">(</span><span class="nb">exp</span> <span class="mi">2</span> <span class="mi">0</span><span class="p">)</span>
+<span class="nv">&lt;</span> <span class="nv">&lt;</span> <span class="nv">&lt;</span> <span class="mi">1</span>
+<span class="nv">&lt;</span> <span class="nv">&lt;</span> <span class="nv">&lt;2</span>
+<span class="nv">&lt;</span> <span class="nv">&lt;</span> <span class="mi">4</span>
+<span class="nv">&lt;</span> <span class="nv">&lt;8</span>
+<span class="nv">&lt;</span> <span class="mi">16</span>
+<span class="nv">&lt;32</span>
+<span class="mi">32</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">exp-iter</span> <span class="mi">2</span> <span class="mi">5</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nv">&gt;</span><span class="p">(</span><span class="nf">exp-iter</span> <span class="mi">2</span> <span class="mi">5</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nv">&gt;</span><span class="p">(</span><span class="nf">exp-iter</span> <span class="mi">2</span> <span class="mi">4</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nv">&gt;</span><span class="p">(</span><span class="nf">exp-iter</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nv">&gt;</span><span class="p">(</span><span class="nf">exp-iter</span> <span class="mi">2</span> <span class="mi">2</span> <span class="mi">8</span><span class="p">)</span>
+<span class="nv">&gt;</span><span class="p">(</span><span class="nf">exp-iter</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">16</span><span class="p">)</span>
+<span class="nv">&gt;</span><span class="p">(</span><span class="nf">exp-iter</span> <span class="mi">2</span> <span class="mi">0</span> <span class="mi">32</span><span class="p">)</span>
+<span class="nv">&lt;32</span>
+<span class="mi">32</span>
+</code></pre></div></div>
+
+<p>We can see in the call to <code class="language-plaintext highlighter-rouge">exp</code> that we need to keep track of the previous stack frames, which creates a “pyramid” stack trace. This is in contrast to the iterative <code class="language-plaintext highlighter-rouge">exp-iter</code> which creates a linear stack trace.</p>
+
+<p><big>Question 3:</big> write an iterative version</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1">;; secondary function</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">exp$</span> 
+<span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">b</span> <span class="nv">e</span> <span class="nv">delayed</span><span class="p">)</span>
+   <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">zero?</span> <span class="nv">e</span><span class="p">)</span> 
+       <span class="p">(</span><span class="nf">delayed</span> <span class="mi">1</span><span class="p">)</span>
+       <span class="p">(</span><span class="nf">exp$</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">e</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">res-e-1</span><span class="p">)</span> <span class="p">(</span><span class="nf">delayed</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">res-e-1</span> <span class="nv">b</span><span class="p">)))))))</span>
+
+
+<span class="c1">;; the main function</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">exp</span> 
+ <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">b</span> <span class="nv">e</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">exp$</span> <span class="nv">b</span> <span class="nv">e</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">))))</span>
+
+</code></pre></div></div>
+
+<p>Why is <code class="language-plaintext highlighter-rouge">exp$</code> considered iterative? because the last call is <code class="language-plaintext highlighter-rouge">exp$</code>.</p>
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<!-- saved from url=(0074)https://bguppl.github.io/interpreters/class_material/5.3LPInterpreter.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Logic Programming Interpreter | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Logic Programming Interpreter">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/5.3LPInterpreter.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/5.3LPInterpreter.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Logic Programming Interpreter">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Logic Programming Interpreter","url":"https://bguppl.github.io/interpreters/class_material/5.3LPInterpreter.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Logic Programming Interpreter _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Logic Programming Interpreter _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D43F.TEX-I::before {
+  padding: 0.683em 0.681em 0 0;
+  content: "L";
+}
+
+mjx-c.mjx-c31::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "1";
+}
+
+mjx-c.mjx-c37::before {
+  padding: 0.676em 0.5em 0.022em 0;
+  content: "7";
+}
+
+mjx-c.mjx-c1D456.TEX-I::before {
+  padding: 0.661em 0.345em 0.011em 0;
+  content: "i";
+}
+
+mjx-c.mjx-c35::before {
+  padding: 0.666em 0.5em 0.022em 0;
+  content: "5";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Logic Programming Interpreter _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="logic-programming-interpreter">Logic Programming Interpreter</h1>
+
+<h2 id="ppl2023">PPL2023</h2>
+
+<p>We describe an interpreter for Logic Programming written in Scheme.
+The interpreter re-uses many of the tools we developed when developing interpreters for Functional Programming (the sequence <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> to <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c37"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>7</mn></math></mjx-assistive-mml></mjx-container> we introduced in previous chapters).  In particular, we reuse directly:</p>
+<ul>
+  <li>The Substitution abstract data type</li>
+  <li>The Equation abstract data type</li>
+  <li>The unifier algorithm</li>
+</ul>
+
+<p>We also implement the abstract syntax for LP using the same methodology we used for <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="2" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D456 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mi>i</mi></math></mjx-assistive-mml></mjx-container> - as a disjoint union type of expression types.</p>
+
+<p>The new part of the LP interpreter is the implementation of the <code class="language-plaintext highlighter-rouge">answer-query</code> algorithm.  Recall that the <code class="language-plaintext highlighter-rouge">answer-query</code> relies on two key ingredients:</p>
+<ul>
+  <li>Unification</li>
+  <li>The construction of a proof-tree given a program and a query.</li>
+</ul>
+
+<p>We describe the proof-tree construction algorithm through the usage of a data type we call <strong>lazy tree</strong> which is a generalization of the lazy tree we introduced in Chapter 4 to the case of a possibly infinite tree.</p>
+
+<h2 id="architecture-of-the-logic-programming-interpreter">Architecture of the Logic Programming Interpreter</h2>
+
+<p>The overall system architecture is given in the following architecture diagram.</p>
+<ol>
+  <li><strong>Syntax</strong>: This layer includes, so far, only an abstract syntax module LP-AST, which defines aconvenient interface to all syntactic elements in an LP program.</li>
+  <li><strong>ADTs</strong>: The LP related ADTs are Substitution and Term-equation, which are used for implementing a unification operation in Unify.</li>
+  <li><strong>lazy-tree-ADT</strong> represents an n-ary labeled tree (has labels on internal nodes), whose depth might be infinite. The constructor of lazy trees wraps the child-branches of a node with a lambda abstraction that enables laziness: it delays the construction of children nodes until requested.</li>
+  <li><strong>LP-solver</strong>: The Answer-Query module, defines the LP Gsel and Rsel, and the algorithm for proof-tree construction and search.</li>
+</ol>
+
+<h2 id="scheme-programming-style">Scheme Programming Style</h2>
+
+<p>We implement this interpreter in Scheme (the subset of Scheme we have covered in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="3" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container>).
+The programming style we use is extremely close to the one we used in TypeScript:</p>
+
+<ul>
+  <li>
+    <p>Data types are implemented as functional interfaces with a value constructor, type predicate and accessors. We do not use type annotations and type inference - but take care to describe the data structures we use as disjoint union types.</p>
+  </li>
+  <li>
+    <p>The naming convention we use for constructors are <code class="language-plaintext highlighter-rouge">make-TYPE</code>, type predicate is <code class="language-plaintext highlighter-rouge">TYPE?</code>, type accessors are functions named <code class="language-plaintext highlighter-rouge">TYPE-&gt;FIELDNAME</code>.</p>
+  </li>
+  <li>
+    <p>Disjoint union types are defined only by a type predicate - as was the case in TypeScript - for example:</p>
+  </li>
+</ul>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Term: Symbol | Number | Variable | Compound-term</span>
+
+<span class="c1">;;  Signature: term?(x)</span>
+<span class="c1">;;  Type: [T -&gt; Boolean]</span>
+<span class="c1">;;  Purpose: Type predicate for terms</span>
+<span class="c1">;;  Pre-conditions: -</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">term?</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">or</span> <span class="p">(</span><span class="nb">symbol?</span> <span class="nv">x</span><span class="p">)</span>
+        <span class="p">(</span><span class="nb">number?</span> <span class="nv">x</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">variable?</span> <span class="nv">x</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">compound-term?</span> <span class="nv">x</span><span class="p">))))</span>
+</code></pre></div></div>
+
+<ul>
+  <li>The structure of the recursive functions that traverse AST values follows the structure of the AST datatypes. The typical structure of the functions that we have used in TypeScript such as:
+    <div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">typeTraversal</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">TYPE</span><span class="p">):</span> <span class="nx">T</span> <span class="o">=&gt;</span>
+  <span class="nx">isSubTYPE1</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">?</span> <span class="nx">do1</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">:</span>
+  <span class="nx">isSubTYPE2</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">?</span> <span class="nx">do2</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">:</span>
+  <span class="nx">do3</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+</code></pre></div>    </div>
+    <p>is implemented in Scheme as:</p>
+    <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">type-traversal</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">sub-type1?</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">do1</span> <span class="nv">x</span><span class="p">))</span>
+          <span class="p">((</span><span class="nf">sub-type2?</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">do2</span> <span class="nv">x</span><span class="p">))</span>
+          <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">do3</span> <span class="nv">x</span><span class="p">)))))</span>
+</code></pre></div>    </div>
+  </li>
+  <li>We use in general Scheme lists instead of TypeScript arrays and Scheme symbols instead of TypeScript strings.</li>
+</ul>
+
+<h3 id="error-handling">Error Handling</h3>
+
+<p>We can implement the Result monad in Scheme the same way we did in TypeScript. 
+Here we take a shortcut for the sake of brevity, and implement error handling in the interpreter by using exceptions in Scheme.<br>
+Exceptions are thrown in Racket using the <code class="language-plaintext highlighter-rouge">error</code> primitive - which interrupts the current code and returns to the toplevel execution with an error value.
+For example:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">program-&gt;procedure</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">program</span> <span class="nv">predicate</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">procedure</span> <span class="p">(</span><span class="nb">assoc</span> <span class="nv">predicate</span> <span class="nv">program</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">if</span> <span class="nv">procedure</span>
+          <span class="nv">procedure</span>
+          <span class="p">(</span><span class="nf">error</span> <span class="ss">'program-&gt;procedure</span>
+                 <span class="s">"Program does not include predicate ~s"</span> <span class="nv">predicate</span><span class="p">)))))</span>
+</code></pre></div></div>
+
+<h2 id="lp-abstract-syntax">LP Abstract Syntax</h2>
+
+<p>To simplify the code of the interpreter, we do not implement tagged disjoint types the way we did in TypeScript.
+We also do not implement a parser / unparser to read logic programs in concrete syntax and convert them to their AST representation.  Instead, we use a <em>readable S-exp-based AST encoding</em>.</p>
+
+<p>In this approach, a programs is represented as a list of the abstract representations of its procedures. Note that this list
+actually represents a set. For example, the program:</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">Example1</span><span class="o">:</span>
+<span class="c1">% Signature: append(List1, List2, List3)/3</span>
+<span class="c1">% Purpose: List3 is the concatenation of List1 and List2.</span>
+<span class="ss">append</span><span class="p">([],</span> <span class="nv">Xs</span><span class="p">,</span> <span class="nv">Xs</span><span class="p">).</span>
+<span class="ss">append</span><span class="p">([</span><span class="nv">X</span><span class="p">|</span><span class="nv">Xs</span><span class="p">],</span> <span class="nv">Y</span><span class="p">,</span> <span class="p">[</span><span class="nv">X</span><span class="p">|</span><span class="nv">Zs</span><span class="p">]</span> <span class="p">)</span> <span class="p">:-</span> <span class="ss">append</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Zs</span><span class="p">).</span>
+<span class="ss">member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Ys</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">append</span><span class="p">(</span><span class="nv">Zs</span><span class="p">,</span> <span class="p">[</span><span class="nv">X</span><span class="p">|</span><span class="nv">Xs</span><span class="p">],</span> <span class="nv">Ys</span><span class="p">).</span>
+</code></pre></div></div>
+<p>is represented as the list:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span> <span class="p">((</span><span class="nb">append</span> <span class="mi">3</span><span class="p">)</span> 
+   <span class="p">(</span><span class="nf">0</span> <span class="p">((</span><span class="nb">append</span> <span class="nv">empty</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">))</span>
+       <span class="nv">true</span><span class="p">))</span>
+   <span class="p">(</span><span class="nf">1</span> <span class="p">((</span><span class="nb">append</span> <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">))</span>
+               <span class="p">(</span><span class="nf">var</span> <span class="nv">Y</span><span class="p">)</span>
+               <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Zs</span><span class="p">)))</span>
+       <span class="p">(</span><span class="nb">append</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Y</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Zs</span><span class="p">))))</span> <span class="p">)</span>
+       
+  <span class="p">((</span><span class="nb">member</span> <span class="mi">2</span><span class="p">)</span>
+   <span class="p">(</span><span class="nf">0</span> <span class="p">((</span><span class="nb">member</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Ys</span><span class="p">))</span>
+       <span class="p">(</span><span class="nb">append</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Zs</span><span class="p">)</span>
+               <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">))</span>
+               <span class="p">(</span><span class="nf">var</span> <span class="nv">Ys</span><span class="p">))</span> <span class="p">))</span> <span class="p">)</span>
+</code></pre></div></div>
+
+<p>Note the following conventions in this encoding:</p>
+<ul>
+  <li>A program is encoded as a list of procedures.</li>
+  <li>Each procedure is encoded as a list:
+    <ul>
+      <li>starting with the <code class="language-plaintext highlighter-rouge">(predicate arity)</code> tag - for example <code class="language-plaintext highlighter-rouge">append/3</code> is encoded as <code class="language-plaintext highlighter-rouge">(append 3)</code> and <code class="language-plaintext highlighter-rouge">member/2</code> is encoded as <code class="language-plaintext highlighter-rouge">(member 2)</code>.</li>
+      <li>Then a list of clauses (rules or facts).</li>
+      <li>Facts are encoded as rules with a body containing only the <code class="language-plaintext highlighter-rouge">true</code> atomic formula - so that all clauses are represented as rules.</li>
+      <li>Rules are numbered, starting at 0.</li>
+    </ul>
+  </li>
+  <li>Rules are represented as a list <code class="language-plaintext highlighter-rouge">(&lt;number&gt; (&lt;head&gt; . &lt;body&gt;))</code> within each procedure.</li>
+  <li>An atomic formula <code class="language-plaintext highlighter-rouge">pred(arg1, arg2, arg3)</code> is represented as <code class="language-plaintext highlighter-rouge">(pred arg1 arg2 arg3)</code>.</li>
+  <li>Terms are represented as:
+    <ul>
+      <li>Constants as Scheme constants (symbol or number)</li>
+      <li>Variables as a pair <code class="language-plaintext highlighter-rouge">(var &lt;Varname&gt;)</code></li>
+      <li>Composite terms <code class="language-plaintext highlighter-rouge">functor(arg1,arg2)</code> as <code class="language-plaintext highlighter-rouge">(functor arg1 arg2)</code>
+        <ul>
+          <li>In particular, lists are represented as nested <code class="language-plaintext highlighter-rouge">cons</code> terms.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="lp-ast-functional-interface">LP-AST Functional Interface</h3>
+
+<ul>
+  <li>program: (a list of procedures)
+    <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="p">(</span><span class="nf">make-program</span> <span class="nv">procedures-set</span><span class="p">)</span>
+ <span class="p">(</span><span class="nf">program-&gt;predicates</span> <span class="nv">program</span><span class="p">)</span>
+ <span class="p">(</span><span class="nf">program-&gt;procedure</span> <span class="nv">program</span> <span class="nv">predicate</span><span class="p">)</span>
+ <span class="p">(</span><span class="nf">program-&gt;procedure-&gt;numbered-rules</span> <span class="nv">program</span> <span class="nv">predicate</span><span class="p">)</span>
+ <span class="p">(</span><span class="nf">program-&gt;procedure-&gt;rule</span> <span class="nv">program</span> <span class="nv">predicate</span> <span class="nv">number</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>procedure: (a list of rules with heads for the same pred/n)
+    <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="p">(</span><span class="nf">make-procedure</span> <span class="nv">rules</span><span class="p">)</span>
+ <span class="p">(</span><span class="nf">procedure-&gt;predicate</span> <span class="nv">procedure</span><span class="p">)</span>
+ <span class="p">(</span><span class="nf">procedure-&gt;numbered-rules</span> <span class="nv">procedure</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>rule:
+    <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="p">(</span><span class="nf">make-rule</span> <span class="nv">head</span> <span class="nv">body</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">rule-&gt;head</span> <span class="nv">rule</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">rule-&gt;body</span> <span class="nv">rule</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>atomic-formula: #t | #f | <predication>
+</predication>    <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="p">(</span><span class="nf">make-atomic-formula</span> <span class="no">#t</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">make-atomic-formula</span> <span class="no">#f</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">make-predication</span> <span class="nv">predicate</span> <span class="nv">terms</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>variable:
+    <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="p">(</span><span class="nf">make-variable</span> <span class="nv">name</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">variable-&gt;name</span> <span class="nv">var</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">rename-variable</span> <span class="nv">var</span> <span class="nv">number</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>compound term:
+    <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="p">(</span><span class="nf">make-compound-term</span> <span class="nv">functor</span> <span class="nv">terms</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>query:
+    <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="p">(</span><span class="nf">make-query</span> <span class="nv">atomic-formulas</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">query-&gt;goals</span> <span class="nv">query</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="variables-representation-and-access">Variables Representation and Access</h3>
+
+<p>A frequent operation in the interpreter consists of retrieving a rule from a program, and renaming all the variables in the rule.  To facilitate this operation, variables can be encoded in two ways:</p>
+
+<ul>
+  <li>Regular variable, as read from the program.</li>
+  <li>Renamed variable - a variable annotated with a <em>version number</em> (which according to our convention corresponds to the layer of the proof-tree as we expand it breadth-first).</li>
+</ul>
+
+<p>For example, the rule:</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Ys</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">append</span><span class="p">(</span><span class="nv">Zs</span><span class="p">,</span> <span class="p">[</span><span class="nv">X</span><span class="p">|</span><span class="nv">Xs</span><span class="p">],</span> <span class="nv">Ys</span><span class="p">).</span>
+</code></pre></div></div>
+<p>is encoded originally as follows (within the <code class="language-plaintext highlighter-rouge">member/2</code> procedure):</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="p">((</span><span class="nb">member</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Ys</span><span class="p">))</span>
+       <span class="p">(</span><span class="nb">append</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Zs</span><span class="p">)</span>
+               <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">))</span>
+               <span class="p">(</span><span class="nf">var</span> <span class="nv">Ys</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>When this rule is retrieved from the program (using the RSel procedure) - it will be renamed as:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="p">((</span><span class="nb">member</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Ys</span> <span class="mi">1</span><span class="p">))</span>
+       <span class="p">(</span><span class="nb">append</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Zs</span> <span class="mi">1</span><span class="p">)</span>
+               <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span> <span class="mi">1</span><span class="p">))</span>
+               <span class="p">(</span><span class="nf">var</span> <span class="nv">Ys</span> <span class="mi">1</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>and the variable counter (1) will be incremented each time the rule is retrieved.</p>
+
+<p>To support the renaming operation, each compound AST type has a method that computes the list of variable terms it contains.</p>
+
+<ul>
+  <li>rule-&gt;vars</li>
+  <li>atomic-formula-&gt;vars</li>
+  <li>predication-&gt;vars</li>
+  <li>term-&gt;vars</li>
+  <li>query-&gt;vars</li>
+</ul>
+
+<p>All of these return a list of variables without repetition.</p>
+
+<h2 id="substitutions-adt">Substitutions ADT</h2>
+
+<p>The Substitution ADT is a direct adaptation of the substitution-ADT module from the type inference system we saw in 
+<a href="https://www.cs.bgu.ac.il/~ppl192/wiki.files/code/types/L5-substitution-adt.ts">Chapter 3</a>. It is translated in Scheme
+and adapted to the datatypes of LP: a substitution is a finite mapping from Variable to Term with occur-check.</p>
+
+<p>The ADT consists of:</p>
+
+<ul>
+  <li>Constructor: <code class="language-plaintext highlighter-rouge">make-sub(variables, terms)</code>, which also checks for circularity (occur-check).</li>
+  <li>Getters: <code class="language-plaintext highlighter-rouge">sub-&gt;variables</code>, <code class="language-plaintext highlighter-rouge">sub-&gt;terms</code>, <code class="language-plaintext highlighter-rouge">sub-&gt;get-var(sub,var)</code> which returns the value of var, if defined, or error otherwise.</li>
+  <li>Predicates: <code class="language-plaintext highlighter-rouge">sub?</code>, <code class="language-plaintext highlighter-rouge">empty-sub?</code>, <code class="language-plaintext highlighter-rouge">non-empty-sub?</code>, <code class="language-plaintext highlighter-rouge">sub-equal?</code></li>
+</ul>
+
+<p>Operations:</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">extend-sub(sub, var, term)</code> which extends <code class="language-plaintext highlighter-rouge">sub</code> with the binding <code class="language-plaintext highlighter-rouge">var=term</code></li>
+  <li>Application of a substitution to LP terms, atomic formulas and queries:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">sub-apply(sub, term)</code></li>
+      <li><code class="language-plaintext highlighter-rouge">sub-apply-atomic-formula</code></li>
+      <li><code class="language-plaintext highlighter-rouge">sub-apply-query</code></li>
+      <li><code class="language-plaintext highlighter-rouge">sub-apply-rule</code></li>
+    </ul>
+  </li>
+  <li>Restriction of a substitution: <code class="language-plaintext highlighter-rouge">sub-restrict(sub, vars)</code> (also called <code class="language-plaintext highlighter-rouge">projection</code>)</li>
+  <li>Substitution combination: <code class="language-plaintext highlighter-rouge">sub-combine(sub1, sub2)</code></li>
+</ol>
+
+<p>Examples:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; {T7 = Number, T8 = f(m(T5, Number), T3)} o {T5 = T7, T8 = Boolean}</span>
+<span class="c1">;; =&gt; {T5 = T7, T7 = Number, T8 = f(m(T7, Number), T3)}</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">sub-combine</span>
+    <span class="p">(</span><span class="nf">make-sub</span> <span class="o">'</span><span class="p">((</span><span class="nf">var</span> <span class="nv">T7</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T8</span><span class="p">))</span>
+              <span class="o">'</span><span class="p">(</span><span class="nf">Number</span> <span class="p">[</span><span class="nf">f</span> <span class="p">(</span><span class="nf">m</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T5</span><span class="p">)</span> <span class="nv">Number</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T3</span><span class="p">)]))</span>
+    <span class="p">(</span><span class="nf">make-sub</span> <span class="o">'</span><span class="p">((</span><span class="nf">var</span> <span class="nv">T5</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T8</span><span class="p">))</span>
+              <span class="o">'</span><span class="p">((</span><span class="nf">var</span> <span class="nv">T7</span><span class="p">)</span> <span class="nv">Boolean</span><span class="p">)))</span>
+
+<span class="o">'</span><span class="p">(</span><span class="nf">sub</span> <span class="p">((</span><span class="nf">var</span> <span class="nv">T5</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T7</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T8</span><span class="p">))</span>
+ <span class="p">((</span><span class="nf">var</span> <span class="nv">T7</span><span class="p">)</span> <span class="nv">Number</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nf">m</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T7</span><span class="p">)</span> <span class="nv">Number</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T3</span><span class="p">))))</span>
+
+<span class="c1">;; f(X) o {X = 1} =&gt; f(1)</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">sub-apply</span> <span class="p">(</span><span class="nf">make-sub</span> <span class="o">'</span><span class="p">((</span><span class="nf">var</span> <span class="nv">X</span><span class="p">))</span> <span class="o">'</span><span class="p">(</span><span class="nf">1</span><span class="p">))</span>
+             <span class="p">(</span><span class="nf">make-compound-term</span> <span class="ss">'f</span> <span class="o">'</span><span class="p">((</span><span class="nf">var</span> <span class="nv">X</span><span class="p">))))</span>
+
+<span class="o">'</span><span class="p">(</span><span class="nf">f</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="terms-equations-adt">Terms Equations ADT</h2>
+
+<p>The unifier is implemented as a term equations solver - that is, to unify 2 atomic-formulas, we split the atomic-formulas into a sequence of equations which pair the terms of each atomic formula one by one, and then solve the equations iteratively.  When complex terms are met, they are split into more equations.</p>
+
+<p>The Terms Equations ADT is just a pair data structure for two terms:</p>
+
+<ul>
+  <li>Constructor: <code class="language-plaintext highlighter-rouge">make-equation(term1, term2)</code></li>
+  <li>Getters: <code class="language-plaintext highlighter-rouge">equation-&gt;left</code>, <code class="language-plaintext highlighter-rouge">equation-&gt;right</code></li>
+  <li>Predicates: <code class="language-plaintext highlighter-rouge">equation?</code></li>
+</ul>
+
+<h2 id="unify">Unify</h2>
+
+<p>The unification operation operates over atomic formulas and terms. This is an adaptation of the solve module from the type inference system. The unification algorithm uses the equation solving method:</p>
+
+<ol>
+  <li>For atomic elements – either compares if equal, different, or can create a substitution (non-circular);</li>
+  <li>For compound arguments with the same predicate or functor and the same arity, creates equations from corresponding elements, and repeats unification.</li>
+</ol>
+
+<ul>
+  <li>Main procedure: <code class="language-plaintext highlighter-rouge">unify-formulas</code></li>
+  <li>Equation solvers: <code class="language-plaintext highlighter-rouge">solve-equations(equation-list)</code>, <code class="language-plaintext highlighter-rouge">solve(equations, substitution)</code></li>
+  <li>Helpers: <code class="language-plaintext highlighter-rouge">unifiable-structure(equation)</code>, <code class="language-plaintext highlighter-rouge">split-equation(equation)</code></li>
+</ul>
+
+<p><strong>Examples</strong></p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">test</span> <span class="p">(</span><span class="nf">unify-formulas</span> <span class="ss">'true</span> <span class="ss">'true</span><span class="p">)</span> 
+<span class="nv">=&gt;</span> 
+<span class="o">'</span><span class="p">(</span><span class="nf">sub</span> <span class="p">()</span> <span class="p">()))</span>
+
+<span class="c1">;; unify( member(f(X1), cons(f(2), [])</span>
+<span class="c1">;;        member(X, L) )</span>
+<span class="c1">;; =&gt; {L = cons(f(2), []), X = f(X1)}</span>
+<span class="p">(</span><span class="nf">test</span> <span class="p">(</span><span class="nf">unify-formulas</span>
+ <span class="o">'</span><span class="p">(</span><span class="nb">member</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X1</span><span class="p">))</span> <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">f</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">empty</span><span class="p">))</span>
+ <span class="o">'</span><span class="p">(</span><span class="nb">member</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">L</span><span class="p">)))</span>
+ <span class="nv">=&gt;</span>
+ <span class="o">'</span><span class="p">(</span><span class="nf">sub</span> <span class="p">((</span><span class="nf">var</span> <span class="nv">L</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">))</span>
+       <span class="p">((</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">f</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">empty</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X1</span><span class="p">)))))</span>
+</code></pre></div></div>
+
+<h2 id="lazy-tree-adt">Lazy-Tree-ADT</h2>
+
+<p>A lazy tree is represented as a <em>lazy tree-list</em> whose head is the root-node and whose tail is a regular list of lazy-trees:
+<code class="language-plaintext highlighter-rouge">(root (lambda () (list lzt1 lzt2 ... lztn)))</code></p>
+
+<p>This is a lazy representation for labeled trees with finite branching, but possibly infinite depth.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">empty-lzt</code> represents the empty lazy-tree</li>
+  <li>A leaf is represented by: <code class="language-plaintext highlighter-rouge">(root (lambda () empty-lzt))</code></li>
+  <li>If <code class="language-plaintext highlighter-rouge">n</code> represents a node, and <code class="language-plaintext highlighter-rouge">lzt1, ..., lztn</code> represent lazy-trees, then:
+    <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">make-lzt</span> <span class="nv">n</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nf">make-lzt</span> <span class="nv">n1</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">make-lzt</span> <span class="o">...</span><span class="p">)))</span> 
+                           <span class="p">(</span><span class="nf">make-lzt</span> <span class="nv">n2</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">make-lzt</span> <span class="o">...</span><span class="p">)))</span>
+                           <span class="err">…………</span>
+                           <span class="p">(</span><span class="nf">make-lzt</span> <span class="nv">nm</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">make-lzt</span> <span class="o">...</span><span class="p">))))</span>
+ <span class="p">))</span>
+</code></pre></div>    </div>
+    <p>represents the above lazy-tree.</p>
+  </li>
+</ul>
+
+<p>The ADT consists of:</p>
+
+<ul>
+  <li>Constructors: <code class="language-plaintext highlighter-rouge">make-lzt</code>, <code class="language-plaintext highlighter-rouge">make-lzt-leaf</code>, <code class="language-plaintext highlighter-rouge">empty-lzt</code>, <code class="language-plaintext highlighter-rouge">expand-lzt(node, node-expander)</code>.</li>
+  <li>Getters: <code class="language-plaintext highlighter-rouge">lzt-&gt;root</code>, <code class="language-plaintext highlighter-rouge">leaf-data</code>, <code class="language-plaintext highlighter-rouge">lzt-&gt;branches</code>, <code class="language-plaintext highlighter-rouge">lzt-&gt;first-branch</code>, <code class="language-plaintext highlighter-rouge">lzt-&gt;rest-branches</code>, <code class="language-plaintext highlighter-rouge">lzt-&gt;take-branches(lzt,n)</code>,
+<code class="language-plaintext highlighter-rouge">lzt-&gt;nth-level(lzt, n)</code></li>
+  <li>Predicates: <code class="language-plaintext highlighter-rouge">empty-lzt?</code>, <code class="language-plaintext highlighter-rouge">lzt?</code>, <code class="language-plaintext highlighter-rouge">composite-lzt?</code></li>
+</ul>
+
+<p>The key operation to understand is <code class="language-plaintext highlighter-rouge">expand-lzt</code>:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">expand-lzt</span>
+ <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">root</span> <span class="nv">node-expander</span><span class="p">)</span>
+   <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">child-nodes</span> <span class="p">(</span><span class="nf">node-expander</span> <span class="nv">root</span><span class="p">)))</span>
+     <span class="p">(</span><span class="nf">make-lzt</span> <span class="nv">root</span>
+       <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+         <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">node</span><span class="p">)</span>
+                <span class="p">(</span><span class="nf">expand-lzt</span> <span class="nv">node</span> <span class="nv">node-expander</span><span class="p">))</span>
+              <span class="nv">child-nodes</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">expand-lzt</code> is the natural way to construct lazy trees.
+Consider the following example of a finite lazy tree:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">ft01</span> 
+  <span class="p">(</span><span class="nf">expand-lzt</span> <span class="o">'</span><span class="p">()</span> 
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">node</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">length</span> <span class="nv">node</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span> 
+          <span class="nv">empty-lzt</span> 
+          <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons</span> <span class="nv">n</span> <span class="nv">node</span><span class="p">))</span> 
+               <span class="o">'</span><span class="p">(</span><span class="nf">0</span> <span class="mi">1</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<ul>
+  <li>The nodes in this lazy tree are labeled with a list of numbers (0 or 1).</li>
+  <li>The root contains a list of length 0.</li>
+  <li>The children of a node are of the form (0 . parent) and (1 . parent)</li>
+  <li>When a node has a label with length 3, it has no children.</li>
+</ul>
+
+<p>If we print all the node labels in this tree, we obtain:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">'</span><span class="p">(()</span> <span class="p">(</span><span class="nf">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">1</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">1</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">0</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">1</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">0</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">0</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">1</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">0</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">1</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">expand-lzt</code> describes a tree by providing a function that computes the direct children given a root node.
+Given this function, <code class="language-plaintext highlighter-rouge">expand-lzt</code> produces a lazy tree which generates the nodes level by level.</p>
+
+<p>This method can be used to produce infinite trees naturally.  Consider the following simple variation:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">it01</span> 
+  <span class="p">(</span><span class="nf">expand-lzt</span> <span class="o">'</span><span class="p">()</span> 
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">node</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons</span> <span class="nv">n</span> <span class="nv">node</span><span class="p">))</span> 
+           <span class="o">'</span><span class="p">(</span><span class="nf">0</span> <span class="mi">1</span><span class="p">)))))</span>
+</code></pre></div></div>
+
+<p>This generates an infinite tree with all binary digits as nodes.</p>
+
+<h3 id="lzt-operations">LZT Operations</h3>
+
+<p>There are three procedures for scanning a lazy tree:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">lzt-filter(lzt, filterP)</code> – returns a list of nodes that satisfy the filter predicate; does not terminate on infinite lazy trees.
+    <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">lzt-filter</span>
+<span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">lzt</span> <span class="nv">filterP</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">letrec</span> <span class="p">((</span><span class="nf">collect</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">lzt</span><span class="p">)</span>
+                      <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">children</span> <span class="p">(</span><span class="nf">flatmap</span> <span class="nv">collect</span> <span class="p">(</span><span class="nf">lzt-&gt;branches</span> <span class="nv">lzt</span><span class="p">))))</span>
+                        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">filterP</span> <span class="p">(</span><span class="nf">lzt-&gt;root</span> <span class="nv">lzt</span><span class="p">))</span>
+                          <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">lzt-&gt;root</span> <span class="nv">lzt</span><span class="p">)</span> <span class="nv">children</span><span class="p">)</span>
+                          <span class="nv">children</span><span class="p">)))))</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty-lzt?</span> <span class="nv">lzt</span><span class="p">)</span>
+        <span class="nv">empty</span>
+        <span class="p">(</span><span class="nf">collect</span> <span class="nv">lzt</span><span class="p">)))))</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">lzt-find-first(lzt, filterP)</code> – returns the first node that satisfies the filter predicate. Might not terminate for infinite lazy trees (if the path to the first success node is infinite)</p>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">lzt-filter-&gt;lzl(lzt, filterP)</code> – returns a lazy list of all nodes that satisfy the filter predicate.</li>
+</ul>
+
+<p>For example:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">lzt-find-first</span> <span class="nv">it01</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">node</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">length</span> <span class="nv">node</span><span class="p">)</span> <span class="mi">4</span><span class="p">)))</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">lzt-filter</span> <span class="nv">it01</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">node</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt;</span> <span class="p">(</span><span class="nb">length</span> <span class="nv">node</span><span class="p">)</span> <span class="mi">4</span><span class="p">)))</span>
+<span class="nv">--&gt;</span> <span class="nv">Infinite</span> <span class="nv">loop</span>
+
+<span class="p">(</span><span class="nf">lzt-filter-&gt;lzl</span> <span class="nv">it01</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">node</span><span class="p">)</span> <span class="p">(</span><span class="nb">=</span> <span class="p">(</span><span class="nb">length</span> <span class="nv">node</span><span class="p">)</span> <span class="mi">4</span><span class="p">)))</span>
+<span class="nv">--&gt;</span> <span class="nv">A</span> <span class="nv">lazy</span> <span class="nv">list</span> <span class="nv">which</span> <span class="nv">returns</span> <span class="mi">16</span> <span class="nv">elements</span> <span class="nv">then</span> <span class="nv">loops</span> <span class="nv">for</span> <span class="nv">ever</span>
+</code></pre></div></div>
+
+<h2 id="answer-query-algorithm">Answer-Query Algorithm</h2>
+
+<p>We are now ready to review the implementation of the Answer-Query algorithm in the LP Interpreter:
+The main functions of the <code class="language-plaintext highlighter-rouge">answer-query.rkt</code> module are:</p>
+<ul>
+  <li>answer-query, which has two variants: <code class="language-plaintext highlighter-rouge">answer-query-first</code> and <code class="language-plaintext highlighter-rouge">answer-query-lzl</code></li>
+  <li><code class="language-plaintext highlighter-rouge">LP-node-expander</code>, <code class="language-plaintext highlighter-rouge">expand-query</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Gsel</code>, <code class="language-plaintext highlighter-rouge">Rsel</code></li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">answer-query</code> creates a proof tree as a lazy tree, whose nodes are labeled by a list of:</p>
+<ul>
+  <li>Query and a substitution.</li>
+</ul>
+
+<p>The substitution is the combination of all substitutions on the tree branches. 
+The nodes of the proof tree are defined in the data structure <code class="language-plaintext highlighter-rouge">PT-node</code>, with the getters:</p>
+<ul>
+  <li>PT-node-&gt;query</li>
+  <li>PT-node-&gt;sub</li>
+</ul>
+
+<p>The proof tree is created using the <code class="language-plaintext highlighter-rouge">expand-lzt</code> constructor of lazy trees, using the procedure <code class="language-plaintext highlighter-rouge">LP-node-expander</code>, which performs the main actions of the LP interpreter:</p>
+<ol>
+  <li>Applying <code class="language-plaintext highlighter-rouge">Gsel</code> on the query.</li>
+  <li>Applying <code class="language-plaintext highlighter-rouge">Rsel</code> on the selected goal.</li>
+  <li>Creating the new queries for the child node.</li>
+  <li>Creating the new combined substitutions for the child nodes.</li>
+</ol>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">LP-node-expander</span>
+ <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">PT-node</span> <span class="nv">program</span><span class="p">)</span>
+   <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">query</span> <span class="p">(</span><span class="nf">PT-node-&gt;query</span> <span class="nv">PT-node</span><span class="p">))</span>
+         <span class="p">(</span><span class="nf">sub</span> <span class="p">(</span><span class="nf">PT-node-&gt;sub</span> <span class="nv">PT-node</span><span class="p">)))</span>
+     <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">success-query?</span> <span class="nv">query</span><span class="p">)</span>
+         <span class="nv">empty</span>
+         <span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="nf">selected-goal</span> <span class="p">(</span><span class="nf">Gsel</span> <span class="nv">query</span><span class="p">))</span>
+                <span class="p">(</span><span class="nf">rule-subs</span> <span class="p">(</span><span class="nf">Rsel</span> <span class="nv">selected-goal</span> <span class="nv">program</span><span class="p">))</span>
+                <span class="p">(</span><span class="nf">new-queries</span> 
+                  <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">rule-sub</span><span class="p">)</span>
+                         <span class="p">(</span><span class="nf">expand-query</span> <span class="nv">query</span> <span class="nv">selected-goal</span> <span class="nv">rule-sub</span><span class="p">))</span>
+                       <span class="nv">rule-subs</span><span class="p">))</span>
+                <span class="p">(</span><span class="nf">new-subs</span>
+                  <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">rule-sub</span><span class="p">)</span>
+                         <span class="p">(</span><span class="nf">sub-combine</span> <span class="nv">sub</span> <span class="p">(</span><span class="nf">rule-sub-&gt;sub</span> <span class="nv">rule-sub</span><span class="p">)))</span>
+                       <span class="nv">rule-subs</span><span class="p">)))</span>
+     <span class="p">(</span><span class="nb">map</span> <span class="nv">make-PT-node</span> <span class="nv">new-queries</span> <span class="nv">new-subs</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: expand-query(query, goal, rule-sub)</span>
+<span class="c1">; Type: [Query * AtomicFormula * RuleSub -&gt; Query]</span>
+<span class="c1">; Purpose: Given a rule-sub (rule sub)</span>
+<span class="c1">; and a query (G1 ... Gi-1 Goal Gi+1 ... Gn)</span>
+<span class="c1">; where rule is ( Head -&gt; Body )</span>
+<span class="c1">; and Unify(Goal, Head) = sub</span>
+<span class="c1">; compute [G1 ... Gi-1 Body Gi+1 ... Gn] o sub</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">expand-query</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">query</span> <span class="nv">goal</span> <span class="nv">rule-sub</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">prefix-suffix</span> <span class="p">(</span><span class="nf">split-list</span> <span class="p">(</span><span class="nf">query-&gt;goals</span> <span class="nv">query</span><span class="p">)</span> <span class="nv">goal</span><span class="p">)))</span> 
+       <span class="p">(</span><span class="nf">sub-apply-query</span> <span class="p">(</span><span class="nf">rule-sub-&gt;sub</span> <span class="nv">rule-sub</span><span class="p">)</span>
+                        <span class="p">(</span><span class="nf">make-query</span> <span class="p">(</span><span class="nb">append</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">prefix-suffix</span><span class="p">)</span>
+                                            <span class="p">(</span><span class="nf">rule-&gt;body</span> <span class="p">(</span><span class="nf">rule-sub-&gt;rule</span> <span class="nv">rule-sub</span><span class="p">))</span>
+                                            <span class="p">(</span><span class="nb">cdr</span> <span class="nv">prefix-suffix</span><span class="p">)))))</span>
+    <span class="p">))</span>
+</code></pre></div></div>
+
+<p>The key functions of <code class="language-plaintext highlighter-rouge">GSel</code> and <code class="language-plaintext highlighter-rouge">RSel</code> rely on the ADTs for queries and rules defined in the AST:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span class="c1">; Signature: Gsel(query)</span>
+<span class="c1">; Type: [Query -&gt; Predication]</span>
+<span class="c1">; Purpose: select one goal in the query that is not true.</span>
+<span class="c1">; Pre-conditions: (and (not (success-query? query)) (not (empty? (query-&gt;goals query))))</span>
+<span class="c1">; Tests: -</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">Gsel</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">query</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">first</span> <span class="p">(</span><span class="nf">filter</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">goal</span><span class="p">)</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nb">eq?</span> <span class="nv">goal</span> <span class="ss">'true</span><span class="p">)))</span> 
+                   <span class="p">(</span><span class="nf">query-&gt;goals</span> <span class="nv">query</span><span class="p">)))))</span>
+
+
+<span class="c1">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span class="c1">; Signature: Rsel(goal, program)</span>
+<span class="c1">; Type: [AtomicFormula * Program -&gt; List(Rule-Sub)]</span>
+<span class="c1">; Purpose: Compute the list of pairs (rule, sub) that match goal in the program.</span>
+<span class="c1">; Pre-conditions: -</span>
+<span class="c1">; Tests: -</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">Rsel</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">goal</span> <span class="nv">program</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="nf">predicate</span> <span class="p">(</span><span class="nf">predication-&gt;predicate</span> <span class="nv">goal</span><span class="p">))</span>   <span class="c1">;; Predicate is a list (pred arity)</span>
+           <span class="p">(</span><span class="nf">rules</span> <span class="p">(</span><span class="nb">map</span> <span class="nv">rename-rule</span> <span class="p">(</span><span class="nf">program-&gt;procedure-&gt;rules</span> <span class="nv">program</span> <span class="nv">predicate</span><span class="p">)))</span>
+           <span class="p">(</span><span class="nf">rule-subs</span> <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">rule</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-rule-sub</span> 
+                                           <span class="nv">rule</span>
+                                           <span class="p">(</span><span class="nf">unify-formulas</span> <span class="nv">goal</span> <span class="p">(</span><span class="nf">rule-&gt;head</span> <span class="nv">rule</span><span class="p">))))</span>
+                           <span class="nv">rules</span><span class="p">)))</span>
+      <span class="p">(</span><span class="nf">filter</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">rule-sub</span><span class="p">)</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nb">eq?</span> <span class="ss">'fail</span> <span class="p">(</span><span class="nf">rule-sub-&gt;sub</span> <span class="nv">rule-sub</span><span class="p">))))</span>
+              <span class="nv">rule-subs</span><span class="p">))))</span>
+</code></pre></div></div>
+
+<p>Observe that <code class="language-plaintext highlighter-rouge">RSel</code> performs renaming of the rules when they are retrieved from the program.
+This is made easy by the encoding of renamed-variables as <code class="language-plaintext highlighter-rouge">(var X &lt;n&gt;)</code> and by the accessors <code class="language-plaintext highlighter-rouge">rule-&gt;vars</code> defined in the AST module.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: rename-rule(rule)</span>
+<span class="c1">; Type: [Rule -&gt; Rule]</span>
+<span class="c1">; Purpose: Return a copy of rule with all variables renamed consistently</span>
+<span class="c1">; Pre-conditions: -</span>
+<span class="c1">; Tests: </span>
+<span class="c1">; (rename-rule (make-rule '(member (var X) (cons (var H) (var L))) '((member (var X) (var L)))))</span>
+<span class="c1">; =&gt; '((member (var X 2) (cons (var H 2) (var L 2))) ((member (var X 2) (var L 2))))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">rename-rule</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">n</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">rule</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">set!</span> <span class="nv">n</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))</span>
+      <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">vars</span> <span class="p">(</span><span class="nf">rule-&gt;vars</span> <span class="nv">rule</span><span class="p">)))</span>
+        <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">new-vars</span> <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">var</span><span class="p">)</span> <span class="p">(</span><span class="nf">rename-variable</span> <span class="nv">var</span> <span class="nv">n</span><span class="p">))</span> <span class="nv">vars</span> <span class="p">)))</span>
+          <span class="p">(</span><span class="nf">sub-apply-rule</span> <span class="p">(</span><span class="nf">make-sub</span> <span class="nv">vars</span> <span class="nv">new-vars</span><span class="p">)</span> <span class="nv">rule</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<h3 id="computing-answers-given-a-proof-tree">Computing Answers given a Proof-Tree</h3>
+
+<p>Eventually, given a lazy-tree data structure representing a proof-tree, we read off the answers to a query by producing a lazy-list of substitutions:</p>
+<ul>
+  <li>The proof-tree is started using a root node with the query and an empty substitution</li>
+  <li>Answer-query expands the tree into a lazy tree representing the full proof-tree</li>
+  <li>We extract from the proof-tree the success leaves, and for each one, read the substitution associated to the leaf and project it to keep only the variables that were present in the query.</li>
+</ul>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: answer-query-lzl(query, program)</span>
+<span class="c1">; Type: [Query * Program -&gt; LZL(Sub)]</span>
+<span class="c1">; Purpose: Return a LZL of answers</span>
+<span class="c1">; Pre-conditions: -</span>
+<span class="c1">; Tests: -</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">answer-query-lzl</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">query</span> <span class="nv">program</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">letrec</span> <span class="p">((</span><span class="nf">node-expander</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">node</span><span class="p">)</span>
+                              <span class="p">(</span><span class="nf">LP-node-expander</span> <span class="nv">node</span> <span class="nv">program</span><span class="p">))))</span>
+      <span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="nf">pt</span> <span class="p">(</span><span class="nf">expand-lzt</span> <span class="p">(</span><span class="nf">make-PT-node</span> <span class="nv">query</span> <span class="nv">empty-sub</span><span class="p">)</span> <span class="nv">node-expander</span><span class="p">))</span>
+             <span class="p">(</span><span class="nf">answer-PT-nodes-lzl</span> <span class="p">(</span><span class="nf">lzt-filter-&gt;lzl</span> <span class="nv">pt</span> <span class="nv">LP-success-leaf?</span><span class="p">)))</span>
+        <span class="p">(</span><span class="nf">lzl-map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">PT-node</span><span class="p">)</span>
+                   <span class="p">(</span><span class="nf">sub-restrict</span> <span class="p">(</span><span class="nf">PT-node-&gt;sub</span> <span class="nv">PT-node</span><span class="p">)</span>
+                                 <span class="p">(</span><span class="nf">query-&gt;vars</span> <span class="nv">query</span><span class="p">)))</span>
+                 <span class="nv">answer-PT-nodes-lzl</span><span class="p">)))))</span>
+</code></pre></div></div>
+
+<p>The combination of Lazy-lists and Lazy-Trees allows a compact description of the operational semantics of LP which can operate on infinite trees.</p>
+
+<h3 id="testing-the-lp-interpreter">Testing the LP Interpreter</h3>
+
+<p>Since we did not implement a parser, we encode programs using AST constructors:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">app1</span> <span class="p">(</span><span class="nf">make-rule</span> <span class="o">'</span><span class="p">(</span><span class="nb">append</span> <span class="nv">empty</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">))</span> <span class="p">(</span><span class="nb">list</span> <span class="ss">'true</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">app2</span> <span class="p">(</span><span class="nf">make-rule</span> 
+              <span class="o">'</span><span class="p">(</span><span class="nb">append</span> <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">))</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Y</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Zs</span><span class="p">)))</span>
+              <span class="o">'</span><span class="p">((</span><span class="nb">append</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Y</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Zs</span><span class="p">)))</span> <span class="p">))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">app-proc</span> <span class="p">(</span><span class="nf">make-procedure</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">app1</span> <span class="nv">app2</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">mem1</span> <span class="p">(</span><span class="nf">make-rule</span> <span class="o">'</span><span class="p">(</span><span class="nb">member</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Ys</span><span class="p">))</span> 
+                        <span class="o">'</span><span class="p">((</span><span class="nb">append</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Zs</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">))</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Ys</span><span class="p">)))</span> <span class="p">))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">mem-proc</span> <span class="p">(</span><span class="nf">make-procedure</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">mem1</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">prog-app-mem</span>
+  <span class="p">(</span><span class="nf">make-program</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">app-proc</span> <span class="nv">mem-proc</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>Queries are submitted as follows:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; ?- member(X, [1])</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">query-member1</span> <span class="p">(</span><span class="nf">make-query</span> <span class="p">(</span><span class="nb">list</span> <span class="o">'</span><span class="p">(</span><span class="nb">member</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">1</span> <span class="nv">empty</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="nf">test</span> <span class="p">(</span><span class="nf">answer-query</span> <span class="nv">query-member1</span> <span class="nv">prog-app-mem</span><span class="p">)</span>
+       <span class="nv">=&gt;</span>
+       <span class="o">'</span><span class="p">((</span><span class="nf">sub</span> <span class="p">((</span><span class="nf">var</span> <span class="nv">X</span><span class="p">))</span> <span class="p">(</span><span class="nf">1</span><span class="p">))))</span>
+</code></pre></div></div>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; ?- append([1],[2],X)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">query-append12X</span> <span class="p">(</span><span class="nf">make-query</span> <span class="p">(</span><span class="nb">list</span> <span class="o">'</span><span class="p">(</span><span class="nb">append</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">1</span> <span class="nv">empty</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">2</span> <span class="nv">empty</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="nf">test</span> <span class="p">(</span><span class="nf">answer-query</span> <span class="nv">query-append12X</span> <span class="nv">prog-app-mem</span><span class="p">)</span>
+        <span class="nv">=&gt;</span>
+        <span class="o">'</span><span class="p">((</span><span class="nf">sub</span> <span class="p">((</span><span class="nf">var</span> <span class="nv">X</span><span class="p">))</span> <span class="p">((</span><span class="nb">cons</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">2</span> <span class="nv">empty</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

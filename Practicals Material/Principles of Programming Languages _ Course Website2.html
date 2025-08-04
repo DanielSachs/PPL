@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)https://bguppl.github.io/interpreters/practice_sessions/ps10.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Principles of Programming Languages | Course Website</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Principles of Programming Languages">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/practice_sessions/ps10.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/practice_sessions/ps10.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Principles of Programming Languages">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Principles of Programming Languages","url":"https://bguppl.github.io/interpreters/practice_sessions/ps10.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Principles of Programming Languages _ Course Website2_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Principles of Programming Languages _ Course Website2_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Principles of Programming Languages _ Course Website2_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1><b>Lazy-Lists and Continuation Passing Style (CPS)</b></h1>
+
+<h2><b>Practical Session - Week #10</b></h2>
+
+<h1 id="lists-lazy">Lists-Lazy</h1>
+
+<p>תזכורת: רשימות עצלות הן מבני נתונים סדרתיים המאפשרים דחייה של חישוב ושמירה של איברים מתוכם.
+היתרונות בשימוש בהן:</p>
+<ul>
+  <li>אין צורך לאחסן בזיכרון את כל איברי הרשימה. בעזרת רשימות עצלות ניתן לייצג אף סדרות אינסופיות.</li>
+  <li>דחיית חישוב איברים ברשימה לזמן בו נדקק להם – ייתכן שלא נזדקק לכל איברי הרשימה.</li>
+</ul>
+
+<p>נגדיר את ערכי הטיפוס של רשימות עצלות באופן רקורסיבי:</p>
+
+<pre><code class="language-plain">Lzl(T) = Empty-Lzl | Pair(T, [Empty -&gt; Lzl(T)])
+</code></pre>
+<p>זהו ADT עבור רשימות עצלות (המימוש מופיע בספר הקורס):</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: cons-lzl(x, f)</span>
+<span class="c1">; Type: [T * [Empty -&gt; LzL] -&gt; LzL]</span>
+
+<span class="c1">; Signature: head(lz-list)</span>
+<span class="c1">; Type: [LzL -&gt; T]</span>
+<span class="c1">; Pre-condition: non-empty LzL</span>
+
+<span class="c1">; Signature: tail(lz-list)</span>
+<span class="c1">; Type: [LzL -&gt; LzL]</span>
+<span class="c1">; Pre-condition: non-empty LzL</span>
+
+<span class="c1">; Signature: empty-lzl?(exp)</span>
+<span class="c1">; Type: [T -&gt; Boolean]</span>
+
+<span class="c1">; Signature: nth(lz-list, n)</span>
+<span class="c1">; Type: [LzL * Number -&gt; T]</span>
+
+<span class="c1">; Signature: take(lz-list, n)</span>
+<span class="c1">; Type: [LzL * Number -&gt; List]</span>
+</code></pre></div></div>
+
+<h2 id="שאלה-1--השערת-קולץ">שאלה 1 – השערת קולץ</h2>
+<p>נגדיר את הפונקציה:</p>
+
+<p class="c"><img src="./Principles of Programming Languages _ Course Website2_files/collatz exmple.png" alt="collatz"></p>
+
+<p>השערת קולץ גורסת כי לכל n&gt;1 מתקיים כי הסדרה n,f(n),f(f(n)),f(f(f(n)))… תמיד מתכנסת ב-1. 
+למשל עבור n=563:</p>
+
+<p>563 -&gt; 1690 -&gt; 845 -&gt; 2536 -&gt; 1268 -&gt; 634 -&gt; 317 -&gt; 952 -&gt; 476 -&gt; 238 -&gt; 119 -&gt; 358 -&gt; 179 -&gt; 538 -&gt; 269 -&gt; 808 -&gt; 404 -&gt; 202 -&gt; 101 -&gt; 304 -&gt; 152 -&gt; 76 -&gt; 38 -&gt; 19 -&gt; 58 -&gt; 29 -&gt; 88 -&gt; 44 -&gt; 22 -&gt; 11 -&gt; 34 -&gt; 17 -&gt; 52 -&gt; 26 -&gt; 13 -&gt; 40 -&gt; 20 -&gt; 10 -&gt; 5 -&gt; 16 -&gt; 8 -&gt; 4 -&gt; 2 -&gt; 1</p>
+
+<p>נרצה להגדיר את הרשימה העצלה המכילה את סדרת קולץ עבור n כלשהו.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: lzl-collatz(n)</span>
+<span class="c1">; Type: [Number -&gt; LzL(Number)]</span>
+<span class="c1">; Purpose: Generate the (possibly infinite) series { n, f(n), f(f(n)), ... },</span>
+<span class="c1">; where f(n) is collatz function</span>
+<span class="c1">; Pre-condition: n is a natural number greater than zero</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">lzl-collatz</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">&lt;</span> <span class="nv">n</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">cons-lzl</span> <span class="nv">n</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="nv">empty-lzl</span><span class="p">))</span>
+            <span class="p">(</span><span class="nf">cons-lzl</span> <span class="nv">n</span>
+                <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+                    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="p">(</span><span class="nb">modulo</span> <span class="nv">n</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+                        <span class="p">(</span><span class="nf">lzl-collatz</span> <span class="p">(</span><span class="nb">/</span> <span class="nv">n</span> <span class="mi">2</span><span class="p">))</span>
+                        <span class="p">(</span><span class="nf">lzl-collatz</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">3</span> <span class="nv">n</span><span class="p">)</span> <span class="mi">1</span><span class="p">))))))))</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">take</span> <span class="p">(</span><span class="nf">lzl-collatz</span> <span class="mi">563</span><span class="p">)</span> <span class="mi">44</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">563</span> <span class="mi">1690</span> <span class="mi">845</span> <span class="mi">2536</span> <span class="mi">1268</span> <span class="mi">634</span> <span class="mi">317</span> <span class="mi">952</span> <span class="mi">476</span> <span class="mi">238</span> <span class="mi">119</span> <span class="mi">358</span> <span class="mi">179</span> <span class="mi">538</span> <span class="mi">269</span> <span class="mi">808</span> <span class="mi">404</span> <span class="mi">202</span>
+<span class="mi">101</span> <span class="mi">304</span> <span class="mi">152</span> <span class="mi">76</span> <span class="mi">38</span> <span class="mi">19</span> <span class="mi">58</span> <span class="mi">29</span> <span class="mi">88</span> <span class="mi">44</span> <span class="mi">22</span> <span class="mi">11</span> <span class="mi">34</span> <span class="mi">17</span> <span class="mi">52</span> <span class="mi">26</span> <span class="mi">13</span> <span class="mi">40</span> <span class="mi">20</span> <span class="mi">10</span> <span class="mi">5</span> <span class="mi">16</span> <span class="mi">8</span> <span class="mi">4</span> <span class="mi">2</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+<p>מה הטיפוס של lzl-collatz? האם הפרוצדורה היא well-typed? האם <code class="language-plaintext highlighter-rouge">(head (lzl-collatz n))</code> עבור n טבעי כלשהי תמיד תצליח?</p>
+
+<h2 id="שאלה-2--סדרת-ההפעלות-העצמיות">שאלה 2 – סדרת ההפעלות העצמיות</h2>
+
+<p>בהינתן פונקציה <img src="./Principles of Programming Languages _ Course Website2_files/math" alt="equation 1"> וערך <img src="./Principles of Programming Languages _ Course Website2_files/math(1)" alt="equation 2"> , נגדיר את סדרת ההרכבות העצמיות להיות <img src="./Principles of Programming Languages _ Course Website2_files/sequence.png" alt="equation 3"> . הסדרה
+יכולה להיות סופית, או אינסופית. נרצה לייצר את הרשימה העצלה שאיבריה הם איברי הסדרה. הרשימה תיגמר כאשר
+הגיעה לנקודת שבת, כלומר כאשר הערך המוחזר מהפעלת <img src="./Principles of Programming Languages _ Course Website2_files/math" alt="equation 4"> הוא אותו הערך שעליו <img src="./Principles of Programming Languages _ Course Website2_files/math" alt="equation 5"> הופעלה.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: lzl-apply(f, x)</span>
+<span class="c1">; Type: [[T -&gt; T] * T -&gt; LzL]</span>
+<span class="c1">; Purpose: Generate the self-application series of f on x</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">lzl-apply</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">x</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">fx</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">x</span><span class="p">)))</span>
+            <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">fx</span> <span class="nv">x</span><span class="p">)</span>
+                <span class="p">(</span><span class="nf">cons-lzl</span> <span class="nv">x</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="nv">empty-lzl</span><span class="p">))</span>
+                <span class="p">(</span><span class="nf">cons-lzl</span> <span class="nv">x</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">lzl-apply</span> <span class="nv">f</span> <span class="nv">fx</span><span class="p">)))))))</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">take</span> <span class="p">(</span><span class="nf">lzl-apply</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">/</span> <span class="mi">1</span> <span class="nv">x</span><span class="p">)))</span> <span class="mf">1.0</span><span class="p">)</span> <span class="mi">100</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span><span class="o">.</span><span class="mi">0</span> <span class="mf">2.0</span> <span class="mf">1.5</span> <span class="mf">1.6666666666666665</span> <span class="mf">1.6</span> <span class="mf">1.625</span> <span class="o">...</span> <span class="mf">1.6180339887498951</span><span class="p">)</span>
+                             <span class="err">𝑙𝑒𝑛𝑔𝑡ℎ</span> <span class="nv">=</span> <span class="mi">38</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">take</span> <span class="p">(</span><span class="nf">lzl-apply</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">100</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span><span class="p">)</span>
+
+</code></pre></div></div>
+<h1 id="continuation-passing-style-cps">Continuation Passing Style (CPS)</h1>
+
+<p>פרדיגמה תכנותית בה לכל פרוצדורת משתמש ניתן פרמטר נוסף שהינו פרוצדורה, אשר מהווה את המשך החישוב שיש לבצע בתום פעולת פרוצדורת המשתמש (ועל כן נקרא הפרמטר continuation). חלק מן המוטיבציה לשימוש בפרדיגמת תכנות זו היא השליטה שהיא מאפשרת בבקרה של התוכנית:</p>
+
+<ol>
+  <li>במהלך כתיבת פרוצדורות משתמש בשיטת CPS, כל קריאה רקורסיבית נכתבת כך שהיא בעמדת זנב. לכן, מעצם השימוש בשיטה, הפרוצדורה תייצר תהליך איטרטיבי.</li>
+  <li>שיטת	CPS מאפשרת לשלוט בסדר לפיו התוכנית תחשב ביטויים. למשל, אם נממש חיפוש בעץ, נוכל לבחור אם לחפש קודם בענף הימני או בשמאלי (לעומת זאת, ללא CPS נהייה תלויים בסדר הערכת הביטויים המובנה ב-interpreter).</li>
+  <li>השליטה בבקרת התוכנית מאפשרת לנקוט בפעולה שונה במקרה של הצלחה / כישלון או יציאה ישירה (exception) במהלך רקורסיה (או איטרציה) וכן מאפשרת להחזיר כמה ערכים ביחד.</li>
+</ol>
+
+<h2 id="שאלה-1--אופן-פעולת-פרוצדורה-בגרסת-cps-והוכחת-נכונות">שאלה 1 – אופן פעולת פרוצדורה בגרסת CPS והוכחת נכונות</h2>
+
+<p>ניזכר במימוש של הפרוצדורה fact ללא שימוש ב-CPS:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Type: [Number -&gt; Number]</span>
+<span class="c1">; Purpose: To calculate the factorial of n.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">fact</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="mi">1</span>
+            <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="p">(</span><span class="nf">fact</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+</code></pre></div></div>
+<p>כעת, נממש את fact בשיטת CPS ונמחיש את אופן הפעולה שלה:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Type: [Number * [Number-&gt;T1] -&gt; T1]</span>
+<span class="c1">; Purpose: Returns the application of the</span>
+<span class="c1">; continuation c on the factorial of n.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">fact$</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span> <span class="nv">c</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">c</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">fact$</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">fact_n-1</span><span class="p">)</span>
+                    <span class="p">(</span><span class="nf">c</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="nv">fact_n-1</span><span class="p">)))))))</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">fact</span> <span class="mi">5</span><span class="p">)</span>
+<span class="mi">120</span>
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">fact$</span> <span class="mi">5</span> <span class="nv">add1</span><span class="p">)</span>
+<span class="mi">121</span>
+</code></pre></div></div>
+<p>דיון: מדוע התוצאות אינן זהות? כיצד נרצה לקבוע בדרך כלל את פרוצדורת ה-continuation שנעביר לקריאה הראשונה?</p>
+
+<h3 id="הוכחת-נכונות">הוכחת נכונות:</h3>
+<p>לאחר המרת פרוצדורה לגרסת ה-CPS שלה, נדרשת הוכחת נכונות. הנכונות נשענת על הצגת שקילות בין שתי הגרסאות, במובן הבא: בהפעלת האלגוריתם applicative-eval על קריאה מתאימה לכל אחת מן הגרסאות, החישוב יסתיים ויוחזר ערך זהה. לשם כך, נזדקק להגדרת השקילות הבאה:</p>
+
+<p>הגדרה: פרוצדורה $f שקולה-CPS לפרוצדורה f אם לכל ערכי קלט x1,x2,…,x3 ולכל continuation המסומן cont, מתקיים:</p>
+<pre><code class="language-plain">(f$ x1 … xn cont) = (cont (f x1 … xn))
+</code></pre>
+<p>טענה: הפרוצדורה $fact שקולה-CPS לפרוצדורה fact. כלומר, לכל מספר טבעי, n, ולכל continuation, אשר יסומן על ידי c, מתקיים:</p>
+<pre><code class="language-plain">(fact$ n c) = (c (fact n))
+</code></pre>
+<p>הוכחה: כיוון שהפרוצדורה fact היא רקורסיבית, ההוכחה מתבצעת על ידי שימוש באינדוקציה.</p>
+
+<p>בסיס האינדוקציה: n=0</p>
+<pre><code class="language-plain">a-e[ (fact$ 0 c) ] ==&gt;* a-e[ (c 1) ]
+a-e[ (c (fact 0)) ] ==&gt;* a-e[ (c 1) ]
+</code></pre>
+<p>(הסימון a-e הוא קיצור עבור applicative-eval)</p>
+
+<p>הנחת האינדוקציה: הטענה מתקיימת עבור n=k∈ N. כלומר:</p>
+<pre><code class="language-plain">(fact$ k c) = (c (fact k))
+</code></pre>
+<p>צעד האינדוקציה: יהא n=k+1,k∈N, אזי:</p>
+<pre><code class="language-plain">a-e [ (fact$ n c) ] ==&gt;*
+a-e [ (fact$ (- n 1) (lambda (res) (c (* n res)))) ]
+</code></pre>
+
+<p>מהנחת האינדוקציה, נקבל:</p>
+<pre><code class="language-plain">a-e [ (fact$ (- n 1) (lambda (res) (c (* n res)))) ] =
+a-e [ ((lambda (res) (c (* n res))) (fact (- n 1))) ] ==&gt;*
+a-e [ (c (* n (fact (- n 1)))) ]
+
+a-e [ (c (fact n)) ] ==&gt;*
+a-e [ (c (* n (fact (- n 1)))) ]
+</code></pre>
+
+<h2 id="כללי-אצבע-להמרת-פרוצדורה-רקורסיבית-לפרוצדורה-שקולה-cps">כללי אצבע להמרת פרוצדורה רקורסיבית לפרוצדורה שקולה-CPS:</h2>
+
+<p>בהינתן פרוצדורה רקורסיבית, f, עם הפרמטרים הפורמאליים x1,…,xn, פרוצדורה שקולה-CPS לה תסומן $f ותופעל על ארגומנט נוסף, c, ה-continuation. העקרונות שינחו אותנו בכתיבת $f הם כדלקמן:</p>
+
+<p>א. נפעיל את c על ערכים מוחזרים (כחלק ממקרה הבסיס, או בתוך continuation הנוצר במהלך הריצה).</p>
+
+<p>ב.	נקפיד לכתוב כל קריאה לפרוצדורת משתמש בתוך $f כך שהקריאה תהיה בעמדת זנב.</p>
+
+<p>ג.	כתיבת ה-continuation:</p>
+
+<ol>
+  <li>
+    <p>כשנבצע בתוך $f קריאה רקורסיבית כלשהי  עם ארגומנטים x1,…,xn, נתבסס על הנחת האינדוקציה (המקטינה את הבעיה). כלומר, נניח כי התשובה עבור הבעיה המוקטנת מתקבלת כארגומנט של
+ה-continuation.</p>
+  </li>
+  <li>
+    <p>בכתיבת ה-continuation, נקיים את צעד האינדוקציה ונפעל על הפתרון עבור הבעיה המוקטנת כדי לקבל את הפתרון לבעיה הגדולה יותר.</p>
+  </li>
+</ol>
+
+<p>ד.	בכתיבת פרוצדורה בשיטת CPS, נקפיד שכל פרוצדורת משתמש (לא פרימיטיבית) המשמשת את $f תהיה גם היא כתובה בשיטת CPS.</p>
+
+<p>ה.	בדרך כלל, לא נרצה לבצע מניפולציה על הערך המוחזר של הפונקציה ולכן נשתמש בפונקציית הזהות id
+כ-continuation ההתחלתי.</p>
+
+<h2 id="שאלה-2--פונקציות-cps-מסדר-גבוה">שאלה 2 – פונקציות CPS מסדר גבוה</h2>
+
+<p>נמיר את הפונקציה foldr ל-CPS. תזכורת:</p>
+
+<pre><code class="language-plain">(foldr op initial (list x1 x2 ... xn))
+                ⇕
+(op x1 (op x2 (op ... (op xn initial))))
+</code></pre>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: foldr(op, initial, sequence)</span>
+<span class="c1">; Type: [ [ T1 * T2 -&gt; T2 ] * T2 * List(T1) -&gt; T2 ]</span>
+<span class="c1">; Example: (foldr + 0 (list 1 2 3 4 5)) =&gt; 15</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">foldr</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">op</span> <span class="nv">initial</span> <span class="nv">sequence</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">sequence</span><span class="p">)</span>
+        <span class="nv">initial</span>
+        <span class="p">(</span><span class="nf">op</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">sequence</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">foldr</span> <span class="nv">op</span> <span class="nv">initial</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">sequence</span><span class="p">))))))</span> 
+
+<span class="c1">; Signature: foldr$(op, initial, sequence, c)</span>
+<span class="c1">; Type: [ [T1 * T2 -&gt; T2] * T2 * List(T1) * [T2 -&gt; T3] -&gt; T3 ]</span>
+<span class="c1">; Example: (foldr$ * 1 (list 1 2 3 4 5)</span>
+<span class="c1">;                  (lambda (result) (cons 'the-product result)))</span>
+ <span class="c1">;          =&gt; '(the-product . 120)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">foldr$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">op</span> <span class="nv">initial</span> <span class="nv">sequence</span> <span class="nv">c</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">sequence</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">c</span> <span class="nv">initial</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">foldr$</span> <span class="nv">op</span>
+                <span class="nv">initial</span>
+                <span class="p">(</span><span class="nb">cdr</span> <span class="nv">sequence</span><span class="p">)</span>
+                <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">acc-cdr-res</span><span class="p">)</span>
+                  <span class="p">(</span><span class="nf">c</span> <span class="p">(</span><span class="nf">op</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">sequence</span><span class="p">)</span> <span class="nv">acc-cdr-res</span><span class="p">)))))))</span>
+
+<span class="c1">; Signature: foldr$$(op$, initial, sequence, c)</span>
+<span class="c1">; Type: [ [T1 * T2 * [T2-&gt;T3] -&gt; T3] * T2 * List(T1) * [T2-&gt;T3] -&gt; T3 ]</span>
+<span class="c1">; Example: (foldr$ +$ 0 (list 1 2 3 4 5) </span>
+<span class="c1">;                 (lambda (result) (cons 'the-sum result)))</span>
+<span class="c1">;           =&gt; '(the-sum . 15)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">foldr$$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">op$</span> <span class="nv">initial</span> <span class="nv">sequence</span> <span class="nv">c</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">sequence</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">c</span> <span class="nv">initial</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">foldr$$</span> <span class="nv">op$</span> 
+                 <span class="nv">initial</span>
+                 <span class="p">(</span><span class="nb">cdr</span> <span class="nv">sequence</span><span class="p">)</span>
+                 <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">acc-cdr-res</span><span class="p">)</span>
+                   <span class="p">(</span><span class="nf">op$</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">sequence</span><span class="p">)</span> <span class="nv">acc-cdr-res</span> <span class="nv">c</span><span class="p">))))))</span>
+
+</code></pre></div></div>
+
+<p>נשים לב: מדוע לא יכולנו להפעיל את c על תוצאת $op במקום להעביר לה את c כארגומנט? ראשית, לו עשינו כך, הקריאה לא הייתה בעמדת זנב. בנוסף, הבעיה המהותית יותר היא שבמקרה כזה היינו מאבדים את השליטה על תהליך החישוב המגולמת בתוך ה-continuation.</p>
+
+<h2 id="שאלה-3--עצירת-החישוב">שאלה 3 – עצירת החישוב</h2>
+<p>הפונקציה $mul-list מקבלת רשימה של רשימות ומחזירה מכפלה של כל המספרים ברשימה. אם יש מופע אטומי
+שאינו מספר אז יש לעצור את החישוב.</p>
+
+<p><img src="./Principles of Programming Languages _ Course Website2_files/mul-list.png" alt="mul-list"></p>
+
+<h2 id="שאלה-4--שימוש-במספר-continuations">שאלה 4 – שימוש במספר continuations</h2>
+
+<p>לצורך הפשטת העבודה מול רשימות, נשתמש ב-ADT עבור עצים (המימוש מופיע בספר הקורס). כפי שכבר ראינו בעבר עבור רשימות ורשימות עצלות, גם עץ מוגדר בצורה רקורסיבית:</p>
+<ol>
+  <li>Empty-Tree is a Tree</li>
+  <li>if t is a Tree, than for every e: the value of  (add-subtree (make-leaf e) t) is a Tree</li>
+</ol>
+
+<p>ממשק ה-ADT:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: make-tree(1st, ..., nth)</span>
+<span class="c1">; Type: [Tree * ... * Tree -&gt; Tree]</span>
+
+<span class="c1">; Signature: add-subtree(subtree, tree)</span>
+<span class="c1">; Type: [Tree * Tree -&gt; Tree]</span>
+
+<span class="c1">; Signature: make-leaf(data)</span>
+<span class="c1">; Type: [T -&gt; Tree]</span>
+
+<span class="c1">; Signature: empty-tree</span>
+<span class="c1">; Type: Empty-Tree</span>
+
+<span class="c1">; Signature: first-subtree(tree)</span>
+<span class="c1">; Type: [Tree -&gt; Tree]</span>
+
+<span class="c1">; Signature: rest-subtrees(tree)</span>
+<span class="c1">; Type: [Tree -&gt; Tree]</span>
+
+<span class="c1">; Signature: leaf-data(leaf)</span>
+<span class="c1">; Type: [Tree -&gt; T]</span>
+
+<span class="c1">; Signature: composite-tree?(e)</span>
+<span class="c1">; Type: [T -&gt; Boolean]</span>
+
+<span class="c1">; Signature: leaf?(e)</span>
+<span class="c1">; Type: [T -&gt; Boolean]</span>
+
+<span class="c1">; Signature: empty-tree?(e)</span>
+<span class="c1">; Type: [T -&gt; Boolean]</span>
+
+</code></pre></div></div>
+
+<p>הפונקציה $replace-leaves מקבלת עץ הומוגני, פרדיקט (שאינו כתוב בגרסת CPS), ביטוי new מטיפוס עלי העץ ושני continuations: אחד עבור הצלחה והשני עבור כישלון. המטרה היא להחליף את כל העלים אשר מקיימים את הפרדיקט, בביטוי new. נשים לב שניתן להכליל את הקוד ע”י העברת פרוצדורה בתור new ולשנות את העלה בצורה דינמית.</p>
+
+<p><img src="./Principles of Programming Languages _ Course Website2_files/replace-leaves.png" alt="replace-leaves"></p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="k">define</span> <span class="nv">tree</span> <span class="p">(</span><span class="nf">make-tree</span> <span class="p">(</span><span class="nf">make-tree</span> <span class="p">(</span><span class="nf">make-leaf</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-leaf</span> <span class="mi">2</span><span class="p">))</span>
+                          <span class="p">(</span><span class="nf">make-tree</span> <span class="p">(</span><span class="nf">make-leaf</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-leaf</span> <span class="mi">4</span><span class="p">)</span>
+                                     <span class="p">(</span><span class="nf">make-tree</span> <span class="p">(</span><span class="nf">make-leaf</span> <span class="mi">5</span><span class="p">)))))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">replace-leaves$</span> <span class="nv">tree</span> <span class="nv">even?</span> <span class="mi">42</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="nv">tree</span><span class="p">))</span>
+<span class="o">'</span><span class="p">((</span><span class="nf">1</span> <span class="mi">42</span><span class="p">)</span> <span class="p">(</span><span class="nf">3</span> <span class="mi">42</span> <span class="p">(</span><span class="nf">5</span><span class="p">)))</span>
+
+</code></pre></div></div>
+
+<p>הערה: יכולנו במקום succ ו-fail להעביר פרוצדורות שמבצעות מניפולציות אחרות על התוצאה – כל זאת מבלי לשנות שורה אחת בקוד הקיים של $replace-leaves. לדוגמה:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nf">replace-leaves$</span> <span class="nv">tree</span>
+                   <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="nv">x</span> <span class="mi">100</span><span class="p">))</span>
+                   <span class="mi">42</span>
+                   <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+                   <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+                     <span class="p">(</span><span class="nf">replace-leaves$</span> <span class="nv">tree</span>
+                                      <span class="nv">odd?</span>
+                                      <span class="mi">0</span>
+                                      <span class="nv">permutations</span>
+                                      <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="ss">'I-give-up</span><span class="p">))))</span>
+<span class="o">'</span><span class="p">(((</span><span class="nf">0</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">0</span> <span class="mi">4</span> <span class="p">(</span><span class="nf">0</span><span class="p">)))</span> <span class="p">((</span><span class="nf">0</span> <span class="mi">4</span> <span class="p">(</span><span class="nf">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">0</span> <span class="mi">2</span><span class="p">)))</span>
+
+</code></pre></div></div>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nf">replace-leaves$</span> <span class="nv">tree</span>
+                    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="nv">x</span> <span class="mi">100</span><span class="p">))</span>
+                    <span class="p">(</span><span class="k">lambda</span><span class="p">(</span><span class="nf">x</span><span class="p">)</span><span class="nv">x</span><span class="p">)</span>
+                    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+                    <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+                        <span class="p">(</span><span class="nf">replace-leaves$</span> <span class="nv">tree</span>
+                            <span class="nv">odd?</span>
+                            <span class="p">(</span><span class="k">lambda</span><span class="p">(</span><span class="nf">x</span><span class="p">)(</span><span class="nb">+</span> <span class="mi">1</span> <span class="nv">x</span><span class="p">))</span>
+                            <span class="p">(</span><span class="k">lambda</span><span class="p">(</span><span class="nf">x</span><span class="p">)(</span><span class="nf">rest-subtree</span> <span class="nv">x</span><span class="p">)</span>
+                            <span class="p">(</span><span class="k">lambda</span><span class="p">()</span><span class="ss">'failled</span><span class="p">)</span>
+                        <span class="p">)</span>
+<span class="p">)</span>
+<span class="o">'</span><span class="p">((</span><span class="nf">4</span> <span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="nf">6</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nf">replace-leaves$</span> <span class="nv">tree</span>
+                <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="nv">x</span> <span class="mi">100</span><span class="p">))</span>
+                <span class="p">(</span><span class="k">lambda</span><span class="p">(</span><span class="nf">x</span><span class="p">)(</span><span class="nb">*</span> <span class="mi">2</span> <span class="nv">x</span><span class="p">))</span>
+                <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+                <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+                    <span class="p">(</span><span class="nf">replace-leaves$</span> <span class="nv">tree</span>
+                        <span class="nv">zero?</span>
+                        <span class="p">(</span><span class="k">lambda</span><span class="p">(</span><span class="nf">x</span><span class="p">)(</span><span class="nb">+</span> <span class="mi">1</span> <span class="nv">x</span><span class="p">))</span>
+                        <span class="p">(</span><span class="k">lambda</span><span class="p">(</span><span class="nf">x</span><span class="p">)(</span><span class="nf">rest-subtree</span> <span class="nv">x</span><span class="p">)</span>
+                        <span class="p">(</span><span class="k">lambda</span><span class="p">()</span> <span class="p">(</span><span class="nf">error</span> <span class="s">"failled to replace anyting"</span><span class="p">))</span>
+                    <span class="p">)</span>
+<span class="p">)</span>
+<span class="nv">This</span> <span class="nv">raise</span> <span class="nv">exception</span>
+<span class="nv">Error</span> <span class="s">"failed to replace anything"</span>
+</code></pre></div></div>
+
+<h2 id="שאלה-5--continuation-עם-מספר-ארגומנטים">שאלה 5 – continuation עם מספר ארגומנטים</h2>
+
+<p>פרוצדורות ה-CPS  שאנו יוצרים, למעשה אינן בעצמן מחשבות את התוצאה, אלא מייצרות (על ידי יצירת continuations) פרוצדורה המהווה את תהליך החישוב. אם נקפיד לייצר continuations אשר מקבלים מספר ארגומנטים ובאופן עקבי נפעיל אותם על אותו מספר של ארגומנטים, נוכל לומר שתהליך החישוב שנייצר “מחזיר” מספר ערכים.</p>
+
+<p>נראה להלן פרוצדורה בה תכונה זו שימושית. הפרוצדורה מפצלת רשימה נתונה לשתי רשימות לפי פרדיקט פרימיטיבי, pred. ה-continuation מקבל שני ארגומנטים: רשימת האיברים מן הבעיה המוקטנת אשר קיימו את הפרדיקט ורשימת אלו שלא. על שתי הרשימות יתבצע המשך החישוב.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: split$(pred lst c)</span>
+<span class="c1">; Type: [ [T1-&gt;Boolean] * List(T1) * [List(T1) * List(T1) -&gt; T2] -&gt; T2 ]</span>
+<span class="c1">; Purpose: Returns the application of the continuation c on two lists:</span>
+<span class="c1">;          1. A list of members for which the predicate holds. </span>
+<span class="c1">;          2. A list of members for which it doesn't.</span>
+<span class="c1">; Examples: (split$ even? '(1 2 3 4 5 6 7)</span>
+<span class="c1">;                         (lambda (x y) (list x y)))</span>
+<span class="c1">;           =&gt; '((2 4 6) (1 3 5 7))</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="nf">split$</span> <span class="nv">pred</span> <span class="nv">lst</span> <span class="nv">c</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">lst</span><span class="p">)</span> 
+      <span class="p">(</span><span class="nf">c</span> <span class="nv">lst</span> <span class="nv">lst</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">split$</span> <span class="nv">pred</span>
+              <span class="p">(</span><span class="nb">cdr</span> <span class="nv">lst</span><span class="p">)</span>
+              <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">cdr-yes-list</span> <span class="nv">cdr-no-list</span><span class="p">)</span>
+                <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">pred</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">lst</span><span class="p">))</span>
+                    <span class="p">(</span><span class="nf">c</span> <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">lst</span><span class="p">)</span> <span class="nv">cdr-yes-list</span><span class="p">)</span> 
+                       <span class="nv">cdr-no-list</span><span class="p">)</span>
+                    <span class="p">(</span><span class="nf">c</span> <span class="nv">cdr-yes-list</span> 
+                       <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">lst</span><span class="p">)</span> <span class="nv">cdr-no-list</span><span class="p">)))))))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">split$</span> <span class="nv">even?</span>
+        <span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">evens</span> <span class="nv">odds</span><span class="p">)</span> <span class="p">(</span><span class="nb">-</span> <span class="p">(</span><span class="nf">foldr</span> <span class="nv">+</span> <span class="mi">0</span> <span class="nv">evens</span><span class="p">)</span> <span class="p">(</span><span class="nf">foldr</span> <span class="nv">+</span> <span class="mi">0</span> <span class="nv">odds</span><span class="p">))))</span>
+<span class="mi">-3</span>
+
+</code></pre></div></div>
+
+<h1 id="דוגמאות-נוספות-לעיון">דוגמאות נוספות לעיון</h1>
+
+<h2 id="שאלה-1--7-בום">שאלה 1 – “7 בום”</h2>
+
+<p>נייצר את הרשימה העצלה שאיבריה מתאימים לחוקי המשחק 7 בום:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: seven-boom(n)</span>
+<span class="c1">; Type: [Number -&gt; LzL(Number)]</span>
+<span class="c1">; Pre-condition: n is a natural number</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">seven-boom</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">cons-lzl</span> <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nb">=</span> <span class="p">(</span><span class="nb">modulo</span> <span class="nv">n</span> <span class="mi">7</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="ss">'boom</span><span class="p">)</span>
+                    <span class="p">((</span><span class="nf">has-digit?</span> <span class="nv">n</span> <span class="mi">7</span><span class="p">)</span> <span class="ss">'boom</span><span class="p">)</span>
+                    <span class="p">((</span><span class="nb">=</span> <span class="p">(</span><span class="nb">modulo</span> <span class="p">(</span><span class="nf">sum-digits</span> <span class="nv">n</span><span class="p">)</span> <span class="mi">7</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="ss">'boom</span><span class="p">)</span>
+                    <span class="p">(</span><span class="k">else</span> <span class="nv">n</span><span class="p">))</span>
+              <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+                <span class="p">(</span><span class="nf">seven-boom</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">seven-boom</span> <span class="mi">1</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="o">.</span> <span class="o">#</span><span class="nv">&lt;procedure&gt;</span><span class="p">)</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">take</span> <span class="p">(</span><span class="nf">seven-boom</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">7</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="nv">boom</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h2 id="שאלה-2--רקורסיה-הדדית-עם-cps">שאלה 2 – רקורסיה הדדית עם CPS</h2>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: even?(n)</span>
+<span class="c1">; Type: [Number -&gt; Boolean]</span>
+<span class="c1">; Purpose: Returns true if the number n is even, and false otherwise.</span>
+<span class="c1">; Pre-condition: n &gt;= 0</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">even?</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">zero?</span> <span class="nv">n</span><span class="p">)</span>
+        <span class="no">#t</span>
+        <span class="p">(</span><span class="nb">odd?</span> <span class="p">(</span><span class="nf">sub1</span> <span class="nv">n</span><span class="p">)))))</span>
+
+<span class="c1">; Signature: odd?(n)</span>
+<span class="c1">; Type: [Number -&gt; Boolean]</span>
+<span class="c1">; Purpose: Returns true if the number n is odd, and false otherwise.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">odd?</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">zero?</span> <span class="nv">n</span><span class="p">)</span> 
+        <span class="no">#f</span>
+        <span class="p">(</span><span class="nb">even?</span> <span class="p">(</span><span class="nf">sub1</span> <span class="nv">n</span><span class="p">)))))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">even?</span> <span class="mi">7</span><span class="p">)</span>
+<span class="no">#f</span>
+
+</code></pre></div></div>
+
+<p>כאשר נרצה להמיר פונקציות רקורסיביות הדדיות ל-CPS, נמיר את כולן ל-CPS.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: even?$(n, c)</span>
+<span class="c1">; Type: [Number * [Boolean-&gt;T1] -&gt; T1]</span>
+<span class="c1">; Purpose: Returns the application of the continuation c on true if the </span>
+<span class="c1">;          number n is even, and the application of</span>
+<span class="c1">;          c on false otherwise.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">even?$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span> <span class="nv">c</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">zero?</span> <span class="nv">n</span><span class="p">)</span> 
+        <span class="p">(</span><span class="nf">c</span> <span class="no">#t</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">odd?$</span> <span class="p">(</span><span class="nf">sub1</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">c</span><span class="p">))))</span>
+
+<span class="c1">; Signature: odd?$(n, c)</span>
+<span class="c1">; Type: [Number * [Boolean-&gt;T1] -&gt; T1]</span>
+<span class="c1">; Purpose: Returns the application of the continuation c on true if the </span>
+<span class="c1">;          number n is odd, and the application of</span>
+<span class="c1">;          c on false otherwise.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">odd?$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span> <span class="nv">c</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">zero?</span> <span class="nv">n</span><span class="p">)</span> 
+        <span class="p">(</span><span class="nf">c</span> <span class="no">#f</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">even?$</span> <span class="p">(</span><span class="nf">sub1</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">c</span><span class="p">))))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">even?$</span> <span class="mi">6</span> <span class="nv">id</span><span class="p">)</span>
+<span class="no">#t</span>
+
+</code></pre></div></div>
+
+<p>נשים לב: על שתי הפונקציות להיות כתובות בצורת CPS .אם היינו משתמשים ב-$?even יחד עם odd שאינה כתובה כ-
+CPS (ובהנחה ש-odd שוב קוראת ל-$?even), היינו “זורקים” את ה-continuation שהצטבר בכל פעם שהיינו קוראים ל-
+$?even מתוך odd (כיוון ש-odd אינה כתובה בצורת CPS ,היא אינה מקבלת continuation כארגומנט ולכן גם לא
+מעבירה continuation).</p>
+
+<h2 id="שאלה-3--גרסת-cps--עבור-פרוצדורה-למציאת-מחלק-משותף-מקסימאלי-gcd">שאלה 3 – גרסת CPS  עבור פרוצדורה למציאת מחלק משותף מקסימאלי (gcd)</h2>
+
+<p>נתחיל בבחינת הפרוצדורה בה תהליך החישוב הוא איטרטיבי:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: gcd(n, m)</span>
+<span class="c1">; Type: [Number * Number -&gt; Number]</span>
+<span class="c1">; Purpose: Returns the greatest common divider of n and m.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">gcd</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span> <span class="nv">m</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">zero?</span> <span class="nv">m</span><span class="p">)</span>
+        <span class="nv">n</span>
+        <span class="p">(</span><span class="nb">gcd</span> <span class="nv">m</span> <span class="p">(</span><span class="nb">modulo</span> <span class="nv">n</span> <span class="nv">m</span><span class="p">)))))</span>
+
+</code></pre></div></div>
+<p>כתיבת גרסת ה-CPS היא מידית: ה-continuation יוכל להישאר id (כלומר ללא שינוי) לאורך כל החישוב. זאת, כיוון ש-n משמש כ-“צובר” לתשובה במקרה זה. נבחין כי למעשה איננו מרחיבים את הפונקציה “הנשלחת” כ - continuation במהלך ריצת $gcd:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: gcd$(n, m)</span>
+<span class="c1">; Type: [Number*Number*[Number-&gt;T1] -&gt; T1]</span>
+<span class="c1">; Purpose: Returns the application of the continuation</span>
+<span class="c1">;          c on the greatest common divider of n and m.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">gcd$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span> <span class="nv">m</span> <span class="nv">c</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">zero?</span> <span class="nv">m</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">c</span> <span class="nv">n</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">gcd$</span> <span class="nv">m</span> <span class="p">(</span><span class="nb">modulo</span> <span class="nv">n</span> <span class="nv">m</span><span class="p">)</span> <span class="nv">c</span><span class="p">))))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">gcd$</span> <span class="mi">6</span> <span class="mi">9</span> <span class="nv">sqr</span><span class="p">)</span>
+<span class="mi">9</span>
+
+</code></pre></div></div>
+
+<h2 id="שאלה-4--גרסת-cps-עבור-פרוצדורה-לחישוב-אורך-רשימה">שאלה 4 – גרסת CPS עבור פרוצדורה לחישוב אורך רשימה</h2>
+
+<p>נבחן תחילה את המימוש של length, המחשבת את אורכה של רשימה:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: length(lst)</span>
+<span class="c1">; Type: [List -&gt; Number]</span>
+<span class="c1">; Purpose: Returns the length of the list lst.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">length</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">lst</span><span class="p">)</span>
+        <span class="mi">0</span>
+        <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">length</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">lst</span><span class="p">))))))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nb">length</span> <span class="o">'</span><span class="p">(</span><span class="nf">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span><span class="p">))</span>
+<span class="mi">4</span>
+
+</code></pre></div></div>
+
+<p>ובגרסת CPS:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: length$(lst, c)</span>
+<span class="c1">; Type: [List*[Number-&gt;T1] -&gt; T1]</span>
+<span class="c1">; Purpose: Returns the application of the continuation</span>
+<span class="c1">;          c on the length of the list lst.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">length$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">lst</span> <span class="nv">c</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">lst</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">c</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">length$</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">lst</span><span class="p">)</span> 
+                 <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">cdr-length</span><span class="p">)</span> 
+                   <span class="p">(</span><span class="nf">c</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">cdr-length</span> <span class="mi">1</span><span class="p">)))))))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">length$</span> <span class="o">'</span><span class="p">(</span><span class="nf">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span><span class="p">)</span> <span class="nv">id</span><span class="p">)</span>
+<span class="mi">4</span>
+
+</code></pre></div></div>
+<p>הרעיון הוא להניח כי אל המשתנה cdr-length “יוכנס” האורך של זנב הרשימה (זאת כיוון שקראנו רקורסיבית לפונקציה $length עם (cdr lst)). כלומר אנו מניחים כי cdr-length חושב וכל שנותר הוא להפעיל את ה-continuation על התוצאה שהיא אורך הרשימה כולה (אורך זנב הרשימה + 1). נבחין כי בכל שלב באיטרציה נוצרת פונקציית continuation חדשה (מורחבת) פרט לשלב האחרון (מקרה הבסיס).</p>
+
+<p>נשים לב: השימוש ב-CPS אינו חוסך באופן כללי את הזיכרון הנדרש, אלא רק חוסך את השימוש במקום על המחסנית. למעשה, העברנו את השימוש בזיכרון בכל איטרציה מן המחסנית אל ה-heap (ה-continuations הם closures והם מיוצרים על ה-heap).</p>
+
+<h2 id="שאלה-5--גרסת-cps-עבור-פרוצדורות-מסדר-גבוה-map">שאלה 5 – גרסת CPS עבור פרוצדורות מסדר גבוה ($$map)</h2>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: map(f, lst)</span>
+<span class="c1">; Type: [[T1-&gt;T2] * List(T1) -&gt; List(T2)]</span>
+<span class="c1">; Purpose: Returns the list that results of applying</span>
+<span class="c1">;          f to the members of lst.</span>
+<span class="c1">; Example: (map - '(1 2 3 4 5)) =&gt; '(-1 -2 -3 -4 -5)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">map</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">lst</span><span class="p">)</span>
+        <span class="nv">lst</span>
+        <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">lst</span><span class="p">))</span> <span class="p">(</span><span class="nb">map</span> <span class="nv">f</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">lst</span><span class="p">))))))</span>
+
+</code></pre></div></div>
+
+<p>אם אנו מניחים כי פרוצדורות המיפוי f המתקבלת כארגומנט היא פרימיטיבית (ואינה כתובה בצורת CPS):</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: map$(f, lst, c)</span>
+<span class="c1">; Type: [ [T1-&gt;T2] * List(T1) * [List(T2)-&gt;T3] -&gt; T3 ]</span>
+<span class="c1">; Purpose: Returns the application of the continuation c on the list</span>
+<span class="c1">;          that results of applying f to all the members of lst.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">map$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">lst</span> <span class="nv">c</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">lst</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">c</span> <span class="nv">lst</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">map$</span> <span class="nv">f</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">lst</span><span class="p">)</span>
+              <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">mapped-cdr</span><span class="p">)</span>
+                <span class="p">(</span><span class="nf">c</span> <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">lst</span><span class="p">))</span> <span class="nv">mapped-cdr</span><span class="p">)))))))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">map$</span> <span class="nv">-</span> <span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)</span> <span class="nv">reverse</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">-5</span> <span class="mi">-4</span> <span class="mi">-3</span> <span class="mi">-2</span> <span class="mi">-1</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>כיוון שהפרוצדורה f אינה כתובה בגרסת CPS, הפעלנו את c על (cons (f (car lst)) mapped-cdr). כעת, נניח כי f אינה פרימיטיבית, ולכן הומרה לגרסת ה CPS שלה, $f. נראה כיצד לכתוב את גרסת ה-CPS  של map, כאשר הפרוצדורה אותה מפעילים על כל אחד מאיברי הרשימה, $f, נתונה בעצמה בגרסת CPS:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: map$$(f$, lst, c)</span>
+<span class="c1">; Type: [ [T1 * [T2-&gt;T3] -&gt; T3] * List(T1) * [List(T3)-&gt;T4] -&gt; T4 ]</span>
+<span class="c1">; Purpose: Returns the application of the continuation c on </span>
+<span class="c1">;          the list that results of applying f to all the </span>
+<span class="c1">;          members of lst from the end to the start</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">map$$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f$</span> <span class="nv">lst</span> <span class="nv">c</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">lst</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">c</span> <span class="nv">lst</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">map$$</span> <span class="nv">f$</span> 
+               <span class="p">(</span><span class="nb">cdr</span> <span class="nv">lst</span><span class="p">)</span> 
+               <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">mapped-cdr</span><span class="p">)</span>
+                 <span class="p">(</span><span class="nf">f$</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">lst</span><span class="p">)</span>
+                     <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">mapped-car</span><span class="p">)</span>
+                       <span class="p">(</span><span class="nf">c</span> <span class="p">(</span><span class="nb">cons</span> <span class="nv">mapped-car</span> <span class="nv">mapped-cdr</span><span class="p">)))))))))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">map$$</span> <span class="nv">sqr$</span> <span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)</span> <span class="nv">id</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">4</span> <span class="mi">9</span> <span class="mi">16</span> <span class="mi">25</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>נתבונן ב-continuation שנבנה לאורך החישוב:</p>
+
+<p><img src="./Principles of Programming Languages _ Course Website2_files/diagram.png" alt="diagram"></p>
+
+<p>הפרוצדורה $$map מפעילה את $f על אברי הרשימה מהסוף להתחלה (בדוגמה 5 → 4 → 3 → 2 → 1).  הפעלת f והקריאה ל-map אינן תלויות (אינן מקוננות זו בזו) ולכן ניתן לבחור מה יתרחש קודם בגרסת ה CPS. כך נקבע את הסדר בו תופעל $f על אברי הרשימה (מההתחלה לסוף או להיפך). הגרסה הבאה מפעילה את $f על אברי הרשימה לפי הסדר הרגיל של מההתחלה לסוף:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">map$$</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f$</span> <span class="nv">lst</span> <span class="nv">c</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty?</span> <span class="nv">lst</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">c</span> <span class="nv">lst</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">map$$</span> <span class="nv">f$</span> 
+               <span class="p">(</span><span class="nb">car</span> <span class="nv">lst</span><span class="p">)</span> 
+               <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">mapped-cdr</span><span class="p">)</span>
+                 <span class="p">(</span><span class="nf">f$</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">lst</span><span class="p">)</span>
+                     <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">mapped-car</span><span class="p">)</span>
+                       <span class="p">(</span><span class="nf">c</span> <span class="p">(</span><span class="nb">cons</span> <span class="nv">mapped-car</span> <span class="nv">mapped-cdr</span><span class="p">)))))))))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">map$$</span> <span class="nv">sqr$</span> <span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)</span> <span class="nv">id</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">4</span> <span class="mi">9</span> <span class="mi">16</span> <span class="mi">25</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<link rel="stylesheet" type="text/css" href="./Principles of Programming Languages _ Course Website2_files/style(1).css" media="all">
+
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

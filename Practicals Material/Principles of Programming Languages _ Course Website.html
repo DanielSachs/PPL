@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://bguppl.github.io/interpreters/practice_sessions/ps6.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Principles of Programming Languages | Course Website</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Principles of Programming Languages">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/practice_sessions/ps6.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/practice_sessions/ps6.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Principles of Programming Languages">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Principles of Programming Languages","url":"https://bguppl.github.io/interpreters/practice_sessions/ps6.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Principles of Programming Languages _ Course Website_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Principles of Programming Languages _ Course Website_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Principles of Programming Languages _ Course Website_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1><b>Environment Model</b></h1>
+
+<h2><b>Practical Session - Week #6</b></h2>
+
+<p>In this session, we will:</p>
+<ul>
+  <li>
+    <p><strong><em>Introduce the environment model</em></strong></p>
+  </li>
+  <li>
+    <p><strong><em>Understand how to evaluate Scheme expressions in this model</em></strong></p>
+  </li>
+  <li>
+    <p><strong><em>Learn how to draw environment diagrams and procedure calls</em></strong></p>
+  </li>
+  <li>
+    <p><strong><em>Distinguish different scoping policies</em></strong></p>
+  </li>
+</ul>
+
+<h3><b>Introduction</b></h3>
+<p><b>Q:</b> we already learned about the “Substitution” evaluation model, why do we need another one?</p>
+
+<p>The environment model is an optimization of the substitution applicative model of the operational semantics. 
+It changes the way we map variables to their values.</p>
+<ul>
+  <li>
+    <p><strong><em>Instead of eagerly substituting variables by their values when we apply a closure, we leave the body of the closure untouched, and maintain an environment data structure on the side.</em></strong></p>
+  </li>
+  <li>
+    <p><strong><em>The current environment is passed when traversing expressions to evaluate them.</em></strong></p>
+  </li>
+  <li>
+    <p><strong><em>When we evaluate a procedure expression, we construct a closure value which saves the current env (at time of closure creation).</em></strong></p>
+  </li>
+  <li>
+    <p><strong><em>When we evaluate an application expression, we construct a new environment - which is made up of the closure environment extended by the mapping of params to args.</em></strong></p>
+  </li>
+  <li>
+    <p><strong><em>Environments are linked lists of frames.</em></strong></p>
+  </li>
+  <li>
+    <p><strong><em>An extended environment is constructed by adding a new frame to an existing environment.</em></strong></p>
+  </li>
+</ul>
+
+<h3><b>Q: Why do we need to nest environments?</b></h3>
+
+<p>We do not have a single frame that contains all the variables defined in the body of a closure - instead we may need to lookup
+variables in other frames.  This is because we construct a new frame only when we enter a new scope.
+A new scope is entered when the interpreter enters a let-exp or when it applies a closure.
+At this point, the expression we execute in the current scope may refer to variables that come from the enclosing scope - according
+to lexical scoping rules.</p>
+
+<p>Consider this program:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">x</span> <span class="mi">1</span><span class="p">))</span>                <span class="c1">;; Enter scope E1</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">y</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)))</span>        <span class="c1">;; Enter scope E2</span>
+    <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">y</span> <span class="nv">y</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>When we compute the body of the inner-let <code>(+ (* y y) x)</code>, variable <strong>y</strong> is defined in the first frame accessible (head of E2),
+and variable <strong>x</strong> is defined in the second frame accessible (head of E1). E1 has E2 as a tail.</p>
+
+<p>Consider this program:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">x</span> <span class="mi">1</span><span class="p">))</span>                <span class="c1">;; Enter scope E1</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">x</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)))</span>        <span class="c1">;; Enter scope E2</span>
+    <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span>    
+</code></pre></div></div>
+<p>when we compute the body of the inner-let the  variable <strong>x</strong> that was defined in E1 is hidden by the variable x that was defined in E2</p>
+
+<h3><b>Q: Why do we use the closure environment and not the current environment when applying a closure to obtain lexical scoping? </b></h3>
+
+<p>At every step of the computation of an expression, the evaluation function has access to a parameter env which represents the <b>current environment</b>.</p>
+
+<p>When we apply a closure to arguments, we ignore the current environment, and instead evaluate the body of the closure in an environment which extends the 
+environment stored in the closure with a frame that maps the parameters of the closure to the arguments on which it is applied.</p>
+
+<p>Consider this snippet:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">make-adder</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">c</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">c</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">a3</span> <span class="p">(</span><span class="nf">make-adder</span> <span class="mi">3</span><span class="p">)))</span>  <span class="c1">;; E1</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">c</span> <span class="mi">1</span><span class="p">))</span>              <span class="c1">;; E2</span>
+    <span class="p">(</span><span class="nf">a3</span> <span class="mi">2</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>We observe in this program a risk that the variable <code class="language-plaintext highlighter-rouge">c</code> which appears free in the body of the closure returned when computing <code>(lambda (x) (+ x c))</code>
+could be captured in the <code class="language-plaintext highlighter-rouge">let</code> of E2.</p>
+
+<h4><b>How does this program work in the substitution model</b></h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>applicative-eval[ (let ((a3 (make-adder 3)))
+                     (let ((c 1))
+                        (a3 2))] ==&gt;
+
+applicative-eval[ ((lambda (a3) (let ((c 1)) (a3 2))) (make-adder 3))] ==&gt;
+
+   applicative-eval[ (lambda (a3) (let ((c 1)) (a3 2))) ] ==&gt;
+      closure &lt;a3&gt; (let ((c 1)) (a3 2))) ==&gt;
+
+   applicative-eval[ (make-adder 3) ] ==&gt;
+      applicative-eval[ make-adder ] ==&gt; &lt;closure &lt;c&gt; (lambda (x) (+ x c))&gt;
+      applicative-eval[3] ==&gt; 3
+   ==&gt;
+   applicative-eval[(lambda (x) (+ x 3))] ==&gt; &lt;closure (x) (+ x 3)&gt;
+
+applicative-eval[(let ((c 1)) (&lt;closure (x) (+ x 3)&gt; 2))] ==&gt;
+applicative-eval[((lambda (c) (&lt;closure (x) (+ x 3)&gt; 2)) 1)] ==&gt;
+   
+   applicative-eval[(lambda (c) (&lt;closure (x) (+ x 3)&gt; 2)] 
+      ==&gt; &lt;closure (c) (&lt;closure (x) (+ x 3)&gt; 2)&gt;
+   applicative-eval[1]
+      ==&gt; 1
+   ...
+   applicative-eval[ (+ 2 3) ] ==&gt;
+      applicative-eval[+] ==&gt; &lt;prime-op +&gt;
+      applicative-eval[2] ==&gt; 2
+      applicative-eval[3] ==&gt; 3
+==&gt; 5
+</code></pre></div></div>
+
+<h4><b>How does it work in the environment model</b></h4>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">a3</span> <span class="p">(</span><span class="nf">make-adder</span> <span class="mi">3</span><span class="p">)))</span> <span class="c1">;;E1</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">c</span> <span class="mi">1</span><span class="p">))</span>             <span class="c1">;;E2</span>
+    <span class="p">(</span><span class="nf">a3</span> <span class="mi">2</span><span class="p">)))</span>               <span class="c1">;;E3</span>
+</code></pre></div></div>
+
+<p>when evaluating the body of the inner <strong>let</strong> <code>(a3 2)</code>:</p>
+
+<p>If we use the current environment, we will use E2 to evaluate <strong>c</strong> in <code>(lambda (x) (+ x c))</code> and get <code>(+ 2 1)</code></p>
+
+<p>If we use the closure’s environment, we will use E1 to evaluate <strong>c</strong> in <code>(lambda (x) (+ x c))</code> and get <code>(+ 2 3)</code></p>
+
+<h3><b>Environment Diagrams</b></h3>
+
+<p>We exercise the drawing of environment diagrams in the box-env model presented in class.</p>
+
+<h4><b>Definitions</b></h4>
+
+<ul>
+  <li>
+    <p><b>Frame:</b> mapping variables to values.  Displayed as a rectangle with bindings x:val.</p>
+  </li>
+  <li>
+    <p><b>Environment:</b> finite linked list of frames, where the last frame is the frame of the global 
+environment (GE).</p>
+  </li>
+  <li>
+    <p><b>Enclosing environment of E:</b> E excluding its first frame.</p>
+  </li>
+  <li>
+    <p><b>Variable x’s value in E:</b> the value of x in the first frame it is defined in.</p>
+  </li>
+</ul>
+
+<p>When a define expression is evaluated, a new binding is added to the GE single frame.
+<img src="./Principles of Programming Languages _ Course Website_files/1_1.png" alt="image:1_1.PNG"></p>
+
+<ul>
+  <li><b>Closure:</b> a complex data structure, composed of parameters, body, and env at the time the lambda expression was evaluated.
+Displayed as a double circle, with body and params written below, and second circle pointing to the env.</li>
+</ul>
+
+<p><img src="./Principles of Programming Languages _ Course Website_files/1_2.png" alt="image:1_2.PNG"></p>
+
+<ul>
+  <li>
+    <p><b>Procedure call:</b> when a closure f with parameters <code>x1...xn</code> is called with values <code>v1...vn</code>:</p>
+
+    <ul>
+      <li>
+        <p>The evaluation algorithm extends the closure’s env with a new frame including the mapping from 
+ <code>x1...xn</code> to <code>v1...vn</code>.</p>
+      </li>
+      <li>
+        <p>In the diagram, we assign a number to the environments to reflect the order in which they are created during the evaluation of the program. (Ei+1)</p>
+      </li>
+      <li>
+        <p>This new frame extends the env in the closure f (according to lexical scoping rule)</p>
+      </li>
+      <li>
+        <p>The new environment has a control link which indicates to which environment control returns when the evaluation of the body will complete.  This is marked with a dotted line.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4><b>Env Diagram Example 1: Recursion</b></h4>
+
+<p><img src="./Principles of Programming Languages _ Course Website_files/2_1.png" alt="image:2_1.PNG"></p>
+
+<p>Notice how the closure is pointing to the GE, and so each call to this closure (including recursive ones) will extend the GE. The depth of the recursion is represented by the control links.
+Successive recursive calls return in sequential order (Ei+1 control link points to Ei).</p>
+
+<h4><b>Env Diagram Example 2: Definition and application</b></h4>
+
+<p>Consider another example:</p>
+
+<p><img src="./Principles of Programming Languages _ Course Website_files/3_1.png" alt="image:3_1.PNG"></p>
+
+<p><img src="./Principles of Programming Languages _ Course Website_files/3_2.png" alt="image:3_2.PNG"></p>
+
+<h4><b>Env Diagram Example 3: Definition and Let</b></h4>
+
+<p>When we encounter a “let” expression, we can convert it to a lambda expression which we already know how to handle.</p>
+
+<p><img src="./Principles of Programming Languages _ Course Website_files/4_1.png" alt="image:4_1.PNG"></p>
+
+<p><img src="./Principles of Programming Languages _ Course Website_files/4_2.png" alt="image:4_2.PNG"></p>
+
+<p><b>Q: </b>which environments and which procedures will remain in the end of the evaluation?</p>
+
+<p>The closures f and p will remain.
+E3 will finish its evaluation and return to E2, which will finish and return to E1, which will finish and return to the GE.
+E1, E2, E3 will disappear since no accessible data structure refers to them anymore.</p>
+
+<h4><b>Env Diagram Example 4: Inferring code from a diagram</b></h4>
+<p>What program will generate the following environment diagram?</p>
+
+<p><img src="./Principles of Programming Languages _ Course Website_files/PS6_code_restoring.jpg" alt="image:PS6_code_restoring.JPG"></p>
+
+<p>We can notice that the structure is serial, which implies nested applications of procedures.</p>
+
+<p>Each environment extends the previous one.</p>
+
+<p>The following code will produce the environment diagram from above:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">x</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">a</span> <span class="mi">2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">b</span> <span class="mi">3</span><span class="p">))</span>
+     <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">c</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">))))</span>
+</code></pre></div></div>
+
+<h3><b>Pair Data Structure using Closures</b></h3>
+
+<h4><b>Env Diagram Example 4: lazy procedural pair implementation</b></h4>
+
+<p><b>Part A:</b></p>
+
+<p><img src="./Principles of Programming Languages _ Course Website_files/5_1.png" alt="image:5_1.PNG"></p>
+
+<p><img src="./Principles of Programming Languages _ Course Website_files/5_2.png" alt="image:5_2.PNG"></p>
+
+<p>Notice p1 is a closure expecting a selector procedure. 
+When we call p1, the env we extend will be E1, which is why we see x, y.</p>
+
+<p><b>Part B:</b>
+We will display a call to p1 with a selector:</p>
+
+<p><img src="./Principles of Programming Languages _ Course Website_files/6_1.png" alt="image:6_1.PNG"></p>
+
+<p>Watch the evaluation process:</p>
+
+<ul>
+  <li>
+    <p>There is a new closure created, which is the value of “sel” in the new env “E2”.</p>
+  </li>
+  <li>
+    <p>The enclosing env of E2 is E1, which is why it was created by calling B2 - the only closure whose env is E1.</p>
+  </li>
+  <li>
+    <p>Parameter names in the new env, E3, present the parameter names in the code we build.
+furthermore, the fact that E3 points to the GE shows us this env was created in the GE (not in a lambda or Let expression).</p>
+  </li>
+</ul>
+
+<p>What line of code needs to be added to produce this diagram?</p>
+
+<p>Accordingly, the env diagram for this evaluation is:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">p1</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">a</span> <span class="nv">b</span><span class="p">)</span> <span class="nv">a</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p><b>Q: </b>which env and closures will remain at the end of the evaluation?</p>
+<h3>set!</h3>
+
+<p>set! is a way to change the value of a variable.
+for example :</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span><span class="p">(</span><span class="k">define</span> <span class="nv">x</span> <span class="mi">5</span><span class="p">)</span>
+<span class="nv">&gt;x</span>
+<span class="mi">5</span>
+<span class="nv">&gt;</span><span class="p">(</span><span class="k">set!</span> <span class="nv">x</span> <span class="mi">80</span><span class="p">)</span>
+<span class="nv">&gt;x</span>
+<span class="mi">80</span>
+</code></pre></div></div>
+
+<h2><b>Box</b></h2>
+
+<p>Boxing in scheme is required to wrap a variable in a box, so we can access it through the box, but also change the value inside that box.
+A natural way to look at boxes is like pointers, which we can access data through but the data inside can be changed.</p>
+
+<p>In the <b>box environment model</b>, we use boxing to enable mutation.  We saw in the lecture why we needed mutation to properly model recursion (letrec) and 
+model the global environment with forward usage of global variables and global mutual recursive procedures.</p>
+
+<p>In the box environment model variables are bound to boxes that contain a value, instead of mapping variables directly to values.
+In addition, the global environment is modeled in a special way that allows addition of a binding (with a method add-binding!).</p>
+
+<p>Motivation: we want to support mutation in the language we implement.
+Note that at this point, all the variables are immutable - we can create a new variable and bind it to a value, but we cannot change its value.
+In some cases, we want to be able to change the value of an existing variable.</p>
+
+<p>Example: a counter.</p>
+
+<p>1) How do we do this in Scheme?</p>
+
+<p>We use the box data type which has the following interface:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">box</span> <span class="nv">v</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">box?</span> <span class="nv">x</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">unbox</span> <span class="nv">b</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">set-box!</span> <span class="nv">b</span> <span class="nv">v</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Box works like a pointer to an existing variable.</p>
+
+<p>Example application - let us create a counter object.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">make-counter</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+    <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">count</span> <span class="p">(</span><span class="nf">box</span> <span class="mi">0</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">msg</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nb">eq?</span> <span class="nv">msg</span> <span class="ss">'get</span><span class="p">)</span> <span class="p">(</span><span class="nf">unbox</span> <span class="nv">count</span><span class="p">))</span>
+              <span class="p">((</span><span class="nb">eq?</span> <span class="nv">msg</span> <span class="ss">'inc!</span><span class="p">)</span> <span class="p">(</span><span class="nf">set-box!</span> <span class="nv">count</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="p">(</span><span class="nf">unbox</span> <span class="nv">count</span><span class="p">))))</span>
+              <span class="p">((</span><span class="nb">eq?</span> <span class="nv">msg</span> <span class="ss">'reset!</span><span class="p">)</span> <span class="p">(</span><span class="nf">set-box!</span> <span class="nv">count</span> <span class="mi">0</span><span class="p">))</span>
+              <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nf">error</span> <span class="s">"unknown message to counter"</span><span class="p">)))))))</span>
+</code></pre></div></div>
+
+<p>This counter works with the same pattern as the make-pair example we saw in class: it is a closure factory with a message dispatch body.
+The functional interface of the counter is:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Type: [Counter -&gt; Number]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">counter-get</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">counter</span><span class="p">)</span> <span class="p">(</span><span class="nf">counter</span> <span class="ss">'get</span><span class="p">)))</span>
+
+<span class="c1">;; Type: [Counter -&gt; Void]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">counter-inc!</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">counter</span><span class="p">)</span> <span class="p">(</span><span class="nf">counter</span> <span class="ss">'inc!</span><span class="p">)))</span>
+
+<span class="c1">;; Type: [Counter -&gt; Void]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">counter-reset!</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">counter</span><span class="p">)</span> <span class="p">(</span><span class="nf">counter</span> <span class="ss">'reset!</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>How to use a counter in code:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Count how many odd numbers there are in a given tree.</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">count-odds</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">tree</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">counter</span> <span class="p">(</span><span class="nf">make-counter</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">letrec</span> <span class="p">((</span><span class="nf">loop</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">tree</span><span class="p">)</span>
+                       <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">empty?</span> <span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">void</span><span class="p">))</span>
+                             <span class="p">((</span><span class="nb">pair?</span> <span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">tree</span><span class="p">))</span> <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">tree</span><span class="p">)))</span>
+                             <span class="p">((</span><span class="k">and</span> <span class="p">(</span><span class="nb">number?</span> <span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nb">odd?</span> <span class="nv">tree</span><span class="p">))</span> <span class="p">(</span><span class="nf">counter-inc!</span> <span class="nv">counter</span><span class="p">))))))</span>
+        <span class="p">(</span><span class="nf">loop</span> <span class="nv">tree</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">counter-get</span> <span class="nv">counter</span><span class="p">)))))</span>
+</code></pre></div></div>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Variant of the counter object: functional selector instead of message dispatch (lazy selector)</span>
+
+<span class="c1">;; [Empty -&gt; Counter]</span>
+<span class="c1">;; Counter is implemented as: [(Box(Number) -&gt; Any) -&gt; Any]</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="nf">make-counter-sel</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">count</span> <span class="p">(</span><span class="nf">box</span> <span class="mi">0</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">sel</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">sel</span> <span class="nv">count</span><span class="p">))))</span>
+
+<span class="c1">;; Implement counter interface:</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">counter-sel-get</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">counter-sel</span><span class="p">)</span> 
+    <span class="p">(</span><span class="nf">counter-sel</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">b</span><span class="p">)</span> <span class="p">(</span><span class="nf">unbox</span> <span class="nv">b</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">counter-sel-inc!</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">counter-sel</span><span class="p">)</span> 
+    <span class="p">(</span><span class="nf">counter-sel</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">b</span><span class="p">)</span> <span class="p">(</span><span class="nf">set-box!</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="p">(</span><span class="nf">unbox</span> <span class="nv">b</span><span class="p">)))))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">counter-sel-reset!</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">counter-sel</span><span class="p">)</span> 
+    <span class="p">(</span><span class="nf">counter-sel</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">b</span><span class="p">)</span> <span class="p">(</span><span class="nf">set-box!</span> <span class="nv">b</span> <span class="mi">0</span><span class="p">)))))</span>
+</code></pre></div></div>
+
+<h2><b>Adding set! to our language</b></h2>
+
+<p>There are 3 steps we should take to add set! to our language:</p>
+<ul>
+  <li>Add set! in the syntax: Should we consider set! a special form? Explain.</li>
+  <li>Add set! to the parser</li>
+  <li>Add set! to the env-eval algorithm</li>
+</ul>
+
+<p><b>Syntax definition:</b></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;cexp&gt; ::= ... | ( set! &lt;var&gt; &lt;cexp&gt;)            // SetExp(var: varRef, val: CExp)
+</code></pre></div></div>
+
+<p><b> Adding type definitions for <strong><em>set!</em></strong>: </b></p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kr">interface</span> <span class="nx">SetExp</span> <span class="p">{</span><span class="nl">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">SetExp</span><span class="dl">"</span><span class="p">,</span> <span class="kd">var</span><span class="p">:</span> <span class="nx">VarRef</span><span class="p">;</span> <span class="nl">val</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">makeSetExp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">v</span><span class="p">:</span> <span class="nx">VarRef</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">):</span> <span class="nx">SetExp</span> <span class="o">=&gt;</span>
+    <span class="p">({</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">SetExp</span><span class="dl">"</span><span class="p">,</span> <span class="na">var</span><span class="p">:</span> <span class="nx">v</span><span class="p">,</span> <span class="na">val</span><span class="p">:</span> <span class="nx">val</span><span class="p">});</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isSetExp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">SetExp</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">SetExp</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><b> Update the Compound disjoint union type: </b></p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">type</span> <span class="nx">CompoundExp</span> <span class="o">=</span> <span class="nx">AppExp</span> <span class="o">|</span> <span class="nx">IfExp</span> <span class="o">|</span> <span class="nx">ProcExp</span> <span class="o">|</span> <span class="nx">LetExp</span> <span class="o">|</span> <span class="nx">LitExp</span> <span class="o">|</span> <span class="nx">LetrecExp</span> <span class="o">|</span> <span class="nx">SetExp</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isCompoundExp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">CompoundExp</span> <span class="o">=&gt;</span>
+    <span class="nx">isAppExp</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">||</span> <span class="nx">isIfExp</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">||</span> <span class="nx">isProcExp</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">||</span> <span class="nx">isLitExp</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">||</span> <span class="nx">isLetExp</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">||</span>
+    <span class="nx">isLetrecExp</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">||</span> <span class="nx">isSetExp</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><b> Modify the function <strong><em>parseL4SpecialForm</em></strong></b></p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">parseL4SpecialForm</span> <span class="o">=</span> <span class="p">(</span><span class="nx">op</span><span class="p">:</span> <span class="nx">Sexp</span><span class="p">,</span> <span class="nx">params</span><span class="p">:</span> <span class="nx">Sexp</span><span class="p">[]):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">CExp</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">isEmpty</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">Empty args for special form</span><span class="dl">"</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">if</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">parseIfExp</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">lambda</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">parseProcExp</span><span class="p">(</span><span class="nx">first</span><span class="p">(</span><span class="nx">params</span><span class="p">),</span> <span class="nx">rest</span><span class="p">(</span><span class="nx">params</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">let</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">parseLetExp</span><span class="p">(</span><span class="nx">first</span><span class="p">(</span><span class="nx">params</span><span class="p">),</span> <span class="nx">rest</span><span class="p">(</span><span class="nx">params</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">quote</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">parseLitExp</span><span class="p">(</span><span class="nx">first</span><span class="p">(</span><span class="nx">params</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">letrec</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">parseLetrecExp</span><span class="p">(</span><span class="nx">first</span><span class="p">(</span><span class="nx">params</span><span class="p">),</span> <span class="nx">rest</span><span class="p">(</span><span class="nx">params</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">set!</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">parseSetExp</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">Never</span><span class="dl">"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><b> Add the parsing functions for <strong><em>SetExp</em></strong></b></p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">parseSetExp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">params</span><span class="p">:</span> <span class="nx">Sexp</span><span class="p">[]):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">SetExp</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">isEmpty</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">set! missing 2 arguments</span><span class="dl">"</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isEmpty</span><span class="p">(</span><span class="nx">rest</span><span class="p">(</span><span class="nx">params</span><span class="p">))</span> <span class="p">?</span> <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">set! missing 1 argument</span><span class="dl">"</span><span class="p">)</span> <span class="p">:</span>
+    <span class="o">!</span> <span class="nx">isEmpty</span><span class="p">(</span><span class="nx">rest</span><span class="p">(</span><span class="nx">rest</span><span class="p">(</span><span class="nx">params</span><span class="p">)))</span> <span class="p">?</span> <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">set! has too many arguments</span><span class="dl">"</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">parseGoodSetExp</span><span class="p">(</span><span class="nx">first</span><span class="p">(</span><span class="nx">params</span><span class="p">),</span> <span class="nx">second</span><span class="p">(</span><span class="nx">params</span><span class="p">));</span>
+
+<span class="kd">const</span> <span class="nx">parseGoodSetExp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">variable</span><span class="p">:</span> <span class="nx">Sexp</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span> <span class="nx">Sexp</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">SetExp</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="o">!</span> <span class="nx">isIdentifier</span><span class="p">(</span><span class="nx">variable</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">First arg of set! must be an identifier</span><span class="dl">"</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">bind</span><span class="p">(</span><span class="nx">parseL4CExp</span><span class="p">(</span><span class="nx">val</span><span class="p">),</span> <span class="p">(</span><span class="nx">val</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">makeSetExp</span><span class="p">(</span><span class="nx">makeVarRef</span><span class="p">(</span><span class="nx">variable</span><span class="p">),</span> <span class="nx">val</span><span class="p">)));</span>
+</code></pre></div></div>
+
+<p><b><strong><em>env-eval</em></strong></b></p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">evalSet</span> <span class="o">=</span> <span class="p">(</span><span class="nx">exp</span><span class="p">:</span> <span class="nx">SetExp</span><span class="p">,</span> <span class="nx">env</span><span class="p">:</span> <span class="nx">Env</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">bind</span><span class="p">(</span><span class="nx">applicativeEval</span><span class="p">(</span><span class="nx">exp</span><span class="p">.</span><span class="nx">val</span><span class="p">,</span> <span class="nx">env</span><span class="p">),</span> <span class="p">(</span><span class="nx">val</span><span class="p">:</span> <span class="nx">Value</span><span class="p">)</span> <span class="o">=&gt;</span> 
+        <span class="nx">bind</span><span class="p">(</span><span class="nx">applyEnvBdg</span><span class="p">(</span><span class="nx">env</span><span class="p">,</span> <span class="nx">exp</span><span class="p">.</span><span class="kd">var</span><span class="p">.</span><span class="kd">var</span><span class="p">),</span> <span class="p">(</span><span class="nx">bdg</span><span class="p">:</span> <span class="nx">FBinding</span><span class="p">)</span> <span class="o">=&gt;</span>
+          <span class="nx">makeOk</span><span class="p">(</span><span class="nx">setFBinding</span><span class="p">(</span><span class="nx">bdg</span><span class="p">,</span> <span class="nx">val</span><span class="p">))</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div></div>
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://bguppl.github.io/interpreters/practice_sessions/ps8.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Principles of Programming Languages | Course Website</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Principles of Programming Languages">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/practice_sessions/ps8.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/practice_sessions/ps8.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Principles of Programming Languages">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Principles of Programming Languages","url":"https://bguppl.github.io/interpreters/practice_sessions/ps8.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Principles of Programming Languages _ Course Website1_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Principles of Programming Languages _ Course Website1_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Principles of Programming Languages _ Course Website1_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1><b>Type Inference System</b></h1>
+
+<h2><b>Practical Session - Week #8</b></h2>
+
+<p>The Type Inference System is a TypeScript Implementation of the algorithm for Type Checking and Inference using Type Equations.</p>
+
+<h2 id="system-architecture">System Architecture</h2>
+
+<p>The layers of the system are:</p>
+
+<ul>
+  <li>
+    <p>Abstract Syntax for L5 Expressions and for Type Expressions.</p>
+  </li>
+  <li>
+    <p>The key data types manipulated in the algorithm, Type Equations and Type Substitutions.</p>
+  </li>
+  <li>
+    <p>The logic of the algorithm is implemented in three functional packages: Exp-to-Pool, Exp-to-Equations and the top-level algorithm Solve.</p>
+  </li>
+</ul>
+
+<h2 id="layer-1-languages-definitions">Layer 1: Languages Definitions</h2>
+
+<p>The Type Inference algorithm maps expressions in one language (L5 expressions) into expressions in another language (Type Expressions).</p>
+
+<p>The lower level of the Type Inference system implements the Abstract Syntax interfaces for expressions in these two languages.</p>
+
+<h4 id="l5-ast"><a href="https://github.com/bguppl/interpreters/blob/master/src/L5/L5-ast.ts">L5-AST</a></h4>
+
+<p>Implements parser and abstract syntax for the following BNF concrete syntax:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+&lt;program&gt; ::= (L5 &lt;exp&gt;+)                  / Program(exps:List(exp))
+&lt;exp&gt; ::= &lt;define&gt; | &lt;cexp&gt;                / DefExp | CExp
+&lt;define&gt; ::= ( define &lt;var-decl&gt; &lt;cexp&gt; )  / DefExp(var:VarDecl, val:CExp)
+&lt;var&gt; ::= &lt;identifier&gt;                     / VarRef(var:string)
+&lt;cexp&gt; ::= &lt;number&gt;                        / NumExp(val:number)
+        |  &lt;boolean&gt;                       / BoolExp(val:boolean)
+        |  &lt;string&gt;                        / StrExp(val:string)
+        |  &lt;var-ref&gt;
+        |  ( lambda ( &lt;var-decl&gt;* ) &lt;cexp&gt;+ ) | ( lambda ( &lt;var-decl&gt;* ) : &lt;TExp&gt; &lt;cexp&gt;+ ) / ProcExp(args:VarDecl[], body:CExp[], returnTE: TExp))
+        |  ( if &lt;cexp&gt; &lt;cexp&gt; &lt;cexp&gt; )     / IfExp(test: CExp, then: CExp, alt: CExp)
+        |  ( quote &lt;sexp&gt; )                / LitExp(val:SExp)
+        |  ( &lt;cexp&gt; &lt;cexp&gt;* )              / AppExp(operator:CExp, operands:CExp[]))
+        |  ( let ( &lt;binding&gt;* ) &lt;cexp&gt;+ )  / LetExp(bindings:Binding[], body:CExp[]))
+        |  ( letrec ( binding*) &lt;cexp&gt;+ )  / LetrecExp(bindings:Bindings[], body: CExp)
+        |  ( set! &lt;var&gt; &lt;cexp&gt;)            / SetExp(var: varRef, val: CExp)
+&lt;binding&gt;  ::= ( &lt;var-decl&gt; &lt;cexp&gt; )            / Binding(var:VarDecl, val:Cexp)
+&lt;prim-op&gt;  ::= + | - | * | / | &lt; | &gt; | = | not |  eq? | string=?
+                 | cons | car | cdr | list? | number?
+                 | boolean? | symbol? | string?
+                 | display | newline
+&lt;num-exp&gt;  ::= a number token
+&lt;bool-exp&gt; ::= #t | #f
+&lt;var-ref&gt;  ::= an identifier token         / VarRef(var)
+&lt;var-decl&gt; ::= an identifier token | (var : TExp) / VarRef(var, TE: TExp) ##### L5
+&lt;sexp&gt;     ::= symbol | number | bool | string | ( &lt;sexp&gt;* )              ##### L3
+*/</span>
+</code></pre></div></div>
+
+<p>Note that we introduce optional type annotations in the L5 syntax in 2 places only:</p>
+
+<ul>
+  <li>
+    <p>As part of VarDecl in the form <code class="language-plaintext highlighter-rouge">(var : type-expression)</code></p>
+  </li>
+  <li>
+    <p>As part of ProcExp in the return type of the procedure in the form: <code class="language-plaintext highlighter-rouge">(lambda ((x : number) (y : number)) : number ...)</code></p>
+  </li>
+</ul>
+
+<h4 id="texp-ast"><a href="https://github.com/bguppl/interpreters/blob/master/src/L5/TExp.ts">TExp-AST</a></h4>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+Type checking language
+Syntax with optional type annotations for var declarations and function return types.
+
+&lt;texp&gt;         ::= &lt;atomic-te&gt; | &lt;compound-te&gt; | &lt;tvar&gt;
+&lt;atomic-te&gt;    ::= &lt;num-te&gt; | &lt;bool-te&gt; | &lt;void-te&gt; | &lt;str-te&gt;
+&lt;num-te&gt;       ::= number   // num-te()
+&lt;bool-te&gt;      ::= boolean  // bool-te()
+&lt;str-te&gt;       ::= string   // str-te()
+&lt;void-te&gt;      ::= void     // void-te()
+&lt;compound-te&gt;  ::= &lt;proc-te&gt; | &lt;tuple-te&gt;
+&lt;non-tuple-te&gt; ::= &lt;atomic-te&gt; | &lt;proc-te&gt; | &lt;tvar&gt;
+&lt;proc-te&gt;      ::= [ &lt;tuple-te&gt; -&gt; &lt;non-tuple-te&gt; ] // proc-te(param-tes: list(te), return-te: te)
+&lt;tuple-te&gt;     ::= &lt;non-empty-tuple-te&gt; | &lt;empty-te&gt;
+&lt;non-empty-tuple-te&gt; ::= ( &lt;non-tuple-te&gt; *)* &lt;non-tuple-te&gt; // tuple-te(tes: list(te))
+&lt;empty-te&gt;     ::= Empty
+&lt;tvar&gt;         ::= a symbol starting with T // tvar(id: Symbol, contents; Box(string|boolean))
+*/</span>
+</code></pre></div></div>
+
+<p>The definition of the TExp data types, the parser of TExp is provided in file <a href="https://github.com/bguppl/interpreters/blob/master/src/L5/TExp.ts">TExp.ts</a></p>
+
+<p>Examples of Types Expressions:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">number</code></li>
+  <li><code class="language-plaintext highlighter-rouge">boolean</code></li>
+  <li><code class="language-plaintext highlighter-rouge">void</code></li>
+  <li><code class="language-plaintext highlighter-rouge">number -&gt; boolean</code></li>
+  <li><code class="language-plaintext highlighter-rouge">number * number -&gt; boolean</code></li>
+  <li><code class="language-plaintext highlighter-rouge">number -&gt; (number -&gt; boolean)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">empty -&gt; number</code></li>
+  <li><code class="language-plaintext highlighter-rouge">empty -&gt; void</code></li>
+</ul>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Purpose: Compute the type of an expression</span>
+<span class="c1">// Traverse the AST and check the type according to the exp type.</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">typeofExp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">exp</span><span class="p">:</span> <span class="nx">A</span><span class="p">.</span><span class="nx">Parsed</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">:</span> <span class="nx">E</span><span class="p">.</span><span class="nx">TEnv</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">T</span><span class="p">.</span><span class="nx">TExp</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">A</span><span class="p">.</span><span class="nx">isNumExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">T</span><span class="p">.</span><span class="nx">makeNumTExp</span><span class="p">())</span> <span class="p">:</span>
+    <span class="nx">A</span><span class="p">.</span><span class="nx">isBoolExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">T</span><span class="p">.</span><span class="nx">makeBoolTExp</span><span class="p">())</span> <span class="p">:</span>
+    <span class="nx">A</span><span class="p">.</span><span class="nx">isStrExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">T</span><span class="p">.</span><span class="nx">makeStrTExp</span><span class="p">())</span> <span class="p">:</span>
+    <span class="nx">A</span><span class="p">.</span><span class="nx">isPrimOp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">TC</span><span class="p">.</span><span class="nx">typeofPrim</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">A</span><span class="p">.</span><span class="nx">isVarRef</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">E</span><span class="p">.</span><span class="nx">applyTEnv</span><span class="p">(</span><span class="nx">tenv</span><span class="p">,</span> <span class="nx">exp</span><span class="p">.</span><span class="kd">var</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">A</span><span class="p">.</span><span class="nx">isIfExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofIf</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">A</span><span class="p">.</span><span class="nx">isProcExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofProc</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">A</span><span class="p">.</span><span class="nx">isAppExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofApp</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">A</span><span class="p">.</span><span class="nx">isLetExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofLet</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">A</span><span class="p">.</span><span class="nx">isLetrecExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofLetrec</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">A</span><span class="p">.</span><span class="nx">isDefineExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofDefine</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">A</span><span class="p">.</span><span class="nx">isProgram</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofProgram</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">makeFailure</span><span class="p">(</span><span class="s2">`Unknown type: </span><span class="p">${</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">)}</span><span class="s2">`</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="layer-2-substitution-and-equation-adts">Layer 2: Substitution and Equation ADTs</h2>
+
+<p>The Type Inference algorithm is defined in terms of 2 basic formal tools:</p>
+
+<ul>
+  <li>
+    <p><strong>Type Substitutions</strong> are finite mappings of Type Variables to Type Expressions.</p>
+  </li>
+  <li>
+    <p><strong>Equations</strong> are pairs that state that a left Type Expression is to be held equivalent to a right Type Expression.</p>
+  </li>
+</ul>
+
+<p><strong>Equations</strong> are the tool we use to represent a typing statement in the algorithm.</p>
+
+<h3 id="substitution-adt">Substitution ADT</h3>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kr">interface</span> <span class="nx">Sub</span> <span class="p">{</span><span class="nl">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Sub</span><span class="dl">"</span><span class="p">;</span> <span class="nl">vars</span><span class="p">:</span> <span class="nx">TVar</span><span class="p">[];</span> <span class="nl">tes</span><span class="p">:</span> <span class="nx">TExp</span><span class="p">[];</span> <span class="p">}</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isSub</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">Sub</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">Sub</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>The interface of the Substitution ADT includes:</p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">makeSub(variables, type-expressions)</code></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">subGet(sub, var)</code> - lookup a variable in a substitution</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">extendSub(sub, var, te)</code> - create a new substitution by adding a single pair <code class="language-plaintext highlighter-rouge">{var:te}</code> to <code class="language-plaintext highlighter-rouge">sub</code></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">applySub(sub, te)</code> - replace type variables inside te according to sub</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">combineSub(sub1, sub2)</code> - compute a new sub such that: <code class="language-plaintext highlighter-rouge">applySub(sub, te) = applySub(sub2, applySub(sub1, te))</code> for all <code class="language-plaintext highlighter-rouge">te</code></p>
+  </li>
+</ul>
+
+<h3 id="equation-adt">Equation ADT</h3>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kr">interface</span> <span class="nx">Equation</span> <span class="p">{</span><span class="nl">left</span><span class="p">:</span> <span class="nx">T</span><span class="p">.</span><span class="nx">TExp</span><span class="p">,</span> <span class="nx">right</span><span class="p">:</span> <span class="nx">T</span><span class="p">.</span><span class="nx">TExp</span><span class="p">}</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">makeEquation</span> <span class="o">=</span> <span class="p">(</span><span class="nx">l</span><span class="p">:</span> <span class="nx">T</span><span class="p">.</span><span class="nx">TExp</span><span class="p">,</span> <span class="nx">r</span><span class="p">:</span> <span class="nx">T</span><span class="p">.</span><span class="nx">TExp</span><span class="p">):</span> <span class="nx">Equation</span> <span class="o">=&gt;</span> <span class="p">({</span><span class="na">left</span><span class="p">:</span> <span class="nx">l</span><span class="p">,</span> <span class="na">right</span><span class="p">:</span> <span class="nx">r</span><span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="layer-3-exp-to-pool-exp-to-equations-solve">Layer 3: Exp-to-Pool, Exp-to-Equations, Solve</h2>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">expToPool(exp)</code> - traverses the AST of a Scheme Expression and maps each sub-expression in the AST to distinct Type Variables</p>
+
+    <p>What is <code class="language-plaintext highlighter-rouge">Pool</code>?</p>
+
+    <div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">export</span> <span class="kr">interface</span> <span class="nx">PoolItem</span> <span class="p">{</span><span class="nl">e</span><span class="p">:</span> <span class="nx">A</span><span class="p">.</span><span class="nx">Exp</span><span class="p">,</span> <span class="nx">te</span><span class="p">:</span> <span class="nx">T</span><span class="p">.</span><span class="nx">TExp</span><span class="p">}</span>
+  <span class="k">export</span> <span class="kd">type</span> <span class="nx">Pool</span> <span class="o">=</span> <span class="nx">PoolItem</span><span class="p">[];</span>
+</code></pre></div>    </div>
+
+    <div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// Purpose: Traverse the abstract syntax tree L5-exp</span>
+  <span class="c1">//          and collect all sub-expressions into a Pool of fresh type variables.</span>
+  <span class="c1">// Example:</span>
+  <span class="c1">// bind(p('(+ x 1)'), (s) =&gt; mapv(parseL5Exp(s), (e) =&gt; TE.expToPool(e))) =&gt;</span>
+  <span class="c1">// Ok([[AppExp(PrimOp(+), [VarRef(x), NumExp(1)]), TVar(16)],</span>
+  <span class="c1">//     [NumExp(1), TVar(15)],</span>
+  <span class="c1">//     [VarRef(x), TVar(14)],</span>
+  <span class="c1">//     [PrimOp(+), TVar(13)]])</span>
+  <span class="k">export</span> <span class="kd">const</span> <span class="nx">expToPool</span> <span class="o">=</span> <span class="p">(</span><span class="nx">exp</span><span class="p">:</span> <span class="nx">A</span><span class="p">.</span><span class="nx">Exp</span><span class="p">):</span> <span class="nx">Pool</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">findVars</span> <span class="o">=</span> <span class="p">(</span><span class="na">e</span><span class="p">:</span> <span class="nx">A</span><span class="p">.</span><span class="nx">Exp</span><span class="p">,</span> <span class="na">pool</span><span class="p">:</span> <span class="nx">Pool</span><span class="p">):</span> <span class="nx">Pool</span> <span class="o">=&gt;</span>
+          <span class="nx">A</span><span class="p">.</span><span class="nx">isAtomicExp</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">?</span> <span class="nx">extendPool</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">pool</span><span class="p">)</span> <span class="p">:</span>
+          <span class="nx">A</span><span class="p">.</span><span class="nx">isProcExp</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">?</span> <span class="nx">extendPool</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">reducePool</span><span class="p">(</span><span class="nx">findVars</span><span class="p">,</span> <span class="nx">e</span><span class="p">.</span><span class="nx">body</span><span class="p">,</span> <span class="nx">reducePoolVarDecls</span><span class="p">(</span><span class="nx">extendPoolVarDecl</span><span class="p">,</span> <span class="nx">e</span><span class="p">.</span><span class="nx">args</span><span class="p">,</span> <span class="nx">pool</span><span class="p">)))</span> <span class="p">:</span>
+          <span class="nx">A</span><span class="p">.</span><span class="nx">isCompoundExp</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">?</span> <span class="nx">extendPool</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">reducePool</span><span class="p">(</span><span class="nx">findVars</span><span class="p">,</span> <span class="nx">A</span><span class="p">.</span><span class="nx">expComponents</span><span class="p">(</span><span class="nx">e</span><span class="p">),</span> <span class="nx">pool</span><span class="p">))</span> <span class="p">:</span>
+          <span class="nx">makeEmptyPool</span><span class="p">();</span>
+      <span class="k">return</span> <span class="nx">findVars</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">makeEmptyPool</span><span class="p">());</span>
+  <span class="p">};</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">poolToEquations(pool)</code> applies type formulae to propagate constraints from the syntactic structure of the L5 Expression to constraints (equations) among the type variables of the pool.</p>
+
+    <p>There are <strong>specific constraints derived for each type of syntactic construct</strong> according to the semantics of the L5 programming language</p>
+
+    <div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// Purpose: Return a set of equations for a given Exp encoded as a pool</span>
+  <span class="c1">// @Pre: pool is the result of expToPool(exp)</span>
+  <span class="k">export</span> <span class="kd">const</span> <span class="nx">poolToEquations</span> <span class="o">=</span> <span class="p">(</span><span class="nx">pool</span><span class="p">:</span> <span class="nx">Pool</span><span class="p">):</span> <span class="nx">Opt</span><span class="p">.</span><span class="nx">Optional</span><span class="o">&lt;</span><span class="nx">Equation</span><span class="p">[]</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="c1">// VarRef generate no equations beyond that of var-decl - remove them.</span>
+      <span class="kd">const</span> <span class="na">poolWithoutVars</span><span class="p">:</span> <span class="nx">Pool</span> <span class="o">=</span> <span class="nx">R</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">R</span><span class="p">.</span><span class="nx">propSatisfies</span><span class="p">(</span><span class="nx">R</span><span class="p">.</span><span class="nx">complement</span><span class="p">(</span><span class="nx">A</span><span class="p">.</span><span class="nx">isVarRef</span><span class="p">),</span> <span class="dl">'</span><span class="s1">e</span><span class="dl">'</span><span class="p">),</span> <span class="nx">pool</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">Opt</span><span class="p">.</span><span class="nx">mapv</span><span class="p">(</span><span class="nx">Opt</span><span class="p">.</span><span class="nx">mapOptional</span><span class="p">((</span><span class="na">e</span><span class="p">:</span> <span class="nx">A</span><span class="p">.</span><span class="nx">Exp</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">makeEquationsFromExp</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">pool</span><span class="p">),</span> <span class="nx">R</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">R</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="dl">'</span><span class="s1">e</span><span class="dl">'</span><span class="p">),</span> <span class="nx">poolWithoutVars</span><span class="p">)),</span> <span class="p">(</span><span class="na">eqns</span><span class="p">:</span> <span class="nx">Equation</span><span class="p">[][])</span> <span class="o">=&gt;</span> 
+                  <span class="nx">flatten</span><span class="p">(</span><span class="nx">eqns</span><span class="p">));</span>
+  <span class="p">};</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">inferType(L5expr)</code> - applies the whole logic of the type inference algorithm.</p>
+
+    <p>The main steps of the algorithm are reflected in this top-level fragment:</p>
+
+    <div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// Signature: inferType(exp)</span>
+  <span class="c1">// Purpose: Infer the type of an expression using the equations method</span>
+  <span class="c1">// Example: unparseTExp(inferType(parse('(lambda (f x) (f (f x)))')))</span>
+  <span class="c1">//          ==&gt; '((T_1 -&gt; T_1) * T_1 -&gt; T_1)'</span>
+  <span class="k">export</span> <span class="kd">const</span> <span class="nx">inferType</span> <span class="o">=</span> <span class="p">(</span><span class="nx">exp</span><span class="p">:</span> <span class="nx">A</span><span class="p">.</span><span class="nx">Exp</span><span class="p">):</span> <span class="nx">Opt</span><span class="p">.</span><span class="nx">Optional</span><span class="o">&lt;</span><span class="nx">T</span><span class="p">.</span><span class="nx">TExp</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">pool</span> <span class="o">=</span> <span class="nx">expToPool</span><span class="p">(</span><span class="nx">exp</span><span class="p">);</span>
+      <span class="kd">const</span> <span class="nx">equations</span> <span class="o">=</span> <span class="nx">poolToEquations</span><span class="p">(</span><span class="nx">pool</span><span class="p">);</span>
+      <span class="kd">const</span> <span class="nx">sub</span> <span class="o">=</span> <span class="nx">Opt</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">equations</span><span class="p">,</span> <span class="p">(</span><span class="na">eqns</span><span class="p">:</span> <span class="nx">Equation</span><span class="p">[])</span> <span class="o">=&gt;</span> <span class="nx">Res</span><span class="p">.</span><span class="nx">resultToOptional</span><span class="p">(</span><span class="nx">solveEquations</span><span class="p">(</span><span class="nx">eqns</span><span class="p">)));</span>
+      <span class="c1">// Extract the computed type of the root expression from the pool</span>
+      <span class="kd">const</span> <span class="nx">texp</span> <span class="o">=</span> <span class="nx">inPool</span><span class="p">(</span><span class="nx">pool</span><span class="p">,</span> <span class="nx">exp</span><span class="p">);</span>
+      <span class="c1">// Replace all TVars in the computed type by their type expression</span>
+      <span class="k">return</span> <span class="nx">Opt</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="p">(</span><span class="na">sub</span><span class="p">:</span> <span class="nx">S</span><span class="p">.</span><span class="nx">Sub</span><span class="p">)</span> <span class="o">=&gt;</span>
+                  <span class="nx">Opt</span><span class="p">.</span><span class="nx">mapv</span><span class="p">(</span><span class="nx">texp</span><span class="p">,</span> <span class="p">(</span><span class="na">texp</span><span class="p">:</span> <span class="nx">T</span><span class="p">.</span><span class="nx">TExp</span><span class="p">)</span> <span class="o">=&gt;</span>
+                      <span class="nx">T</span><span class="p">.</span><span class="nx">isTVar</span><span class="p">(</span><span class="nx">texp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">S</span><span class="p">.</span><span class="nx">subGet</span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nx">texp</span><span class="p">)</span> <span class="p">:</span> <span class="nx">texp</span><span class="p">))</span>
+  <span class="p">};</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>The key logic of the algorithm lies in the <code class="language-plaintext highlighter-rouge">solveEquations</code> algorithm – which turns a list of <strong>Type Equations</strong> into a single coherent <strong>Type Substitution</strong> which satisfies all the constraints.</p>
+
+<p><code class="language-plaintext highlighter-rouge">solveEquations</code> relies on the computation of unification between two type expressions – as shown in the following fragment:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">solveEquations</span> <span class="o">=</span> <span class="p">(</span><span class="nx">equations</span><span class="p">:</span> <span class="nx">Equation</span><span class="p">[]):</span> <span class="nx">Res</span><span class="p">.</span><span class="nx">Result</span><span class="o">&lt;</span><span class="nx">S</span><span class="p">.</span><span class="nx">Sub</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">solve</span><span class="p">(</span><span class="nx">equations</span><span class="p">,</span> <span class="nx">S</span><span class="p">.</span><span class="nx">makeEmptySub</span><span class="p">());</span>
+
+<span class="c1">// Purpose: Solve the equations, starting from a given substitution.</span>
+<span class="c1">//          Returns the resulting substitution, or error, if not solvable</span>
+<span class="kd">const</span> <span class="nx">solve</span> <span class="o">=</span> <span class="p">(</span><span class="nx">equations</span><span class="p">:</span> <span class="nx">Equation</span><span class="p">[],</span> <span class="nx">sub</span><span class="p">:</span> <span class="nx">S</span><span class="p">.</span><span class="nx">Sub</span><span class="p">):</span> <span class="nx">Res</span><span class="p">.</span><span class="nx">Result</span><span class="o">&lt;</span><span class="nx">S</span><span class="p">.</span><span class="nx">Sub</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">solveVarEq</span> <span class="o">=</span> <span class="p">(</span><span class="na">tvar</span><span class="p">:</span> <span class="nx">T</span><span class="p">.</span><span class="nx">TVar</span><span class="p">,</span> <span class="na">texp</span><span class="p">:</span> <span class="nx">T</span><span class="p">.</span><span class="nx">TExp</span><span class="p">):</span> <span class="nx">Res</span><span class="p">.</span><span class="nx">Result</span><span class="o">&lt;</span><span class="nx">S</span><span class="p">.</span><span class="nx">Sub</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+        <span class="nx">Res</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">S</span><span class="p">.</span><span class="nx">extendSub</span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nx">tvar</span><span class="p">,</span> <span class="nx">texp</span><span class="p">),</span> <span class="nx">sub2</span> <span class="o">=&gt;</span> <span class="nx">solve</span><span class="p">(</span><span class="nx">rest</span><span class="p">(</span><span class="nx">equations</span><span class="p">),</span> <span class="nx">sub2</span><span class="p">));</span>
+
+    <span class="kd">const</span> <span class="nx">bothSidesAtomic</span> <span class="o">=</span> <span class="p">(</span><span class="na">eq</span><span class="p">:</span> <span class="nx">Equation</span><span class="p">):</span> <span class="nx">boolean</span> <span class="o">=&gt;</span>
+        <span class="nx">T</span><span class="p">.</span><span class="nx">isAtomicTExp</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">left</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">T</span><span class="p">.</span><span class="nx">isAtomicTExp</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">right</span><span class="p">);</span>
+
+    <span class="kd">const</span> <span class="nx">handleBothSidesAtomic</span> <span class="o">=</span> <span class="p">(</span><span class="na">eq</span><span class="p">:</span> <span class="nx">Equation</span><span class="p">):</span> <span class="nx">Res</span><span class="p">.</span><span class="nx">Result</span><span class="o">&lt;</span><span class="nx">S</span><span class="p">.</span><span class="nx">Sub</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+        <span class="nx">T</span><span class="p">.</span><span class="nx">isAtomicTExp</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">left</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">T</span><span class="p">.</span><span class="nx">isAtomicTExp</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">right</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">T</span><span class="p">.</span><span class="nx">eqAtomicTExp</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">left</span><span class="p">,</span> <span class="nx">eq</span><span class="p">.</span><span class="nx">right</span><span class="p">)</span>
+        <span class="p">?</span> <span class="nx">solve</span><span class="p">(</span><span class="nx">rest</span><span class="p">(</span><span class="nx">equations</span><span class="p">),</span> <span class="nx">sub</span><span class="p">)</span>
+        <span class="p">:</span> <span class="nx">Res</span><span class="p">.</span><span class="nx">makeFailure</span><span class="p">(</span><span class="s2">`Equation with non-equal atomic type </span><span class="p">${</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">eq</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">)}</span><span class="s2">`</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">isEmpty</span><span class="p">(</span><span class="nx">equations</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">Res</span><span class="p">.</span><span class="nx">makeOk</span><span class="p">(</span><span class="nx">sub</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kd">const</span> <span class="nx">eq</span> <span class="o">=</span> <span class="nx">makeEquation</span><span class="p">(</span><span class="nx">S</span><span class="p">.</span><span class="nx">applySub</span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nx">first</span><span class="p">(</span><span class="nx">equations</span><span class="p">).</span><span class="nx">left</span><span class="p">),</span>
+                            <span class="nx">S</span><span class="p">.</span><span class="nx">applySub</span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nx">first</span><span class="p">(</span><span class="nx">equations</span><span class="p">).</span><span class="nx">right</span><span class="p">));</span>
+
+    <span class="k">return</span> <span class="nx">T</span><span class="p">.</span><span class="nx">isTVar</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">left</span><span class="p">)</span> <span class="p">?</span> <span class="nx">solveVarEq</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">left</span><span class="p">,</span> <span class="nx">eq</span><span class="p">.</span><span class="nx">right</span><span class="p">)</span> <span class="p">:</span>
+           <span class="nx">T</span><span class="p">.</span><span class="nx">isTVar</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">right</span><span class="p">)</span> <span class="p">?</span> <span class="nx">solveVarEq</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">right</span><span class="p">,</span> <span class="nx">eq</span><span class="p">.</span><span class="nx">left</span><span class="p">)</span> <span class="p">:</span>
+           <span class="nx">bothSidesAtomic</span><span class="p">(</span><span class="nx">eq</span><span class="p">)</span> <span class="p">?</span> <span class="nx">handleBothSidesAtomic</span><span class="p">(</span><span class="nx">eq</span><span class="p">)</span> <span class="p">:</span>
+           <span class="nx">T</span><span class="p">.</span><span class="nx">isCompoundTExp</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">left</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">T</span><span class="p">.</span><span class="nx">isCompoundTExp</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">right</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">canUnify</span><span class="p">(</span><span class="nx">eq</span><span class="p">)</span> <span class="p">?</span>
+                <span class="nx">solve</span><span class="p">(</span><span class="nx">R</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">rest</span><span class="p">(</span><span class="nx">equations</span><span class="p">),</span> <span class="nx">splitEquation</span><span class="p">(</span><span class="nx">eq</span><span class="p">)),</span> <span class="nx">sub</span><span class="p">)</span> <span class="p">:</span>
+           <span class="nx">Res</span><span class="p">.</span><span class="nx">makeFailure</span><span class="p">(</span><span class="s2">`Equation contains incompatible types </span><span class="p">${</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">eq</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">)}</span><span class="s2">`</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>Compound type expressions are unified by unifying their components one by one.</p>
+
+<p>This is implemented by these 2 functions:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Signature: canUnify(equation)</span>
+<span class="c1">// Purpose: Compare the structure of the type expressions of the equation</span>
+<span class="kd">const</span> <span class="nx">canUnify</span> <span class="o">=</span> <span class="p">(</span><span class="nx">eq</span><span class="p">:</span> <span class="nx">Equation</span><span class="p">):</span> <span class="nx">boolean</span> <span class="o">=&gt;</span>
+    <span class="nx">T</span><span class="p">.</span><span class="nx">isProcTExp</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">left</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">T</span><span class="p">.</span><span class="nx">isProcTExp</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">right</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+    <span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">left</span><span class="p">.</span><span class="nx">paramTEs</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">eq</span><span class="p">.</span><span class="nx">right</span><span class="p">.</span><span class="nx">paramTEs</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+
+<span class="c1">// Signature: splitEquation(equation)</span>
+<span class="c1">// Purpose: For an equation with unifyable type expressions,</span>
+<span class="c1">//          create equations for corresponding components.</span>
+<span class="c1">// Type: [Equation -&gt; List(Equation)]</span>
+<span class="c1">// Example: splitEquation(</span>
+<span class="c1">//            makeEquation(parseTExp('(T1 -&gt; T2)'),</span>
+<span class="c1">//                         parseTExp('(T3 -&gt; (T4 -&gt; T4))')) =&gt;</span>
+<span class="c1">//            [ {left:T2, right: (T4 -&gt; T4)},</span>
+<span class="c1">//              {left:T3, right: T1)} ]</span>
+<span class="c1">// @Pre: isCompoundExp(eq.left) &amp;&amp; isCompoundExp(eq.right) &amp;&amp; canUnify(eq)</span>
+<span class="kd">const</span> <span class="nx">splitEquation</span> <span class="o">=</span> <span class="p">(</span><span class="nx">eq</span><span class="p">:</span> <span class="nx">Equation</span><span class="p">):</span> <span class="nx">Equation</span><span class="p">[]</span> <span class="o">=&gt;</span>
+    <span class="p">(</span><span class="nx">T</span><span class="p">.</span><span class="nx">isProcTExp</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">left</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">T</span><span class="p">.</span><span class="nx">isProcTExp</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">right</span><span class="p">))</span> <span class="p">?</span>
+        <span class="nx">R</span><span class="p">.</span><span class="nx">zipWith</span><span class="p">(</span><span class="nx">makeEquation</span><span class="p">,</span>
+                  <span class="nx">cons</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">left</span><span class="p">.</span><span class="nx">returnTE</span><span class="p">,</span> <span class="nx">eq</span><span class="p">.</span><span class="nx">left</span><span class="p">.</span><span class="nx">paramTEs</span><span class="p">),</span>
+                  <span class="nx">cons</span><span class="p">(</span><span class="nx">eq</span><span class="p">.</span><span class="nx">right</span><span class="p">.</span><span class="nx">returnTE</span><span class="p">,</span> <span class="nx">eq</span><span class="p">.</span><span class="nx">right</span><span class="p">.</span><span class="nx">paramTEs</span><span class="p">))</span> <span class="p">:</span>
+    <span class="p">[];</span>
+</code></pre></div></div>
+
+<h2 id="exercise-extend-the-type-inference-system-to-support-if-expressions">Exercise: Extend the Type Inference system to support <code class="language-plaintext highlighter-rouge">if</code> expressions</h2>
+
+<p>The part of the Type Inference System which “knows” L5 Expressions is the function <code class="language-plaintext highlighter-rouge">makeEquationsFromExp(exp, pool)</code>.</p>
+
+<p>The structure of this function is a case for each type of L5 expression.</p>
+
+<p>The code we provide supports:</p>
+<ul>
+  <li>Procedure</li>
+  <li>Application</li>
+  <li>Number and Boolean</li>
+  <li>Primitive Procedures extend the code to support Scheme expressions of the type <code class="language-plaintext highlighter-rouge">if</code>.</li>
+</ul>
+
+<p>From Typing Rule for <code class="language-plaintext highlighter-rouge">if</code>-expressions the type equations derived from a composite <code class="language-plaintext highlighter-rouge">if</code>-expression: <code class="language-plaintext highlighter-rouge">(if _p _c _a)</code> we derive 3 equations:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Tp = boolean</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Tc = Ta</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Tif = Ta</code></li>
+</ul>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Purpose: compute the type of an if-exp</span>
+<span class="c1">// Typing rule:</span>
+<span class="c1">//   if type&lt;test&gt;(tenv) = boolean</span>
+<span class="c1">//      type&lt;then&gt;(tenv) = t1</span>
+<span class="c1">//      type&lt;else&gt;(tenv) = t1</span>
+<span class="c1">// then type&lt;(if test then else)&gt;(tenv) = t1</span>
+<span class="kd">const</span> <span class="nx">typeofIf</span> <span class="o">=</span> <span class="p">(</span><span class="nx">ifExp</span><span class="p">:</span> <span class="nx">A</span><span class="p">.</span><span class="nx">IfExp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">:</span> <span class="nx">E</span><span class="p">.</span><span class="nx">TEnv</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">T</span><span class="p">.</span><span class="nx">TExp</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">testTE</span> <span class="o">=</span> <span class="nx">typeofExp</span><span class="p">(</span><span class="nx">ifExp</span><span class="p">.</span><span class="nx">test</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">thenTE</span> <span class="o">=</span> <span class="nx">typeofExp</span><span class="p">(</span><span class="nx">ifExp</span><span class="p">.</span><span class="nx">then</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">altTE</span> <span class="o">=</span> <span class="nx">typeofExp</span><span class="p">(</span><span class="nx">ifExp</span><span class="p">.</span><span class="nx">alt</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">constraint1</span> <span class="o">=</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">testTE</span><span class="p">,</span> <span class="p">(</span><span class="na">testTE</span><span class="p">:</span> <span class="nx">T</span><span class="p">.</span><span class="nx">TExp</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">checkEqualType</span><span class="p">(</span><span class="nx">testTE</span><span class="p">,</span> <span class="nx">T</span><span class="p">.</span><span class="nx">makeBoolTExp</span><span class="p">(),</span> <span class="nx">ifExp</span><span class="p">));</span>
+    <span class="kd">const</span> <span class="nx">constraint2</span> <span class="o">=</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">thenTE</span><span class="p">,</span> <span class="p">(</span><span class="na">thenTE</span><span class="p">:</span> <span class="nx">T</span><span class="p">.</span><span class="nx">TExp</span><span class="p">)</span> <span class="o">=&gt;</span> 
+                            <span class="nx">bind</span><span class="p">(</span><span class="nx">altTE</span><span class="p">,</span> <span class="p">(</span><span class="na">altTE</span><span class="p">:</span> <span class="nx">T</span><span class="p">.</span><span class="nx">TExp</span><span class="p">)</span> <span class="o">=&gt;</span> 
+                                <span class="nx">checkEqualType</span><span class="p">(</span><span class="nx">thenTE</span><span class="p">,</span> <span class="nx">altTE</span><span class="p">,</span> <span class="nx">ifExp</span><span class="p">)));</span>
+    <span class="k">return</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">constraint1</span><span class="p">,</span> <span class="p">(</span><span class="na">_c1</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span> <span class="o">=&gt;</span>
+                <span class="nx">bind</span><span class="p">(</span><span class="nx">constraint2</span><span class="p">,</span> <span class="p">(</span><span class="na">_c2</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">thenTE</span><span class="p">));</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h2 id="substitution">Substitution</h2>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Implementation of the Substitution ADT</span>
+<span class="c1">// ========================================================</span>
+<span class="c1">// A substitution is represented as a 2 element list of equal length</span>
+<span class="c1">// lists of variables and type expression.</span>
+<span class="c1">// The empty substitution is [[], []]</span>
+
+<span class="k">export</span> <span class="kr">interface</span> <span class="nx">Sub</span> <span class="p">{</span><span class="nl">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Sub</span><span class="dl">"</span><span class="p">;</span> <span class="nl">vars</span><span class="p">:</span> <span class="nx">TVar</span><span class="p">[];</span> <span class="nl">tes</span><span class="p">:</span> <span class="nx">TExp</span><span class="p">[];</span> <span class="p">}</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isSub</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">Sub</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">Sub</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="c1">// Constructors:</span>
+<span class="c1">// Signature: makeSub(vars, tes)</span>
+<span class="c1">// Purpose: Create a substitution in which the i-th element of 'variables'</span>
+<span class="c1">//          is mapped to the i-th element of 'tes'.</span>
+<span class="c1">// Example: makeSub(</span>
+<span class="c1">//             map(parseTE, ["x", "y", "z"]),</span>
+<span class="c1">//             map(parseTE, ["number", "boolean", "(number -&gt; number)"])</span>
+<span class="c1">//          =&gt; {tag: "Sub", vars: [x y z], [numTexp, boolTexp, ProcTexp([NumTexp, NumTexp])]}</span>
+<span class="c1">//          makeSub(map(parseTE, ["x", "y", "z"]),</span>
+<span class="c1">//                  map(parseTE, ["number", "boolean", "(z -&gt; number)"]))</span>
+<span class="c1">//          =&gt; error makeSub: circular substitution</span>
+<span class="c1">// Pre-condition: (length variables) = (length tes)</span>
+<span class="c1">//                variables has no repetitions (set)</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">makeSub</span> <span class="o">=</span> <span class="p">(</span><span class="nx">vars</span><span class="p">:</span> <span class="nx">TVar</span><span class="p">[],</span> <span class="nx">tes</span><span class="p">:</span> <span class="nx">TExp</span><span class="p">[]):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">Sub</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">mapv</span><span class="p">(</span><span class="nx">zipWithResult</span><span class="p">(</span><span class="nx">checkNoOccurrence</span><span class="p">,</span> <span class="nx">vars</span><span class="p">,</span> <span class="nx">tes</span><span class="p">),</span> <span class="nx">_</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Sub</span><span class="dl">"</span><span class="p">,</span> <span class="na">vars</span><span class="p">:</span> <span class="nx">vars</span><span class="p">,</span> <span class="na">tes</span><span class="p">:</span> <span class="nx">tes</span> <span class="p">}));</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">makeEmptySub</span> <span class="o">=</span> <span class="p">():</span> <span class="nx">Sub</span> <span class="o">=&gt;</span> <span class="p">({</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Sub</span><span class="dl">"</span><span class="p">,</span> <span class="na">vars</span><span class="p">:</span> <span class="p">[],</span> <span class="na">tes</span><span class="p">:</span> <span class="p">[]});</span>
+</code></pre></div></div>
+
+<p>Whenever creating a substitution, we verify that the invariant holds that when a <code class="language-plaintext highlighter-rouge">TVar</code> is associated to a <code class="language-plaintext highlighter-rouge">TExp</code>, it does not occur inside the <code class="language-plaintext highlighter-rouge">TExp</code>.</p>
+
+<p>This is enforced by this function:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Purpose: when attempting to bind tvar to te in a sub - check whether tvar occurs in te.</span>
+<span class="c1">// Return error if a circular reference is found.</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">checkNoOccurrence</span> <span class="o">=</span> <span class="p">(</span><span class="nx">tvar</span><span class="p">:</span> <span class="nx">TVar</span><span class="p">,</span> <span class="nx">te</span><span class="p">:</span> <span class="nx">TExp</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="kc">true</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">check</span> <span class="o">=</span> <span class="p">(</span><span class="na">e</span><span class="p">:</span> <span class="nx">TExp</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="kc">true</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+        <span class="nx">isTVar</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">?</span> <span class="p">((</span><span class="nx">e</span><span class="p">.</span><span class="kd">var</span> <span class="o">===</span> <span class="nx">tvar</span><span class="p">.</span><span class="kd">var</span><span class="p">)</span> <span class="p">?</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">unparseTExp</span><span class="p">(</span><span class="nx">te</span><span class="p">),</span> <span class="nx">up</span> <span class="o">=&gt;</span> <span class="nx">makeFailure</span><span class="p">(</span><span class="s2">`Occur check error - circular sub </span><span class="p">${</span><span class="nx">tvar</span><span class="p">.</span><span class="kd">var</span><span class="p">}</span><span class="s2"> in </span><span class="p">${</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">up</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">)}</span><span class="s2">`</span><span class="p">))</span> <span class="p">:</span> 
+                                            <span class="nx">makeOk</span><span class="p">(</span><span class="kc">true</span><span class="p">))</span> <span class="p">:</span>
+        <span class="nx">isAtomicTExp</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">:</span>
+        <span class="nx">isProcTExp</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">?</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">mapResult</span><span class="p">(</span><span class="nx">check</span><span class="p">,</span> <span class="nx">e</span><span class="p">.</span><span class="nx">paramTEs</span><span class="p">),</span> <span class="nx">_</span> <span class="o">=&gt;</span> <span class="nx">check</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">returnTE</span><span class="p">))</span> <span class="p">:</span>
+        <span class="nx">makeFailure</span><span class="p">(</span><span class="s2">`Bad type expression </span><span class="p">${</span><span class="nx">e</span><span class="p">}</span><span class="s2"> in </span><span class="p">${</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">te</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">)}</span><span class="s2">`</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">check</span><span class="p">(</span><span class="nx">te</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>Note on how we compare two substitutions to perform tests In order to compare two substitutions, we “normalize” them by sorting their string representation and then compare the strings.</p>
+
+<p>This in effect achieves set equality:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">subToStr</span> <span class="o">=</span> <span class="p">(</span><span class="nx">sub</span><span class="p">:</span> <span class="nx">Sub</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">bindResult</span><span class="p">(</span><span class="nx">zipWithResult</span><span class="p">((</span><span class="nx">v</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">bindResult</span><span class="p">(</span><span class="nx">unparseTExp</span><span class="p">(</span><span class="nx">t</span><span class="p">),</span> <span class="nx">up</span> <span class="o">=&gt;</span> <span class="nx">makeOk</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">v</span><span class="p">.</span><span class="kd">var</span><span class="p">}</span><span class="s2">:</span><span class="p">${</span><span class="nx">up</span><span class="p">}</span><span class="s2">`</span><span class="p">)),</span> <span class="nx">sub</span><span class="p">.</span><span class="nx">vars</span><span class="p">,</span> <span class="nx">sub</span><span class="p">.</span><span class="nx">tes</span><span class="p">),</span>
+               <span class="p">(</span><span class="nx">vts</span><span class="p">:</span> <span class="kr">string</span><span class="p">[])</span> <span class="o">=&gt;</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">vts</span><span class="p">.</span><span class="nx">sort</span><span class="p">().</span><span class="nx">join</span><span class="p">(</span><span class="dl">"</span><span class="s2">, </span><span class="dl">"</span><span class="p">)));</span>
+</code></pre></div></div>
+
+<p>Example of <code class="language-plaintext highlighter-rouge">applySub</code> from <code class="language-plaintext highlighter-rouge">L5-substitutions-ADT-tests.ts</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">applySub</span> <span class="o">=</span> <span class="p">(</span><span class="nx">sub</span><span class="p">:</span> <span class="nx">Sub</span><span class="p">,</span> <span class="nx">te</span><span class="p">:</span> <span class="nx">TExp</span><span class="p">):</span> <span class="nx">TExp</span> <span class="o">=&gt;</span>
+    <span class="nx">isEmptySub</span><span class="p">(</span><span class="nx">sub</span><span class="p">)</span> <span class="p">?</span> <span class="nx">te</span> <span class="p">:</span>
+    <span class="nx">isAtomicTExp</span><span class="p">(</span><span class="nx">te</span><span class="p">)</span> <span class="p">?</span> <span class="nx">te</span> <span class="p">:</span>
+    <span class="nx">isTVar</span><span class="p">(</span><span class="nx">te</span><span class="p">)</span> <span class="p">?</span> <span class="nx">subGet</span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nx">te</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isProcTExp</span><span class="p">(</span><span class="nx">te</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeProcTExp</span><span class="p">(</span><span class="nx">map</span><span class="p">((</span><span class="nx">te</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">applySub</span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nx">te</span><span class="p">),</span> <span class="nx">te</span><span class="p">.</span><span class="nx">paramTEs</span><span class="p">),</span> <span class="nx">applySub</span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nx">te</span><span class="p">.</span><span class="nx">returnTE</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">te</span><span class="p">;</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="dl">'</span><span class="s1">applySub</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">it</span><span class="p">(</span><span class="dl">'</span><span class="s1">applies a substitution on a type expression</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">sub1</span> <span class="o">=</span> <span class="nx">sub</span><span class="p">([</span><span class="dl">"</span><span class="s2">T1</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">T2</span><span class="dl">"</span><span class="p">],</span> <span class="p">[</span><span class="dl">"</span><span class="s2">number</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">boolean</span><span class="dl">"</span><span class="p">]);</span>
+            <span class="kd">const</span> <span class="nx">te1</span> <span class="o">=</span> <span class="nx">parseTE</span><span class="p">(</span><span class="dl">"</span><span class="s2">(T1 * T2 -&gt; T1)</span><span class="dl">"</span><span class="p">);</span>
+            <span class="kd">const</span> <span class="nx">unparsed</span> <span class="o">=</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">sub1</span><span class="p">,</span> <span class="p">(</span><span class="na">sub</span><span class="p">:</span> <span class="nx">S</span><span class="p">.</span><span class="nx">Sub</span><span class="p">)</span> <span class="o">=&gt;</span>
+                                <span class="nx">bind</span><span class="p">(</span><span class="nx">te1</span><span class="p">,</span> <span class="p">(</span><span class="na">te</span><span class="p">:</span> <span class="nx">TExp</span><span class="p">)</span> <span class="o">=&gt;</span>
+                                    <span class="nx">unparseTExp</span><span class="p">(</span><span class="nx">S</span><span class="p">.</span><span class="nx">applySub</span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nx">te</span><span class="p">))));</span>
+            <span class="nx">expect</span><span class="p">(</span><span class="nx">unparsed</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">makeOk</span><span class="p">(</span><span class="dl">"</span><span class="s2">(number * boolean -&gt; number)</span><span class="dl">"</span><span class="p">));</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+</code></pre></div></div>
+
+<p>Example of <code class="language-plaintext highlighter-rouge">combineSub</code> From <code class="language-plaintext highlighter-rouge">L5-substitutions-ADT-tests.ts</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nx">describe</span><span class="p">(</span><span class="dl">'</span><span class="s1">combineSub</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">it</span><span class="p">(</span><span class="dl">'</span><span class="s1">combines substitutions (the o operator)</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="c1">// {T1:(number -&gt; S1), T2:(number -&gt; S4)} o {T3:(number -&gt; S2)} =&gt;</span>
+            <span class="c1">// {T1:(number -&gt; S1), T2:(number -&gt; S4), T3:(number -&gt; S2)}</span>
+            <span class="kd">const</span> <span class="nx">sub11</span> <span class="o">=</span> <span class="nx">sub</span><span class="p">([</span><span class="dl">"</span><span class="s2">T1</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">T2</span><span class="dl">"</span><span class="p">],</span> <span class="p">[</span><span class="dl">"</span><span class="s2">(number -&gt; S1)</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">(number -&gt; S4)</span><span class="dl">"</span><span class="p">]);</span>
+            <span class="kd">const</span> <span class="nx">sub12</span> <span class="o">=</span> <span class="nx">sub</span><span class="p">([</span><span class="dl">"</span><span class="s2">T3</span><span class="dl">"</span><span class="p">],</span> <span class="p">[</span><span class="dl">"</span><span class="s2">(number -&gt; S2)</span><span class="dl">"</span><span class="p">]);</span>
+            <span class="kd">const</span> <span class="nx">expected1</span> <span class="o">=</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">sub</span><span class="p">([</span><span class="dl">"</span><span class="s2">T1</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">T2</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">T3</span><span class="dl">"</span><span class="p">],</span> <span class="p">[</span><span class="dl">"</span><span class="s2">(number -&gt; S1)</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">(number -&gt; S4)</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">(number -&gt; S2)</span><span class="dl">"</span><span class="p">]),</span> <span class="nx">subToStr</span><span class="p">);</span>
+            <span class="kd">const</span> <span class="nx">res1</span> <span class="o">=</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">safe2</span><span class="p">(</span><span class="nx">S</span><span class="p">.</span><span class="nx">combineSub</span><span class="p">)(</span><span class="nx">sub11</span><span class="p">,</span> <span class="nx">sub12</span><span class="p">),</span> <span class="nx">subToStr</span><span class="p">);</span>
+            <span class="nx">expect</span><span class="p">(</span><span class="nx">res1</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">expected1</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+</code></pre></div></div>
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://bguppl.github.io/interpreters/practice_sessions/ps9.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Asynchronous Programming in TypeScript | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Asynchronous Programming in TypeScript">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/practice_sessions/ps9.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/practice_sessions/ps9.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Asynchronous Programming in TypeScript">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Asynchronous Programming in TypeScript","url":"https://bguppl.github.io/interpreters/practice_sessions/ps9.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Asynchronous Programming in TypeScript _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Asynchronous Programming in TypeScript _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Asynchronous Programming in TypeScript _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="asynchronous-programming-in-typescript">Asynchronous Programming in TypeScript</h1>
+<h2 id="practical-session---week-9">Practical Session - Week #9</h2>
+
+<p>We exercise techniques of asynchronous programming in TypeScript.</p>
+<ul>
+  <li>How to invoke Node methods that take a callback parameter - such as <code class="language-plaintext highlighter-rouge">fs.writeFile</code> or <code class="language-plaintext highlighter-rouge">http.get</code>.</li>
+  <li>How to process the callback methods when we want to compose successive / conditional calls inside callbacks.</li>
+  <li>How promises help to compose asynchronous calls.</li>
+  <li>How the <code class="language-plaintext highlighter-rouge">async</code> and <code class="language-plaintext highlighter-rouge">await</code> syntax simplifies promises.</li>
+</ul>
+
+<h2 id="the-callback">The Callback</h2>
+
+<p>One way to handle asynchronous operations in a programming language
+is to provide a <em>callback</em> function as a parameter.
+The callback function would then be called when the asynchronous operation ended.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">fs</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">(</span><span class="dl">'</span><span class="s1">hello_world.txt</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Hello World!</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Wrote "Hello World" to hello_world.txt</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>This approach has two issues:</p>
+
+<p>1) Callbacks are not standardized.
+   <br><br>
+   With different APIs the callback is expected to be either the last parameter, 
+   the first parameter, a property on a config parameter, 
+   a property set on the calling object, etc., 
+   <br><br>
+   In some conventions the first parameter was expected to be either an <code class="language-plaintext highlighter-rouge">Error</code> or <code class="language-plaintext highlighter-rouge">null</code> and the second parameter was the result of the asynchronous computation,
+   while with other conventions it was the order was reversed, another convention 
+   returned a compound object containing error or result, etc.,
+<br><br>
+2) The second problem, nicknamed “callback hell”.
+   <br><br>
+    It’s hard to write and read composed asynchronous operations. Complex flows that involve a few asynchronous operations quickly becomes 
+hard to write and even harder to read. For example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">nestedSequentialRequests</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">,</span> <span class="nx">studentName</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">args</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">headers</span><span class="p">:</span> <span class="p">{</span> <span class="dl">"</span><span class="s2">Content-Type</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">application/json</span><span class="dl">"</span><span class="p">},</span>
+    <span class="p">};</span>
+    <span class="nx">request</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">baseUrl</span><span class="o">+</span><span class="dl">"</span><span class="s2">/posts</span><span class="dl">"</span><span class="p">,</span> <span class="nx">args</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">httpResponse</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span> <span class="o">||</span> <span class="nx">httpResponse</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">something went wrong on the first request:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// Process the return value of the first GET request: extract max(id)</span>
+            <span class="c1">// console.log("Server response: ", body);</span>
+            <span class="kd">let</span> <span class="nx">students</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">body</span><span class="p">),</span>
+                <span class="nx">maxStud</span> <span class="o">=</span> <span class="nx">students</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(((</span><span class="nx">prev</span><span class="p">,</span> <span class="nx">cur</span><span class="p">)</span><span class="o">=&gt;</span> <span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">cur</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">prev</span><span class="p">.</span><span class="nx">id</span><span class="p">))</span> <span class="p">?</span> <span class="nx">cur</span> <span class="p">:</span> <span class="nx">prev</span><span class="p">),</span> <span class="p">{</span><span class="na">id</span><span class="p">:</span><span class="mi">0</span><span class="p">});</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Current max Id = </span><span class="dl">"</span><span class="p">,</span> <span class="nx">maxStud</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+            <span class="kd">let</span> <span class="nx">newStud</span> <span class="o">=</span> <span class="p">{</span><span class="na">id</span><span class="p">:</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">maxStud</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="na">title</span><span class="p">:</span> <span class="nx">studentName</span><span class="p">,</span> <span class="na">author</span><span class="p">:</span> <span class="dl">"</span><span class="s2">st</span><span class="dl">"</span><span class="o">+</span><span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">maxStud</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)};</span>
+
+            <span class="c1">// Submit a second request</span>
+            <span class="kd">let</span> <span class="nx">args</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="na">url</span><span class="p">:</span> <span class="nx">baseUrl</span><span class="o">+</span><span class="dl">"</span><span class="s2">/posts</span><span class="dl">"</span><span class="p">,</span>
+                <span class="na">headers</span><span class="p">:</span> <span class="p">{</span> <span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">form</span><span class="p">:</span> <span class="nx">newStud</span>
+            <span class="p">};</span>
+            <span class="nx">request</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">args</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">httpResponse</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">err</span> <span class="o">||</span> <span class="nx">httpResponse</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">something went wrong in the second request:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+                <span class="p">}</span>  <span class="k">else</span> <span class="p">{</span>
+                    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Created student: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">newStud</span><span class="p">);</span>
+                    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Server response: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">});</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>So how did we compose callbacks?</p>
+
+<p>We had to <strong>nest</strong> the callbacks.  We start from the first method that we want to invoke.  Then in the callback of the first method, we invoke the second function.
+That is, instead of <code class="language-plaintext highlighter-rouge">f(g(x))</code> - we used the following pattern:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g(x, (gRes) =&gt; f(gRes))
+</code></pre></div></div>
+
+<p>where the function <code class="language-plaintext highlighter-rouge">(gRes) =&gt; f(gRes)</code> is the callback to g.</p>
+
+<p><strong>NOTE</strong>: Observe that the order of the functions is inverted from regular composition, instead of <code class="language-plaintext highlighter-rouge">f(g(x))</code> where <code class="language-plaintext highlighter-rouge">f</code> appears first and <code class="language-plaintext highlighter-rouge">g</code> second,
+we write <code class="language-plaintext highlighter-rouge">g</code> first, then <code class="language-plaintext highlighter-rouge">f</code> - which reflects the order in which the functions are invoked.</p>
+
+<h2 id="promises-to-the-rescue">Promises to the rescue</h2>
+
+<p>As we have observed in the example above, it is not practical to combine asynchronous functions.</p>
+<ul>
+  <li>It is difficult to compose/”pipe” functions into each other</li>
+  <li>It is difficult to handle errors and propagate them</li>
+</ul>
+
+<p><a href="http://exploringjs.com/es6/ch_promises.html">Promises</a> are a technique that was introduced to make asynchronous composition more convenient.</p>
+
+<p>A Promise object is a proxy for the result we expect to receive in the future, which is delivered via that object.
+Because it takes time to obtain the value (when the promise encapsulates an asynchronous computation) - the promise may be
+in several states:</p>
+<ul>
+  <li>Before the result is ready, the Promise is pending.</li>
+  <li>If a result is available, the Promise is fulfilled.</li>
+  <li>If an error happened, the Promise is rejected.</li>
+</ul>
+
+<p>A Promise is <strong>settled</strong> if the computation it represents has completed - it is either fulfilled or rejected.
+A Promise is settled exactly once and then remains unchanged (it is “set” only once).</p>
+
+<h3 id="reacting-to-promise-state-changes">Reacting to Promise State Changes</h3>
+
+<p>Promise reactions are callbacks that you register with the Promise method then(), to be notified of a fulfillment or a rejection.</p>
+
+<p>A <strong>thenable</strong> is an object that has a Promise-style then() method.</p>
+
+<p>Changing states: There are two operations for changing the state of a Promise - <code class="language-plaintext highlighter-rouge">resolve()</code> and <code class="language-plaintext highlighter-rouge">reject()</code>.
+After either one of them is invoked once, further invocations have no effect.</p>
+<ul>
+  <li>Rejecting a Promise moves the Promise to the <em>rejected</em> state.  It means the encapsulated computation has raised an error.</li>
+  <li>Resolving a Promise has different effects, depending on what value you are resolving with:
+    <ul>
+      <li>Resolving with a normal (non-thenable) value fulfills the Promise - the promise moves to state <em>fulfilled</em>.</li>
+      <li>Resolving a Promise P with a thenable T means that P will now continue with T’s computation and state, including its fulfillment or rejection value. The appropriate P reactions (callbacks) will get called once T settles (or are called immediately if T is already settled).</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="building-and-using-promises">Building and Using Promises</h3>
+
+<p>The following function returns a result asynchronously, via a Promise:</p>
+
+<p>This is a factory for a Promise object - it receives as a parameter the functions resolve and reject to involve in case the requested computation completes or throws an error:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">asyncFunc</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span>
+        <span class="kd">function</span> <span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// ···</span>
+            <span class="nx">resolve</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+            <span class="c1">// ···</span>
+            <span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+        <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We call asyncFunc() as follows:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">asyncFunc</span><span class="p">()</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">result</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="cm">/* ··· */</span> <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="cm">/* ··· */</span> <span class="p">});</span>
+</code></pre></div></div>
+
+<h3 id="chaining-http-requests-with-promises">Chaining http Requests with Promises</h3>
+
+<p>Let us re-implement the example above with requests encapsulated as Promises.</p>
+
+<p>We will use a http-request module which produces a Promise object when we invoke it:</p>
+
+<blockquote>
+  <p>note that promise based http requests have been standardtized in the browser and are coming to node (currently experimental in node 18)</p>
+</blockquote>
+
+<p>It is installed with npm:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install request-promise-native --save
+</code></pre></div></div>
+
+<p>We first simply rewrite the callback version using promises instead of callbacks:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Request Promise Native</span>
+<span class="kd">const</span> <span class="nx">rpn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">Request-Promise-Native</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">// get request using request-promise-native</span>
+<span class="kd">function</span> <span class="nx">createStudentPromise</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">studentName</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// GET request </span>
+    <span class="kd">const</span> <span class="nx">request</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">uri</span><span class="p">:</span> <span class="nx">baseUrl</span><span class="o">+</span><span class="dl">"</span><span class="s2">/posts</span><span class="dl">"</span><span class="p">,</span>
+        <span class="na">headers</span><span class="p">:</span> <span class="p">{</span><span class="dl">"</span><span class="s2">Content-Type</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">application/json</span><span class="dl">"</span><span class="p">},</span>
+    <span class="p">};</span>
+    <span class="nx">rpn</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+          <span class="kd">let</span> <span class="nx">students</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">),</span>
+              <span class="nx">maxStud</span> <span class="o">=</span> <span class="nx">students</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(((</span><span class="nx">prev</span><span class="p">,</span> <span class="nx">cur</span><span class="p">)</span><span class="o">=&gt;</span> <span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">cur</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">prev</span><span class="p">.</span><span class="nx">id</span><span class="p">))</span> <span class="p">?</span> <span class="nx">cur</span> <span class="p">:</span> <span class="nx">prev</span><span class="p">),</span> <span class="p">{</span><span class="na">id</span><span class="p">:</span><span class="mi">0</span><span class="p">});</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Current max Id = </span><span class="dl">"</span><span class="p">,</span> <span class="nx">maxStud</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+          <span class="kd">let</span> <span class="nx">newStud</span> <span class="o">=</span> <span class="p">{</span><span class="na">id</span><span class="p">:</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">maxStud</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="na">title</span><span class="p">:</span> <span class="nx">studentName</span><span class="p">,</span> <span class="na">author</span><span class="p">:</span> <span class="dl">"</span><span class="s2">st</span><span class="dl">"</span><span class="o">+</span><span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">maxStud</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)};</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Newstud = </span><span class="dl">'</span><span class="p">,</span> <span class="nx">newStud</span><span class="p">);</span>
+          <span class="c1">// Submit a second request</span>
+          <span class="kd">let</span> <span class="nx">args</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">url</span><span class="p">:</span> <span class="nx">baseUrl</span><span class="o">+</span><span class="dl">"</span><span class="s2">/posts</span><span class="dl">"</span><span class="p">,</span>  
+                <span class="na">headers</span><span class="p">:</span> <span class="p">{</span> <span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">form</span><span class="p">:</span> <span class="nx">newStud</span>
+          <span class="p">};</span>
+          <span class="nx">rpn</span><span class="p">(</span><span class="nx">args</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span><span class="o">=&gt;</span> <span class="p">{</span>
+                    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Created student: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">newStud</span><span class="p">);</span>
+                    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Server response: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+            <span class="p">})</span>
+            <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span><span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">something went wrong in the second request:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">err</span><span class="p">));</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">something went wrong on the request: Error</span><span class="dl">'</span><span class="p">);</span> 
+        <span class="p">});</span>
+        
+    <span class="c1">// this will be executed *before* the callback is executed</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">GET submitted to retrieve list of students</span><span class="dl">"</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="chaining-instead-of-nesting">Chaining instead of Nesting</h3>
+
+<p>The version above has the same nested structure as the one we observed with callbacks - it did not improve pn this respect - we require an embedded level for each step in a sequence of operations, and the error handling branches are also nested inside the callbacks.</p>
+
+<p>The solution to avoid such nesting is to return a Promise from inside the then() of another promise.
+When this is achieved, we can then benefit from the chaining capabilities of promises:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// get request using request-promise-native</span>
+<span class="kd">function</span> <span class="nx">createStudentPromiseChain</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">studentName</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// GET request </span>
+    <span class="kd">const</span> <span class="nx">request</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">uri</span><span class="p">:</span> <span class="nx">baseUrl</span><span class="o">+</span><span class="dl">"</span><span class="s2">/posts</span><span class="dl">"</span><span class="p">,</span>
+        <span class="na">headers</span><span class="p">:</span> <span class="p">{</span><span class="dl">"</span><span class="s2">Content-Type</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">application/json</span><span class="dl">"</span><span class="p">},</span>
+    <span class="p">};</span>
+    <span class="nx">rpn</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+          <span class="kd">let</span> <span class="nx">students</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">),</span>
+              <span class="nx">maxStud</span> <span class="o">=</span> <span class="nx">students</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(((</span><span class="nx">prev</span><span class="p">,</span> <span class="nx">cur</span><span class="p">)</span><span class="o">=&gt;</span> <span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">cur</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">prev</span><span class="p">.</span><span class="nx">id</span><span class="p">))</span> <span class="p">?</span> <span class="nx">cur</span> <span class="p">:</span> <span class="nx">prev</span><span class="p">),</span> <span class="p">{</span><span class="na">id</span><span class="p">:</span><span class="mi">0</span><span class="p">});</span>
+          <span class="kd">let</span> <span class="nx">newStud</span> <span class="o">=</span> <span class="p">{</span><span class="na">id</span><span class="p">:</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">maxStud</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="na">title</span><span class="p">:</span> <span class="nx">studentName</span><span class="p">,</span> <span class="na">author</span><span class="p">:</span> <span class="dl">"</span><span class="s2">st</span><span class="dl">"</span><span class="o">+</span><span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">maxStud</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)};</span>
+          <span class="c1">// Submit a second request</span>
+          <span class="kd">let</span> <span class="nx">args</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">url</span><span class="p">:</span> <span class="nx">baseUrl</span><span class="o">+</span><span class="dl">"</span><span class="s2">/posts</span><span class="dl">"</span><span class="p">,</span>  
+                <span class="na">headers</span><span class="p">:</span> <span class="p">{</span> <span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">form</span><span class="p">:</span> <span class="nx">newStud</span>
+            <span class="p">};</span>
+            <span class="k">return</span> <span class="nx">rpn</span><span class="p">(</span><span class="nx">args</span><span class="p">);</span>  <span class="c1">// **** This is the key change</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>       <span class="c1">// **** This second then() is chained at the same level as the first</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Server response: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+        <span class="p">})</span>
+        <span class="c1">// All error handlers can be chained - error will be propagated</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">something went wrong in a request:</span><span class="dl">'</span><span class="p">,</span> <span class="nb">String</span><span class="p">(</span><span class="nx">err</span><span class="p">).</span><span class="nx">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span><span class="o">+</span><span class="dl">'</span><span class="s1">...</span><span class="dl">'</span><span class="p">));</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>When we return promises instead of nesting them, we obtain code whose structure reflects the sequence of calls we intend.
+Error handling can also be centralized into a single <code class="language-plaintext highlighter-rouge">catch</code> handler instead of repeated for each invocation.</p>
+
+<p>As a matter of style, we understand that we should disentangle the code that creates the asynchronous tasks from the code that processes the values the tasks return.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Separate simple functions which generate promises</span>
+<span class="c1">// from a function that combines the promises together</span>
+
+<span class="kd">function</span> <span class="nx">getStudents</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">request</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">uri</span><span class="p">:</span> <span class="nx">baseUrl</span><span class="o">+</span><span class="dl">"</span><span class="s2">/posts</span><span class="dl">"</span><span class="p">,</span>
+        <span class="na">headers</span><span class="p">:</span> <span class="p">{</span><span class="dl">"</span><span class="s2">Content-Type</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">application/json</span><span class="dl">"</span><span class="p">},</span>
+    <span class="p">};</span>
+    <span class="k">return</span> <span class="nx">rpn</span><span class="p">(</span><span class="nx">request</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">createStudent</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">student</span><span class="p">:</span> <span class="nx">Student</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">request</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">url</span><span class="p">:</span> <span class="nx">baseUrl</span><span class="o">+</span><span class="dl">"</span><span class="s2">/posts</span><span class="dl">"</span><span class="p">,</span>  
+        <span class="na">headers</span><span class="p">:</span> <span class="p">{</span> <span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span> <span class="p">},</span>
+        <span class="na">form</span><span class="p">:</span> <span class="nx">student</span>
+    <span class="p">};</span>
+    <span class="k">return</span> <span class="nx">rpn</span><span class="p">(</span><span class="nx">request</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">createStudentChain</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">studentName</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">getStudents</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nx">students</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">),</span>
+            <span class="nx">maxStud</span> <span class="o">=</span> <span class="nx">students</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(((</span><span class="nx">prev</span><span class="p">,</span> <span class="nx">cur</span><span class="p">)</span><span class="o">=&gt;</span> <span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">cur</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">prev</span><span class="p">.</span><span class="nx">id</span><span class="p">))</span> <span class="p">?</span> <span class="nx">cur</span> <span class="p">:</span> <span class="nx">prev</span><span class="p">),</span> <span class="p">{</span><span class="na">id</span><span class="p">:</span><span class="mi">0</span><span class="p">}),</span>
+            <span class="nx">newStud</span> <span class="o">=</span> <span class="p">{</span><span class="na">id</span><span class="p">:</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">maxStud</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="na">title</span><span class="p">:</span> <span class="nx">studentName</span><span class="p">,</span> <span class="na">author</span><span class="p">:</span> <span class="dl">"</span><span class="s2">st</span><span class="dl">"</span><span class="o">+</span><span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">maxStud</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)};</span>
+          <span class="k">return</span> <span class="nx">createStudent</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">,</span> <span class="nx">newStud</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Student created: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">"</span><span class="s2">Something went wrong: </span><span class="dl">"</span><span class="p">,</span> <span class="nb">String</span><span class="p">(</span><span class="nx">err</span><span class="p">).</span><span class="nx">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span><span class="o">+</span><span class="dl">'</span><span class="s1">...</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="higher-order-callbacks-combinations">Higher Order Callbacks Combinations</h3>
+
+<p><strong>Question</strong>: how do we use promises to iterate over a list of values and perform an asynchronous operation on each value?</p>
+
+<p>Let us consider an example: we want to delete all the items in the server that have an id larger than 10.</p>
+
+<p>One solution would be to chain the calls to the operation.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">deleteStudent</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">id</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">request</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">DELETE</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">uri</span><span class="p">:</span> <span class="nx">baseUrl</span><span class="o">+</span><span class="dl">"</span><span class="s2">/posts/</span><span class="dl">"</span><span class="o">+</span><span class="nx">id</span><span class="p">,</span>
+        <span class="na">headers</span><span class="p">:</span> <span class="p">{</span><span class="dl">"</span><span class="s2">Content-Type</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">application/json</span><span class="dl">"</span><span class="p">},</span>
+    <span class="p">};</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Submitted delete request for </span><span class="dl">"</span><span class="p">,</span> <span class="nx">id</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">rpn</span><span class="p">(</span><span class="nx">request</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">deleteStudentsWithLargeId</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">getStudents</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="kd">let</span> <span class="nx">students</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+            <span class="nx">students</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">s</span> <span class="o">=&gt;</span> <span class="nx">s</span><span class="p">.</span><span class="nx">id</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="p">?</span>
+                <span class="nx">deleteStudent</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">,</span> <span class="nx">s</span><span class="p">.</span><span class="nx">id</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Student </span><span class="dl">"</span><span class="p">,</span> <span class="nx">s</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="dl">"</span><span class="s2"> is deleted</span><span class="dl">"</span><span class="p">))</span> <span class="p">:</span>
+                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Student </span><span class="dl">"</span><span class="p">,</span> <span class="nx">s</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="dl">"</span><span class="s2"> is not deleted.</span><span class="dl">"</span><span class="p">));</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">err</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">"</span><span class="s2">Error :</span><span class="dl">"</span><span class="p">,</span> <span class="nx">err</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Do the delete operations above happen in sequence or in parallel?</li>
+  <li>Does the <code class="language-plaintext highlighter-rouge">deleteStudentsWithLargeId</code> return after all students have been deleted?</li>
+</ul>
+
+<p><strong>Question</strong>: How can we force the asynchronous calls to be performed one after the other with no overlap <em>and</em> make sure to wait until the end of all operations?</p>
+
+<p><strong>Answer</strong>: We can invoke the subsequent asynchronous functions in the scope of the then() resolution of the previous calls.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">createManyStudents</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">names</span><span class="p">:</span> <span class="kr">string</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">names</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">();</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">getStudents</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="kd">let</span> <span class="nx">students</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">),</span>
+                <span class="nx">maxStud</span> <span class="o">=</span> <span class="nx">students</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(((</span><span class="nx">prev</span><span class="p">,</span> <span class="nx">cur</span><span class="p">)</span><span class="o">=&gt;</span> <span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">cur</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">prev</span><span class="p">.</span><span class="nx">id</span><span class="p">))</span> <span class="p">?</span> <span class="nx">cur</span> <span class="p">:</span> <span class="nx">prev</span><span class="p">),</span> <span class="p">{</span><span class="na">id</span><span class="p">:</span><span class="mi">0</span><span class="p">}),</span>
+                <span class="nx">newStud</span> <span class="o">=</span> <span class="p">{</span><span class="na">id</span><span class="p">:</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">maxStud</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="na">title</span><span class="p">:</span> <span class="nx">names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="na">author</span><span class="p">:</span> <span class="dl">"</span><span class="s2">st</span><span class="dl">"</span><span class="o">+</span><span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">maxStud</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)};</span>
+            <span class="k">return</span> <span class="nx">createStudent</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">,</span> <span class="nx">newStud</span><span class="p">);</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Student created: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+            <span class="nx">names</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span>
+            <span class="k">return</span> <span class="nx">createManyStudents</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">,</span> <span class="nx">names</span><span class="p">);</span>     <span class="c1">// Invoke the next only after the previous has completed.</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">"</span><span class="s2">Something went wrong: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We can also run the operations in parallel using <code class="language-plaintext highlighter-rouge">Promise.all</code> which accepts and array of promises
+and resolved when all of them are resolved.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">deleteStudentsWithLargeId</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">getStudents</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="kd">let</span> <span class="nx">students</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+            
+            <span class="kd">const</span> <span class="nx">deleteRequests</span> <span class="o">=</span> <span class="nx">students</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">s</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">id</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Student </span><span class="dl">"</span><span class="p">,</span> <span class="nx">s</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="dl">"</span><span class="s2"> is not deleted.</span><span class="dl">"</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}).</span><span class="nx">map</span><span class="p">(</span><span class="nx">s</span> <span class="o">=&gt;</span> <span class="nx">deleteStudent</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">,</span> <span class="nx">s</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>
+                       <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Student </span><span class="dl">"</span><span class="p">,</span> <span class="nx">s</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="dl">"</span><span class="s2"> is deleted</span><span class="dl">"</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">deleteRequests</span><span class="p">)</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">err</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">"</span><span class="s2">Error :</span><span class="dl">"</span><span class="p">,</span> <span class="nx">err</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="better-promises-with-the-asyncawait-syntax">Better promises with the <code class="language-plaintext highlighter-rouge">async</code>/<code class="language-plaintext highlighter-rouge">await</code> syntax</h2>
+
+<p>In newer version of Javascript you can use the <code class="language-plaintext highlighter-rouge">async</code> keyword to declare that a function that always return a promise
+and use the <code class="language-plaintext highlighter-rouge">await</code> keyword be for an expression that evaluates to a promise to indicate not to continue execution until that promise is resolved (similar to <code class="language-plaintext highlighter-rouge">Promise.prototype.then</code>).
+When that awaited promise is rejected an exception is thrown (similar to <code class="language-plaintext highlighter-rouge">Promise.prototype.catch</code>).</p>
+
+<p>This special syntax enables us to write a promise based code that look more natural. It is important to note that underneath the syntax the same <code class="language-plaintext highlighter-rouge">Promise</code> object are being used conceptually.</p>
+
+<p>Here is an example of the <code class="language-plaintext highlighter-rouge">async</code> syntax alone:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Asynchronous function</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">greeting1</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Hello, world!</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">greeting2</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="dl">'</span><span class="s1">Hello, World</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="c1">// in both cases the type is () =&gt; Promise&lt;string&gt;</span>
+<span class="c1">// so we cant just use the value </span>
+<span class="c1">// console.log(greeting1) will print a Promise object</span>
+<span class="c1">// we need to do the following</span>
+<span class="nx">greeting1</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">s</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">await</code> is only valid within an <code class="language-plaintext highlighter-rouge">async</code> function (and also at the top level in newer javascript runtimes):</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nx">greeting3</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">hello</span> <span class="o">=</span> <span class="k">await</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello</span><span class="dl">'</span><span class="p">),</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="p">});</span>
+    <span class="kd">const</span> <span class="nx">world</span> <span class="o">=</span> <span class="k">await</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">world</span><span class="dl">'</span><span class="p">),</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="s2">`</span><span class="p">${</span><span class="nx">hello</span><span class="p">}</span><span class="s2">, </span><span class="p">${</span><span class="nx">world</span><span class="p">}</span><span class="s2">!`</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nx">greeting4</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="p">[</span><span class="nx">hello</span><span class="p">,</span> <span class="nx">world</span><span class="p">]</span> <span class="o">=</span>  <span class="k">await</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+        <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello</span><span class="dl">'</span><span class="p">),</span> <span class="mi">1000</span><span class="p">)</span>
+        <span class="p">}),</span>
+        <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">world</span><span class="dl">'</span><span class="p">),</span> <span class="mi">1000</span><span class="p">)</span>
+        <span class="p">})</span>
+    <span class="p">]);</span>
+    <span class="k">return</span> <span class="s2">`</span><span class="p">${</span><span class="nx">hello</span><span class="p">}</span><span class="s2">, </span><span class="p">${</span><span class="nx">world</span><span class="p">}</span><span class="s2">!`</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Question:</strong> The functions above execution is sequential or parallel?</p>
+
+<p>Here is our createManyStudents function written using <code class="language-plaintext highlighter-rouge">async</code> / <code class="language-plaintext highlighter-rouge">await</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nx">createManyStudents2</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">names</span><span class="p">:</span> <span class="kr">string</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">names</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">getStudents</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">);</span>
+            <span class="kd">const</span> <span class="nx">students</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+            <span class="kd">const</span> <span class="nx">maxStud</span> <span class="o">=</span> <span class="nx">students</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(((</span><span class="nx">prev</span><span class="p">,</span> <span class="nx">cur</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">cur</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">prev</span><span class="p">.</span><span class="nx">id</span><span class="p">))</span> <span class="p">?</span> <span class="nx">cur</span> <span class="p">:</span> <span class="nx">prev</span><span class="p">),</span> <span class="p">{</span><span class="na">id</span><span class="p">:</span> <span class="mi">0</span><span class="p">});</span>
+            <span class="kd">let</span> <span class="nx">currStudId</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">maxStud</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kd">const</span> <span class="nx">name</span> <span class="k">of</span> <span class="nx">names</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">newStud</span> <span class="o">=</span> <span class="p">{</span><span class="na">id</span><span class="p">:</span> <span class="nx">currStudId</span><span class="p">,</span> <span class="na">title</span><span class="p">:</span> <span class="nx">name</span><span class="p">,</span> <span class="na">author</span><span class="p">:</span> <span class="s2">`st</span><span class="p">${</span><span class="nx">currStudId</span><span class="p">}</span><span class="s2">`</span><span class="p">};</span>
+                <span class="k">await</span> <span class="nx">createStudent</span><span class="p">(</span><span class="nx">baseUrl</span><span class="p">,</span> <span class="nx">newStud</span><span class="p">);</span>
+                <span class="nx">currStudId</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">"</span><span class="s2">Something went wrong: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="a-few-notes-on-iterator-and-generator-types">A few notes on iterator and Generator types</h2>
+
+<p>In the lecture you saw generator function, that can used inside loops similarly to arrays (but can have custom logic, be infinite etc.,)</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="o">*</span> <span class="nx">count3</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">yield</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">yield</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="k">yield</span> <span class="mi">3</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>we know that we can iterate over count3()</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kd">const</span> <span class="nx">n</span> <span class="k">of</span> <span class="nx">count3</span><span class="p">())</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong><em>Question:</em></strong> But what exactly did count3() return?</p>
+
+<p>we can also use <strong>yeild</strong>* keyeord this way and get the same result</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="o">*</span> <span class="nx">count3</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">yield</span><span class="o">*</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br></p>
+
+<p>To understand this we need the following two protocols:</p>
+
+<p>First, <em>JavaScript</em> defines the following very general <strong>iterator protocol</strong>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">interface</span> <span class="nx">IteratorResult</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="na">value</span><span class="p">:</span> <span class="nx">T</span><span class="p">;</span>
+    <span class="nl">done</span><span class="p">:</span> <span class="nx">boolean</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kr">interface</span> <span class="nx">Iterator</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="nx">next</span><span class="p">():</span> <span class="nx">IteratorResult</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The second protocol we need the <strong>iterable protocol</strong>. 
+In JavaScript any object can hook into the <code class="language-plaintext highlighter-rouge">for-of</code> construct (and the <code class="language-plaintext highlighter-rouge">...</code> spread syntax)
+by adding a special function name <code class="language-plaintext highlighter-rouge">Symbol.iterator</code> that returns an iterator. This is called the iterable protocol:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">interface</span> <span class="nx">Iterable</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="p">[</span><span class="nb">Symbol</span><span class="p">.</span><span class="nx">iterator</span><span class="p">]():</span> <span class="nx">Iterator</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The generator functions that you saw in the lectures act in the same manner. 
+We can iterate over their return type because they return an iterable object, more specifically the return type of a generator is both an iterator and an iterable (that returns the same iterator)</p>
+
+<p><strong><em>Question:</em></strong> Can you write the return type of the <code class="language-plaintext highlighter-rouge">count3</code> function?</p>
+
+<p><br><br></p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">interface</span> <span class="nx">Generator</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="nx">Iterator</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="p">[</span><span class="nb">Symbol</span><span class="p">.</span><span class="nx">iterator</span><span class="p">]():</span> <span class="nx">Generator</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">interface</span> <span class="nx">GeneratorFunction</span> <span class="p">{</span>
+    <span class="p">(...</span><span class="nx">args</span><span class="p">:</span> <span class="kr">any</span><span class="p">[]):</span> <span class="nx">Generator</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>That is, a generator function (<code class="language-plaintext highlighter-rouge">function *</code>) returns an <em>iterator</em> that also adheres to the <em>iterable</em> protocol thus can be used with <code class="language-plaintext highlighter-rouge">for-of</code> and <code class="language-plaintext highlighter-rouge">...</code>. Its <code class="language-plaintext highlighter-rouge">Symbol.iterator</code>  returns the generator itself.</p>
+
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>
