@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://bguppl.github.io/interpreters/practice_sessions/ps7.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Type inference using type constraints | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Type inference using type constraints">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/practice_sessions/ps7.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/practice_sessions/ps7.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Type inference using type constraints">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Type inference using type constraints","url":"https://bguppl.github.io/interpreters/practice_sessions/ps7.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Type inference using type constraints _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Type inference using type constraints _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Type inference using type constraints _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="type-inference-using-type-constraints">Type inference using type constraints</h1>
+
+<h2 id="question-1">Question 1</h2>
+<h3 id="typing-statement">Typing statement</h3>
+
+<p>A typing statement is a true/false formula that states a judgment about the type of a language expression, given a type environment.</p>
+
+<p>It has the notation:  <code class="language-plaintext highlighter-rouge">Tenv ⊢ e:T</code>, which reads: under the type-environment Tenv, the expression e has type T.</p>
+
+<p>E.g.,  <code class="language-plaintext highlighter-rouge">{x:Number} ⊢ (+ 3 x):Number</code>  states that under the assumption that the type of x is Number, the type of (+ 3 x) is Number. For the typing statement below, note whether they are  <strong>true or false:</strong></p>
+
+<ul>
+  <li><strong>{f:[Number-&gt;T1]} ⊢ (f 7): T1</strong></li>
+  <li><strong>{y:Number, f:[T1-&gt;T1]} ⊢ (f x):T1</strong></li>
+  <li><strong>{y:Number, f:[T1-&gt;T1]} ⊢ (f y):T1</strong></li>
+  <li><strong>{x:Number} ⊢ x: Boolean</strong></li>
+  <li><strong>{x:Boolean, y:Number} ⊢ x: Boolean</strong></li>
+  <li><strong>{f:[T1-&gt;T2], g:[T2-&gt;T3], x:T1} ⊢ (g (f x)):T3</strong></li>
+</ul>
+
+<h2 id="question-2">Question 2</h2>
+
+<p>A typing-statement is based on assumptions in a given type-environment.
+The less assumptions are involved, the stronger is the statement.
+In order to end up with the strongest statement, we follow a simple heuristic rule: always pick a minimal type environment (or: always infer the strongest statement possible). For each row of statements below, <strong>which statement is stronger?</strong> left or right ?</p>
+
+<p>Note : assumptions in Tenv are an added part to the axioms we have.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Term 1</th>
+      <th>Term 2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{foo: [T1-&gt;T2]} ⊢ 5: Number</td>
+      <td>{} ⊢ 5: Number</td>
+    </tr>
+    <tr>
+      <td>{x: Number} ⊢ (+ x 3): Number</td>
+      <td>{y: Number,x: Number} ⊢ (+ x 3): Number</td>
+    </tr>
+    <tr>
+      <td>{} ⊢ (lambda (x)(+ x 3)):[Number -&gt; Number]</td>
+      <td>{y: Number} ⊢ (lambda (x)(+ x y)):[Number -&gt; Number] <br> (Can we compare these two?)</td>
+    </tr>
+    <tr>
+      <td>{} ⊢ (lambda (x)(+ x 3)):[Number -&gt; Number]</td>
+      <td>{y:Number} ⊢ (lambda (z)(+ z 3)):[Number -&gt; Number]</td>
+    </tr>
+    <tr>
+      <td>{f:[Number -&gt; Number]} ⊢ ((lambda (f x) (f x))(lambda (x) (* x x)) 10): Number</td>
+      <td>{} ⊢ ((lambda (f x) (f x)) (lambda (x) (* x x)) 10): Number</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note: A typing statement has to be true in order to determine its strength.</p>
+
+<h2 id="definition-seen-in-class">Definition (seen in class):</h2>
+
+<p>A <strong>Type-substitution</strong> is a mapping, s, from a finite set of type-variables to a finite set of type-expressions, such that for every type-variable T, s(T) does not include T.
+A type-binding is a pair  <code class="language-plaintext highlighter-rouge">&lt;T,s(T)&gt;</code>  such that  <code class="language-plaintext highlighter-rouge">T = s(T)</code>.
+Type-Substitutions are written using set notation, for example :</p>
+
+<ul>
+  <li><strong>{T1 = Number, T2 = [Number -&gt; T3]}</strong>.</li>
+  <li><strong>{T1 = Number, T2 = [[Number -&gt; T3]-&gt;T2]}, is this legal?</strong></li>
+  <li><strong>{T1 = Number, T1 = Boolean}, and this one?</strong></li>
+</ul>
+
+<h2 id="definitions-seen-in-class">Definitions (seen in class):</h2>
+
+<p>An application of a type-substitution s to a type-expression TE, denoted by TE ○ s, is a consistent replacement of type-variables T in TE by their mapped type-expressions s(T).
+For example:</p>
+
+<ul>
+  <li><strong>[[T1-&gt;T2]-&gt;T2] ○ {T1=Boolean, T2=[T3-&gt;T3]} = [[Boolean-&gt;[T3-&gt;T3]] -&gt; [T3-&gt;T3]]</strong></li>
+  <li><strong>[[T1-&gt;T2]-&gt;T2] ○ {T1=Boolean, T2=[T3-&gt;T3],T3=Number} = [[Boolean-&gt;[T3-&gt;T3]] -&gt; [T3-&gt;T3]]</strong></li>
+  <li><strong>[[T1-&gt;T2]-&gt;[T2-&gt;T3]] ○ {T1=Boolean, T2=[T3-&gt;T3],T3=Number} = [[Boolean-&gt;[T3-&gt;T3]] -&gt; [[T3-&gt;T3]-&gt;Number]]</strong></li>
+</ul>
+
+<h2 id="question-3">Question 3</h2>
+
+<p>A unifier of type expressions <strong>TE1</strong>, <strong>TE2</strong> is a type substitution s such that <strong>TE1 ○ s = TE2 ○ s</strong> (the type expressions should not include common type variables).
+The most general unifier (<strong>MGU</strong>), is a unifier such that any other unifier is an instance of it.</p>
+
+<p>Recall the lecture’s definition of “instance of type expression” :  <strong>T’</strong> is an instance of type expression <strong>T</strong>, if there is a type substitution <strong>s</strong> such that  <code class="language-plaintext highlighter-rouge">T o s = T'</code>.</p>
+
+<p>In case of an instance of the MGU type substitution, it is any type substitution s such that for each type expression e in s, e is an instance of a type expression in our MGU.
+All other unifiers are obtained from it by application of additional substitutions.</p>
+
+<p><strong>Find the MGU</strong>  for the following pairs of type-environments:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type expressions</th>
+      <th>MGU</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{x: T1}, {x: Number}</td>
+      <td>{T1=Number}  (a non-MGU unifier: {T1=Number, T2=B})</td>
+    </tr>
+    <tr>
+      <td>{x: T1}, {x: T2}</td>
+      <td>{T1=T2}  (a non-MGU unifier: {T1=Number, T2=Number})</td>
+    </tr>
+    <tr>
+      <td>{x: [T1*[T1-&gt;T2]-&gt;T2]},  {x: [Number * [T3-&gt;T4]-&gt;T4]}</td>
+      <td>{T1=Number, T3=Number, T4=T2}</td>
+    </tr>
+    <tr>
+      <td>{x: [T1*[T1-&gt;T2]-&gt;Number]},   {x: [[T3-&gt;T4] * [T5-&gt;Number]-&gt;Number]}</td>
+      <td>{T1=[T3-&gt;T4], T5=[T3-&gt;T4], T2=Number}</td>
+    </tr>
+    <tr>
+      <td>{x: [T1*[T1-&gt;T2]-&gt;Number]},   {x: [Number * [Symbol-&gt;T3]-&gt;Number]}</td>
+      <td>No unifier</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="type-inference-using-type-constraints-1">Type inference using type constraints</h2>
+
+<ul>
+  <li>Rename bound variables.</li>
+  <li>Assign type variables to all sub-expressions.</li>
+  <li>Construct type equations.</li>
+  <li>Solve the equations.</li>
+</ul>
+
+<h3 id="typing-rules">Typing rules</h3>
+
+<ul>
+  <li>For primitive atomics / primitive procedures, construct type equations using their types.</li>
+  <li>For procedure expressions  <code class="language-plaintext highlighter-rouge">(lambda (p1 ... pn) e1 ... em)</code>, construct:
+    -   <code class="language-plaintext highlighter-rouge">T_{(lambda (p1 ... pn) e1 ... em)} = [T_{p1} * ... * T_{pn} -&gt; T_{em}]</code></li>
+  <li>For application expressions  <code class="language-plaintext highlighter-rouge">(op a1 ... an)</code>  construct:
+    -   <code class="language-plaintext highlighter-rouge">T_{op} = [T_{a1} * ... * T_{an} -&gt; T_{(op a1 ... an)}]</code></li>
+</ul>
+
+<h2 id="question-1-1">Question 1</h2>
+
+<p>Typing the expression  <code class="language-plaintext highlighter-rouge">((lambda (f1 x1) (f1 x1)) sqrt 4)</code>: =&gt;  <code class="language-plaintext highlighter-rouge">((lambda ([f1 : Tf] [x1 : Tx]) : T2 (f1 x1)) sqrt 4)</code></p>
+
+<p>Note: See how we added type anotations to the lambda’s params, and return value.</p>
+
+<p><strong>Stage I</strong>: Rename bound variables.</p>
+
+<p><code class="language-plaintext highlighter-rouge">((lambda (f1 x1) (f1 x1)) sqrt 4)</code>  turn to  <code class="language-plaintext highlighter-rouge">((lambda (f x) (f x)) sqrt 4)</code></p>
+
+<p><strong>Stage II</strong>: Assign type variables for every sub expression:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Variable</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>((lambda (f x) (f x)) sqrt 4)</td>
+      <td>T0</td>
+    </tr>
+    <tr>
+      <td>(lambda (f x) (f x))</td>
+      <td>T1</td>
+    </tr>
+    <tr>
+      <td>(f x)</td>
+      <td>T2</td>
+    </tr>
+    <tr>
+      <td>f</td>
+      <td>Tf</td>
+    </tr>
+    <tr>
+      <td>x</td>
+      <td>Tx</td>
+    </tr>
+    <tr>
+      <td>sqrt</td>
+      <td>Tsqrt</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Tnum4</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Stage III</strong>: Construct type equations.</p>
+
+<p>The equations for the sub-expressions are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Equation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>((lambda (f x) (f x)) sqrt 4)</td>
+      <td>T1 = [Tsqrt * Tnum4 -&gt; T0]</td>
+    </tr>
+    <tr>
+      <td>(lambda (f x) (f x))</td>
+      <td>T1 = [Tf * Tx -&gt; T2]</td>
+    </tr>
+    <tr>
+      <td>(f x)</td>
+      <td>Tf = [Tx -&gt; T2]</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The equations for the primitives are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Equation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>sqrt</td>
+      <td>Tsqrt = [Number -&gt; Number]</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Tnum4 = Number</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Stage IV</strong>: Solve the equations.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1. T1 = [Tsqrt * Tnum4 -&gt; T0]</td>
+      <td>{}</td>
+    </tr>
+    <tr>
+      <td>2. T1 = [Tf * Tx -&gt; T2]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>3. Tf = [Tx -&gt; T2]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>4. Tsqrt = [Number -&gt; Number]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>5. Tnum4 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 1:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(T1 = [Tsqrt * Tnum4-&gt; T0]) ○ Substitution = (T1 = [Tsqrt * Tnum4-&gt; T0])</code>  and is a type-sub.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ (T1 = [Tsqrt * Tnum4-&gt; T0])</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2. T1 = [Tf * Tx -&gt; T2]</td>
+      <td>{T1 := [Tsqrt * Tnum4 -&gt; T0]}</td>
+    </tr>
+    <tr>
+      <td>3. Tf = [Tx -&gt; T2]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>4. Tsqrt = [Number -&gt; Number]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>5. Tnum4 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 2</strong>:</p>
+
+<p><code class="language-plaintext highlighter-rouge">T1 = [Tf * Tx -&gt; T2] ○ Substitution = ([Tsqrt * Tnum4 -&gt; T0] = [Tf * Tx -&gt; T2])</code>
+There is not type-sub since  both sides of the equation are composite <strong>we split it into three</strong> equations (6,7,8) and remove equation 2.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3. Tf = [Tx -&gt; T2]</td>
+      <td>{T1 := [Tsqrt * Tnum4 -&gt; T0]}</td>
+    </tr>
+    <tr>
+      <td>4. Tsqrt = [Number -&gt; Number]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>5. Tnum4 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>6. <strong>Tf = Tsqrt</strong></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>7. <strong>Tx = Tnum4 (or Tnum4 = Tx)</strong></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>8. <strong>T2 = T0</strong></td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 3:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(Tf = [Tx -&gt; T2]) ○ Substitution = (Tf = [Tx -&gt; T2])</code>.
+<code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ (Tf = [Tx -&gt; T2])</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4. Tsqrt = [Number -&gt; Number]</td>
+      <td>{T1 := [Tsqrt * Tnum4 -&gt; T0],  <strong>Tf := [Tx -&gt; T2]</strong>}</td>
+    </tr>
+    <tr>
+      <td>5. Tnum4 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>6. Tf = Tsqrt</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>7. Tx = Tnum4 (or Tnum4 = Tx)</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>8. T2 = T0</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 4</strong>:</p>
+
+<p><code class="language-plaintext highlighter-rouge">(Tsqrt = [Number -&gt; Number]) ○ Substitution = (Tsqrt = [Number -&gt; Number])</code>.
+<code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ (Tsqrt = [Number -&gt; Number])</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>5. Tnum4 = Number</td>
+      <td>{ [T1 :=[<strong>[Number -&gt; Number]</strong> * Tnum4-&gt;T0],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tf := [Tx -&gt; T2], <strong>Tsqrt := [Number -&gt; Number]</strong>}</td>
+    </tr>
+    <tr>
+      <td>6. Tf = Tsqrt</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>7. Tx = Tnum4</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>8. T2 = T0</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 5</strong>:</p>
+
+<p><code class="language-plaintext highlighter-rouge">(Tnum4 = Number) ○ Substitution = (Tnum4 = Number)</code>, is a type-sub.
+<code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ (Tnum4 = Number)</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>6. Tf = Tsqrt</td>
+      <td>{  &nbsp;&nbsp;&nbsp; T1 :=[[Number -&gt; Number] * <strong>Number</strong>-&gt;T0],	 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tf := [Tx -&gt; T2], Tsqrt := [Number -&gt; Number], <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong>Tnum4 := Number</strong> &nbsp;&nbsp;&nbsp;}</td>
+    </tr>
+    <tr>
+      <td>7. Tx = Tnum4</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>8. T2 = T0</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 6</strong>:</p>
+
+<p><code class="language-plaintext highlighter-rouge">(Tf = Tsqrt) ○ Substitution = ([Tx -&gt; T2] = [Number -&gt; Number])</code>
+There is no a sub-type.
+We split the equation into two equations (9,10) and remove equation 6.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7. Tx = Tnum4</td>
+      <td>{  &nbsp;&nbsp;&nbsp; T1 :=[[Number -&gt; Number] * Number-&gt;T0],	 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tf := [Tx -&gt; T2], Tsqrt := [Number -&gt; Number], <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Tnum4 := Number &nbsp;&nbsp;&nbsp;}</td>
+    </tr>
+    <tr>
+      <td>8. T2 = T0</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>9. <strong>Tx = Number</strong></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>10. <strong>T2 = Number</strong></td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 7:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(Tx = Tnum4) ○ Substitution = ([Tx = Number])</code>, type-sub.
+<code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ ([Tx = Number])</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>8. T2 = T0</td>
+      <td>{  &nbsp;&nbsp;&nbsp; T1 :=[[Number -&gt; Number] * Number-&gt;T0],	 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tf := [<strong>Number</strong> -&gt; T2], Tsqrt := [Number -&gt; Number], <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Tnum4 := Number, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Tx = Number</strong>   &nbsp;&nbsp;&nbsp;}</td>
+    </tr>
+    <tr>
+      <td>9. Tx = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>10. T2 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 8:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(T2 = T0) ○ Substitution = (T2 = T0)</code>, type-sub.
+<code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ (T2 = T0)</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>9. Tx = Number</td>
+      <td>{  &nbsp;&nbsp;&nbsp; T1 :=[[Number -&gt; Number] * Number-&gt;T0],	 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tf := [Number-&gt; <strong>T0</strong>], Tsqrt := [Number -&gt; Number], <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Tnum4 := Number, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tx = Number,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong>T2 := T0</strong> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td>
+    </tr>
+    <tr>
+      <td>10. T2 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 9:</strong> 
+<code class="language-plaintext highlighter-rouge">(Tx = Number) ○ Substitution = (Number = Number)</code> always true.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10. T2 = Number</td>
+      <td>{  &nbsp;&nbsp;&nbsp; T1 :=[[Number -&gt; Number] * Number-&gt;T0],	 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tf := [Number-&gt; T0], <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tsqrt := [Number -&gt; Number], <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Tnum4 := Number, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tx = Number , <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  T2 := T0 &nbsp;&nbsp;&nbsp;&nbsp;}</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 10:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(T2 = Number) ○ Substitution = (T0 = Number)</code>, type-sub.
+<code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ (T0 = Number)</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>&nbsp;</td>
+      <td>{  &nbsp;&nbsp;&nbsp; T1 :=[[Number -&gt; Number] * Number-&gt;<strong>Number</strong>],	 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tf := [Number-&gt; <strong>Number</strong>], <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tsqrt := [Number -&gt; Number], <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Tnum4 := Number, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tx = Number , <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  T2 := <strong>Number</strong> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong>T0 := Number</strong>   &nbsp;&nbsp;&nbsp;&nbsp;}</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The type inference succeeds since we have a type for T0, meaning that the expression is  <strong>well typed</strong>.
+Since there are no free variables, the inferred type of T0 is:  <strong>Number.</strong></p>
+
+<p><strong>Note</strong>: Our expression can be written now as  <code class="language-plaintext highlighter-rouge">((lambda ([f : (Number -&gt; Number)] [x : Number]) : Number (f x)) sqrt 4)</code></p>
+
+<h2 id="question-2-1">Question 2</h2>
+
+<p>Extending the typing mechanism for if expressions: Recall the typing rule for if expressions shown in the typing system:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Typing rule of If experession :
+For every: type environment _Tenv, 
+           expressions _p, _c, _a,
+           and type expressions Boolean, _Tif:
+If         _Tenv ⊢ _p:Boolean,
+           _Tenv ⊢ _c:_Tif,
+           _Tenv ⊢ _a:_Tif
+Then _Tenv ⊢ (if _p _c _a):_Tif
+</code></pre></div></div>
+
+<h4 id="questions">Questions:</h4>
+
+<ul>
+  <li>If both consequence and alternative expressions had different types could we type the if expression?</li>
+  <li>Do we need to add an equation for <code class="language-plaintext highlighter-rouge">_p</code>?</li>
+</ul>
+
+<p>First thing we notice from the rule is that the consequence expression (<code class="language-plaintext highlighter-rouge">_c</code>) and the alternative expression (<code class="language-plaintext highlighter-rouge">_a</code>) have the same type.</p>
+
+<p>Given the first observation, the second thing we notice is that the type of the if expression is the type of the consequence expression.</p>
+
+<p>Given the two observations we can add the following equations:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Expression	 Equation
+(if _p _c _a)	T_p = Boolean
+                T_c = T_a
+            	Tif = T_c
+</code></pre></div></div>
+
+<p>Example: type the expression <code class="language-plaintext highlighter-rouge">(if #t (+ 1 2) 3)</code></p>
+
+<p><strong>Again</strong>, look how we add type annotations.</p>
+
+<p><strong>Stage I</strong>: Rename bound variables: No reference of variables so no renaming is needed.</p>
+
+<p><strong>Stage II</strong>: Assign type variables for every sub expression:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Variable</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>(if #t (+ 1 2) 3)</td>
+      <td>T0</td>
+    </tr>
+    <tr>
+      <td>(+ 1 2)</td>
+      <td>T1</td>
+    </tr>
+    <tr>
+      <td>+</td>
+      <td>T+</td>
+    </tr>
+    <tr>
+      <td>#t</td>
+      <td>T#t</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Tnum1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Tnum2</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Tnum3</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Stage III</strong>: Construct type equations. The equations for the sub-expressions are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Equation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>(if #t (+ 1 2) 3)</td>
+      <td>T#t = Boolean</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>T1 = Tnum3</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>T0 = T1</td>
+    </tr>
+    <tr>
+      <td>(+ 1 2)</td>
+      <td>T+ = [Tnum1 * Tnum2 -&gt; T1]</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The equations for the primitives are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Equation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>+</td>
+      <td>T+ = [Number * Number -&gt; Number]</td>
+    </tr>
+    <tr>
+      <td>#t</td>
+      <td>T#t = Boolean</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Tnum1 = Number</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Tnum2 = Number</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Tnum3 = Number</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Stage IV</strong> : Solve the equations:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1. T#t = Boolean</td>
+      <td>{}</td>
+    </tr>
+    <tr>
+      <td>2. T1 = Tnum3</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>3. T0 = T1</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>4. T+ = [Tnum1 * Tnum2 -&gt; T1]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>5. T+ = [Number * Number -&gt; Number]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>6. T#t = Boolean</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>7. Tnum1 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>8. Tnum2 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>9. Tnum3 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 1:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(T#t = Boolean) ○ Substitution = (T#t = Boolean)</code>, type-sub.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ (T#t = Boolean)</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2. T1 = Tnum3</td>
+      <td>{&nbsp;&nbsp;&nbsp; <strong>T#t = Boolean</strong> &nbsp;&nbsp;&nbsp; }</td>
+    </tr>
+    <tr>
+      <td>3. T0 = T1</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>4. T+ = [Tnum1 * Tnum2 -&gt; T1]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>5. T+ = [Number * Number -&gt; Number]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>6. T#t = Boolean</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>7. Tnum1 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>8. Tnum2 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>9. Tnum3 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 2:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(T1 = Tnum3) ○ Substitution = (T1 = Tnum3)</code>, type-sub.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ (T1 = Tnum3)</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3. T0 = T1</td>
+      <td>{T#t = Boolean, <strong>T1 := Tnum3</strong>}</td>
+    </tr>
+    <tr>
+      <td>4. T+ = [Tnum1 * Tnum2 -&gt; T1]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>5. T+ = [Number * Number -&gt; Number]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>6. T#t = Boolean</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>7. Tnum1 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>8. Tnum2 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>9. Tnum3 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 3:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(T0 = T1) ○ Substitution = (T0 = Tnum3)</code>, type-sub.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ (T0 = Tnum3)</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4. T+ = [Tnum1 * Tnum2 -&gt; T1]</td>
+      <td>{&nbsp;&nbsp;&nbsp; T#t = Boolean,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T1 := Tnum3,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>T0 := Tnum3</strong>  &nbsp;&nbsp;&nbsp; }</td>
+    </tr>
+    <tr>
+      <td>5. T+ = [Number * Number -&gt; Number]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>6. T#t = Boolean</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>7. Tnum1 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>8. Tnum2 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>9. Tnum3 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 4:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(T+ = [Tnum1 * Tnum2 -&gt; T1]) ○ Substitution = (T+ = [Tnum1 * Tnum2 -&gt; Tnum3])</code>, type-sub.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ (T+ = [Tnum1 * Tnum2 -&gt; Tnum3])</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>5. T+ = [Number * Number -&gt; Number]</td>
+      <td>{&nbsp;&nbsp;&nbsp; T#t = Boolean,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T1 := Tnum3,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T0 := Tnum3,  <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>T+ = [Tnum1 * Tnum2 -&gt; Tnum3]</strong> &nbsp;&nbsp;&nbsp; }</td>
+    </tr>
+    <tr>
+      <td>6. T#t = Boolean</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>7. Tnum1 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>8. Tnum2 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>9. Tnum3 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 5:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(T+ = [Number * Number -&gt; Number]) ○ Substitution = ([Tnum1 * Tnum2 -&gt; Tnum3] = [Number * Number -&gt; Number])</code></p>
+
+<p>There is not  a type-sub. 
+We split the equation to  <code class="language-plaintext highlighter-rouge">Tnum1 = Number, Tnum2 = Number and Tnum3 = Number</code>, 
+and add them to the equations. Since they already exists,  <strong>we only need to remove equation 5.</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>6. T#t = Boolean</td>
+      <td>{&nbsp;&nbsp;&nbsp; T#t = Boolean,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T1 := Tnum3,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T0 := Tnum3,  <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T+ = [Tnum1 * Tnum2 -&gt; Tnum3] &nbsp;&nbsp;&nbsp; }</td>
+    </tr>
+    <tr>
+      <td>7. Tnum1 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>8. Tnum2 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>9. Tnum3 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 6:</strong> 
+<code class="language-plaintext highlighter-rouge">(T#t = Boolean) ○ Substitution = (Boolean = Boolean)</code> always true.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7. Tnum1 = Number</td>
+      <td>{&nbsp;&nbsp;&nbsp; T#t = Boolean,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T1 := Tnum3,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T0 := Tnum3,  <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T+ = [Tnum1 * Tnum2 -&gt; Tnum3] &nbsp;&nbsp;&nbsp; }</td>
+    </tr>
+    <tr>
+      <td>8. Tnum2 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>9. Tnum3 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Skipping the trivial steps, we get:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>&nbsp;</td>
+      <td>{ &nbsp;&nbsp;&nbsp;  T#t := Boolean,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T1 := <strong>Number</strong>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T0 := <strong>Number</strong>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tnum1 := Number</strong>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tnum2 := Number</strong>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tnum3 := Number</strong>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T+ := [Number * Number -&gt; Number]&nbsp;&nbsp;&nbsp; }</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The type inference succeeds, meaning that the expression is  <strong>well typed</strong>.
+Because there are no free variables, the inferred type of T0 is:  <strong>Number</strong>.</p>
+
+<h2 id="question-3-1">Question 3</h2>
+
+<p>Typing the application <code class="language-plaintext highlighter-rouge">((lambda (f1 x1) (f1 x1)) 4 sqrt)</code>:</p>
+
+<p><strong>Stage I</strong>: Rename bound variables.</p>
+
+<p><code class="language-plaintext highlighter-rouge">((lambda (f1 x1) (f1 x1)) 4 sqrt)</code>  turns into  <code class="language-plaintext highlighter-rouge">((lambda (f x) (f x)) 4 sqrt)</code></p>
+
+<p><strong>Stage II</strong>: Assign type variables for every sub expression and primitives:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Variable</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>((lambda (f x) (f x)) 4 sqrt)</td>
+      <td>T0</td>
+    </tr>
+    <tr>
+      <td>(lambda (f x) (f x))</td>
+      <td>T1</td>
+    </tr>
+    <tr>
+      <td>(f x)</td>
+      <td>T2</td>
+    </tr>
+    <tr>
+      <td>f</td>
+      <td>Tf</td>
+    </tr>
+    <tr>
+      <td>x</td>
+      <td>Tx</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Tnum4</td>
+    </tr>
+    <tr>
+      <td>sqrt</td>
+      <td>Tsqrt</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Stage III</strong>: Construct type equations.</p>
+
+<p>The equations for the sub-expressions are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Equation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>((lambda (f x) (f x)) 4 sqrt)</td>
+      <td>T1 = [Tnum4 * Tsqrt -&gt; T0]</td>
+    </tr>
+    <tr>
+      <td>(lambda (f x) (f x))</td>
+      <td>T1 = [Tf * Tx -&gt; T2]</td>
+    </tr>
+    <tr>
+      <td>(f x)</td>
+      <td>Tf = [Tx -&gt; T2]</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The equations for the primitives are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Equation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4</td>
+      <td>Tnum4 = Number</td>
+    </tr>
+    <tr>
+      <td>sqrt</td>
+      <td>Tsqrt = [Number -&gt; Number]</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Stage IV</strong>: Solve the equations.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1. T1 = [Tnum4 * Tsqrt -&gt; T0]</td>
+      <td>{}</td>
+    </tr>
+    <tr>
+      <td>2. T1 = [Tf * Tx -&gt; T2]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>3. Tf = [Tx -&gt; T2]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>4. Tnum4 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>5. Tsqrt = [Number -&gt; Number]</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 1:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(T1 = [Tnum4 * Tsqrt -&gt; T0]) ○ Substitution = (T1 = [Tnum4 * Tsqrt -&gt; T0])</code>, type-sub.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ (T1 = [Tnum4 * Tsqrt -&gt; T0]).</code></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2. T1 = [Tf * Tx -&gt; T2]</td>
+      <td>{ &nbsp;&nbsp;&nbsp; <strong>T1 := [Tnum4 * Tsqrt -&gt; T0]</strong> &nbsp;&nbsp;&nbsp;}</td>
+    </tr>
+    <tr>
+      <td>3. Tf = [Tx -&gt; T2]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>4. Tnum4 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>5. Tsqrt = [Number -&gt; Number]</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 2:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(T1 = [Tf * Tx -&gt; T2]) ○ Substitution = ([Tf * Tx -&gt; T2] = [Tnum4 * Tsqrt -&gt; T0])</code></p>
+
+<p>There is no type-sub. We split the equation to</p>
+
+<ul>
+  <li>Tf = Tnum4,</li>
+  <li>Tx = Tsqrt,</li>
+  <li>T2 = T0</li>
+</ul>
+
+<p>We add them to the equations (6,7,8) and remove equation 2.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3. Tf = [Tx -&gt; T2]</td>
+      <td>{ &nbsp;&nbsp;&nbsp; T1 := [Tnum4 * Tsqrt -&gt; T0] &nbsp;&nbsp;&nbsp;}</td>
+    </tr>
+    <tr>
+      <td>4. Tnum4 = Number</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>5. Tsqrt = [Number -&gt; Number]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>6.  <strong>Tf = Tnum4</strong></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>7.  <strong>Tx = Tsqrt</strong></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>8.  <strong>T2 = T0</strong></td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 3:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(Tf = [Tx -&gt; T2]) ○ Substitution = (Tf = [Tx -&gt; T2])</code> , type-sub.
+<code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ (Tf = [Tx -&gt; T2])</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4. Tnum4 = Number</td>
+      <td>{ &nbsp;&nbsp;&nbsp; T1 := [Tnum4 * Tsqrt -&gt; T0], <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong>Tf = [Tx -&gt; T2]</strong> &nbsp;&nbsp;&nbsp;}</td>
+    </tr>
+    <tr>
+      <td>5. Tsqrt = [Number -&gt; Number]</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>6.  Tf = Tnum4</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>7.  Tx = Tsqrt</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>8.  T2 = T0</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 4:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(Tnum4 = Number) ○ Substitution = (Tnum4 = Number)</code>, type-sub.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ (Tnum4 = Number)</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>5. Tsqrt = [Number -&gt; Number]</td>
+      <td>{ &nbsp;&nbsp;&nbsp; T1 :=[<strong>Number</strong> * Tsqrt -&gt; T0], <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Tf = [Tx -&gt; T2], <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Tnum4 = Number</strong> &nbsp;&nbsp;&nbsp;}</td>
+    </tr>
+    <tr>
+      <td>6.  Tf = Tnum4</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>7.  Tx = Tsqrt</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>8.  T2 = T0</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 5:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(Tsqrt = [Number -&gt; Number]) ○ Substitution = (Tsqrt = [Number -&gt; Number])</code> , type-sub.
+<code class="language-plaintext highlighter-rouge">Substitution = Substitution ○ (Tsqrt = [Number -&gt; Number])</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equation</th>
+      <th>Substitution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>6.  Tf = Tnum4</td>
+      <td>{ &nbsp;&nbsp;&nbsp; T1 :=[Number * <strong>[Number -&gt; Number]</strong>-&gt; T0], <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Tf = [Tx -&gt; T2], <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tnum4 = Number <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong>Tsqrt := [Number-&gt;Number]</strong> &nbsp;&nbsp;&nbsp;}</td>
+    </tr>
+    <tr>
+      <td>7.  Tx = Tsqrt</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>8.  T2 = T0</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 6:</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">(Tf = Tnum4) ○ Substitution = ([Tx -&gt; T2] = Number)</code></p>
+
+<p>We get the conflicting equation:</p>
+
+<p><code class="language-plaintext highlighter-rouge">[Tx -&gt; T2] = Number</code> and we can say that the expression is <strong>not well typed.</strong></p>
+
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

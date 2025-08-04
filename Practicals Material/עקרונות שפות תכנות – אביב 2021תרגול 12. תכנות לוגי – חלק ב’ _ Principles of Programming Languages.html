@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)https://bguppl.github.io/interpreters/practice_sessions/ps12.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>עקרונות שפות תכנות – אביב 2021תרגול 12. תכנות לוגי – חלק ב’ | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="עקרונות שפות תכנות – אביב 2021תרגול 12. תכנות לוגי – חלק ב’">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/practice_sessions/ps12.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/practice_sessions/ps12.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="עקרונות שפות תכנות – אביב 2021תרגול 12. תכנות לוגי – חלק ב’">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"עקרונות שפות תכנות – אביב 2021תרגול 12. תכנות לוגי – חלק ב’","url":"https://bguppl.github.io/interpreters/practice_sessions/ps12.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./עקרונות שפות תכנות – אביב 2021תרגול 12. תכנות לוגי – חלק ב’ _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./עקרונות שפות תכנות – אביב 2021תרגול 12. תכנות לוגי – חלק ב’ _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./עקרונות שפות תכנות – אביב 2021תרגול 12. תכנות לוגי – חלק ב’ _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="עקרונות-שפות-תכנות--אביב-2021תרגול-12-תכנות-לוגי--חלק-ב">עקרונות שפות תכנות – אביב 2021<br>תרגול 12. תכנות לוגי – חלק ב’</h1>
+
+<ul>
+  <li><a href="https://bguppl.github.io/interpreters/practice_sessions/ps12.html#1-%D7%A8%D7%A9%D7%99%D7%9E%D7%95%D7%AA">1. רשימות</a></li>
+  <li><a href="https://bguppl.github.io/interpreters/practice_sessions/ps12.html#lp-interpreter--system-description">2. LP-interpreter – System description</a>
+    <ul>
+      <li><a href="https://bguppl.github.io/interpreters/practice_sessions/ps12.html#lp-ast">LP-AST</a></li>
+      <li><a href="https://bguppl.github.io/interpreters/practice_sessions/ps12.html#substitution-adt">Substitution-ADT</a></li>
+      <li><a href="https://bguppl.github.io/interpreters/practice_sessions/ps12.html#term-equation-adt">Term-equation-ADT</a></li>
+      <li><a href="https://bguppl.github.io/interpreters/practice_sessions/ps12.html#unify">Unify</a></li>
+      <li><a href="https://bguppl.github.io/interpreters/practice_sessions/ps12.html#lazy-tree-adt">Lazy-Tree-ADT</a></li>
+      <li><a href="https://bguppl.github.io/interpreters/practice_sessions/ps12.html#answer-query">Answer-query</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>נושאים:</strong></p>
+<ol>
+  <li>רשימות.</li>
+  <li>Scheme LP interpreter.</li>
+</ol>
+
+<h2 id="1-רשימות">1. רשימות</h2>
+
+<p>רשימות בפרולוג: מיוצגות באמצעות functor, השקול לבנאי cons של Scheme.</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">[]</code> – הוא קבוע המייצג את הרשימה הריקה.</li>
+  <li><code class="language-plaintext highlighter-rouge">[X|Xs]</code> - הוא ביטוי (term) המייצג רשימה ש-X הוא האיבר הראשון שלה, ו-Xs מייצג רשימה הכוללת את שאר האיברים.</li>
+  <li>רשימות באורך ידוע אפשר לייצג על ידי פירוט הביטויים המייצגים את אבריהן. למשל,
+<code class="language-plaintext highlighter-rouge">[X,2,f(Y)]</code> מייצג רשימה בת שלושה איברים: משתנה X, קבוע 2, וביטוי <code class="language-plaintext highlighter-rouge">f(Y)</code>.</li>
+  <li>הסימנים pipe ( <code class="language-plaintext highlighter-rouge">|</code> ), פסיק וסוגריים מרובעים מהווים חלק מ”toString” של הרשימות. למשל, <code class="language-plaintext highlighter-rouge">[a|A]</code> הוא “toString” של רשימה שהאיבר הראשון שלה הוא a והזנב הוא רשימת A. את הרשימה ‎<code class="language-plaintext highlighter-rouge">[3, 5]</code> ניתן להציג בצורת ‎<code class="language-plaintext highlighter-rouge">[3| [5| []] ]</code>.</li>
+</ol>
+
+<p><strong>דוגמה 1</strong>: מימוש דקדוק חסר הקשר בפרולוג. נתבונן בדקדוק הבא:</p>
+<pre>S --&gt; NP VP         % Sentence
+NP --&gt; Det N        % Noun Phrase
+VP --&gt; V NP | V     % Verb Phrase
+Det --&gt; <i>the</i> | <i>a</i>     % Determiner
+N --&gt; <i>woman</i> | <i>man</i>   % Noun
+V --&gt; <i>saw</i>           % Verb
+</pre>
+<p><strong>שאלה</strong>: מהי השפה המוגדרת על ידי דקדוק זה?</p>
+
+<p>לדוגמה, נוכל לגזור את המשפט <em>“a woman saw the man”</em>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>S --&gt; NP VP --&gt; Det N VP --&gt; a N VP --&gt; a woman VP --&gt; a woman V NP --&gt;
+--&gt; a woman saw NP --&gt; a woman saw Det N --&gt; a woman saw the N --&gt;
+--&gt; a woman saw the man
+</code></pre></div></div>
+<p>נמדל את הדקדוק באופן הבא: כל טרמינל יהפוך לקבוע, כל נון טרמינל למשתנה. רצף קטגוריות ייוצג כרשימה. כל קטגוריה הופכת לפרדיקט בן פרמטר אחד – הטקסט שניתן לגזור בקטגוריה. את הטקסט עצמו נממש באמצעות רשימה של מילים (terminals).</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">s</span><span class="p">(</span><span class="nv">Z</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">np</span><span class="p">(</span><span class="nv">X</span><span class="p">),</span>
+        <span class="ss">vp</span><span class="p">(</span><span class="nv">Y</span><span class="p">),</span>
+        <span class="ss">append</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span><span class="nv">Y</span><span class="p">,</span><span class="nv">Z</span><span class="p">).</span>
+
+<span class="ss">np</span><span class="p">(</span><span class="nv">Z</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">det</span><span class="p">(</span><span class="nv">X</span><span class="p">),</span>
+         <span class="ss">n</span><span class="p">(</span><span class="nv">Y</span><span class="p">),</span>
+         <span class="ss">append</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span><span class="nv">Y</span><span class="p">,</span><span class="nv">Z</span><span class="p">).</span>
+
+<span class="ss">vp</span><span class="p">(</span><span class="nv">Z</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">v</span><span class="p">(</span><span class="nv">X</span><span class="p">),</span>
+         <span class="ss">np</span><span class="p">(</span><span class="nv">Y</span><span class="p">),</span>
+         <span class="ss">append</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span><span class="nv">Y</span><span class="p">,</span><span class="nv">Z</span><span class="p">).</span>
+<span class="ss">vp</span><span class="p">(</span><span class="nv">Z</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">v</span><span class="p">(</span><span class="nv">Z</span><span class="p">).</span>
+
+<span class="ss">det</span><span class="p">([</span><span class="ss">the</span><span class="p">]).</span>
+<span class="ss">det</span><span class="p">([</span><span class="ss">a</span><span class="p">]).</span>
+
+<span class="ss">n</span><span class="p">([</span><span class="ss">woman</span><span class="p">]).</span>
+<span class="ss">n</span><span class="p">([</span><span class="ss">man</span><span class="p">]).</span>
+
+<span class="ss">v</span><span class="p">([</span><span class="ss">saw</span><span class="p">]).</span>
+</code></pre></div></div>
+<p>אנו משתמשים בפרדיקט <code class="language-plaintext highlighter-rouge">append/3</code> של פרולוג, המתאר את יחס השרשור בין שלוש רשימות – האחרונה היא השרשור של שתי הראשונות.<br>
+כדי להשתמש בתוכנית לגזירה, ניצור שאילתה מתאימה. למשל,</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">?-</span> <span class="ss">s</span><span class="p">([</span><span class="ss">a</span><span class="p">,</span><span class="ss">woman</span><span class="p">,</span><span class="ss">saw</span><span class="p">,</span><span class="ss">a</span><span class="p">,</span><span class="ss">man</span><span class="p">]).</span>
+<span class="ss">true</span>
+</code></pre></div></div>
+<p>כאשר ניתן לייצג את התהליך באמצעות עץ הגזירה</p>
+
+<p class="c"><img src="./עקרונות שפות תכנות – אביב 2021תרגול 12. תכנות לוגי – חלק ב’ _ Principles of Programming Languages_files/image2.png" alt=""></p>
+
+<p>“האם קיים משפט השייך לשפה של הדקדוק?”:</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">?-</span> <span class="ss">s</span><span class="p">(</span><span class="nv">X</span><span class="p">).</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="p">[</span><span class="ss">the</span><span class="p">,</span> <span class="ss">woman</span><span class="p">,</span> <span class="ss">saw</span><span class="p">,</span> <span class="ss">the</span><span class="p">,</span> <span class="ss">woman</span><span class="p">]</span> <span class="p">;</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="p">[</span><span class="ss">the</span><span class="p">,</span> <span class="ss">woman</span><span class="p">,</span> <span class="ss">saw</span><span class="p">,</span> <span class="ss">the</span><span class="p">,</span> <span class="ss">man</span><span class="p">]</span> <span class="p">;</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="p">[</span><span class="ss">the</span><span class="p">,</span> <span class="ss">woman</span><span class="p">,</span> <span class="ss">saw</span><span class="p">,</span> <span class="ss">a</span><span class="p">,</span> <span class="ss">woman</span><span class="p">]</span> <span class="p">;</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="p">[</span><span class="ss">the</span><span class="p">,</span> <span class="ss">woman</span><span class="p">,</span> <span class="ss">saw</span><span class="p">,</span> <span class="ss">a</span><span class="p">,</span> <span class="ss">man</span><span class="p">]</span> <span class="p">;</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="p">[</span><span class="ss">the</span><span class="p">,</span> <span class="ss">woman</span><span class="p">,</span> <span class="ss">saw</span><span class="p">];</span>
+<span class="p">...</span>
+</code></pre></div></div>
+<p>כלומר, אם השאילתה כוללת רק משתנים, החישוב מתפקד כ-generator של כל התשובות האפשריות. עבור שאילתה זו יש 20 משפטים, מהם ראינו את חמשת הראשונים.</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">?-</span> <span class="ss">s</span><span class="p">([</span><span class="ss">the</span><span class="p">,</span><span class="ss">man</span><span class="p">|</span><span class="nv">X</span><span class="p">]).</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="p">[</span><span class="ss">saw</span><span class="p">,</span> <span class="ss">the</span><span class="p">,</span> <span class="ss">woman</span><span class="p">]</span> <span class="p">;</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="p">[</span><span class="ss">saw</span><span class="p">,</span> <span class="ss">the</span><span class="p">,</span> <span class="ss">man</span><span class="p">]</span> <span class="p">;</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="p">[</span><span class="ss">saw</span><span class="p">,</span> <span class="ss">a</span><span class="p">,</span> <span class="ss">woman</span><span class="p">]</span> <span class="p">;</span>
+<span class="p">...</span>
+</code></pre></div></div>
+<p>נניח שהדקדוק כולל מספר כללים נוספים (השינויים מודגשים בקו תחתון):</p>
+<pre>S --&gt; NP VP
+NP --&gt; Det N | <b><u>Det Adj N</u></b>
+<u><i>Adj</i> --&gt; <i>vicious</i> | <i>marvelous</i></u>
+VP --&gt; V NP | V
+Det --&gt; <i>the</i> | <i>a</i>
+N --&gt; <i>woman</i> | <i>man</i>
+V --&gt; <i>saw</i>
+</pre>
+<p>נוסיף את הכלל והעובדות הבאים:</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">np</span><span class="p">(</span><span class="nv">Z</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">det</span><span class="p">(</span><span class="nv">X</span><span class="p">),</span>
+         <span class="ss">adj</span><span class="p">(</span><span class="nv">W</span><span class="p">),</span>
+         <span class="ss">n</span><span class="p">(</span><span class="nv">Y</span><span class="p">),</span>
+         <span class="ss">append</span><span class="p">([</span><span class="nv">X</span><span class="p">,</span><span class="nv">W</span><span class="p">,</span><span class="nv">Y</span><span class="p">],</span><span class="nv">Z</span><span class="p">).</span>
+
+<span class="ss">adj</span><span class="p">([</span><span class="ss">vicious</span><span class="p">]).</span>
+<span class="ss">adj</span><span class="p">([</span><span class="ss">marvelous</span><span class="p">]).</span>
+</code></pre></div></div>
+<p>השתמשנו בפרדיקט <code class="language-plaintext highlighter-rouge">append/2</code> של פרולוג, המתאר את יחס השרשור בין רשימות. הפרמטר הראשון הוא רשימה של רשימות, והשני – רשימה שמחברת את כל הרשימות הללו, לפי הסדר.
+למשל:</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">alist</span><span class="p">([</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">]).</span>
+<span class="o">?-</span> <span class="ss">alist</span><span class="p">(</span><span class="nv">L</span><span class="p">),</span> <span class="ss">append</span><span class="p">([[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">],</span> <span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="p">[</span><span class="m">5</span><span class="p">]],</span> <span class="nv">L</span><span class="p">).</span>
+<span class="nv">L</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">],</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="p">[],</span>
+<span class="nv">Y</span> <span class="o">=</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">]</span> <span class="p">;</span>
+<span class="nv">L</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">],</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="p">[</span><span class="m">3</span><span class="p">],</span>
+<span class="nv">Y</span> <span class="o">=</span> <span class="p">[</span><span class="m">4</span><span class="p">]</span> <span class="p">;</span>
+<span class="nv">L</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">],</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">],</span>
+<span class="nv">Y</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">;</span>
+<span class="ss">false</span><span class="p">.</span>
+</code></pre></div></div>
+
+<p><strong>דוגמה 2</strong>: השוואת שעות בשבוע.<br>
+דוגמה זו עוסקת בהשוואת זמנים המצוינים על ידי שעה ביממה ויום בשבוע. נציג ADT (Abstract Data Type, כלומר טיפוס חדש) המייצג זמן. נבנה שלושה ערכים: שעה, יום וזמן. נשתמש בפנקטורים בתור בנאי ערך: <code class="language-plaintext highlighter-rouge">h(Hour)</code>,‏ <code class="language-plaintext highlighter-rouge">d(Weekday)</code>,‏ <code class="language-plaintext highlighter-rouge">time(Hour, Weekday)</code> בהתאם.<br>
+לצורך ההשוואה נספק רשימות סדורות של שעות ושל ימים. יחס הקדימות בין זמנים יקבע על פי מקומם ברשימות המסודרות של הזמנים. הפרדיקטים <code class="language-plaintext highlighter-rouge">weekday_list</code>,‏&nbsp; <code class="language-plaintext highlighter-rouge">hour_list</code> יתארו את הסדרים של ימי השבוע ושעות ביממה, בהתאמה.<br>
+בתכנות הלוגי, בשונה משפות תכנות אחרות, לסמלים הדקדוקיים אין ערך. כלומר, הסמלים 2 ו-9 נקראים כשמות, ואינם קשורים למספרים 2 ו-9. מסיבה זו, אי אפשר להסתמך על יחס &gt; בין מספרים. אילו היה מדובר ביחס סופי, אפשר היה לספק את כל העובדות עבורו (למשל, <code class="language-plaintext highlighter-rouge">(0,3)&gt;</code>, <code class="language-plaintext highlighter-rouge">(0,2)&gt;</code>, <code class="language-plaintext highlighter-rouge">(0,1)&gt;</code>, אבל אנו נצטרך אינסוף עובדות בשביל כל המספרים האפשריים. לכן סדר השעות נקבע על ידי מיקומן ברשימת השעות.<br>
+<strong>הערה</strong>: שפת פרולוג, בשונה מתכנות הלוגי, כוללת מרכיב א-לוגי של אריתמטיקה, המאפשר הכרה בסמלי מספרים כמספרים, ומאפשר חישובים אריתמטיים.</p>
+
+<table class="ll"><tbody><tr><td>
+      <div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Type: Hour.</span>
+<span class="c1">% Constructor: functor h/1.</span>
+<span class="c1">% Signature: h(Hour)/1.</span>
+<span class="c1">% Example: h(18).</span>
+
+<span class="c1">% Identifier: is_hour/1</span>
+<span class="c1">% Set of elements: hour_list/1</span>
+<span class="c1">% Order: hour_order/2</span>
+</code></pre></div>      </div>
+    </td></tr><tr><td>
+      <div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: is_hour(Hour)/1</span>
+<span class="c1">% Purpose: Succeeds iff Hour is an hour of weekday.</span>
+<span class="ss">is_hour</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H</span><span class="p">))</span> <span class="p">:-</span> <span class="ss">hour_list</span><span class="p">(</span><span class="nv">Hour_list</span><span class="p">),</span>
+                 <span class="ss">member</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H</span><span class="p">),</span><span class="nv">Hour_list</span><span class="p">).</span>
+
+<span class="c1">% Signature: hour_list(List)/1</span>
+<span class="c1">% Purpose: Holds the ordered list of weekday hours.</span>
+<span class="ss">hour_list</span><span class="p">([</span><span class="ss">h</span><span class="p">(</span><span class="m">0</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">1</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">3</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">4</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">5</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">6</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">7</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">8</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">9</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">10</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">11</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">12</span><span class="p">),</span>
+           <span class="ss">h</span><span class="p">(</span><span class="m">13</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">14</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">15</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">16</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">17</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">18</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">19</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">20</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">21</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">22</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="m">23</span><span class="p">)]).</span>
+
+<span class="c1">% Signature: hour_order(H1,H2)/2</span>
+<span class="c1">% Purpose: hour H1 precedes the hour H2 in some weekday.</span>
+<span class="ss">hour_order</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H1</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="nv">H2</span><span class="p">))</span> <span class="p">:-</span> <span class="ss">is_hour</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H1</span><span class="p">)),</span>
+                           <span class="ss">is_hour</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H2</span><span class="p">)),</span>
+                           <span class="ss">hour_list</span><span class="p">(</span><span class="nv">Hour_list</span><span class="p">),</span>
+                           <span class="ss">precedes</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H1</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="nv">H2</span><span class="p">),</span><span class="nv">Hour_list</span><span class="p">).</span>
+</code></pre></div>      </div>
+    </td></tr></tbody></table>
+
+<p>הפרדיקט <code class="language-plaintext highlighter-rouge">precedes</code> מוגדר על ידי שימוש ביחס השרשור הרב מקומי הבנוי בפרולוג:</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: precedes(A,B,List)/3</span>
+<span class="c1">% Purpose: The element A precedes the element B in the List.</span>
+<span class="ss">precedes</span><span class="p">(</span><span class="nv">A</span><span class="p">,</span><span class="nv">B</span><span class="p">,</span><span class="nv">List</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">append</span><span class="p">([</span><span class="nv">_</span><span class="p">,[</span><span class="nv">A</span><span class="p">],</span><span class="nv">_</span><span class="p">,[</span><span class="nv">B</span><span class="p">],</span><span class="nv">_</span><span class="p">],</span><span class="nv">List</span><span class="p">).</span>
+</code></pre></div></div>
+<p>הפרדיקט מזהה את כל האפשרויות על ידי unification, גם כש-A, B לא נתונים.</p>
+
+<table class="ll"><tbody><tr><td>
+      <div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Type: Weekday.</span>
+<span class="c1">% Constructor: functor d/1.</span>
+<span class="c1">% Signature: d(Weekday)/1.</span>
+<span class="c1">% Example: d(tue).</span>
+
+<span class="c1">% Identifier: is_weekday/1</span>
+<span class="c1">% Set of elements: weekday_list/1</span>
+<span class="c1">% Order: weekday_order/2</span>
+</code></pre></div>      </div>
+    </td></tr><tr><td>
+      <div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: is_weekday(Weekday)/1</span>
+<span class="c1">% Purpose: Succeeds iff Weekday is a day of the week.</span>
+<span class="ss">is_weekday</span><span class="p">(</span><span class="ss">d</span><span class="p">(</span><span class="nv">D</span><span class="p">))</span> <span class="p">:-</span> <span class="ss">weekday_list</span><span class="p">(</span><span class="nv">Weekday_list</span><span class="p">),</span>
+                    <span class="ss">member</span><span class="p">(</span><span class="ss">d</span><span class="p">(</span><span class="nv">D</span><span class="p">),</span><span class="nv">Weekday_list</span><span class="p">).</span>
+
+<span class="c1">% Signature: weekday_list(List)/1</span>
+<span class="c1">% Purpose: Holds the ordered list of week days.</span>
+<span class="ss">weekday_list</span><span class="p">([</span><span class="ss">d</span><span class="p">(</span><span class="ss">sun</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">mon</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">tue</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">wed</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">thu</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">fri</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">sat</span><span class="p">)]).</span>
+
+<span class="c1">% Signature: weekday_order(Weekday1,Weekday2)/2</span>
+<span class="c1">% Purpose: Weekday1 precedes Weekday2 in some week.</span>
+<span class="ss">weekday_order</span><span class="p">(</span><span class="ss">d</span><span class="p">(</span><span class="nv">D1</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="nv">D2</span><span class="p">))</span> <span class="p">:-</span>
+                    <span class="ss">is_weekday</span><span class="p">(</span><span class="ss">d</span><span class="p">(</span><span class="nv">D1</span><span class="p">)),</span>
+                    <span class="ss">is_weekday</span><span class="p">(</span><span class="ss">d</span><span class="p">(</span><span class="nv">D2</span><span class="p">)),</span>
+                    <span class="ss">weekday_list</span><span class="p">(</span><span class="nv">Weekday_list</span><span class="p">),</span>
+                    <span class="ss">precedes</span><span class="p">(</span><span class="ss">d</span><span class="p">(</span><span class="nv">D1</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="nv">D2</span><span class="p">),</span><span class="nv">Weekday_list</span><span class="p">).</span>
+</code></pre></div>      </div>
+    </td></tr></tbody></table>
+<p>&nbsp;</p>
+<table class="ll"><tbody><tr><td>
+      <div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Type: Time.</span>
+<span class="c1">% Constructor: functor time/2.</span>
+<span class="c1">% Signature: time(Hour,Weekday)/2.</span>
+<span class="c1">% Example: time(h(18),d(tue)).</span>
+
+<span class="c1">% Identifier: is_time/1</span>
+<span class="c1">% Order: time_order/2</span>
+</code></pre></div>      </div>
+    </td></tr><tr><td>
+      <div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: is_time(Time)/1</span>
+<span class="c1">% Purpose: Succeeds iff Time is an hour of some weekday.</span>
+<span class="c1">% Example: ?- is_time(time(h(1),d(sun))).</span>
+<span class="c1">%          true</span>
+<span class="ss">is_time</span><span class="p">(</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="nv">D</span><span class="p">)))</span> <span class="p">:-</span> <span class="ss">is_hour</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H</span><span class="p">)),</span>
+                            <span class="ss">is_weekday</span><span class="p">(</span><span class="ss">d</span><span class="p">(</span><span class="nv">D</span><span class="p">)).</span>
+
+<span class="c1">% Signature: time_order(T1,T2)/2</span>
+<span class="c1">% Purpose: The time T1 precedes the time T2 in the week.</span>
+<span class="c1">% Example: ?- time_order(time(h(5),d(mon)),</span>
+<span class="c1">%                        time(h(1),d(tue))).</span>
+<span class="c1">%          true</span>
+<span class="ss">time_order</span><span class="p">(</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H1</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="nv">D1</span><span class="p">)),</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H2</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="nv">D2</span><span class="p">)))</span> <span class="p">:-</span>          <span class="c1">%1</span>
+                             <span class="ss">is_time</span><span class="p">(</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H1</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="nv">D1</span><span class="p">))),</span>
+                             <span class="ss">is_time</span><span class="p">(</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H2</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="nv">D2</span><span class="p">))),</span>
+                             <span class="ss">weekday_order</span><span class="p">(</span><span class="ss">d</span><span class="p">(</span><span class="nv">D1</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="nv">D2</span><span class="p">)).</span>
+<span class="ss">time_order</span><span class="p">(</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H1</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="nv">D</span><span class="p">)),</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H2</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="nv">D</span><span class="p">)))</span> <span class="p">:-</span>            <span class="c1">%2</span>
+                             <span class="ss">is_time</span><span class="p">(</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H1</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="nv">D</span><span class="p">))),</span>
+                             <span class="ss">is_time</span><span class="p">(</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H2</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="nv">D</span><span class="p">))),</span>
+                             <span class="ss">hour_order</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="nv">H1</span><span class="p">),</span><span class="ss">h</span><span class="p">(</span><span class="nv">H2</span><span class="p">)).</span>
+</code></pre></div>      </div>
+    </td></tr></tbody></table>
+
+<p>מימשנו שלושה טיפוסים סופיים (24, 7, 168 ערכים בהתאמה). נשתמש בממשק הזה בהמשך.</p>
+
+<p><strong>דוגמה 3</strong>: מחיקת איבר מרשימה.<br>
+נממש פרוצדורה המגדירה את היחס של מחיקת כל ההופעות של ביטוי מרשימה. <code class="language-plaintext highlighter-rouge">=\</code> הוא פרדיקט הבנוי בפרולוג ופירושו שלילת = (המסמן unification). כלומר ערכו true אם יוניפיקציה נכשלת.</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: delete(List,X,HasNoXs)/3</span>
+<span class="c1">% Purpose: The list HasNoXs is the result of removing all</span>
+<span class="c1">%          occurrences of X from the List.</span>
+<span class="c1">% Precondition: List should be bound.</span>
+<span class="c1">% Example: ?- delete([2,3,2,4,5,2,4],2,X).</span>
+<span class="c1">%          X = [3, 4, 5, 4]</span>
+<span class="ss">delete</span><span class="p">([],</span><span class="nv">_</span><span class="p">,[]).</span>
+<span class="ss">delete</span><span class="p">([</span><span class="nv">X</span><span class="p">|</span><span class="nv">Xs</span><span class="p">],</span><span class="nv">Z</span><span class="p">,[</span><span class="nv">X</span><span class="p">|</span><span class="nv">Ys</span><span class="p">])</span> <span class="p">:-</span> <span class="nv">X</span> <span class="err">\</span><span class="o">=</span> <span class="nv">Z</span><span class="p">,</span>
+                           <span class="ss">delete</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span><span class="nv">Z</span><span class="p">,</span><span class="nv">Ys</span><span class="p">).</span>
+<span class="ss">delete</span><span class="p">([</span><span class="nv">X</span><span class="p">|</span><span class="nv">Xs</span><span class="p">],</span><span class="nv">X</span><span class="p">,</span><span class="nv">Ys</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">delete</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span><span class="nv">X</span><span class="p">,</span><span class="nv">Ys</span><span class="p">).</span>
+</code></pre></div></div>
+
+<p><strong>דוגמה 4</strong>. מיזוג רשימות.
+נגדיר ממשק סדר של טיפוס מסוים, less than:</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: lt(Obj1,Obj2)/2</span>
+<span class="c1">% Purpose: The object Obj1 precedes the object Obj2</span>
+<span class="c1">%          by some comparison criteria.</span>
+</code></pre></div></div>
+<p>למשל, נוכל לממש,</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">lt</span><span class="p">(</span><span class="nv">Time1</span><span class="p">,</span><span class="nv">Time2</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">time_order</span><span class="p">(</span><span class="nv">Time1</span><span class="p">,</span><span class="nv">Time2</span><span class="p">).</span>       <span class="c1">%1</span>
+</code></pre></div></div>
+<p>נשתמש בממשק לבניית פרוצדורת לקוח למיזוג רשימות ממוינות של ביטויים שקיים ביניהם יחס סדר (למשל, כאחת מפעולת ה-mergesort):</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: merge(Xs,Ys,Zs)/3</span>
+<span class="c1">% Purpose: Zs is the sorted merge of the sorted lists Xs and</span>
+<span class="c1">%          Ys. The assumption is that there is a predicate</span>
+<span class="c1">%          "lt" of order between the elements of Xs and Ys.</span>
+<span class="ss">merge</span><span class="p">([</span><span class="nv">X</span><span class="p">|</span><span class="nv">Xs</span><span class="p">],[</span><span class="nv">Y</span><span class="p">|</span><span class="nv">Ys</span><span class="p">],[</span><span class="nv">X</span><span class="p">|</span><span class="nv">Zs</span><span class="p">])</span> <span class="p">:-</span> <span class="ss">lt</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span><span class="nv">Y</span><span class="p">),</span>
+                               <span class="ss">merge</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,[</span><span class="nv">Y</span><span class="p">|</span><span class="nv">Ys</span><span class="p">],</span><span class="nv">Zs</span><span class="p">).</span>      <span class="c1">%1</span>
+<span class="ss">merge</span><span class="p">([</span><span class="nv">X</span><span class="p">|</span><span class="nv">Xs</span><span class="p">],[</span><span class="nv">X</span><span class="p">|</span><span class="nv">Ys</span><span class="p">],[</span><span class="nv">X</span><span class="p">,</span><span class="nv">X</span><span class="p">|</span><span class="nv">Zs</span><span class="p">])</span> <span class="p">:-</span> <span class="ss">merge</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span><span class="nv">Ys</span><span class="p">,</span><span class="nv">Zs</span><span class="p">).</span>        <span class="c1">%2</span>
+<span class="ss">merge</span><span class="p">([</span><span class="nv">X</span><span class="p">|</span><span class="nv">Xs</span><span class="p">],[</span><span class="nv">Y</span><span class="p">|</span><span class="nv">Ys</span><span class="p">],[</span><span class="nv">Y</span><span class="p">|</span><span class="nv">Zs</span><span class="p">])</span> <span class="p">:-</span> <span class="ss">lt</span><span class="p">(</span><span class="nv">Y</span><span class="p">,</span><span class="nv">X</span><span class="p">),</span>
+                               <span class="ss">merge</span><span class="p">([</span><span class="nv">X</span><span class="p">|</span><span class="nv">Xs</span><span class="p">],</span><span class="nv">Ys</span><span class="p">,</span><span class="nv">Zs</span><span class="p">).</span>      <span class="c1">%3</span>
+<span class="ss">merge</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,[</span> <span class="p">],</span><span class="nv">Xs</span><span class="p">).</span>                                        <span class="c1">%4</span>
+<span class="ss">merge</span><span class="p">([</span> <span class="p">],</span><span class="nv">Ys</span><span class="p">,</span><span class="nv">Ys</span><span class="p">).</span>                                        <span class="c1">%5</span>
+</code></pre></div></div>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">?-</span> <span class="ss">merge</span><span class="p">([</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">1</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">sun</span><span class="p">)),</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">3</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">wed</span><span class="p">)),</span> <span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">5</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">sat</span><span class="p">))],</span>
+         <span class="p">[</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">sun</span><span class="p">)),</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">3</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">wed</span><span class="p">))],</span>
+         <span class="nv">Xs</span><span class="p">).</span>
+<span class="nv">Xs</span> <span class="o">=</span> <span class="p">[</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">1</span><span class="p">),</span> <span class="ss">d</span><span class="p">(</span><span class="ss">sun</span><span class="p">)),</span> <span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">2</span><span class="p">),</span> <span class="ss">d</span><span class="p">(</span><span class="ss">sun</span><span class="p">)),</span> <span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">3</span><span class="p">),</span> <span class="ss">d</span><span class="p">(</span><span class="ss">wed</span><span class="p">)),</span>
+<span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">3</span><span class="p">),</span> <span class="ss">d</span><span class="p">(</span><span class="ss">wed</span><span class="p">)),</span> <span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">5</span><span class="p">),</span> <span class="ss">d</span><span class="p">(</span><span class="ss">sat</span><span class="p">))];</span>
+<span class="ss">false</span>
+</code></pre></div></div>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">?-</span> <span class="ss">merge</span><span class="p">([</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">5</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">sun</span><span class="p">)),</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">5</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">mon</span><span class="p">))],</span>
+         <span class="nv">X</span><span class="p">,</span>
+         <span class="p">[</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">sun</span><span class="p">)),</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">5</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">sun</span><span class="p">)),</span> <span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">5</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">mon</span><span class="p">))]).</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="p">[</span><span class="ss">time</span><span class="p">(</span><span class="ss">h</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="ss">d</span><span class="p">(</span><span class="ss">sun</span><span class="p">))]</span>
+</code></pre></div></div>
+<p>נסמן:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>t1 = time(h(1), d(sun))
+t2 = time(h(2), d(sun))
+t3 = time(h(3), d(wed))
+t5 = time(h(5), d(sat))
+</code></pre></div></div>
+
+<p><img src="./עקרונות שפות תכנות – אביב 2021תרגול 12. תכנות לוגי – חלק ב’ _ Principles of Programming Languages_files/tree1.png" alt=""></p>
+
+<p>נבנה את התשובה מענף ההצלחה:</p>
+<pre>{X_1=t1, Xs_1=[t3, t5], Y_1=t2, Ys_1=[t3], <b>Xs=[t1|Zs_1]</b>} º
+    {X_2=t3, Xs_2=[t5], Y_2=t2, Ys_2=[t3], <b>Zs_1=[t2|Zs_2]</b>} º
+    {X_3=t3, Xs_3=[t5], Ys_3=[], Zs_2=[t3, t3|Zs_3]} º
+    {Xs_4=[t5], Zs_3=[t5]} <sub>/Xs</sub> =
+= {X_1=t1, Xs_1=[t3, t5], Y_1=t2, Ys_1=[t3], <b>Xs=[t1|[t2|Zs_2]]</b>,
+    X_2=t3, Xs_2=[t5], Y_2=t2, Ys_2=[t3], Zs_1=[t2|Zs_2]} º
+    {X_3=t3, Xs_3=[t5], Ys_3=[], <b>Zs_2=[t3, t3|Zs_3]</b>} º
+    {Xs_4=[t5], Zs_3=[t5]} <sub>/Xs</sub> =
+= {X_1=t1, Xs_1=[t3, t5], Y_1=t2, Ys_1=[t3], <b>Xs=[t1|[t2|[t3, t3|Zs_3]]]</b>,
+    X_2=t3, Xs_2=[t5], Y_2=t2, Ys_2=[t3], Zs_1=[t2|[t3, t3|Zs_3]],
+    X_3=t3, Xs_3=[t5], Ys_3=[], Zs_2=[t3, t3|Zs_3]} º
+    {Xs_4=[t5], <b>Zs_3=[t5]</b>} <sub>/Xs</sub> =
+= {X_1=t1, Xs_1=[t3, t5], Y_1=t2, Ys_1=[t3], <b>Xs=[t1|[t2|[t3, t3|[t5]]]]</b>,
+    X_2=t3, Xs_2=[t5], Y_2=t2, Ys_2=[t3], Zs_1=[t2|[t3, t3|[t5]]],
+    X_3=t3, Xs_3=[t5], Ys_3=[], Zs_2=[t3, t3|[t5]], Xs_4=[t5], Zs_3=[t5]} <sub>/Xs</sub>  
+= {Xs=[t1|[t2|[t3, t3|[t5]]]]}  
+= {Xs=[t1, t2, t3, t3, t5]}
+= {Xs=[time(h(1), d(sun)), time(h(2), d(sun)), time(h(3), d(wed)),
+       time(h(3), d(wed)), time(h(5), d(sat))]}
+</pre>
+
+<p><strong>דוגמה 5</strong>: בחירת איבר ברשימה.<br>
+פרוצדורה המגדירה את היחס של מחיקת הופעה אחת של ביטוי מרשימה.</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: select(X,HasXs,OneLessXs)/3</span>
+<span class="c1">% Purpose: The list OneLessXs is the list X without</span>
+<span class="c1">%          one occurrence of X.</span>
+<span class="ss">select</span><span class="p">(</span><span class="nv">Element</span><span class="p">,</span> <span class="nv">HasXs</span><span class="p">,</span> <span class="nv">OneLessXs</span><span class="p">)</span> <span class="p">:-</span>
+              <span class="ss">append</span><span class="p">([</span><span class="nv">Prefix</span><span class="p">,</span> <span class="p">[</span><span class="nv">Element</span><span class="p">],</span> <span class="nv">Suffix</span><span class="p">],</span> <span class="nv">HasXs</span><span class="p">),</span>
+              <span class="ss">append</span><span class="p">(</span><span class="nv">Prefix</span><span class="p">,</span> <span class="nv">Suffix</span><span class="p">,</span> <span class="nv">OneLessXs</span><span class="p">).</span>
+</code></pre></div></div>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">?-</span> <span class="ss">select</span><span class="p">(</span><span class="m">4</span><span class="p">,[</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">4</span><span class="p">],</span><span class="nv">X</span><span class="p">).</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="p">[</span><span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">4</span><span class="p">];</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="p">[</span><span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">2</span><span class="p">];</span>
+<span class="ss">false</span>
+</code></pre></div></div>
+<p><strong>דוגמה 6</strong>: החלפת ערך בעץ.<br>
+החלפת תוויות בעץ בינארי.</p>
+
+<p class="c"><img src="./עקרונות שפות תכנות – אביב 2021תרגול 12. תכנות לוגי – חלק ב’ _ Principles of Programming Languages_files/tree2.png" alt=""></p>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: replace(From,To,TreeFrom,TreeTo)/4</span>
+<span class="c1">% Purpose: The binary tree TreeTo is result of replacing all</span>
+<span class="c1">%          occurrences of From in binary tree TreeFrom by To.</span>
+<span class="ss">replace</span><span class="p">(</span><span class="nv">_</span><span class="p">,</span><span class="nv">_</span><span class="p">,</span><span class="ss">void</span><span class="p">,</span><span class="ss">void</span><span class="p">).</span>
+<span class="ss">replace</span><span class="p">(</span><span class="nv">From</span><span class="p">,</span><span class="nv">To</span><span class="p">,</span><span class="ss">tree</span><span class="p">(</span><span class="nv">Node</span><span class="p">,</span><span class="nv">Lft</span><span class="p">,</span><span class="nv">Rht</span><span class="p">),</span>
+                   <span class="ss">tree</span><span class="p">(</span><span class="nv">Node1</span><span class="p">,</span><span class="nv">Lft1</span><span class="p">,</span><span class="nv">Rht1</span><span class="p">))</span> <span class="p">:-</span>
+    <span class="ss">replace_help</span><span class="p">(</span><span class="nv">From</span><span class="p">,</span><span class="nv">To</span><span class="p">,</span><span class="nv">Node</span><span class="p">,</span><span class="nv">Node1</span><span class="p">),</span>
+    <span class="ss">replace</span><span class="p">(</span><span class="nv">From</span><span class="p">,</span><span class="nv">To</span><span class="p">,</span><span class="nv">Lft</span><span class="p">,</span><span class="nv">Lft1</span><span class="p">),</span>
+    <span class="ss">replace</span><span class="p">(</span><span class="nv">From</span><span class="p">,</span><span class="nv">To</span><span class="p">,</span><span class="nv">Rht</span><span class="p">,</span><span class="nv">Rht1</span><span class="p">).</span>
+
+<span class="c1">% Signature: replace_help(From,To,NodeF,NodeT)/4</span>
+<span class="c1">% Purpose: If (NodeF = From) then NodeT is To</span>
+<span class="c1">%          else NodeT is NodeF).</span>
+<span class="ss">replace_help</span><span class="p">(</span><span class="nv">From</span><span class="p">,</span><span class="nv">To</span><span class="p">,</span><span class="nv">From</span><span class="p">,</span><span class="nv">To</span><span class="p">).</span>
+<span class="ss">replace_help</span><span class="p">(</span><span class="nv">From</span><span class="p">,</span><span class="nv">_</span><span class="p">,</span><span class="nv">NodeF</span><span class="p">,</span><span class="nv">NodeF</span><span class="p">)</span> <span class="p">:-</span> <span class="nv">From</span> <span class="err">\</span><span class="o">=</span> <span class="nv">NodeF</span><span class="p">.</span>
+</code></pre></div></div>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">?-</span> <span class="ss">replace</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="ss">tree</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="ss">tree</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="ss">void</span><span class="p">,</span><span class="ss">void</span><span class="p">),</span><span class="ss">tree</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="ss">void</span><span class="p">,</span><span class="ss">void</span><span class="p">)),</span><span class="nv">X</span><span class="p">).</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="ss">tree</span><span class="p">(</span><span class="m">4</span><span class="p">,</span> <span class="ss">tree</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="ss">void</span><span class="p">,</span> <span class="ss">void</span><span class="p">),</span> <span class="ss">tree</span><span class="p">(</span><span class="m">4</span><span class="p">,</span> <span class="ss">void</span><span class="p">,</span> <span class="ss">void</span><span class="p">))</span>
+
+<span class="o">?-</span> <span class="ss">replace</span><span class="p">(</span><span class="ss">b</span><span class="p">,</span><span class="nv">X</span><span class="p">,</span><span class="ss">tree</span><span class="p">(</span><span class="ss">a</span><span class="p">,</span><span class="ss">tree</span><span class="p">(</span><span class="ss">b</span><span class="p">,</span><span class="ss">void</span><span class="p">,</span><span class="ss">void</span><span class="p">),</span>
+                      <span class="ss">tree</span><span class="p">(</span><span class="ss">c</span><span class="p">,</span><span class="ss">tree</span><span class="p">(</span><span class="ss">b</span><span class="p">,</span><span class="ss">void</span><span class="p">,</span><span class="ss">void</span><span class="p">),</span><span class="ss">void</span><span class="p">)),</span>
+               <span class="ss">tree</span><span class="p">(</span><span class="ss">a</span><span class="p">,</span><span class="ss">tree</span><span class="p">(</span><span class="ss">c</span><span class="p">,</span><span class="ss">void</span><span class="p">,</span><span class="ss">void</span><span class="p">),</span>
+                      <span class="ss">tree</span><span class="p">(</span><span class="ss">c</span><span class="p">,</span><span class="ss">tree</span><span class="p">(</span><span class="ss">c</span><span class="p">,</span><span class="ss">void</span><span class="p">,</span><span class="ss">void</span><span class="p">),</span><span class="ss">void</span><span class="p">))).</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="ss">c</span>
+</code></pre></div></div>
+<p>אם נרצה להציג עץ בינארי כרשימה, נעשה את השינויים הבאים:<br>
+העץ במקום <code class="language-plaintext highlighter-rouge">tree(Node, Left, Right)</code> ייראה בתור <code class="language-plaintext highlighter-rouge">[Node, Left, Right]</code>, <code class="language-plaintext highlighter-rouge">void</code> יהפוך להיות <code class="language-plaintext highlighter-rouge">[]</code>.</p>
+
+<p>אם נרצה עץ n-ארי ולא בינארי, נחליף את הקטע בקוד <code class="language-plaintext highlighter-rouge">(Left, Right)</code> ב-<code class="language-plaintext highlighter-rouge">Children</code> לרשימה של כל הילדים. נצטרך להוסיף פרוצדורה למעבר על העץ.</p>
+
+<p>לסיום: בחזרה לדיבוג. יש להיות זהירים מאוד בכתיבת הקוד, כי המשתנים בתכנות לוגי לא מוגדרים בשום מקום, ושימוש במשתנה לא מוגדר לא יגרור אזהרה. למשל, כתיבת תוכנית פשוטה</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">find</span><span class="p">([</span><span class="nv">Elem</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">Elem</span><span class="p">).</span>
+<span class="ss">find</span><span class="p">([</span><span class="nv">Something</span><span class="p">|</span><span class="nv">My_List</span><span class="p">],</span> <span class="nv">Elem</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">find</span> <span class="p">(</span><span class="nv">My_list</span><span class="p">,</span> <span class="nv">Elem</span><span class="p">)</span>
+</code></pre></div></div>
+<p>יכולה לגרום לבעיות, אם לא נזהר ונפספס כי <code class="language-plaintext highlighter-rouge">My_List</code>, <code class="language-plaintext highlighter-rouge">My_list</code> הם שני משתנים שונים לגמרי. כדאי להשתמש בדיבוג (הדפסות ו-trace). במקרים שאינכם מבינים למה התוכנית לא עובדת.</p>
+
+<div class="l">
+  <h2 id="lp-interpreter--system-description">2. LP-interpreter – System description</h2>
+
+  <p>The system consists of files (modules) in three layers: Syntax, ADTs, LP-solver.</p>
+
+  <p><img src="./עקרונות שפות תכנות – אביב 2021תרגול 12. תכנות לוגי – חלק ב’ _ Principles of Programming Languages_files/image1.png" alt=""></p>
+
+  <p>The overall system architecture is given in the following architecture diagram.</p>
+  <ol>
+    <li>Syntax: This layer includes, so far, only an abstract syntax module LP-AST, which defines a convenient interface to all syntactic elements in an LP program.</li>
+    <li>ADTs: The LP related ADTs are Substitution and Term-equation, which are used for implementing a unification operation in Unify. lazy-Tree-ADT is an ADT of an n-ary labeled tree (has labels on internal nodes), whose depth might be not finite. Therefore, the constructor of such trees wraps the child-branches of a node with a lambda abstraction that enables laziness: Delays the construction of child-branches until requested.</li>
+    <li>LP-solver: The Answer-Query module, defines the LP Gsel and Rsel, and the algorithm for proof-tree construction and search.</li>
+  </ol>
+
+  <h3 id="lp-ast">LP-AST</h3>
+
+  <p>A programs is represented as a list of the abstract representations of its procedures. Note that this list actually represents a set. For example, the program:</p>
+
+  <p><strong>Example1</strong>:</p>
+  <div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: append(List1, List2, List3)/3</span>
+<span class="c1">% Purpose: List3 is the concatenation of List1 and List2.</span>
+<span class="ss">append</span><span class="p">([],</span> <span class="nv">Xs</span><span class="p">,</span> <span class="nv">Xs</span><span class="p">).</span>
+<span class="ss">append</span><span class="p">([</span><span class="nv">X</span><span class="p">|</span><span class="nv">Xs</span><span class="p">],</span> <span class="nv">Y</span><span class="p">,</span> <span class="p">[</span><span class="nv">X</span><span class="p">|</span><span class="nv">Zs</span><span class="p">]</span> <span class="p">)</span> <span class="p">:-</span> <span class="ss">append</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Zs</span><span class="p">).</span>
+
+<span class="ss">member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Ys</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">append</span><span class="p">(</span><span class="nv">Zs</span><span class="p">,</span> <span class="p">[</span><span class="nv">X</span><span class="p">|</span><span class="nv">Xs</span><span class="p">],</span> <span class="nv">Ys</span><span class="p">).</span>
+</code></pre></div>  </div>
+  <p>Is represented as the list:</p>
+  <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span> <span class="p">((</span><span class="nb">append</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="nf">0</span> <span class="p">((</span><span class="nb">append</span> <span class="nv">empty</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">))</span>
+                  <span class="nv">true</span><span class="p">))</span>
+              <span class="p">(</span><span class="nf">1</span> <span class="p">((</span><span class="nb">append</span> <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">))</span>
+                          <span class="p">(</span><span class="nf">var</span> <span class="nv">Y</span><span class="p">)</span>
+                          <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Zs</span><span class="p">)))</span>
+                  <span class="p">(</span><span class="nb">append</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Y</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Zs</span><span class="p">))))</span> <span class="p">)</span>
+  <span class="p">((</span><span class="nb">member</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">0</span> <span class="p">((</span><span class="nb">member</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Ys</span><span class="p">))</span>
+                  <span class="p">(</span><span class="nb">append</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Zs</span><span class="p">)</span>
+                          <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">Xs</span><span class="p">))</span>
+                          <span class="p">(</span><span class="nf">var</span> <span class="nv">Ys</span><span class="p">))</span> <span class="p">)))</span> <span class="p">)</span>
+</code></pre></div>  </div>
+  <p><strong>Example2</strong>:</p>
+  <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;% Signature: part(Name).</span>
+<span class="c1">;part(a).</span>
+<span class="c1">;part(b).</span>
+<span class="c1">;part(c).</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">parta</span> <span class="p">(</span><span class="nf">make-fact</span> <span class="o">'</span><span class="p">(</span><span class="nf">part</span> <span class="nv">a</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">partb</span> <span class="p">(</span><span class="nf">make-fact</span> <span class="o">'</span><span class="p">(</span><span class="nf">part</span> <span class="nv">b</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">partc</span> <span class="p">(</span><span class="nf">make-fact</span> <span class="o">'</span><span class="p">(</span><span class="nf">part</span> <span class="nv">c</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">part-proc</span> <span class="p">(</span><span class="nf">make-procedure</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">parta</span> <span class="nv">partb</span> <span class="nv">partc</span><span class="p">)))</span>
+
+<span class="c1">;red(a).</span>
+<span class="c1">;green(b).</span>
+<span class="c1">;yellow(c).</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">reda</span> <span class="p">(</span><span class="nf">make-fact</span> <span class="o">'</span><span class="p">(</span><span class="nf">red</span> <span class="nv">a</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">red-proc</span> <span class="p">(</span><span class="nf">make-procedure</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">reda</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">greenb</span> <span class="p">(</span><span class="nf">make-fact</span> <span class="o">'</span><span class="p">(</span><span class="nf">green</span> <span class="nv">b</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">green-proc</span> <span class="p">(</span><span class="nf">make-procedure</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">greenb</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">yellowc</span> <span class="p">(</span><span class="nf">make-fact</span> <span class="o">'</span><span class="p">(</span><span class="nf">yellow</span> <span class="nv">c</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">yellow-proc</span> <span class="p">(</span><span class="nf">make-procedure</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">yellowc</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="nv">part-prog</span> <span class="p">(</span><span class="nf">make-program</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">part-proc</span> <span class="nv">red-proc</span> <span class="nv">green-proc</span> <span class="nv">yellow-proc</span><span class="p">)))</span>
+</code></pre></div>  </div>
+  <p><strong>Queries</strong>:</p>
+  <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; ?- part(X)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">query-partX</span> <span class="p">(</span><span class="nf">make-query</span> <span class="p">(</span><span class="nb">list</span> <span class="o">'</span><span class="p">(</span><span class="nf">part</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)))))</span>
+<span class="c1">; ?- red(X)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">query-redX</span> <span class="p">(</span><span class="nf">make-query</span> <span class="p">(</span><span class="nb">list</span> <span class="o">'</span><span class="p">(</span><span class="nf">red</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)))))</span>
+<span class="c1">; ?- part(X), red(X)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">query-part-redX</span> <span class="p">(</span><span class="nf">make-query</span> <span class="p">(</span><span class="nb">list</span> <span class="o">'</span><span class="p">(</span><span class="nf">part</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">))</span> <span class="o">'</span><span class="p">(</span><span class="nf">red</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)))))</span>
+
+<span class="c1">; ?- part(X), yellow(X)</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">query-part-yellowX</span>
+  <span class="p">(</span><span class="nf">make-query</span> <span class="p">(</span><span class="nb">list</span> <span class="o">'</span><span class="p">(</span><span class="nf">part</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">))</span> <span class="o">'</span><span class="p">(</span><span class="nf">yellow</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)))))</span>
+</code></pre></div>  </div>
+  <p>For every syntactical category, the file includes an abstract-syntax ADT. For example, the compound-term abstract-syntax interface is:</p>
+  <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">term-&gt;vars</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">term</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="nf">variable?</span> <span class="nv">term</span><span class="p">)</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">term</span><span class="p">))</span>
+          <span class="p">((</span><span class="nf">atomic-term?</span> <span class="nv">term</span><span class="p">)</span> <span class="nv">empty</span><span class="p">)</span>
+          <span class="p">((</span><span class="nf">compound-term?</span> <span class="nv">term</span><span class="p">)</span>
+           <span class="p">(</span><span class="nf">flatmap</span> <span class="nv">term-&gt;vars</span> <span class="p">(</span><span class="nf">compound-term-&gt;args</span> <span class="nv">term</span><span class="p">))))))</span>
+</code></pre></div>  </div>
+  <p>You can compare it with this equivalent Typescript code.</p>
+  <div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">chain</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">ramda</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kr">interface</span> <span class="nx">Variable</span> <span class="p">{</span>
+    <span class="nl">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Variable</span><span class="dl">"</span><span class="p">;</span>
+    <span class="nl">name</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">interface</span> <span class="nx">AtomicTerm</span> <span class="p">{</span>
+    <span class="nl">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">AtomicTerm</span><span class="dl">"</span><span class="p">;</span>
+    <span class="nl">value</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">interface</span> <span class="nx">CompoundTerm</span> <span class="p">{</span>
+    <span class="nl">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">CompoundTerm</span><span class="dl">"</span><span class="p">;</span>
+    <span class="nl">functor</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="nl">args</span><span class="p">:</span> <span class="nx">Term</span><span class="p">[];</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">Term</span> <span class="o">=</span> <span class="nx">Variable</span> <span class="o">|</span> <span class="nx">AtomicTerm</span> <span class="o">|</span> <span class="nx">CompoundTerm</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">makeVariable</span> <span class="o">=</span> <span class="p">(</span><span class="nx">name</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">Variable</span> <span class="o">=&gt;</span>
+    <span class="p">({</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Variable</span><span class="dl">"</span><span class="p">,</span> <span class="na">name</span><span class="p">:</span> <span class="nx">name</span> <span class="p">});</span>
+<span class="kd">const</span> <span class="nx">makeAtomicTerm</span> <span class="o">=</span> <span class="p">(</span><span class="nx">value</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">AtomicTerm</span> <span class="o">=&gt;</span>
+    <span class="p">({</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">AtomicTerm</span><span class="dl">"</span><span class="p">,</span> <span class="na">value</span><span class="p">:</span> <span class="nx">value</span> <span class="p">});</span>
+<span class="kd">const</span> <span class="nx">makeCompoundTerm</span> <span class="o">=</span> <span class="p">(</span><span class="nx">functor</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">args</span><span class="p">:</span> <span class="nx">Term</span><span class="p">[]):</span> <span class="nx">CompoundTerm</span> <span class="o">=&gt;</span>
+    <span class="p">({</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">CompoundTerm</span><span class="dl">"</span><span class="p">,</span> <span class="na">functor</span><span class="p">:</span> <span class="nx">functor</span><span class="p">,</span> <span class="na">args</span><span class="p">:</span> <span class="nx">args</span> <span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">isTerm</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">Term</span> <span class="o">=&gt;</span> <span class="nx">isVariable</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">||</span> <span class="nx">isAtomicTerm</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+<span class="o">||</span> <span class="nx">isCompoundTerm</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">isVariable</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">Variable</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">Variable</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">isAtomicTerm</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">AtomicTerm</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">AtomicTerm</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">isCompoundTerm</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">CompoundTerm</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">CompoundTerm</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div>  </div>
+
+  <p>we can write</p>
+  <div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">termVars</span> <span class="o">=</span> <span class="p">(</span><span class="nx">term</span><span class="p">:</span> <span class="nx">Term</span><span class="p">):</span> <span class="nx">Variable</span><span class="p">[]</span> <span class="o">=&gt;</span>
+    <span class="nx">isVariable</span><span class="p">(</span><span class="nx">term</span><span class="p">)</span> <span class="p">?</span> <span class="p">[</span><span class="nx">term</span><span class="p">]</span> <span class="p">:</span>
+    <span class="nx">isAtomicTerm</span><span class="p">(</span><span class="nx">term</span><span class="p">)</span> <span class="p">?</span> <span class="p">[]</span> <span class="p">:</span>
+    <span class="nx">isCompoundTerm</span><span class="p">(</span><span class="nx">term</span><span class="p">)</span> <span class="p">?</span> <span class="nx">chain</span><span class="p">(</span><span class="nx">termVars</span><span class="p">,</span> <span class="nx">term</span><span class="p">.</span><span class="nx">args</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">term</span><span class="p">;</span>
+</code></pre></div>  </div>
+
+  <p>For example,</p>
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">term</span> <span class="o">=</span> <span class="nx">makeCompoundTerm</span><span class="p">(</span><span class="dl">"</span><span class="s2">time</span><span class="dl">"</span><span class="p">,</span> <span class="p">[</span><span class="nx">makeAtomicTerm</span><span class="p">(</span><span class="dl">"</span><span class="s2">monday</span><span class="dl">"</span><span class="p">),</span>
+<span class="nx">makeVariable</span><span class="p">(</span><span class="dl">"</span><span class="s2">X</span><span class="dl">"</span><span class="p">),</span> <span class="nx">makeVariable</span><span class="p">(</span><span class="dl">"</span><span class="s2">Y</span><span class="dl">"</span><span class="p">)]);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">termVars</span><span class="p">(</span><span class="nx">term</span><span class="p">),</span> <span class="p">{</span> <span class="na">depth</span><span class="p">:</span> <span class="kc">null</span> <span class="p">});</span>
+</code></pre></div>  </div>
+
+  <h3 id="substitution-adt">Substitution-ADT</h3>
+
+  <p>The Substitution ADT and its operations: An adaptation of the substitution-ADT module from the type inference system. The ADT consists of:<br>
+<strong>Constructor</strong>: <code class="language-plaintext highlighter-rouge">make-sub(variables,terms)</code>, which also checks for circularity.<br>
+<strong>Getters</strong>: <code class="language-plaintext highlighter-rouge">sub-&gt;variables</code>, <code class="language-plaintext highlighter-rouge">sub-&gt;terms</code>, <code class="language-plaintext highlighter-rouge">sub-&gt;get-var(sub,var)</code> which returns the value of <code class="language-plaintext highlighter-rouge">var</code>, if defined, or error otherwise.<br>
+<strong>Predicates</strong>: <code class="language-plaintext highlighter-rouge">sub?</code>, <code class="language-plaintext highlighter-rouge">empty-sub?</code>, <code class="language-plaintext highlighter-rouge">non-empty-sub?</code>, <code class="language-plaintext highlighter-rouge">sub-equal?</code><br>
+<strong>Operations</strong>:</p>
+  <ol>
+    <li><code class="language-plaintext highlighter-rouge">extend-sub(sub,var,term)</code> which extends sub with the binding <code class="language-plaintext highlighter-rouge">var=term</code>,</li>
+    <li>Application of a substitution to LP terms, atomic formulas and queries:
+<code class="language-plaintext highlighter-rouge">sub-apply(sub,term)</code>, <code class="language-plaintext highlighter-rouge">sub-apply-atomic-formula</code>,
+<code class="language-plaintext highlighter-rouge">sub-apply-query</code>, <code class="language-plaintext highlighter-rouge">sub-apply-rule</code></li>
+    <li>Restriction of a substitution: <code class="language-plaintext highlighter-rouge">sub-restrict(sub, vars)</code></li>
+    <li>Substitution combination: <code class="language-plaintext highlighter-rouge">sub-combine(sub1,sub2)</code></li>
+  </ol>
+
+  <p><strong>Examples</strong>:</p>
+  <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="nf">sub-combine</span>
+   <span class="p">(</span><span class="nf">make-sub</span> <span class="o">'</span><span class="p">((</span><span class="nf">var</span> <span class="nv">T7</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T8</span><span class="p">))</span>
+             <span class="o">'</span><span class="p">(</span><span class="nf">Number</span> <span class="p">[</span><span class="nf">f</span> <span class="p">(</span><span class="nf">m</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T5</span><span class="p">)</span> <span class="nv">Number</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T3</span><span class="p">)]))</span>
+   <span class="p">(</span><span class="nf">make-sub</span> <span class="o">'</span><span class="p">((</span><span class="nf">var</span> <span class="nv">T5</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T8</span><span class="p">))</span>
+             <span class="o">'</span><span class="p">((</span><span class="nf">var</span> <span class="nv">T7</span><span class="p">)</span> <span class="nv">Boolean</span><span class="p">)))</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">sub</span> <span class="p">((</span><span class="nf">var</span> <span class="nv">T5</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T7</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T8</span><span class="p">))</span>
+      <span class="p">((</span><span class="nf">var</span> <span class="nv">T7</span><span class="p">)</span> <span class="nv">Number</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nf">m</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T7</span><span class="p">)</span> <span class="nv">Number</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">T3</span><span class="p">))))</span>
+
+<span class="nv">&gt;</span> <span class="p">(</span><span class="nf">sub-apply</span> <span class="p">(</span><span class="nf">make-sub</span> <span class="o">'</span><span class="p">((</span><span class="nf">var</span> <span class="nv">X</span><span class="p">))</span> <span class="o">'</span><span class="p">(</span><span class="nf">1</span><span class="p">))</span>
+             <span class="p">(</span><span class="nf">make-compound-term</span> <span class="ss">'f</span> <span class="o">'</span><span class="p">((</span><span class="nf">var</span> <span class="nv">X</span><span class="p">))))</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">f</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+  <h3 id="term-equation-adt">Term-equation-ADT</h3>
+
+  <p>The term-equation ADT and its operations: An adaptation of the equation-ADT module from the type inference system. The ADT consists of:<br>
+<strong>Constructor</strong>: <code class="language-plaintext highlighter-rouge">make-equation(term1, term2)</code>.<br>
+<strong>Getters</strong>: <code class="language-plaintext highlighter-rouge">equation-&gt;left</code>, <code class="language-plaintext highlighter-rouge">equation-&gt;right</code><br>
+<strong>Predicates</strong>: <code class="language-plaintext highlighter-rouge">equation?</code></p>
+
+  <h3 id="unify">Unify</h3>
+
+  <p>The unification operation, for atomic formulas and for terms. This is an adaptation of the solve module from the type inference system. The unification algorithm uses the equation-solving method:</p>
+  <ol>
+    <li>For atomic elements – either compares if equal, different, or can create a substitution (non-circular);</li>
+    <li>For compound arguments with the same predicate or functor and the same arity, creates equations from corresponding elements, and repeats unification.</li>
+  </ol>
+
+  <p><strong>Main procedure</strong>: <code class="language-plaintext highlighter-rouge">unify-formulas.</code><br>
+<strong>Equation solvers</strong>: <code class="language-plaintext highlighter-rouge">solve-equations(equation-list)</code>, <code class="language-plaintext highlighter-rouge">solve(equations, substitution)</code><br>
+<strong>Helpers</strong>: <code class="language-plaintext highlighter-rouge">unifiable-structure(equation)</code>, <code class="language-plaintext highlighter-rouge">split-equation(equation)</code></p>
+
+  <p>Examples:</p>
+  <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">test</span> <span class="p">(</span><span class="nf">unify-formulas</span> <span class="ss">'true</span> <span class="ss">'true</span><span class="p">)</span> <span class="nv">=&gt;</span> <span class="o">'</span><span class="p">(</span><span class="nf">sub</span> <span class="p">()</span> <span class="p">()))</span>
+<span class="p">(</span><span class="nf">test</span> <span class="p">(</span><span class="nf">unify-formulas</span>
+       <span class="o">'</span><span class="p">(</span><span class="nb">member</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X1</span><span class="p">))</span> <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">f</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">empty</span><span class="p">))</span>
+       <span class="o">'</span><span class="p">(</span><span class="nb">member</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">L</span><span class="p">)))</span>
+      <span class="nv">=&gt;</span>
+      <span class="o">'</span><span class="p">(</span><span class="nf">sub</span> <span class="p">((</span><span class="nf">var</span> <span class="nv">L</span><span class="p">)</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X</span><span class="p">))</span>
+            <span class="p">((</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">f</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">empty</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">X1</span><span class="p">)))))</span>
+</code></pre></div>  </div>
+
+  <h3 id="lazy-tree-adt">Lazy-Tree-ADT</h3>
+
+  <p>A lazy tree is represented as a “lazy tree-list” whose head is the root-node and whose tail is a regular list of lazy-trees:</p>
+
+  <div class="language-scheme c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">root</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">lzt1</span> <span class="nv">lzt2</span> <span class="o">...</span> <span class="nv">lztn</span><span class="p">)))</span>
+</code></pre></div>  </div>
+
+  <p>This is a lazy representation for labeled trees with finite branching, but possibly infinite depth.   <br>
+<code class="language-plaintext highlighter-rouge">empty-lzt</code> represents the <strong>empty lazy-tree</strong>.<br>
+A <strong>leaf</strong> is represented by: <code class="language-plaintext highlighter-rouge">(root (lambda () empty-lzt))</code><br>
+If n represents a node, and <code class="language-plaintext highlighter-rouge">lzt1...lztn</code> represent lazy-trees, then</p>
+  <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">make-lzt</span> <span class="nv">n</span>
+          <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nf">make-lzt</span> <span class="nv">n1</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">make-lzt</span> <span class="o">...</span><span class="p">)))</span>
+                           <span class="p">(</span><span class="nf">make-lzt</span> <span class="nv">n2</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">make-lzt</span> <span class="o">...</span><span class="p">)))</span>
+                           <span class="o">............</span>
+                           <span class="p">(</span><span class="nf">make-lzt</span> <span class="nv">nm</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nf">make-lzt</span> <span class="o">...</span><span class="p">))))</span>
+            <span class="p">))</span>
+</code></pre></div>  </div>
+  <p>represents the above lazy-tree. The ADT consists of:<br>
+<strong>Constructors</strong>: <code class="language-plaintext highlighter-rouge">make-lzt</code>, <code class="language-plaintext highlighter-rouge">empty-lzt</code>, <b><code class="language-plaintext highlighter-rouge">expand-lzt(node, node-expander)</code></b>.</p>
+  <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">expand-lzt</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">root</span> <span class="nv">node-expander</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">child-nodes</span> <span class="p">(</span><span class="nf">node-expander</span> <span class="nv">root</span><span class="p">)))</span>
+      <span class="p">(</span><span class="nf">make-lzt</span> <span class="nv">root</span>
+                <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+                  <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">node</span><span class="p">)</span>
+                         <span class="p">(</span><span class="nf">expand-lzt</span> <span class="nv">node</span> <span class="nv">node-expander</span><span class="p">))</span>
+                       <span class="nv">child-nodes</span><span class="p">))))</span> <span class="p">))</span>
+</code></pre></div>  </div>
+  <p><strong>Getters</strong>: <code class="language-plaintext highlighter-rouge">lzt-&gt;root</code>, <code class="language-plaintext highlighter-rouge">leaf-data</code>, <code class="language-plaintext highlighter-rouge">lzt-&gt;branches</code>, <code class="language-plaintext highlighter-rouge">lzt-&gt;first-branch</code>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<code class="language-plaintext highlighter-rouge">lzt-&gt;rest-branches</code>, <code class="language-plaintext highlighter-rouge">lzt-&gt;take-branches(lzt,n)</code>, <code class="language-plaintext highlighter-rouge">lzt-&gt;nth-level(lzt, n)</code><br>
+<strong>Predicates</strong>: <code class="language-plaintext highlighter-rouge">empty-lzt?</code>, <code class="language-plaintext highlighter-rouge">lzt?</code>, <code class="language-plaintext highlighter-rouge">composite-lzt?</code><br>
+<strong>Operations</strong>:<br>
+There are three procedures for scanning a lazy tree:<br>
+<code class="language-plaintext highlighter-rouge">lzt-filter(lzt, filterP)</code> – returns a list of nodes that satisfy the filter predicate; does not terminate on infinite lazy trees.</p>
+  <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">lzt-filter</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">lzt</span> <span class="nv">filterP</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">letrec</span> <span class="p">((</span><span class="nf">collect</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">lzt</span><span class="p">)</span>
+                        <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">children</span>
+                               <span class="p">(</span><span class="nf">flatmap</span> <span class="nv">collect</span> <span class="p">(</span><span class="nf">lzt-&gt;branches</span> <span class="nv">lzt</span><span class="p">))))</span>
+                          <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">filterP</span> <span class="p">(</span><span class="nf">lzt-&gt;root</span> <span class="nv">lzt</span><span class="p">))</span>
+                              <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">lzt-&gt;root</span> <span class="nv">lzt</span><span class="p">)</span> <span class="nv">children</span><span class="p">)</span>
+                              <span class="nv">children</span><span class="p">)))))</span>
+      <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">empty-lzt?</span> <span class="nv">lzt</span><span class="p">)</span>
+          <span class="nv">empty</span>
+          <span class="p">(</span><span class="nf">collect</span> <span class="nv">lzt</span><span class="p">)))))</span>
+</code></pre></div>  </div>
+  <p><code class="language-plaintext highlighter-rouge">lzt-find-first(lzt, filterP)</code> – returns the first node that satisfies the filter predicate. Might not terminate for infinite lazy trees.</p>
+
+  <p><code class="language-plaintext highlighter-rouge">lzt-filter-&gt;lzl(lzt, filterP)</code> – returns a lazy list of all nodes that satisfy the filter predicate.</p>
+
+  <p>You can see examples of lazy tree usages in the <a href="https://github.com/bguppl/interpreters/blob/master/src/logic/lazy-tree-ADT-tests.rkt">course site, Class material, lazy-tree-ADT-tests.rkt</a>.</p>
+
+  <h3 id="answer-query">Answer-query</h3>
+
+  <p>This is the main module, in which the answer-query algorithm is implemented, relying on <code class="language-plaintext highlighter-rouge">Gsel</code> and <code class="language-plaintext highlighter-rouge">Rsel</code> procedures. The main procedures in this module are:</p>
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">answer-query</code>, which has two variants: <code class="language-plaintext highlighter-rouge">answer-query-first</code> and
+<code class="language-plaintext highlighter-rouge">answer-query-lzl</code></li>
+    <li><code class="language-plaintext highlighter-rouge">LP-node-expander</code>, <code class="language-plaintext highlighter-rouge">expand-query</code></li>
+    <li><code class="language-plaintext highlighter-rouge">Gsel</code>, <code class="language-plaintext highlighter-rouge">Rsel</code></li>
+  </ul>
+
+  <p>Answer-query creates a <strong>proof tree</strong> as a lazy tree, whose nodes are labeled by a list of: Query and a substitution. The substitution is already the combination of all substitutions on the tree branches. The nodes of the proof tree are defined as the data structure PT-node, with the getters: <code class="language-plaintext highlighter-rouge">PT-node-&gt;query</code> and <code class="language-plaintext highlighter-rouge">PT-node-&gt;sub</code>.<br>
+The proof tree is created using the <code class="language-plaintext highlighter-rouge">expand-lzt</code> constructor of lazy trees, using the procedure <code class="language-plaintext highlighter-rouge">LP-node-expander</code>, which performs the main actions of the LP interpreter:</p>
+  <ol>
+    <li>Applying <code class="language-plaintext highlighter-rouge">Gsel</code> on the query.</li>
+    <li>Applying <code class="language-plaintext highlighter-rouge">Rsel</code> on the selected goal.</li>
+    <li>Creating the new queries for the child node.</li>
+    <li>Creating the new combined substitutions for the child nodes.
+      <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">LP-node-expander</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">PT-node</span> <span class="nv">program</span><span class="p">)</span>
+ <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">query</span> <span class="p">(</span><span class="nf">PT-node-&gt;query</span> <span class="nv">PT-node</span><span class="p">))</span>
+       <span class="p">(</span><span class="nf">sub</span> <span class="p">(</span><span class="nf">PT-node-&gt;sub</span> <span class="nv">PT-node</span><span class="p">)))</span>
+   <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">success-query?</span> <span class="nv">query</span><span class="p">)</span>
+       <span class="nv">empty</span>
+       <span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="nf">selected-goal</span> <span class="p">(</span><span class="nf">Gsel</span> <span class="nv">query</span><span class="p">))</span>
+              <span class="p">(</span><span class="nf">rule-subs</span> <span class="p">(</span><span class="nf">Rsel</span> <span class="nv">selected-goal</span> <span class="nv">program</span><span class="p">))</span>
+              <span class="p">(</span><span class="nf">new-queries</span>
+               <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">rule-sub</span><span class="p">)</span>
+                      <span class="p">(</span><span class="nf">expand-query</span> <span class="nv">query</span> <span class="nv">selected-goal</span> <span class="nv">rule-sub</span><span class="p">))</span>
+                    <span class="nv">rule-subs</span><span class="p">))</span>
+              <span class="p">(</span><span class="nf">new-subs</span>
+               <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">rule-sub</span><span class="p">)</span>
+                      <span class="p">(</span><span class="nf">sub-combine</span> <span class="nv">sub</span> <span class="p">(</span><span class="nf">rule-sub-&gt;sub</span> <span class="nv">rule-sub</span><span class="p">)))</span>
+                    <span class="nv">rule-subs</span><span class="p">)))</span>
+         <span class="p">(</span><span class="nb">map</span> <span class="nv">make-PT-node</span> <span class="nv">new-queries</span> <span class="nv">new-subs</span><span class="p">))))</span> <span class="p">))</span>
+</code></pre></div>      </div>
+      <div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; Signature: expand-query(query, goal, rule-sub)</span>
+<span class="c1">; Type: [Query * AtomicFormula * RuleSub -&gt; Query]</span>
+<span class="c1">; Purpose: Given a rule-sub (rule sub)</span>
+<span class="c1">;          and a query (G1 ... Gi-1 Goal Gi+1 ... Gn)</span>
+<span class="c1">;          where rule is ( Head &lt;- Body )</span>
+<span class="c1">;          and Unify(Goal, Head) = sub</span>
+<span class="c1">;          compute [G1 ... Gi-1 Body Gi+1 ... Gn] o sub</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">expand-query</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">query</span> <span class="nv">goal</span> <span class="nv">rule-sub</span><span class="p">)</span>
+ <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">prefix-suffix</span>
+                  <span class="p">(</span><span class="nf">split-list</span> <span class="p">(</span><span class="nf">query-&gt;goals</span> <span class="nv">query</span><span class="p">)</span> <span class="nv">goal</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nf">sub-apply-query</span>
+<span class="p">(</span><span class="nf">rule-sub-&gt;sub</span> <span class="nv">rule-sub</span><span class="p">)</span>
+         <span class="p">(</span><span class="nf">make-query</span>
+  <span class="p">(</span><span class="nb">append</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">prefix-suffix</span><span class="p">)</span>
+                   <span class="p">(</span><span class="nf">rule-&gt;body</span> <span class="p">(</span><span class="nf">rule-sub-&gt;rule</span> <span class="nv">rule-sub</span><span class="p">))</span>
+                   <span class="p">(</span><span class="nb">cdr</span> <span class="nv">prefix-suffix</span><span class="p">)))))))</span>
+</code></pre></div>      </div>
+    </li>
+  </ol>
+</div>
+<link rel="stylesheet" type="text/css" href="./עקרונות שפות תכנות – אביב 2021תרגול 12. תכנות לוגי – חלק ב’ _ Principles of Programming Languages_files/style(1).css" media="all">
+
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

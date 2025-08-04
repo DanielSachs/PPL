@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://bguppl.github.io/interpreters/practice_sessions/ps2.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>TypeScript: Type Checking | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="TypeScript: Type Checking">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/practice_sessions/ps2.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/practice_sessions/ps2.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="TypeScript: Type Checking">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"TypeScript: Type Checking","url":"https://bguppl.github.io/interpreters/practice_sessions/ps2.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./TypeScript_ Type Checking _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./TypeScript_ Type Checking _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mo {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-stretchy-h {
+  display: inline-table;
+  width: 100%;
+}
+
+mjx-stretchy-h > * {
+  display: table-cell;
+  width: 0;
+}
+
+mjx-stretchy-h > * > mjx-c {
+  display: inline-block;
+  transform: scalex(1.0000001);
+}
+
+mjx-stretchy-h > * > mjx-c::before {
+  display: inline-block;
+  width: initial;
+}
+
+mjx-stretchy-h > mjx-ext {
+  /* IE */ overflow: hidden;
+  /* others */ overflow: clip visible;
+  width: 100%;
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c::before {
+  transform: scalex(500);
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c {
+  width: 0;
+}
+
+mjx-stretchy-h > mjx-beg > mjx-c {
+  margin-right: -.1em;
+}
+
+mjx-stretchy-h > mjx-end > mjx-c {
+  margin-left: -.1em;
+}
+
+mjx-stretchy-v {
+  display: inline-block;
+}
+
+mjx-stretchy-v > * {
+  display: block;
+}
+
+mjx-stretchy-v > mjx-beg {
+  height: 0;
+}
+
+mjx-stretchy-v > mjx-end > mjx-c {
+  display: block;
+}
+
+mjx-stretchy-v > * > mjx-c {
+  transform: scaley(1.0000001);
+  transform-origin: left center;
+  overflow: hidden;
+}
+
+mjx-stretchy-v > mjx-ext {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  border: 0px solid transparent;
+  /* IE */ overflow: hidden;
+  /* others */ overflow: visible clip;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c::before {
+  width: initial;
+  box-sizing: border-box;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c {
+  transform: scaleY(500) translateY(.075em);
+  overflow: visible;
+}
+
+mjx-mark {
+  display: inline-block;
+  height: 0px;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D441.TEX-I::before {
+  padding: 0.683em 0.888em 0 0;
+  content: "N";
+}
+
+mjx-c.mjx-c1D462.TEX-I::before {
+  padding: 0.442em 0.572em 0.011em 0;
+  content: "u";
+}
+
+mjx-c.mjx-c1D45A.TEX-I::before {
+  padding: 0.442em 0.878em 0.011em 0;
+  content: "m";
+}
+
+mjx-c.mjx-c1D44F.TEX-I::before {
+  padding: 0.694em 0.429em 0.011em 0;
+  content: "b";
+}
+
+mjx-c.mjx-c1D452.TEX-I::before {
+  padding: 0.442em 0.466em 0.011em 0;
+  content: "e";
+}
+
+mjx-c.mjx-c1D45F.TEX-I::before {
+  padding: 0.442em 0.451em 0.011em 0;
+  content: "r";
+}
+
+mjx-c.mjx-cD7::before {
+  padding: 0.491em 0.778em 0 0;
+  content: "\D7";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./TypeScript_ Type Checking _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="typescript-type-checking">TypeScript: Type Checking</h1>
+
+<h2 id="ppl-2023">PPL 2023</h2>
+<h2 id="practical-session---week-2">Practical Session - Week #2</h2>
+
+<h3 id="why-types">Why Types</h3>
+
+<p>Adding types to a program has two key advantages:</p>
+<ul>
+  <li>It allows the compiler to detect errors that would otherwise only be detected at runtime. It is much better to detect errors as early as possible in the development cycle.</li>
+  <li>It serves as excellent documentation by reflecting the intention of the programmer.</li>
+</ul>
+
+<p>Types also help programmers structure the code they write so that it follows the structure of the data it processes.</p>
+
+<p>In this session, we review:</p>
+<ul>
+  <li>the syntax of type annotations in TypeScript</li>
+  <li>analyze an example of recursive type definition with the corresponding operations</li>
+  <li>analyze how the type of functions is derived</li>
+</ul>
+
+<h3 id="types-in-typescript">Types in TypeScript</h3>
+
+<p>TypeScript adds optional type declarations to JavaScript.
+The principles of this addition are:</p>
+<ul>
+  <li>Type declarations are optional. If they are present, they are checked, otherwise no check is performed. This means that regular JavaScript with no type annotations at all are valid TypeScript expressions.</li>
+  <li>The TypeScript compiler performs two tasks:
+    <ul>
+      <li>It translates a TypeScript program into a JavaScript program</li>
+      <li>It checks that the program satisfies all the type declarations specified in the program.</li>
+    </ul>
+  </li>
+  <li>Type annotations can be implicit and inferred by the TypeScript compiler.</li>
+</ul>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// This TypeScript program</span>
+<span class="kd">function</span> <span class="nx">add</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">// ==&gt; 4</span>
+
+<span class="c1">// is translated by `tsc` into this JavaScript program:</span>
+<span class="kd">function</span> <span class="nx">add</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">// ==&gt; 4</span>
+</code></pre></div></div>
+
+<h3 id="type-annotations">Type Annotations</h3>
+
+<p>Type annotations are optional in TypeScript. They can occur in the following contexts:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// After variable declarations</span>
+<span class="kd">let</span> <span class="nx">varName</span><span class="p">:</span> <span class="o">&lt;</span><span class="nx">typeAnnotation</span><span class="o">&gt;</span><span class="p">;</span> 
+
+<span class="c1">// As part of a function signature</span>
+<span class="kd">function</span> <span class="nx">fname</span><span class="p">(</span><span class="nx">param</span> <span class="p">:</span> <span class="o">&lt;</span><span class="nx">typeAnnotation</span><span class="o">&gt;</span><span class="p">,</span> <span class="p">...)</span> <span class="p">:</span> <span class="o">&lt;</span><span class="nx">typeAnnotation</span><span class="o">&gt;</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> 
+
+<span class="c1">// With fat arrow notation for functions</span>
+<span class="p">(</span><span class="nx">param</span><span class="p">:</span> <span class="o">&lt;</span><span class="nx">typeAnnotation</span><span class="o">&gt;</span><span class="p">,</span> <span class="p">...):</span> <span class="o">&lt;</span><span class="nx">typeAnnotation</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">...</span>
+</code></pre></div></div>
+
+<p>Type annotations are written in a specific form - which we call the <strong>type language</strong>. 
+The type language is used to describe the expected type of variables, parameters or the values returned by functions.</p>
+
+<p>The simplest type language expression refers to an <strong>atomic type</strong> - for example <code class="language-plaintext highlighter-rouge">number</code>, <code class="language-plaintext highlighter-rouge">boolean</code>, <code class="language-plaintext highlighter-rouge">string</code>. 
+More complex type language expressions are needed to describe types over compound values.</p>
+
+<h3 id="array-type-expressions---homogeneous-array">Array Type Expressions - Homogeneous Array</h3>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">numberArr</span> <span class="p">:</span> <span class="kr">number</span><span class="p">[]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
+<span class="kd">let</span> <span class="nx">num</span><span class="p">:</span> <span class="kr">number</span> <span class="o">=</span> <span class="nx">numberArr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">num</span><span class="p">);</span> <span class="c1">// ==&gt; 1</span>
+</code></pre></div></div>
+
+<p>One may use the notation <code class="language-plaintext highlighter-rouge">Array&lt;T&gt;</code> instead of <code class="language-plaintext highlighter-rouge">T[]</code>.</p>
+
+<h3 id="map-type-expressions">Map Type Expressions</h3>
+
+<p>To describe map types, the following notation is used:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span> <span class="o">&lt;</span><span class="nx">key</span><span class="o">&gt;</span><span class="p">:</span> <span class="o">&lt;</span><span class="nx">typeAnnotation</span><span class="o">&gt;</span><span class="p">;</span> <span class="p">...</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>For example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">s</span><span class="p">:</span> <span class="p">{</span> <span class="nl">name</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">cs</span><span class="p">:</span> <span class="nx">boolean</span><span class="p">,</span> <span class="nx">age</span><span class="p">:</span> <span class="kr">number</span> <span class="p">}</span> <span class="o">=</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">avi</span><span class="dl">"</span><span class="p">,</span> <span class="na">cs</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="na">age</span><span class="p">:</span> <span class="mi">22</span> <span class="p">};</span>
+<span class="nx">s</span><span class="p">;</span> <span class="c1">// =&gt; { name: 'avi', cs: true, age: 22 }</span>
+</code></pre></div></div>
+
+<h3 id="named-type-expressions">Named Type Expressions</h3>
+
+<p>Type expressions can be given names.</p>
+
+<p>Type expressions can be named using the type alias construct:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="o">&lt;</span><span class="nx">typeName</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">&lt;</span><span class="nx">key</span><span class="o">&gt;</span><span class="p">:</span> <span class="o">&lt;</span><span class="nx">typeAnnotation</span><span class="o">&gt;</span><span class="p">;</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Or in general, to give a name to any type annotation:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="o">&lt;</span><span class="nx">typeName</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">typeAnnotation</span><span class="o">&gt;</span><span class="p">;</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Student</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="nl">cs</span><span class="p">:</span> <span class="nx">boolean</span><span class="p">;</span>
+    <span class="nl">age</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">s</span><span class="p">:</span> <span class="nx">Student</span> <span class="o">=</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">avi</span><span class="dl">"</span><span class="p">,</span> <span class="na">cs</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="na">age</span><span class="p">:</span> <span class="mi">22</span> <span class="p">};</span>
+<span class="nx">s</span><span class="p">;</span> <span class="c1">// =&gt; { name: 'avi', cs: true, age: 22 }</span>
+</code></pre></div></div>
+
+<h3 id="recursive-types">Recursive Types</h3>
+
+<p>Naming types allows the definition of recursive types. Consider the case of defining a Linked List of numbers:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">NumberLink</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">num</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+    <span class="nl">next</span><span class="p">?:</span> <span class="nx">NumberLink</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">lst1</span><span class="p">:</span> <span class="nx">NumberLink</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">num</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">next</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">num</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="c1">// The last element does NOT have a next field.</span>
+        <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">num</span><span class="p">:</span> <span class="mi">3</span> <span class="p">},</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">lst1</span><span class="p">;</span> <span class="c1">// =&gt; { num: 1, next: { num: 2, next: { num: 3 } } }</span>
+</code></pre></div></div>
+
+<h3 id="operations-over-recursive-types">Operations over Recursive Types</h3>
+
+<p>This type definition is <em>recursive</em> - we observe that the definition of the <code class="language-plaintext highlighter-rouge">NumberLink</code> uses the <code class="language-plaintext highlighter-rouge">NumberLink</code> type as a component of its own definition.  This type annotation defines a set of values.  Think of this set of values as the set of values which are <code class="language-plaintext highlighter-rouge">map</code> with a mandatory key <code class="language-plaintext highlighter-rouge">num</code> with a <code class="language-plaintext highlighter-rouge">number</code> value and a <code class="language-plaintext highlighter-rouge">next</code> key which can either not occur, or when it occurs must be of type <code class="language-plaintext highlighter-rouge">NumberLink</code>.</p>
+
+<p>This recursive type, thus, defines a set of <em>embedded</em> values - down to a terminal case, where the <code class="language-plaintext highlighter-rouge">next</code> key is not defined, and the embedding stops.</p>
+
+<p>Given this type recursive definition, we can define procedures to traverse the linked list from start until a condition is met or until we reach the end of the list.  The following function illustrates the method:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">printNumberLinkedList</span><span class="p">:</span> <span class="p">(</span><span class="nx">list</span><span class="p">:</span> <span class="nx">NumberLink</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">void</span> <span class="o">=</span> <span class="nx">list</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="c1">// We know list.num is a number</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">num</span><span class="p">);</span>
+
+    <span class="c1">// list.next can either be undefined or a NumberLink</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">next</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">end of list</span><span class="dl">"</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">// It is safe to pass a NumberLink value</span>
+        <span class="c1">// to the recursive call</span>
+        <span class="nx">printNumberLinkedList</span><span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">next</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">printNumberLinkedList</span><span class="p">({</span> <span class="na">num</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">num</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">num</span><span class="p">:</span> <span class="mi">3</span> <span class="p">}</span> <span class="p">}</span> <span class="p">});</span>
+<span class="c1">// ==&gt;</span>
+<span class="c1">// 1</span>
+<span class="c1">// 2</span>
+<span class="c1">// 3</span>
+<span class="c1">// end of list</span>
+</code></pre></div></div>
+
+<p>The structure of the function follows the type definition - when the function receives a value of type <code class="language-plaintext highlighter-rouge">NumberLink</code>, it knows 
+it is a map value, that must contain a <code class="language-plaintext highlighter-rouge">num</code> key which must be of type <code class="language-plaintext highlighter-rouge">number</code>.  It is thus safe to invoke <code class="language-plaintext highlighter-rouge">list.num</code> and to expect a <code class="language-plaintext highlighter-rouge">number</code> value.</p>
+
+<p>Then when we need to access the <code class="language-plaintext highlighter-rouge">next</code> key - the type definition indicates we may find 2 different configurations:</p>
+<ul>
+  <li>Either <code class="language-plaintext highlighter-rouge">next</code> is not present - in which case, <code class="language-plaintext highlighter-rouge">list.next</code> will return the <code class="language-plaintext highlighter-rouge">undefined</code> value.</li>
+  <li>Or <code class="language-plaintext highlighter-rouge">next</code> is present and it must be a value of type NumberLink.</li>
+</ul>
+
+<p>The code enumerates these options according to the type definition, and specifies what operations are possible according to the structure of the data that we process.</p>
+
+<h3 id="generic-types">Generic Types</h3>
+
+<p>Consider the case of defining an <strong>homogeneous generic</strong> Linked List.  This is an abstraction over the previous type definition - we make the type of the values in the linked list a type variable.  This is indicated by the <code class="language-plaintext highlighter-rouge">&lt;T&gt;</code> component in the type annotation.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Link</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">x</span><span class="p">:</span> <span class="nx">T</span><span class="p">;</span>
+    <span class="nl">next</span><span class="p">?:</span> <span class="nx">Link</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kd">let</span> <span class="nx">lst2</span><span class="p">:</span> <span class="nx">Link</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">x</span><span class="p">:</span> <span class="dl">"</span><span class="s2">avi</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bob</span><span class="dl">"</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="dl">"</span><span class="s2">charles</span><span class="dl">"</span> <span class="p">}</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">lst2</span><span class="p">;</span> <span class="c1">// ==&gt; { x: 'avi', next: { x: 'bob', next: { x: 'charles' } } }</span>
+</code></pre></div></div>
+
+<p>The type variable, T, can be replaced with a compound type as well:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">lst3</span><span class="p">:</span> <span class="nx">Link</span><span class="o">&lt;</span><span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="kr">string</span> <span class="p">}</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">x</span><span class="p">:</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">xx</span><span class="dl">"</span> <span class="p">},</span>
+    <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">yy</span><span class="dl">"</span> <span class="p">},</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">last</span><span class="dl">"</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">lst3</span><span class="p">;</span> <span class="c1">// ==&gt; { x: { name: 'xx' }, next: { x: { name: 'yy' }, next: { x: [Object] } } }</span>
+</code></pre></div></div>
+
+<p>Consider the case of defining an <strong>heterogeneous</strong> Linked List, we can use the special type called <code class="language-plaintext highlighter-rouge">any</code> - which denotes the set of all possible values that can be computed by the language:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">lst4</span><span class="p">:</span> <span class="nx">Link</span><span class="o">&lt;</span><span class="kr">any</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">x</span><span class="p">:</span> <span class="dl">"</span><span class="s2">hi</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bye</span><span class="dl">"</span> <span class="p">}</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">lst4</span><span class="p">;</span> <span class="c1">// ==&gt; { x: 'hi', next: { x: 1, next: { x: 'bye' } } }</span>
+</code></pre></div></div>
+
+<p>How can we write a function that operates over a generic data structure such as <code class="language-plaintext highlighter-rouge">Link&lt;T&gt;</code>?
+Does the function need to know the type <code class="language-plaintext highlighter-rouge">T</code> to be useful at all?</p>
+
+<p>There are three ways when it can be relevant to write an operation over a generic type:</p>
+<ul>
+  <li>Either the operation does not depend on knowledge of the type which is contained;</li>
+  <li>Or the operation itself is a generic function which can be applied to a variety of types.</li>
+  <li>Or we write an operation that is only applicable for a specific instance of the generic type.</li>
+</ul>
+
+<p>Let us see an example of each case: a function which counts how many elements are in a Linked List does not depend on the type of the elements in the list.  We can write it as follows:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">countLink</span><span class="p">:</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">list</span><span class="p">:</span> <span class="nx">Link</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">number</span> <span class="o">=</span> <span class="p">(</span><span class="nx">list</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">list</span><span class="p">.</span><span class="nx">next</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="p">?</span> <span class="mi">1</span> <span class="p">:</span> <span class="mi">1</span> <span class="o">+</span> <span class="nx">countLink</span><span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">next</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="nx">countLink</span><span class="p">({</span> <span class="na">x</span><span class="p">:</span> <span class="dl">"</span><span class="s2">hi</span><span class="dl">"</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="dl">"</span><span class="s2">hello</span><span class="dl">"</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bye</span><span class="dl">"</span> <span class="p">}</span> <span class="p">}</span> <span class="p">});</span> <span class="c1">// =&gt; 3</span>
+</code></pre></div></div>
+
+<p>Note how the type of the function must also be marked as a generic function - since it can be applied to parameters for any type <code class="language-plaintext highlighter-rouge">T</code>.  This is noted with the notation:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">list</span><span class="p">:</span> <span class="nx">Link</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">number</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>For the second case, consider the case of the primitive function <code class="language-plaintext highlighter-rouge">console.log()</code> - it can receive parameters of any type.
+In this case, we can write a function that operates over the elements in the list even if they are of different types:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">printLink</span><span class="p">:</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">list</span><span class="p">:</span> <span class="nx">Link</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">void</span> <span class="o">=</span> <span class="p">(</span><span class="nx">list</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">x</span><span class="p">);</span>
+    <span class="nx">list</span><span class="p">.</span><span class="nx">next</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="p">?</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">end of list</span><span class="dl">"</span><span class="p">)</span> <span class="p">:</span> <span class="nx">printLink</span><span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">next</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="nx">printLink</span><span class="p">({</span> <span class="na">x</span><span class="p">:</span> <span class="dl">"</span><span class="s2">hi</span><span class="dl">"</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="dl">"</span><span class="s2">hello</span><span class="dl">"</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bye</span><span class="dl">"</span> <span class="p">}</span> <span class="p">}</span> <span class="p">});</span>
+<span class="c1">// ==&gt;</span>
+<span class="c1">// hi</span>
+<span class="c1">// hello</span>
+<span class="c1">// bye</span>
+<span class="c1">// end of list</span>
+
+<span class="nx">printLink</span><span class="p">({</span> <span class="na">x</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="mi">3</span> <span class="p">}</span> <span class="p">}</span> <span class="p">});</span>
+<span class="c1">// ==&gt;</span>
+<span class="c1">// 1</span>
+<span class="c1">// 2</span>
+<span class="c1">// 3</span>
+<span class="c1">// end of list</span>
+</code></pre></div></div>
+
+<p>Note that in the two invocations of the generic functions above, the compiler guesses the type of the parameter (<code class="language-plaintext highlighter-rouge">Link&lt;string&gt;</code> and <code class="language-plaintext highlighter-rouge">Link&lt;number&gt;</code>) from inspection of the literal.</p>
+
+<p>The following invocation on a heterogeneous list, though, will not pass compilation:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">printLink</span><span class="p">({</span> <span class="na">x</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="dl">"</span><span class="s2">a</span><span class="dl">"</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="mi">3</span> <span class="p">}</span> <span class="p">}</span> <span class="p">});</span>
+</code></pre></div></div>
+
+<p>This is because the compiler will not infer on its own that the programmer intends to use an <code class="language-plaintext highlighter-rouge">any</code> type or a type union.
+To make this work, the programmer must explicitly indicate that this is what is intended as follows:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">l</span><span class="p">:</span> <span class="nx">Link</span><span class="o">&lt;</span><span class="kr">any</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="dl">"</span><span class="s2">a</span><span class="dl">"</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="mi">3</span> <span class="p">}</span> <span class="p">}</span> <span class="p">};</span>
+<span class="nx">printLink</span><span class="p">(</span><span class="nx">l</span><span class="p">);</span>
+<span class="c1">// ==&gt;</span>
+<span class="c1">// 1</span>
+<span class="c1">// a</span>
+<span class="c1">// 3</span>
+<span class="c1">// end of list</span>
+</code></pre></div></div>
+
+<p>The third option to operate over a generic data type, is to create a function which operates specifically over a type instance of the type variable <code class="language-plaintext highlighter-rouge">T</code>.  For example, the following function operates only on <code class="language-plaintext highlighter-rouge">List&lt;number&gt;</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">squareSumList</span><span class="p">:</span> <span class="p">(</span><span class="nx">list</span><span class="p">:</span> <span class="nx">Link</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span><span class="p">,</span> <span class="nx">acc</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">number</span> <span class="o">=</span> <span class="p">(</span><span class="nx">list</span><span class="p">,</span> <span class="nx">acc</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">next</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="k">return</span> <span class="nx">acc</span> <span class="o">+</span> <span class="nx">list</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="nx">list</span><span class="p">.</span><span class="nx">x</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="nx">squareSumList</span><span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">next</span><span class="p">,</span> <span class="nx">acc</span> <span class="o">+</span> <span class="nx">list</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="nx">list</span><span class="p">.</span><span class="nx">x</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="nx">squareSumList</span><span class="p">({</span> <span class="na">x</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="na">next</span><span class="p">:</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="mi">3</span> <span class="p">}</span> <span class="p">}</span> <span class="p">},</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// = 1*1 + 2*2 + 3*3</span>
+<span class="c1">// ==&gt; 14</span>
+</code></pre></div></div>
+
+<h2 id="recursive-types-tree-variations">Recursive Types: Tree Variations</h2>
+
+<h3 id="trees-with-arbritrary-number-of-children">Trees with Arbritrary Number of Children</h3>
+
+<p>We saw in class the definition of a <code class="language-plaintext highlighter-rouge">BinTree&lt;T&gt;</code> type specification. It demonstrated:</p>
+
+<ul>
+  <li>the need for naming types (with the <code class="language-plaintext highlighter-rouge">type</code> alias construct) to allow recursive type specification</li>
+  <li>the need to define optional properties in maps (with the <code class="language-plaintext highlighter-rouge">key?</code> notation) to allow the <em>end of the recursion</em> in the values.</li>
+</ul>
+
+<p><strong>Exercise:</strong>
+Define a Tree with an arbitrary number of children below each node.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">root</span><span class="p">:</span> <span class="nx">T</span><span class="p">;</span>
+    <span class="nl">children</span><span class="p">:</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">[];</span>
+<span class="p">}</span>
+
+<span class="c1">// A tree of number nodes with just a root</span>
+<span class="kd">let</span> <span class="nx">numbersTree</span><span class="p">:</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">root</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">children</span><span class="p">:</span> <span class="p">[]</span>
+<span class="p">};</span>
+
+<span class="c1">// A tree of string nodes with just a root</span>
+<span class="kd">let</span> <span class="nx">stringsTree</span><span class="p">:</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">root</span><span class="p">:</span> <span class="dl">"</span><span class="s2">tirgul 2</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">children</span><span class="p">:</span> <span class="p">[]</span>
+<span class="p">};</span>
+
+<span class="c1">// A tree of numbers with one root and 2 children.</span>
+<span class="kd">let</span> <span class="nx">t</span><span class="p">:</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">root</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">children</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="na">children</span><span class="p">:</span> <span class="p">[]</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="na">children</span><span class="p">:</span> <span class="p">[]</span> <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">};</span>
+
+<span class="c1">// A heterogeneous tree with string and number nodes</span>
+<span class="kd">let</span> <span class="nx">anyTree</span><span class="p">:</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="kr">any</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">root</span><span class="p">:</span> <span class="dl">"</span><span class="s2">numbers and strings</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">children</span><span class="p">:</span> <span class="p">[</span><span class="nx">numbersTree</span><span class="p">,</span> <span class="nx">stringsTree</span><span class="p">]</span>
+<span class="p">};</span>
+
+<span class="nx">anyTree</span><span class="p">;</span>
+<span class="c1">// ==&gt;</span>
+<span class="c1">//    { root: 'numbers and strings',</span>
+<span class="c1">//      children: </span>
+<span class="c1">//       [ { root: 1, children: [] },</span>
+<span class="c1">//         { root: 'tirgul 2', children: [] } ] }</span>
+</code></pre></div></div>
+
+<p><strong>QUESTIONS</strong>: 
+In this case, we did not mark the field <code class="language-plaintext highlighter-rouge">children</code> as optional in the type definition.
+It is <code class="language-plaintext highlighter-rouge">children: []</code> and not <code class="language-plaintext highlighter-rouge">children?: []</code> as it was in the case of <code class="language-plaintext highlighter-rouge">BinTree</code> or <code class="language-plaintext highlighter-rouge">Link</code> above.</p>
+
+<p>What is the difference?</p>
+
+<p>What are the arguments for and against defining <code class="language-plaintext highlighter-rouge">children</code> as optional?</p>
+
+<p><strong>ANSWERS</strong></p>
+
+<p>The question is related to the definition of the <strong>base case</strong> vs. <strong>inductive case</strong> in the recursive definition of the type.</p>
+<ul>
+  <li>In the case of <code class="language-plaintext highlighter-rouge">BinTree</code> and <code class="language-plaintext highlighter-rouge">Link</code> above, we marked the base case with a key being <code class="language-plaintext highlighter-rouge">undefined</code>.</li>
+  <li>In the case of <code class="language-plaintext highlighter-rouge">Tree</code> with many children, we mark the base case with a key of type <code class="language-plaintext highlighter-rouge">Tree[]</code> being equal to <code class="language-plaintext highlighter-rouge">[]</code>.</li>
+</ul>
+
+<p>The decision of what is the base case is completely in the hands of the programmer - so both options are legitimate.</p>
+
+<p>But we must aim for a situation where the base case is <strong>distinct</strong> from the inductive case - so that they can be easily 
+distinguished when we write code that must decide whether we reached the end of the recursion.  We must make sure as much
+as possible that the type definition we provide allows us to encode:</p>
+<ul>
+  <li><em>All the possible values</em> in the type</li>
+  <li><em>Only the possible values</em> in the type.</li>
+</ul>
+
+<p>If we defined <code class="language-plaintext highlighter-rouge">Tree</code> as:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">root</span><span class="p">:</span> <span class="nx">T</span><span class="p">;</span>
+    <span class="nl">children</span><span class="p">?:</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">[];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>we could still define all the possible values as requested.
+But the following two values would also be valid values of the type:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span> <span class="nl">root</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="nx">children</span><span class="p">:</span> <span class="p">[]</span> <span class="p">}</span>
+<span class="c1">// and</span>
+<span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>This means we would have two options to represent a leaf in a tree - which would mean it is an ambiguous representation. This would force us to test for the fact that a node is a leaf as follows:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">children</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">children</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+   <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>In this case, we prefer to have a non-ambiguous way to mark the base case - and write only:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">children</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+   <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Thus, the definition of the type:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">root</span><span class="p">:</span> <span class="nx">T</span><span class="p">;</span>
+    <span class="nl">children</span><span class="p">:</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">[];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><strong>without</strong> the <code class="language-plaintext highlighter-rouge">?</code> option is preferred.</p>
+
+<p><strong>Exercise:</strong>
+Create a function that follows a path within the tree and returns the node found at this place.</p>
+
+<p>First, how do we encode a path in this tree?</p>
+
+<p>A path must indicate a way to reach a specific node in the tree starting at the root and selecting one of the children at each step.</p>
+
+<p>For example, let’s look at this tree:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">root</span><span class="p">:</span> <span class="nx">T</span><span class="p">;</span>
+    <span class="nl">children</span><span class="p">:</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">[];</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">t</span><span class="p">:</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">root</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">children</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="na">children</span><span class="p">:</span> <span class="p">[{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="na">children</span><span class="p">:</span> <span class="p">[]</span> <span class="p">}]</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">children</span><span class="p">:</span> <span class="p">[{</span> <span class="na">root</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="na">children</span><span class="p">:</span> <span class="p">[]</span> <span class="p">}]</span> <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><img src="./TypeScript_ Type Checking _ Principles of Programming Languages_files/tree.png" alt="tree"></p>
+
+<p>We decide to encode paths as an array of numbers, indicating which child to select among the children of each node on the path:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>the path of the child with {root:4} will be [0,0]
+the path of the child with {root:3} will be [1,0]
+the path of the child with {root:2} will be [0]
+the path of the child with {root:1} will be [1]
+</code></pre></div></div>
+
+<p>We know the type of the tree, so we can design a function that will not give errors at runtime.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">getChild</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">t</span><span class="p">:</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="nx">path</span><span class="p">:</span> <span class="kr">number</span><span class="p">[]):</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="c1">// end of path</span>
+        <span class="k">return</span> <span class="nx">t</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">children</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="c1">// t is a leaf - cannot go down</span>
+        <span class="k">return</span> <span class="nx">t</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="nx">getChild</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span><span class="nx">path</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="nx">path</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span> <span class="c1">// recursive case</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getChild</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]));</span> <span class="c1">// ==&gt; { root: 2, children: [] }</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getChild</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]));</span> <span class="c1">// ==&gt; { root: 3, children: [] }</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getChild</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]));</span> <span class="c1">// ==&gt; { root: 3, children: [] } (Do not go "after" the leaves.)</span>
+</code></pre></div></div>
+
+<p>In the rest of the semester, we write functions in TypeScript in the style of functional programming, using the fat arrow syntax.
+The same function will be defined as follows:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">getChild</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">t</span><span class="p">:</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="nx">path</span><span class="p">:</span> <span class="kr">number</span><span class="p">[]):</span> <span class="nx">Tree</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="c1">// end of the path</span>
+    <span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">?</span> <span class="nx">t</span> <span class="p">:</span>
+    <span class="c1">// t is a leaf - cannot go down</span>
+    <span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">children</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">?</span> <span class="nx">t</span> <span class="p">:</span> 
+    <span class="c1">// recursive case</span>
+    <span class="nx">getChild</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span><span class="nx">path</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="nx">path</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getChild</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]));</span>
+</code></pre></div></div>
+
+<p>The differences are:</p>
+<ul>
+  <li>The function is defined as a const name and an anonymous function on the right hand side of the const</li>
+  <li>The body of the function is a single expression</li>
+  <li>We use the ternary if expression (as opposed to the if-statement) <code class="language-plaintext highlighter-rouge">test ? then : else</code></li>
+  <li>There is no use for the <code class="language-plaintext highlighter-rouge">return</code> reserved word.</li>
+</ul>
+
+<h2 id="function-types">Function Types</h2>
+
+<p><strong>Review</strong>:</p>
+
+<p>Functions in Functional Programming languages are values - that is, we can write expressions, which when they are evaluated at run time become functions (more precisely, <em>closures</em> - since these values are functions that may capture variable bindings).</p>
+
+<p>We must have the ability to describe the type of these values and distinguish among different types of functions.</p>
+
+<p>An untyped function in Javascript has the following form:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Named function (has global scope)</span>
+<span class="kd">function</span> <span class="nx">add</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Anonymous function</span>
+<span class="kd">const</span> <span class="nx">myAdd</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// Using the fat arrow notation:</span>
+<span class="kd">const</span> <span class="nx">myFatAdd</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+
+<span class="nx">myFatAdd</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="c1">// ==&gt; 8</span>
+</code></pre></div></div>
+
+<p>We can first specify the types of the parameters and the return type, in a way similar to the way it would be done in Java. This applies both to named functions and to anonymous functions.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Named function</span>
+<span class="kd">function</span> <span class="nx">addT</span><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">y</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Anonymous function</span>
+<span class="kd">const</span> <span class="nx">myAdd</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">y</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// Using the fat arrow notation:</span>
+<span class="kd">const</span> <span class="nx">myFatAdd</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">y</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+
+<span class="nx">myFatAdd</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span> <span class="c1">// ==&gt; 6</span>
+</code></pre></div></div>
+
+<p>Let us now write the full type of the function out of the function value:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">const</span> <span class="nx">myAdd</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">y</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">number</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">y</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">const</span> <span class="nx">myFatAdd</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">y</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">number</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">y</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+
+<span class="nx">myFatAdd</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span> <span class="c1">// ==&gt; 9</span>
+</code></pre></div></div>
+
+<p>The type expression:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">y</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">number</span><span class="p">;</span>
+</code></pre></div></div>
+<p>is a <strong>function type</strong>. The values that this type denotes are functions that map a pair of numbers to a number - in other words, functions whose domain is within  <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D462 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45A TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44F TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D452 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45F TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-cD7"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="3"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D462 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45A TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44F TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D452 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45F TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>N</mi><mi>u</mi><mi>m</mi><mi>b</mi><mi>e</mi><mi>r</mi><mo>×</mo><mi>N</mi><mi>u</mi><mi>m</mi><mi>b</mi><mi>e</mi><mi>r</mi></math></mjx-assistive-mml></mjx-container> and whose range is within <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D462 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45A TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44F TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D452 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45F TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>N</mi><mi>u</mi><mi>m</mi><mi>b</mi><mi>e</mi><mi>r</mi></math></mjx-assistive-mml></mjx-container>. (Remember that types denote a set of values.)</p>
+
+<p>This function type together with the name of the parameters is also called the <strong>function signature</strong>.</p>
+
+<p>Function types include parameter names and parameter types and a return type.
+Parameter names are just to help with readability. We could have instead written:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">myAdd</span><span class="p">:</span> <span class="p">(</span><span class="nx">baseValue</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">increment</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">number</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">y</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>As long as the parameter types align, it’s considered a valid type for the function, regardless of the names you give the parameters in the function type.</p>
+
+<p>The second part of the function type is the return type. We make it clear which is the return type by using a fat arrow (<strong>=&gt;</strong>) between the parameters and the return type. This is a required part of the function type, so if the function doesn’t return a value (which means this is a function that just has a side-effect - no return value), we use the special type <strong>void</strong> instead of leaving it off.</p>
+
+<h2 id="function-types-examples">Function Types Examples</h2>
+
+<h3 id="1-square-function">1. Square Function</h3>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">square</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="p">;</span>
+<span class="nx">square</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="c1">// ==&gt; 100</span>
+</code></pre></div></div>
+
+<p>The <strong>value</strong> of <code class="language-plaintext highlighter-rouge">square</code> is a closure.</p>
+
+<p>The <strong>type</strong> of <code class="language-plaintext highlighter-rouge">square</code> is: <code class="language-plaintext highlighter-rouge">(x: any) =&gt; number</code>.</p>
+
+<p>We infer that the return type of the function is <code class="language-plaintext highlighter-rouge">number</code> because the value of the function is that which is returned when computing its body; the body is an expression of the form <code class="language-plaintext highlighter-rouge">x * x</code> and the primitive operator <code class="language-plaintext highlighter-rouge">*</code> returns a <code class="language-plaintext highlighter-rouge">number</code>.</p>
+
+<p>In scheme we would also infer that the <code class="language-plaintext highlighter-rouge">x</code> variable must be of type <code class="language-plaintext highlighter-rouge">number</code> because it appears as an argument of the <code class="language-plaintext highlighter-rouge">*</code> operator which works on numbers.
+(We cannot do the same in JavaScript, why?)</p>
+
+<h3 id="2-generic-type-function">2. Generic Type Function</h3>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">id</span><span class="p">(</span><span class="mi">0</span><span class="p">)}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; 0</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">id</span><span class="p">(</span><span class="dl">"</span><span class="s2">tirgul 2</span><span class="dl">"</span><span class="p">)}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; tirgul 2</span>
+</code></pre></div></div>
+
+<p>The function id can be applied on any value - for example: string, boolean, number, but also arrays and maps.</p>
+
+<p>We mark its argument as a type variable T1 and the type of the function is:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">T1</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">T1</span>
+</code></pre></div></div>
+
+<p><strong>NOTE</strong>: This is the most basic example of a <strong>polymorphic function</strong> - also called a <strong>generic function</strong>.</p>
+
+<p><strong>NOTE</strong>: Defining this identity function as <code class="language-plaintext highlighter-rouge">&lt;T1&gt;(x: T1) =&gt; T1</code> is very different from defining it as<br> <strong><code class="language-plaintext highlighter-rouge">(x: any) =&gt; any</code></strong>. Can you explain why? Give examples of functions to illustrate.</p>
+
+<p><strong>NOTE</strong>: To mark a function as generic in TypeScript, we must use the syntax:
+<code class="language-plaintext highlighter-rouge">function id&lt;T&gt;(x: T): T { return x; }</code>.</p>
+
+<h3 id="3-union-type-function">3. Union Type Function</h3>
+
+<p>Consider this function:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">unionFunc</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">unionFunc</span><span class="p">(</span><span class="mi">0</span><span class="p">)}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; 0</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">unionFunc</span><span class="p">(</span><span class="mi">5</span><span class="p">)}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; false</span>
+</code></pre></div></div>
+
+<p><strong>NOTE</strong>: the function can return two different types.</p>
+
+<p>How can we describe its type?</p>
+
+<p>One weak description is to use: <code class="language-plaintext highlighter-rouge">(x: number) =&gt; any</code>.</p>
+
+<p>A more informative description would be to use a <em>type union</em>:
+<code class="language-plaintext highlighter-rouge">&lt;T1&gt;(x: T1) =&gt; number | boolean</code>.</p>
+
+<p>Note that we could infer that <code class="language-plaintext highlighter-rouge">x</code> is of type <code class="language-plaintext highlighter-rouge">number</code> because we compare it to <code class="language-plaintext highlighter-rouge">0</code>.
+But the operator <code class="language-plaintext highlighter-rouge">===</code> is a universal operator in JavaScript and does not require its parameters to be of the same type. In other words, the primitive <code class="language-plaintext highlighter-rouge">===</code> has type: <code class="language-plaintext highlighter-rouge">(x: any, y: any) =&gt; boolean</code>.</p>
+
+<p><strong>NOTE</strong>: Do we want to define functions which return union types of this sort?</p>
+
+<p><strong>Answer</strong>: This is <strong>not</strong> a good idea.  Such functions are surely not defined well if their return value must be described by a <em>complicated</em> type of this sort - it is almost always the sign of a bug.</p>
+
+<p>Such return values are very complicated to consume - if we want to call this function, we must always test the return value as:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">unionFunc</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">x</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">number</span><span class="dl">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
+<span class="k">else</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</code></pre></div></div>
+<p>and we will almost never be able to invoke <code class="language-plaintext highlighter-rouge">g(unionFunc(2))</code> for usual functions.</p>
+
+<h3 id="4-map-function-type">4. Map Function Type</h3>
+
+<p>We can apply map (of the ramda package) on varied arguments:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">map</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">ramda</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">let</span> <span class="nx">numbersArray</span> <span class="o">=</span> <span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]);</span>
+<span class="kd">let</span> <span class="nx">stringsArray</span> <span class="o">=</span> <span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">d</span><span class="dl">"</span><span class="p">,</span> <span class="p">[</span><span class="dl">"</span><span class="s2">a</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">b</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">c</span><span class="dl">"</span><span class="p">]);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">numbersArray</span><span class="p">);</span> <span class="c1">// ==&gt; [ 2, 3, 4 ]</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">stringsArray</span><span class="p">);</span> <span class="c1">// ==&gt; [ 'ad', 'bd', 'cd' ]</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">map</code> receives two arguments: a function and an array.</p>
+
+<p>Let us name them <code class="language-plaintext highlighter-rouge">func</code> and <code class="language-plaintext highlighter-rouge">array</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">array</code> can contain items of any type - let us mark it as T1 under the assumption that the array is <strong>homogeneous</strong>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">func</code> gets one parameter - which must be of the type of the elements in <code class="language-plaintext highlighter-rouge">array</code>.</p>
+
+<p>For each item in <code class="language-plaintext highlighter-rouge">array</code> it returns a value of a given type - let us call this return type <code class="language-plaintext highlighter-rouge">T2</code>.</p>
+
+<p>The type of the parameter <code class="language-plaintext highlighter-rouge">func</code> is therefore: <code class="language-plaintext highlighter-rouge">(x:T1)=&gt;T2</code>.</p>
+
+<p>The value returned by <code class="language-plaintext highlighter-rouge">map</code> is an array of the values returned by <code class="language-plaintext highlighter-rouge">func</code> - that is, its type is <code class="language-plaintext highlighter-rouge">T2[]</code>.</p>
+
+<p>Putting all the elements together: the type of the <code class="language-plaintext highlighter-rouge">map</code> function is:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">T1</span><span class="p">,</span> <span class="nx">T2</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">func</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">T2</span><span class="p">,</span> <span class="nx">array</span><span class="p">:</span> <span class="nx">T1</span><span class="p">[])</span> <span class="o">=&gt;</span> <span class="nx">T2</span><span class="p">[]</span>
+</code></pre></div></div>
+
+<h3 id="5-filter-function-type">5. Filter Function Type</h3>
+
+<p>We can apply <code class="language-plaintext highlighter-rouge">filter</code> (of the ramda package) on varied arguments:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">filter</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">ramda</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">let</span> <span class="nx">numbersArray</span> <span class="o">=</span> <span class="nx">filter</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">===</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]);</span>
+<span class="kd">let</span> <span class="nx">stringsArray</span> <span class="o">=</span> <span class="nx">filter</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">d</span><span class="dl">"</span><span class="p">,</span> <span class="p">[</span><span class="dl">"</span><span class="s2">david</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">dani</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">moshe</span><span class="dl">"</span><span class="p">]);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">numbersArray</span><span class="p">);</span> <span class="c1">// ==&gt; [ 2 ]</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">stringsArray</span><span class="p">);</span> <span class="c1">// ==&gt; [ 'david', 'dani' ]</span>
+</code></pre></div></div>
+
+<p>So what should be the type of the <code class="language-plaintext highlighter-rouge">filter</code> function?</p>
+
+<p><code class="language-plaintext highlighter-rouge">filter</code> receives two parameters: a function <code class="language-plaintext highlighter-rouge">pred</code> and an <code class="language-plaintext highlighter-rouge">array</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">array</code> can contain items of any type - let us call it <code class="language-plaintext highlighter-rouge">T1</code> under the assumption that the array is <strong>homogeneous</strong>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">pred</code> is a function, that gets one parameter of type <code class="language-plaintext highlighter-rouge">T1</code> and returns a <code class="language-plaintext highlighter-rouge">boolean</code> value.</p>
+
+<p><code class="language-plaintext highlighter-rouge">filter</code> returns a sub-array of the original array, so that the type it returns is <code class="language-plaintext highlighter-rouge">T1[]</code>.</p>
+
+<p>Putting all elements together, the type of the <code class="language-plaintext highlighter-rouge">filter</code> function is:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">T1</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">pred</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">boolean</span><span class="p">,</span> <span class="nx">array</span><span class="p">:</span> <span class="nx">T1</span><span class="p">[])</span> <span class="o">=&gt;</span> <span class="nx">T1</span><span class="p">[]</span>
+</code></pre></div></div>
+
+<h3 id="6-reduce-function-type">6. Reduce Function Type</h3>
+
+<p>We can apply <code class="language-plaintext highlighter-rouge">reduce</code> (of the ramda package) on varied arguments:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">reduce</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">ramda</span><span class="dl">'</span>
+
+<span class="kd">let</span> <span class="nx">num</span> <span class="o">=</span> <span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">curr</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">acc</span> <span class="o">+</span> <span class="nx">curr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]);</span>
+<span class="kd">let</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">curr</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">acc</span> <span class="o">+</span> <span class="nx">curr</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="dl">"</span><span class="s2">a</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">bc</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">def</span><span class="dl">"</span><span class="p">]);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">num</span><span class="p">);</span> <span class="c1">// ==&gt; 6</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">count</span><span class="p">);</span> <span class="c1">// ==&gt; 6</span>
+</code></pre></div></div>
+
+<p>So what should be the type of the <code class="language-plaintext highlighter-rouge">reduce</code> function?</p>
+
+<p><code class="language-plaintext highlighter-rouge">reduce</code> receives 3 arguments:</p>
+<ul>
+  <li>The reducer function <code class="language-plaintext highlighter-rouge">reducer</code></li>
+  <li>The initial value <code class="language-plaintext highlighter-rouge">init</code></li>
+  <li>The <code class="language-plaintext highlighter-rouge">array</code></li>
+</ul>
+
+<p>The elements of <code class="language-plaintext highlighter-rouge">array</code> can be of any type - let us call it <code class="language-plaintext highlighter-rouge">T1</code> under the assumption that the array is <strong>homogeneous</strong>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">reducer</code> gets two parameters (<code class="language-plaintext highlighter-rouge">acc</code> and <code class="language-plaintext highlighter-rouge">curr</code>) and outputs a value that will be the <code class="language-plaintext highlighter-rouge">acc</code> at the next iteration.
+<code class="language-plaintext highlighter-rouge">curr</code> is one of the items of <code class="language-plaintext highlighter-rouge">array</code> at each iteration.<br>
+We infer that:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">curr</code> must be of type <code class="language-plaintext highlighter-rouge">T1</code> (same type as the elements in <code class="language-plaintext highlighter-rouge">array</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">acc</code> and <code class="language-plaintext highlighter-rouge">init</code> must be of the same type <code class="language-plaintext highlighter-rouge">T2</code></li>
+  <li><code class="language-plaintext highlighter-rouge">reducer</code> is of type: <code class="language-plaintext highlighter-rouge">(acc: T2, curr: T1)=&gt;T2</code>.</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">reduce</code> eventually returns the last value of <code class="language-plaintext highlighter-rouge">acc</code> returned by <code class="language-plaintext highlighter-rouge">reducer</code> - so the type of the return value should be <code class="language-plaintext highlighter-rouge">T2</code>.</p>
+
+<p>Putting all things together, the type of <code class="language-plaintext highlighter-rouge">reduce</code> is:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">T1</span><span class="p">,</span> <span class="nx">T2</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">reducer</span><span class="p">:</span> <span class="p">(</span><span class="nx">acc</span><span class="p">:</span> <span class="nx">T2</span><span class="p">,</span> <span class="nx">curr</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">T2</span><span class="p">,</span> <span class="nx">init</span><span class="p">:</span> <span class="nx">T2</span><span class="p">,</span> <span class="nx">array</span><span class="p">:</span> <span class="nx">T1</span><span class="p">[])</span> <span class="o">=&gt;</span> <span class="nx">T2</span>
+</code></pre></div></div>
+
+<h2 id="7-compose-function-type">7. Compose Function Type</h2>
+
+<p>Compose receives two function arguments <code class="language-plaintext highlighter-rouge">f</code> and <code class="language-plaintext highlighter-rouge">g</code> and returns a new function as a value:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">compose</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">ramda</span><span class="dl">'</span>
+<span class="kd">let</span> <span class="nx">hn</span> <span class="o">=</span> <span class="nx">compose</span><span class="p">(</span><span class="nx">y</span> <span class="o">=&gt;</span> <span class="nx">y</span> <span class="o">*</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<span class="nx">hn</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span> <span class="c1">// ==&gt; (3 + 1) * (3 + 1) = 16</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Reverse a string: </span>
+<span class="c1">// - Make an array of chars out of the string (split(""))</span>
+<span class="c1">// - Reverse the array</span>
+<span class="c1">// - Join the chars back into a string array.join("")</span>
+<span class="kd">const</span> <span class="nx">reverse</span><span class="p">:</span> <span class="p">(</span><span class="nx">s</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">string</span> <span class="o">=</span> <span class="nx">s</span> <span class="o">=&gt;</span> <span class="nx">s</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">""</span><span class="p">).</span><span class="nx">reverse</span><span class="p">().</span><span class="nx">join</span><span class="p">(</span><span class="dl">""</span><span class="p">);</span>
+<span class="nx">reverse</span><span class="p">(</span><span class="dl">"</span><span class="s2">abcd</span><span class="dl">"</span><span class="p">);</span> <span class="c1">// ==&gt; 'dcba'</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Return a new string with all upper case chars</span>
+<span class="kd">const</span> <span class="nx">upper</span><span class="p">:</span> <span class="p">(</span><span class="nx">s</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">string</span> <span class="o">=</span> <span class="nx">s</span> <span class="o">=&gt;</span> <span class="nx">s</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">();</span>
+<span class="nx">upper</span><span class="p">(</span><span class="dl">"</span><span class="s2">abcd</span><span class="dl">"</span><span class="p">);</span> <span class="c1">// ==&gt; 'ABCD'</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">upperReverse</span><span class="p">:</span> <span class="p">(</span><span class="nx">s</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">string</span> <span class="o">=</span> <span class="nx">compose</span><span class="p">(</span><span class="nx">reverse</span><span class="p">,</span> <span class="nx">upper</span><span class="p">);</span>
+<span class="nx">upperReverse</span><span class="p">(</span><span class="dl">"</span><span class="s2">abcd</span><span class="dl">"</span><span class="p">);</span> <span class="c1">// ==&gt; 'DCBA'</span>
+</code></pre></div></div>
+
+<p>What is the type of the function <code class="language-plaintext highlighter-rouge">compose</code>?</p>
+
+<p>The first parameter <code class="language-plaintext highlighter-rouge">f</code> receives a value of any type, let us call it <code class="language-plaintext highlighter-rouge">T1</code> and returns a value of any type <code class="language-plaintext highlighter-rouge">T2</code>.</p>
+
+<p>The second parameter <code class="language-plaintext highlighter-rouge">g</code> receives a value of any type, <code class="language-plaintext highlighter-rouge">T3</code> and returns a value of any type <code class="language-plaintext highlighter-rouge">T4</code>.</p>
+
+<p>The returned value is a function which computes <code class="language-plaintext highlighter-rouge">f(g(x))</code> for any parameter <code class="language-plaintext highlighter-rouge">x</code>.</p>
+
+<p>We infer that the returned function must receive parameters of the same type as <code class="language-plaintext highlighter-rouge">g</code> - that is <code class="language-plaintext highlighter-rouge">T3</code>.</p>
+
+<p>In addition, we infer that the value returned by <code class="language-plaintext highlighter-rouge">g(x)</code> must be of the type that <code class="language-plaintext highlighter-rouge">f</code> expects - that is, <code class="language-plaintext highlighter-rouge">T4</code> must be the same as <code class="language-plaintext highlighter-rouge">T1</code>.</p>
+
+<p>Finally, the value returned by <code class="language-plaintext highlighter-rouge">f(g(x))</code> is of the same type as that returned by <code class="language-plaintext highlighter-rouge">f</code> - that is, <code class="language-plaintext highlighter-rouge">T2</code>.</p>
+
+<p>Putting all things together - the type of <code class="language-plaintext highlighter-rouge">compose</code> is:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">T1</span><span class="p">,</span> <span class="nx">T2</span><span class="p">,</span> <span class="nx">T3</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">f</span><span class="p">:</span> <span class="p">(</span><span class="nx">y</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">T2</span><span class="p">,</span> <span class="nx">g</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T3</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T3</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">T2</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>It helps to renumber the type variables according to the order in which they are computed:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">T1</span><span class="p">,</span> <span class="nx">T2</span><span class="p">,</span> <span class="nx">T3</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">f</span><span class="p">:</span> <span class="p">(</span><span class="nx">y</span><span class="p">:</span> <span class="nx">T2</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">T3</span><span class="p">,</span> <span class="nx">g</span><span class="p">:</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">T2</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">T3</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>which can be read as: a value <code class="language-plaintext highlighter-rouge">x</code> of type <code class="language-plaintext highlighter-rouge">T1</code> is mapped to a value of type <code class="language-plaintext highlighter-rouge">T2</code> and then to a value of type <code class="language-plaintext highlighter-rouge">T3</code>.</p>
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

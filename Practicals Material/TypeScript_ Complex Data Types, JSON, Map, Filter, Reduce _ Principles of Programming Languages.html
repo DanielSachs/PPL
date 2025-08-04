@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://bguppl.github.io/interpreters/practice_sessions/ps1.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>TypeScript: Complex Data Types, JSON, Map, Filter, Reduce | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="TypeScript: Complex Data Types, JSON, Map, Filter, Reduce">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/practice_sessions/ps1.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/practice_sessions/ps1.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="TypeScript: Complex Data Types, JSON, Map, Filter, Reduce">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"TypeScript: Complex Data Types, JSON, Map, Filter, Reduce","url":"https://bguppl.github.io/interpreters/practice_sessions/ps1.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./TypeScript_ Complex Data Types, JSON, Map, Filter, Reduce _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./TypeScript_ Complex Data Types, JSON, Map, Filter, Reduce _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-msub {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mo {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-stretchy-h {
+  display: inline-table;
+  width: 100%;
+}
+
+mjx-stretchy-h > * {
+  display: table-cell;
+  width: 0;
+}
+
+mjx-stretchy-h > * > mjx-c {
+  display: inline-block;
+  transform: scalex(1.0000001);
+}
+
+mjx-stretchy-h > * > mjx-c::before {
+  display: inline-block;
+  width: initial;
+}
+
+mjx-stretchy-h > mjx-ext {
+  /* IE */ overflow: hidden;
+  /* others */ overflow: clip visible;
+  width: 100%;
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c::before {
+  transform: scalex(500);
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c {
+  width: 0;
+}
+
+mjx-stretchy-h > mjx-beg > mjx-c {
+  margin-right: -.1em;
+}
+
+mjx-stretchy-h > mjx-end > mjx-c {
+  margin-left: -.1em;
+}
+
+mjx-stretchy-v {
+  display: inline-block;
+}
+
+mjx-stretchy-v > * {
+  display: block;
+}
+
+mjx-stretchy-v > mjx-beg {
+  height: 0;
+}
+
+mjx-stretchy-v > mjx-end > mjx-c {
+  display: block;
+}
+
+mjx-stretchy-v > * > mjx-c {
+  transform: scaley(1.0000001);
+  transform-origin: left center;
+  overflow: hidden;
+}
+
+mjx-stretchy-v > mjx-ext {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  border: 0px solid transparent;
+  /* IE */ overflow: hidden;
+  /* others */ overflow: visible clip;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c::before {
+  width: initial;
+  box-sizing: border-box;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c {
+  transform: scaleY(500) translateY(.075em);
+  overflow: visible;
+}
+
+mjx-mark {
+  display: inline-block;
+  height: 0px;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D463.TEX-I::before {
+  padding: 0.443em 0.485em 0.011em 0;
+  content: "v";
+}
+
+mjx-c.mjx-c1D456.TEX-I::before {
+  padding: 0.661em 0.345em 0.011em 0;
+  content: "i";
+}
+
+mjx-c.mjx-c1D464.TEX-I::before {
+  padding: 0.443em 0.716em 0.011em 0;
+  content: "w";
+}
+
+mjx-c.mjx-c1D451.TEX-I::before {
+  padding: 0.694em 0.52em 0.01em 0;
+  content: "d";
+}
+
+mjx-c.mjx-c1D461.TEX-I::before {
+  padding: 0.626em 0.361em 0.011em 0;
+  content: "t";
+}
+
+mjx-c.mjx-c210E.TEX-I::before {
+  padding: 0.694em 0.576em 0.011em 0;
+  content: "h";
+}
+
+mjx-c.mjx-cD7::before {
+  padding: 0.491em 0.778em 0 0;
+  content: "\D7";
+}
+
+mjx-c.mjx-c1D452.TEX-I::before {
+  padding: 0.442em 0.466em 0.011em 0;
+  content: "e";
+}
+
+mjx-c.mjx-c1D454.TEX-I::before {
+  padding: 0.442em 0.477em 0.205em 0;
+  content: "g";
+}
+
+mjx-c.mjx-c5B::before {
+  padding: 0.75em 0.278em 0.25em 0;
+  content: "[";
+}
+
+mjx-c.mjx-c1D450.TEX-I::before {
+  padding: 0.442em 0.433em 0.011em 0;
+  content: "c";
+}
+
+mjx-c.mjx-c1D44E.TEX-I::before {
+  padding: 0.441em 0.529em 0.01em 0;
+  content: "a";
+}
+
+mjx-c.mjx-c1D45C.TEX-I::before {
+  padding: 0.441em 0.485em 0.011em 0;
+  content: "o";
+}
+
+mjx-c.mjx-c1D45F.TEX-I::before {
+  padding: 0.442em 0.451em 0.011em 0;
+  content: "r";
+}
+
+mjx-c.mjx-c1D466.TEX-I::before {
+  padding: 0.442em 0.49em 0.205em 0;
+  content: "y";
+}
+
+mjx-c.mjx-c31::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "1";
+}
+
+mjx-c.mjx-c2C::before {
+  padding: 0.121em 0.278em 0.194em 0;
+  content: ",";
+}
+
+mjx-c.mjx-c32::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "2";
+}
+
+mjx-c.mjx-c5D::before {
+  padding: 0.75em 0.278em 0.25em 0;
+  content: "]";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./TypeScript_ Complex Data Types, JSON, Map, Filter, Reduce _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="typescript-complex-data-types-json-map-filter-reduce">TypeScript: Complex Data Types, JSON, Map, Filter, Reduce</h1>
+
+<h2 id="ppl-2023---course-website">PPL 2023 - <a href="https://bguppl.github.io/interpreters/">Course Website</a></h2>
+<h2 id="practical-session---week-1">Practical Session - Week #1</h2>
+
+<h3 id="how-to-install-nodejs-and-npm-on-windows">How to Install Node.js and NPM on Windows</h3>
+
+<p>Node.js is a JavaScript interpreter. NPM (Node Package Manager) let’s you install software (libraries, plugins, frameworks and applications) used to build Node applications. Both are installed using the installer package avaiable from the Node.js web site. The isntallation is pretty straightforward:</p>
+
+<ol>
+  <li>Download the LTS (version 18) Windows installer from <a href="https://nodejs.org/en/">nodejs.org</a></li>
+  <li>Run the installer (the .msi file you downloaded in the previous step.)</li>
+  <li>Follow the prompts in the installer (Accept the license agreement, click the NEXT button a bunch of times and accept the default installation settings).</li>
+  <li>Restart your computer.</li>
+</ol>
+
+<h4 id="test-the-installation">Test the installation:</h4>
+<ul>
+  <li>Open the Windows Command Prompt (press the Win + R keys. Then, type <code class="language-plaintext highlighter-rouge">cmd</code> and press Enter).</li>
+  <li>To verify node is installed, type <code class="language-plaintext highlighter-rouge">node -v</code>, then press Enter. You should see a version number (should start with ‘v16.’).</li>
+  <li>To verify NPM installation, type <code class="language-plaintext highlighter-rouge">npm -v</code> and press Enter. You should see a version number (should start with ‘8.’).</li>
+</ul>
+
+<h4 id="more-information">More information:</h4>
+<p>For instructions on how to install other software that will be used throughout the course, please refer to the <a href="https://bguppl.github.io/interpreters/useful_links.html">useful links</a> section in the course web site.  In particular, see instructions on how to install the TypeScript compiler <code class="language-plaintext highlighter-rouge">tsc</code> and the Visual Studio Code IDE.</p>
+
+<h2 id="1-types-of-values">1. Types of Values</h2>
+
+<p>A <strong>data-type</strong> is a classification of data which indicates what the programmer intends to do with the data. Types correspond to a set of values (eg. the boolean type corresponds to {true,false}, number type corresponds to the infinite set of numeric values), and they define the operations that can be done on the data (e.g. booleans can be computed using logical operators).</p>
+
+<p>We pay attention to two distinguishable defintions: The <strong>type of a value</strong> (atomic/compound) and the <strong>type of a variable</strong>. The type of a variable may be declared by the programmer of inferred by the type of the value it stores. The type of a value is determined by a defined group to which it belongs. The type of a variable may be different than the type of the value it stores, but they must be compatiable.</p>
+
+<p>Apart from atomic types (number, string, boolean), there are <strong>compound types</strong>. Javascript introduces two basic compound types: Arrays and Maps. In Javascript, compound types are called <em>object</em> types (note: not to be confused with the more standard term - <em>object</em> here simply refers to any value which is not an atomic type)</p>
+
+<h5 id="arrays">Arrays</h5>
+
+<p>Arrays are the first basic compound type in Javascript. Here is an example of using arrays:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// This is how we declare an array containing the elements 16,8,27,13</span>
+<span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">13</span><span class="p">];</span>
+
+<span class="c1">// Here's how we use the Array compound value getter:</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span> <span class="c1">// ==&gt; 13</span>
+
+<span class="c1">// There is also a slice method:</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">));</span> <span class="c1">// ==&gt; [ 8, 27, 13 ]</span>
+</code></pre></div></div>
+
+<p>Let’s check that it is a compound type:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">a</span><span class="p">);</span> <span class="c1">// ==&gt; 'object'</span>
+</code></pre></div></div>
+
+<p>And now the more specific reflection operator:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span> <span class="k">instanceof</span> <span class="nb">Array</span><span class="p">);</span> <span class="c1">// ==&gt; true</span>
+</code></pre></div></div>
+
+<p>The array we defined above is <strong>homogeneous</strong>, meaning that it contains a single data type. 
+The <strong>homogeneous</strong> array <code class="language-plaintext highlighter-rouge">a</code> above contains values whose types are <code class="language-plaintext highlighter-rouge">number</code>. 
+Arrays in Javascript can be heterogeneous as well:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">manyArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">2</span><span class="dl">'</span><span class="p">,</span> <span class="dl">"</span><span class="s2">The Dawn</span><span class="dl">"</span><span class="p">,</span> <span class="kc">true</span><span class="p">];</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`manyArray = </span><span class="p">${</span><span class="nx">manyArray</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; manyArray = 1,a,2,The Dawn,true</span>
+</code></pre></div></div>
+
+<h5 id="maps-and-objectkeys">Maps and <code class="language-plaintext highlighter-rouge">Object.keys</code></h5>
+
+<p>Maps are the second basic compound type in Javascript:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// This is how we declare them</span>
+<span class="kd">let</span> <span class="nx">map</span> <span class="o">=</span> <span class="p">{</span> <span class="na">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">b</span><span class="p">:</span> <span class="mi">2</span> <span class="p">};</span>
+
+<span class="c1">// This is how we use the Map compound value getter for the values:</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">map</span><span class="p">[</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">]);</span> <span class="c1">// ==&gt; 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">map</span><span class="p">.</span><span class="nx">a</span><span class="p">);</span> <span class="c1">// ==&gt; 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">map</span><span class="p">[</span><span class="dl">'</span><span class="s1">b</span><span class="dl">'</span><span class="p">]);</span> <span class="c1">// ==&gt; 2</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">map</span><span class="p">.</span><span class="nx">b</span><span class="p">);</span> <span class="c1">// ==&gt; 2</span>
+
+<span class="c1">// And for keys (relevant for both Arrays [the keys there are the indexes] and Maps)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">a</span><span class="p">));</span> <span class="c1">// ==&gt; [ '0', '1', '2', '3', '4' ]</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">map</span><span class="p">));</span> <span class="c1">// ==&gt; [ 'a', 'b' ]</span>
+</code></pre></div></div>
+
+<h5 id="variable-types">Variable Types</h5>
+
+<p>Javascript is a <em>dynamic language</em>, meaning that variables are not typed. But when a variable is bound to a value, we can inspect its type at runtime.</p>
+
+<p>Typescript extends Javascript to introduce optional variable types - it is compiled into Javascript and at compilation time, type checking is performed. Let’s recall the example from the lectures:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">typedVarNum</span><span class="p">:</span> <span class="kr">number</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">typedVarStr</span><span class="p">:</span> <span class="kr">string</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">blue</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">typedVarBool</span><span class="p">:</span> <span class="nx">boolean</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="2-json">2. JSON</h2>
+
+<h3 id="21-json-review">2.1 JSON Review</h3>
+
+<p>JSON stands for JavaScript Object Notation and is a standard way to serialize Javascript compound values into strings (and vice-versa). It is widely used to allow data exchange in server-client communication. It serves a role that is similar to XML.</p>
+
+<p>JSON is a <strong>notation</strong> - that is, a way of writing Javascript values in a way that allows reading them back easily. 
+Most Javascript values can be written in JSON - but not all of them.</p>
+
+<p>Once you have a Javascript object, and once there is an agreed-upon-way of “stringifying” the object (in our case, the standard way is <code class="language-plaintext highlighter-rouge">JSON.stringify()</code>), then you can easily pass this string through the network, from a computer to a computer, as passing strings through the network is easy, and the receiving side can only do an agreed-upon way to parse the string into an object (in our case, the standard way is <code class="language-plaintext highlighter-rouge">JSON.parse()</code>).</p>
+
+<p>The JSON interface defines the following two methods:</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">JSON.stringify(o)</code> - maps a value to a string</li>
+  <li><code class="language-plaintext highlighter-rouge">JSON.parse(s)</code> - maps a string written according to the JSON syntax to a value</li>
+</ol>
+
+<p>JSON serves a similar goal to that of <code class="language-plaintext highlighter-rouge">Serializable</code> of Java that we saw in SPL.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">person1</span> <span class="o">=</span> <span class="p">{</span> <span class="na">name</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">Yosi</span><span class="dl">"</span><span class="p">,</span> <span class="na">age</span> <span class="p">:</span> <span class="mi">31</span><span class="p">,</span> <span class="na">city</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">Beer Sheva</span><span class="dl">"</span> <span class="p">};</span>
+<span class="kd">let</span> <span class="nx">person1JSONString</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">person1</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`person1 serialized in JSON = </span><span class="p">${</span><span class="nx">person1JSONString</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; person1 serialized in JSON = {"name":"Yosi","age":31,"city":"Beer Sheva"}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`person1JSONString is of type </span><span class="p">${</span><span class="k">typeof</span> <span class="nx">person1JSONString</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; person1JSONString is of type string</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">person2</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">person1JSONString</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">person2</span><span class="p">);</span> <span class="c1">// ==&gt; { name: 'Yosi', age: 31, city: 'Beer Sheva' }</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`person2 is of type </span><span class="p">${</span><span class="k">typeof</span> <span class="nx">person2</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; person2 is of type object</span>
+</code></pre></div></div>
+
+<p>Note that the way values are written in JSON is not exactly the same as we write them in a Javascript program - there are quotes (“”) around keys for example.</p>
+
+<p>Note also that <code class="language-plaintext highlighter-rouge">stringify()</code> and <code class="language-plaintext highlighter-rouge">parse()</code> work on atomic values as well:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// note that the input to JSON.parse is a JSON string</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="dl">'</span><span class="s1">2</span><span class="dl">'</span><span class="p">));</span> <span class="c1">// ==&gt; number</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="dl">'</span><span class="s1">true</span><span class="dl">'</span><span class="p">));</span> <span class="c1">// ==&gt; boolean</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="dl">'</span><span class="s1">"abc"</span><span class="dl">'</span><span class="p">));</span> <span class="c1">// ==&gt; string</span>
+</code></pre></div></div>
+
+<p>The values that can be encoded into JSON (let us call them “JSON values”) must be one of the following types:</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">string</code></li>
+  <li><code class="language-plaintext highlighter-rouge">number</code></li>
+  <li><code class="language-plaintext highlighter-rouge">boolean</code></li>
+  <li><code class="language-plaintext highlighter-rouge">null</code></li>
+  <li>a map where all the keys are strings and all the values are JSON values (recursively)</li>
+  <li>an array where all the values are JSON values</li>
+</ol>
+
+<p>The Javascript compound data types, <em>arrays</em> and <em>maps</em>, can be combined in a recursive manner. 
+This applies to JSON as well.</p>
+
+<p>The Javascript values that <strong>cannot be encoded</strong> into JSON strings are <code class="language-plaintext highlighter-rouge">undefined</code> and functions.</p>
+
+<p>Let us look at an example of a complex value and how we can describe it in JSON and then how using types can help us describe its structure in a well-documented manner:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">studentsData</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">department</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Computer Science</span><span class="dl">"</span><span class="p">,</span> 
+    <span class="na">students</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Alice</span><span class="dl">"</span><span class="p">,</span> <span class="na">degree</span><span class="p">:</span> <span class="dl">"</span><span class="s2">PhD</span><span class="dl">"</span> <span class="p">}</span>
+        <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Bob</span><span class="dl">"</span><span class="p">,</span> <span class="na">degree</span><span class="p">:</span> <span class="dl">"</span><span class="s2">MSc</span><span class="dl">"</span> <span class="p">},</span>
+    <span class="p">]</span>
+<span class="p">};</span>
+
+<span class="kd">let</span> <span class="nx">studentsJSON</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">studentsData</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">studentsJSON</span><span class="p">);</span> <span class="c1">// ==&gt; {"department":"Computer Science","students":[{"name":"Alice","degree":"PhD"},{"name":"Bob","degree":"MSc"}]}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`studentsJSON is of type </span><span class="p">${</span><span class="k">typeof</span> <span class="nx">studentsJSON</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; studentsJSON is of type string</span>
+<span class="kd">let</span> <span class="nx">studentsJSONParsed</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">studentsJSON</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">studentsJSONParsed</span><span class="p">);</span>
+<span class="c1">// ==&gt; </span>
+<span class="c1">// {</span>
+<span class="c1">//   department: 'Computer Science',</span>
+<span class="c1">//   students: [ { name: 'Alice', degree: 'PhD' }, { name: 'Bob', degree: 'MSc' } ]</span>
+<span class="c1">// }</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`studentsJSONParsed is of type </span><span class="p">${</span><span class="k">typeof</span> <span class="nx">studentsJSONParsed</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; studentsJSONParsed is of type object</span>
+</code></pre></div></div>
+
+<p>We verified that this complex structure can be written into JSON, and then parsed back into an identical value (this is a <strong>round-trip</strong> that preserves the value).</p>
+
+<p>We can look at the type of <code class="language-plaintext highlighter-rouge">studentData</code> as a <strong>tree</strong> of simpler values:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">studentsData</code> is a map which has 2 keys:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">department</code> with a value which is a string</li>
+      <li><code class="language-plaintext highlighter-rouge">students</code> with a value which is an embedded array whose items are compound values.</li>
+    </ul>
+  </li>
+  <li>The nested values are maps that have 2 keys:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">name</code> whose value is a <code class="language-plaintext highlighter-rouge">string</code></li>
+      <li><code class="language-plaintext highlighter-rouge">degree</code> whose value is also a <code class="language-plaintext highlighter-rouge">string</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="22-documenting-complex-values-with-type-annotations">2.2 Documenting Complex Values with Type Annotations</h3>
+
+<p>We can describe this structure using the following TypeScript declaration:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="nl">department</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="nl">students</span><span class="p">:</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="na">degree</span><span class="p">:</span> <span class="kr">string</span> <span class="p">}[]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This can be made more readable if we name the types, using the <strong>type alias</strong> TypeScript construct to name map compound types:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Student</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="nl">degree</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">StudentsData</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">department</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="nl">students</span><span class="p">:</span> <span class="nx">Student</span><span class="p">[];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This type definition is useful to document the type of the expected values that we expect to read.</p>
+
+<h3 id="23-working-on-complex-json-values">2.3 Working on complex JSON values</h3>
+
+<p>In this section, we will use the methods <strong>map</strong>, <strong>filter</strong>, <strong>reduce</strong> to operate over complex JSON values.</p>
+
+<p>We will take a videos-database example (<a href="http://reactivex.io/learnrx/">http://reactivex.io/learnrx/</a>) as a basis for our examples.</p>
+
+<p>Suppose you are a developer at the popular streaming-movie website Netflix, and that your system’s <em>API</em> uses JSON to communicate data. The JSON values we describe are actual JSON values returned by the Netflix API.</p>
+
+<p>When searching for new movie releases, you send a query to the API, and obtain a JSON reply:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">newReleases</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">70111470</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">title</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Die Hard</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">boxart</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/DieHard.jpg</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">uri</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://api.netflix.com/catalog/titles/movies/70111470</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">rating</span><span class="dl">"</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">bookmark</span><span class="dl">"</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">654356453</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">title</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Bad Boys</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">boxart</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/BadBoys.jpg</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">uri</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://api.netflix.com/catalog/titles/movies/70111470</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">rating</span><span class="dl">"</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">bookmark</span><span class="dl">"</span><span class="p">:</span> <span class="p">[{</span> <span class="na">id</span><span class="p">:</span> <span class="mi">432534</span><span class="p">,</span> <span class="na">time</span><span class="p">:</span> <span class="mi">65876586</span> <span class="p">}]</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">65432445</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">title</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">The Chamber</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">boxart</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/TheChamber.jpg</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">uri</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://api.netflix.com/catalog/titles/movies/70111470</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">rating</span><span class="dl">"</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">bookmark</span><span class="dl">"</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">675465</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">title</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Fracture</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">boxart</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/Fracture.jpg</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">uri</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://api.netflix.com/catalog/titles/movies/70111470</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">rating</span><span class="dl">"</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">bookmark</span><span class="dl">"</span><span class="p">:</span> <span class="p">[{</span> <span class="na">id</span><span class="p">:</span> <span class="mi">432534</span><span class="p">,</span> <span class="na">time</span><span class="p">:</span> <span class="mi">65876586</span> <span class="p">}]</span>
+        <span class="p">}</span>
+    <span class="p">];</span>
+</code></pre></div></div>
+
+<p>Let us describe the <strong>type</strong> of this value:</p>
+<ul>
+  <li>We observe it is a homogeneous array of map values.</li>
+  <li>Each map value describes a “movie” with fields id, title, boxart, uri, rating and bookmark.</li>
+</ul>
+
+<p>The corresponding TypeScript annotation is:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Video</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">id</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+    <span class="nl">title</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="nl">boxart</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="nl">uri</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="nl">rating</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+    <span class="nl">bookmark</span><span class="p">:</span> <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="na">time</span><span class="p">:</span> <span class="kr">number</span> <span class="p">}[];</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">Releases</span> <span class="o">=</span> <span class="nx">Video</span><span class="p">[];</span>
+</code></pre></div></div>
+
+<p>This type annotation lets us think about the data we obtained from the API as an array <code class="language-plaintext highlighter-rouge">[v1, v2, v3, v4]</code> where each item <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-msub><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D463 TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: -0.15em;"><mjx-mi class="mjx-i" size="s"><mjx-c class="mjx-c1D456 TEX-I"></mjx-c></mjx-mi></mjx-script></mjx-msub></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>v</mi><mi>i</mi></msub></math></mjx-assistive-mml></mjx-container> is a map <code class="language-plaintext highlighter-rouge">{ id, title, boxart, uri, rating, bookmark }</code>.</p>
+
+<h4 id="231-map-over-an-array-of-videos">2.3.1 Map over an Array of Videos</h4>
+
+<p>We would like to transform this data into an array of <code class="language-plaintext highlighter-rouge">{ id, title }</code> properties. 
+This transformation is called a <strong>projection</strong> as we select only some of the properties in the input.</p>
+
+<p>In terms of types, this transformation maps from the type <code class="language-plaintext highlighter-rouge">Video[]</code> into the type <code class="language-plaintext highlighter-rouge">{ id: number, title: string }[]</code>.</p>
+
+<p>A procedural way to achieve this goal would be:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">getIDsAndTitles_1</span><span class="p">(</span><span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">res</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">reply</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span> <span class="na">id</span><span class="p">:</span> <span class="nx">reply</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">id</span><span class="p">,</span> <span class="na">title</span><span class="p">:</span> <span class="nx">reply</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">title</span> <span class="p">});</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">res</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">newReleasesIDAndTitle</span> <span class="o">=</span> <span class="nx">getIDsAndTitles_1</span><span class="p">(</span><span class="nx">newReleases</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">newReleasesIDAndTitle</span><span class="p">);</span>
+<span class="c1">// ==&gt; </span>
+<span class="c1">// [ { id: 70111470, title: 'Die Hard' },</span>
+<span class="c1">//   { id: 654356453, title: 'Bad Boys' },</span>
+<span class="c1">//   { id: 65432445, title: 'The Chamber' },</span>
+<span class="c1">//   { id: 675465, title: 'Fracture' } ]</span>
+</code></pre></div></div>
+
+<p>A functional way of achieving the same result uses the <strong>map</strong> method (seen in the reading material for week 1) to abstract away the loop and the mutations we observe in the procedural solution (<code class="language-plaintext highlighter-rouge">i++</code>, <code class="language-plaintext highlighter-rouge">res.push()</code>).</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">newReleasesIDAndTitle</span> <span class="o">=</span> <span class="nx">newReleases</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="na">id</span><span class="p">:</span> <span class="nx">x</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="na">title</span><span class="p">:</span> <span class="nx">x</span><span class="p">.</span><span class="nx">title</span> <span class="p">}));</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">newReleasesIDAndTitle</span><span class="p">);</span>
+<span class="c1">// ==&gt; </span>
+<span class="c1">// [ { id: 70111470, title: 'Die Hard' },</span>
+<span class="c1">//   { id: 654356453, title: 'Bad Boys' },</span>
+<span class="c1">//   { id: 65432445, title: 'The Chamber' },</span>
+<span class="c1">//   { id: 675465, title: 'Fracture' } ]</span>
+</code></pre></div></div>
+
+<p>Note that in this version:</p>
+<ul>
+  <li>There is no loop (<code class="language-plaintext highlighter-rouge">map</code> abstracts away the loop control structure)</li>
+  <li>There is no variable assignment (no need to define a loop counter <code class="language-plaintext highlighter-rouge">i</code> and mutate it and to maintain a <code class="language-plaintext highlighter-rouge">res</code> accumulator variable).</li>
+</ul>
+
+<p>Let us note what is the type of the transformer function we pass as an argument to <code class="language-plaintext highlighter-rouge">map</code>:
+it gets as an argument <code class="language-plaintext highlighter-rouge">x</code> an item from <code class="language-plaintext highlighter-rouge">newReleases</code> - which is of type <code class="language-plaintext highlighter-rouge">Video</code> - and it returns a map of type <code class="language-plaintext highlighter-rouge">{ id: number, name: title }</code>.</p>
+
+<h4 id="232-filter-an-array-of-videos">2.3.2 Filter an Array of Videos</h4>
+
+<p>The user is quite picky, and would like to search for new releases that have a rating of 5.0 only.</p>
+
+<p>We can solve this problem using <strong>filter</strong>.</p>
+
+<p>In terms of types, the operation we want to define maps an array of <code class="language-plaintext highlighter-rouge">Video[]</code> to an array of <code class="language-plaintext highlighter-rouge">Video[]</code>.
+This fits the definition of <code class="language-plaintext highlighter-rouge">filter</code> - which does not change the type of items in the array.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">newReleasesOfRating5</span> <span class="o">=</span> <span class="nx">newReleases</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">rating</span> <span class="o">===</span> <span class="mi">5</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">newReleasesOfRating5</span><span class="p">);</span>
+<span class="c1">// ==&gt;</span>
+<span class="c1">// [ { id: 654356453,</span>
+<span class="c1">//     title: 'Bad Boys',</span>
+<span class="c1">//     boxart: 'http://cdn-0.nflximg.com/images/2891/BadBoys.jpg',</span>
+<span class="c1">//     uri: 'http://api.netflix.com/catalog/titles/movies/70111470',</span>
+<span class="c1">//     rating: 5,</span>
+<span class="c1">//     bookmark: [ [Object] ] },</span>
+<span class="c1">//   { id: 675465,</span>
+<span class="c1">//     title: 'Fracture',</span>
+<span class="c1">//     boxart: 'http://cdn-0.nflximg.com/images/2891/Fracture.jpg',</span>
+<span class="c1">//     uri: 'http://api.netflix.com/catalog/titles/movies/70111470',</span>
+<span class="c1">//     rating: 5,</span>
+<span class="c1">//     bookmark: [ [Object] ] } ]</span>
+</code></pre></div></div>
+
+<h4 id="234-reminder-reduce-and-neutral-elements-as-initializers">2.3.4 Reminder: Reduce and Neutral Elements as Initializers</h4>
+<p>Compare the following 5 invocations of <code class="language-plaintext highlighter-rouge">reduce</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Compute the sum of an array of integers</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">].</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">cur</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">acc</span> <span class="o">+</span> <span class="nx">cur</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// ==&gt; 6</span>
+
+<span class="c1">// Compute the product of an array of integers</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">].</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">cur</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">acc</span> <span class="o">*</span> <span class="nx">cur</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// ==&gt; 6</span>
+
+<span class="c1">// Compute the logical and of an array of booleans</span>
+<span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">].</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">cur</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">acc</span> <span class="o">&amp;&amp;</span> <span class="nx">cur</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span> <span class="c1">// ==&gt; false</span>
+
+<span class="c1">// Compute the logical or of an array of booleans</span>
+<span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">].</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">cur</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">acc</span> <span class="o">||</span> <span class="nx">cur</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span> <span class="c1">// ==&gt; true</span>
+
+<span class="c1">// Compute the max of an array of numbers</span>
+<span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">].</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span><span class="nx">cur</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">acc</span><span class="p">,</span><span class="nx">cur</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// ==&gt; 4</span>
+</code></pre></div></div>
+
+<p>Note that in all 5 cases, the initializer passed to <code class="language-plaintext highlighter-rouge">reduce(reducer, init)</code> is the neutral element of the reducer operator (0 for <code class="language-plaintext highlighter-rouge">+</code>, 1 for <code class="language-plaintext highlighter-rouge">*</code>, <code class="language-plaintext highlighter-rouge">true</code> for <code class="language-plaintext highlighter-rouge">and</code>, <code class="language-plaintext highlighter-rouge">false</code> for <code class="language-plaintext highlighter-rouge">or</code>).</p>
+
+<p>This makes sense in general - and allows one to answer the puzzling question of <strong>what should be the value of reduce when applied to an empty array</strong>.  The general answer is that it should be the neutral element of the reducer.</p>
+
+<p><strong>NOTE</strong>: the <code class="language-plaintext highlighter-rouge">max</code> version takes as an initializer the value 0.  This is not correct when the array can contain negative numbers.  What should be the initial value in this case?</p>
+
+<h4 id="235-rectangle-selection-with-reduce">2.3.5 Rectangle Selection with Reduce</h4>
+
+<p>A user has chosen to view movies as boxarts (that is, the image that is shown for each movie), as it is easier to select movies according to their boxarts. The API returned the following value as a reply to our query:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">boxarts</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="na">width</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="na">height</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/Fracture200.jpg</span><span class="dl">"</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="na">width</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span> <span class="na">height</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/Fracture150.jpg</span><span class="dl">"</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="na">width</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="na">height</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/Fracture300.jpg</span><span class="dl">"</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="na">width</span><span class="p">:</span> <span class="mi">425</span><span class="p">,</span> <span class="na">height</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span> <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/Fracture425.jpg</span><span class="dl">"</span> <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<p>Let us define the type of this returned value: it is a homogeneous array of maps. Each map describes a boxart.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Boxart</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">width</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span> 
+    <span class="nl">height</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+    <span class="nl">url</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We would like to find the largest box-art image size, so that we could know what is the maximal size of the image placeholder should be.  We measure rectangles by their area (<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D464 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D456 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D451 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D461 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c210E TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-cD7"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="3"><mjx-c class="mjx-c210E TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D452 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D456 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D454 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c210E TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D461 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>w</mi><mi>i</mi><mi>d</mi><mi>t</mi><mi>h</mi><mo>×</mo><mi>h</mi><mi>e</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi></math></mjx-assistive-mml></mjx-container>).</p>
+
+<p>A straightforward way to do this is by going over each boxart, and keeping a temporary variable that holds the largest size out of the boxarts we have seen so far.</p>
+
+<p>In terms of types, the transformation maps an array <code class="language-plaintext highlighter-rouge">Boxart[]</code> into a <code class="language-plaintext highlighter-rouge">number</code>. Let us annotate this type into the function definition:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Boxart</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">width</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span> 
+    <span class="nl">height</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+    <span class="nl">url</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">maxBox</span><span class="p">(</span><span class="nx">boxes</span><span class="p">:</span> <span class="nx">Boxart</span><span class="p">[]):</span> <span class="kr">number</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">maxBox</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">boxes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nx">curBoxSize</span> <span class="o">=</span> <span class="nx">boxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">width</span> <span class="o">*</span> <span class="nx">boxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">height</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">curBoxSize</span> <span class="o">&gt;</span> <span class="nx">maxBox</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">maxBox</span> <span class="o">=</span> <span class="nx">curBoxSize</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">maxBox</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">maxBox</span><span class="p">(</span><span class="nx">boxarts</span><span class="p">);</span> <span class="c1">// ==&gt; 63750</span>
+</code></pre></div></div>
+
+<p>This is a case of a loop to accumulate a value from an array of values. In terms of types, it maps an array to a single value. The <strong>reduce</strong> method fits perfectly for this scenario: The <code class="language-plaintext highlighter-rouge">reduce</code> method takes as parameter a reducer function and an initial value, and returns the accumulated value.</p>
+
+<p>The reducer function takes two arguments: the current accumulator, and the current item. The return value of the reducer function is the “successive” value of the accumulator parameter. That is, the result of some operation applied to the current accumulator, and the current item.</p>
+
+<p>Our current accumulator should be the current largest box-art image size, and the initial value should be 0.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">largestBoxartSize</span> <span class="o">=</span> <span class="nx">boxarts</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span>
+    <span class="p">(</span><span class="nx">curMax</span><span class="p">,</span><span class="nx">curBox</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nx">curBoxSize</span> <span class="o">=</span> <span class="nx">curBox</span><span class="p">.</span><span class="nx">width</span> <span class="o">*</span> <span class="nx">curBox</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span>
+           <span class="k">if</span> <span class="p">(</span><span class="nx">curBoxSize</span> <span class="o">&gt;</span> <span class="nx">curMax</span><span class="p">)</span> <span class="p">{</span>
+               <span class="k">return</span> <span class="nx">curBoxSize</span><span class="p">;</span>
+           <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+               <span class="k">return</span> <span class="nx">curMax</span><span class="p">;</span>
+           <span class="p">}</span>
+    <span class="p">},</span> <span class="c1">// this is the reducer function</span>
+    <span class="mi">0</span>  <span class="c1">// this is the initial value</span>
+    <span class="p">);</span>
+    
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">largestBoxartSize</span><span class="p">);</span> <span class="c1">// ==&gt; 63750</span>
+</code></pre></div></div>
+
+<p>Indeed, the largest boxart image size is 63750, which is the 4th boxart.</p>
+
+<p>Note that this version has no side effect, no mutation and no loop.</p>
+
+<p>We can make this version more readable by using the Math.max function - to express clearly that what we are doing in this <code class="language-plaintext highlighter-rouge">reduce</code> invocation is the identification of the max of an array.  We also annotate the expected type of the parameters in the reducer.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">boxSize</span> <span class="o">=</span> <span class="p">(</span><span class="nx">box</span><span class="p">:</span> <span class="nx">Boxart</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">box</span><span class="p">.</span><span class="nx">width</span> <span class="o">*</span> <span class="nx">box</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">maxBoxSize</span> <span class="o">=</span> <span class="nx">boxarts</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">curMax</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">curBox</span><span class="p">:</span> <span class="nx">Boxart</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">curMax</span><span class="p">,</span> <span class="nx">boxSize</span><span class="p">(</span><span class="nx">curBox</span><span class="p">)),</span> <span class="mi">0</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">maxBoxSize</span><span class="p">);</span> <span class="c1">// ==&gt; 63750</span>
+</code></pre></div></div>
+
+<h3 id="24-tree-values">2.4 Tree Values</h3>
+
+<p>Some replies will be more complex than what we have witnessed above: it is very often that we face replies that have a <strong>tree</strong> form, as opposed to a flat homogeneous array.</p>
+
+<p>One example of such, is the following API reply - which returns values grouped by movie genre (“New Releases”, “Dramas” …)</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">movieLists</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">New Releases</span><span class="dl">"</span><span class="p">,</span>
+            <span class="na">videos</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">70111470</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">title</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Die Hard</span><span class="dl">"</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">boxart</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/DieHard.jpg</span><span class="dl">"</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">uri</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://api.netflix.com/catalog/titles/movies/70111470</span><span class="dl">"</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">rating</span><span class="dl">"</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">bookmark</span><span class="dl">"</span><span class="p">:</span> <span class="p">[]</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">654356453</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">title</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Bad Boys</span><span class="dl">"</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">boxart</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/BadBoys.jpg</span><span class="dl">"</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">uri</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://api.netflix.com/catalog/titles/movies/70111470</span><span class="dl">"</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">rating</span><span class="dl">"</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">bookmark</span><span class="dl">"</span><span class="p">:</span> <span class="p">[{</span> <span class="na">id</span><span class="p">:</span> <span class="mi">432534</span><span class="p">,</span> <span class="na">time</span><span class="p">:</span> <span class="mi">65876586</span> <span class="p">}]</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Dramas</span><span class="dl">"</span><span class="p">,</span>
+            <span class="na">videos</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">65432445</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">title</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">The Chamber</span><span class="dl">"</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">boxart</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/TheChamber.jpg</span><span class="dl">"</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">uri</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://api.netflix.com/catalog/titles/movies/70111470</span><span class="dl">"</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">rating</span><span class="dl">"</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">bookmark</span><span class="dl">"</span><span class="p">:</span> <span class="p">[]</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">675465</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">title</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Fracture</span><span class="dl">"</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">boxart</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/Fracture.jpg</span><span class="dl">"</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">uri</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://api.netflix.com/catalog/titles/movies/70111470</span><span class="dl">"</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">rating</span><span class="dl">"</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
+                    <span class="dl">"</span><span class="s2">bookmark</span><span class="dl">"</span><span class="p">:</span> <span class="p">[{</span> <span class="na">id</span><span class="p">:</span> <span class="mi">432534</span><span class="p">,</span> <span class="na">time</span><span class="p">:</span> <span class="mi">65876586</span> <span class="p">}]</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+</code></pre></div></div>
+
+<p>To document the structure of this value, let us write its type:</p>
+<ul>
+  <li>It is an array of 2 maps of identical structure.</li>
+  <li>Each item represents a category of Videos. The category maps have the following keys:
+    <ul>
+      <li>name: string</li>
+      <li>videos: an array of Video.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>The TypeScript definition is thus:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">VideoCategory</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="nl">videos</span><span class="p">:</span> <span class="nx">Video</span><span class="p">[];</span>
+<span class="p">}</span>
+<span class="kd">type</span> <span class="nx">VideoCategories</span> <span class="o">=</span> <span class="nx">VideoCategory</span><span class="p">[];</span>
+</code></pre></div></div>
+
+<p>The structure of the value is thus a <em>tree</em>: <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="2" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mo class="mjx-n"><mjx-c class="mjx-c5B"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D450 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D461 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D452 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D454 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45C TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45F TEX-I"></mjx-c></mjx-mi><mjx-msub><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D466 TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: -0.15em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-script></mjx-msub><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="2"><mjx-c class="mjx-c1D450 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D461 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D452 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D454 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45C TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45F TEX-I"></mjx-c></mjx-mi><mjx-msub><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D466 TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: -0.15em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c32"></mjx-c></mjx-mn></mjx-script></mjx-msub><mjx-mo class="mjx-n"><mjx-c class="mjx-c5D"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">[</mo><mi>c</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>g</mi><mi>o</mi><mi>r</mi><msub><mi>y</mi><mn>1</mn></msub><mo>,</mo><mi>c</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>g</mi><mi>o</mi><mi>r</mi><msub><mi>y</mi><mn>2</mn></msub><mo stretchy="false">]</mo></math></mjx-assistive-mml></mjx-container> where <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="3" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D450 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D461 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D452 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D454 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45C TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45F TEX-I"></mjx-c></mjx-mi><mjx-msub><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D466 TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: -0.15em;"><mjx-mi class="mjx-i" size="s"><mjx-c class="mjx-c1D456 TEX-I"></mjx-c></mjx-mi></mjx-script></mjx-msub></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>c</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>g</mi><mi>o</mi><mi>r</mi><msub><mi>y</mi><mi>i</mi></msub></math></mjx-assistive-mml></mjx-container> is of the form:<br>
+<code class="language-plaintext highlighter-rouge">{ name: string, videos: [v1,...] }</code>.</p>
+
+<p>These kinds of trees impose a challenge when working with them: if we apply <code class="language-plaintext highlighter-rouge">map</code> or <code class="language-plaintext highlighter-rouge">filter</code>, the transformer or the predicate will receive as argument a <code class="language-plaintext highlighter-rouge">VideoCategory</code> object.  If we want to process the embedded <code class="language-plaintext highlighter-rouge">Video</code> objects inside the categories, we must first <strong>flatten</strong> the tree.</p>
+
+<p>Suppose we would like to have a list of all movie ids in that tree. The most trivial way, as before, is to do the following (using a foreach loop):</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">movieIds</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="nx">movieLists</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">category</span> <span class="o">=&gt;</span> <span class="nx">category</span><span class="p">.</span><span class="nx">videos</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">video</span> <span class="o">=&gt;</span> <span class="nx">movieIds</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">video</span><span class="p">.</span><span class="nx">id</span><span class="p">)));</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`movieIds=</span><span class="p">${</span><span class="nx">movieIds</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; movieIds=70111470,654356453,65432445,675465</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">forEach</code> abstracts a single loop. The embedded calls to <code class="language-plaintext highlighter-rouge">forEach</code> inside <code class="language-plaintext highlighter-rouge">forEach</code> reflects the two-level traversal of the tree.</p>
+
+<p>Note that <code class="language-plaintext highlighter-rouge">forEach</code> is <strong>not a functional</strong> style: this is precisely the type of operations we want to abstract away using map/filter/reduce. This version has an accumulator variable (<code class="language-plaintext highlighter-rouge">movieIds</code>) which we must initialize and then mutate as part of the <code class="language-plaintext highlighter-rouge">forEach</code> iteration.</p>
+
+<p>Not a functional solution…</p>
+
+<p>The general feeling of the task we want to perform is an <strong>accumulation</strong> - so that <code class="language-plaintext highlighter-rouge">reduce</code> seems to be the good tool. But we cannot apply <code class="language-plaintext highlighter-rouge">reduce</code> as is, because <code class="language-plaintext highlighter-rouge">reduce</code> would work on <code class="language-plaintext highlighter-rouge">Category</code> values and we want to accumulate <code class="language-plaintext highlighter-rouge">Video</code> values.</p>
+
+<p>Alternatively, we could attempt to use <strong>map</strong> as we are mapping <code class="language-plaintext highlighter-rouge">Video</code> values into <code class="language-plaintext highlighter-rouge">number</code> values.  But again, we cannot map over Categories - we need to map over Videos - so that <code class="language-plaintext highlighter-rouge">map</code> cannot be used directly.</p>
+
+<p>Let’s recall the <code class="language-plaintext highlighter-rouge">concat</code> method of arrays:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">arrayOne</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">];</span>
+<span class="kd">let</span> <span class="nx">arrayTwo</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">];</span>
+<span class="nx">arrayOne</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">arrayTwo</span><span class="p">);</span> <span class="c1">// ==&gt; [ 1, 2, 3, 4, 5, 6, 7, 8 ]</span>
+</code></pre></div></div>
+
+<p>In contrast to <code class="language-plaintext highlighter-rouge">push</code>, <code class="language-plaintext highlighter-rouge">concat</code> does not mutate its arguments - it returns a new array and can be used safely.</p>
+
+<p>If we <code class="language-plaintext highlighter-rouge">reduce</code> an array of arrays and accumulate using the <code class="language-plaintext highlighter-rouge">concat</code> operator,  we will get a method that flattens one level of an array of arrays:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]];</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">curr</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">acc</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">curr</span><span class="p">),</span> <span class="p">[]);</span> <span class="c1">// ==&gt; [ 1, 2, 3, 4, 5, 6 ]</span>
+</code></pre></div></div>
+
+<p>We now need to apply a mixture of <code class="language-plaintext highlighter-rouge">map</code> and <code class="language-plaintext highlighter-rouge">reduce</code> in order to map and flatten:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// We want the following as an array of the numbers:</span>
+<span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[{</span> <span class="na">group</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">numbers</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="p">},</span> <span class="p">{</span> <span class="na">group</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="na">numbers</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span> <span class="p">}];</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">numbers</span><span class="p">).</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span><span class="nx">curr</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">acc</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">curr</span><span class="p">),</span> <span class="p">[]);</span> <span class="c1">// ==&gt; [ 1, 2, 3, 4, 5, 6 ]</span>
+</code></pre></div></div>
+
+<h3 id="241-the-ramda-package">2.4.1 The Ramda package</h3>
+
+<p>Ramda is a library of functions designed to facilitate functional programming in JavaScript.</p>
+
+<p>Ramda includes a function called <code class="language-plaintext highlighter-rouge">chain</code> (often also called <code class="language-plaintext highlighter-rouge">flatmap</code>) which can come handy in our last example: If we want to return all of the results as a single flat array instead of as an array of arrays, then we can use Ramda’s <code class="language-plaintext highlighter-rouge">chain</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">R</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">ramda</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="nx">R</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">numbers</span><span class="p">,</span> <span class="nx">a</span><span class="p">);</span> <span class="c1">// ==&gt; [ 1, 2, 3, 4, 5, 6 ]</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">chain</code> function goes through an array, and flattens the result of ‘doing something’ (which can be ‘nothing’ or applying a ‘mapping’) by one level.</p>
+
+<p>Back to our videos example, if we <code class="language-plaintext highlighter-rouge">chain</code> the <code class="language-plaintext highlighter-rouge">movieLists</code> with a function that just returns the category videos, then the result would be an array containing the videos. As such:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">R</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="nx">category</span> <span class="o">=&gt;</span> <span class="nx">category</span><span class="p">.</span><span class="nx">videos</span><span class="p">,</span> <span class="nx">movieLists</span><span class="p">);</span>
+<span class="c1">// ==&gt;</span>
+<span class="c1">// [ { id: 70111470,</span>
+<span class="c1">//     title: 'Die Hard',</span>
+<span class="c1">//     boxart: 'http://cdn-0.nflximg.com/images/2891/DieHard.jpg',</span>
+<span class="c1">//     uri: 'http://api.netflix.com/catalog/titles/movies/70111470',</span>
+<span class="c1">//     rating: 4,</span>
+<span class="c1">//     bookmark: [] },</span>
+<span class="c1">//   { id: 654356453,</span>
+<span class="c1">//     title: 'Bad Boys',</span>
+<span class="c1">//     boxart: 'http://cdn-0.nflximg.com/images/2891/BadBoys.jpg',</span>
+<span class="c1">//     uri: 'http://api.netflix.com/catalog/titles/movies/70111470',</span>
+<span class="c1">//     rating: 5,</span>
+<span class="c1">//     bookmark: [ [Object] ] },</span>
+<span class="c1">//   { id: 65432445,</span>
+<span class="c1">//     title: 'The Chamber',</span>
+<span class="c1">//     boxart: 'http://cdn-0.nflximg.com/images/2891/TheChamber.jpg',</span>
+<span class="c1">//     uri: 'http://api.netflix.com/catalog/titles/movies/70111470',</span>
+<span class="c1">//     rating: 4,</span>
+<span class="c1">//     bookmark: [] },</span>
+<span class="c1">//   { id: 675465,</span>
+<span class="c1">//     title: 'Fracture',</span>
+<span class="c1">//     boxart: 'http://cdn-0.nflximg.com/images/2891/Fracture.jpg',</span>
+<span class="c1">//     uri: 'http://api.netflix.com/catalog/titles/movies/70111470',</span>
+<span class="c1">//     rating: 5,</span>
+<span class="c1">//     bookmark: [ [Object] ] } ]</span>
+</code></pre></div></div>
+
+<p>The only change that is left, is that we do not want the category videos flattened, rather something extra: taking the <code class="language-plaintext highlighter-rouge">category.videos</code> and mapping each element there to its <code class="language-plaintext highlighter-rouge">id</code>.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">R</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="nx">category</span> <span class="o">=&gt;</span> <span class="nx">category</span><span class="p">.</span><span class="nx">videos</span><span class="p">,</span> <span class="nx">movieLists</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">video</span> <span class="o">=&gt;</span> <span class="nx">video</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span> <span class="c1">// ==&gt; [ 70111470, 654356453, 65432445, 675465 ]</span>
+</code></pre></div></div>
+
+<p>It helps to annotate the types of the arguments in such chained transformations to document and verify their correctness:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">R</span><span class="p">.</span><span class="nx">chain</span><span class="p">((</span><span class="nx">category</span><span class="p">:</span> <span class="nx">VideoCategory</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">category</span><span class="p">.</span><span class="nx">videos</span><span class="p">,</span> <span class="nx">movieLists</span><span class="p">).</span><span class="nx">map</span><span class="p">((</span><span class="nx">video</span><span class="p">:</span> <span class="nx">Video</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">video</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span> <span class="c1">// ==&gt; [ 70111470, 654356453, 65432445, 675465 ]</span>
+</code></pre></div></div>
+
+<h2 id="3-exercises">3. Exercises</h2>
+
+<h3 id="31-implement-the-map-method-using-reduce">3.1 Implement the <code class="language-plaintext highlighter-rouge">map</code> method using <code class="language-plaintext highlighter-rouge">reduce</code></h3>
+
+<p>Let’s think step by step: What should be our <em>accumulated</em> value? It is natural to think that the accumulation consists in ‘pushing’ the current element <strong>as a mapped value</strong> to the currently accumulated array.</p>
+
+<p>To that end, the initial value should be the empty array. As we go, we will take the current element, and our next accumulator will be the current accumulator, only expanded by the current element after it is mapped by the transformer.</p>
+
+<p><a href="https://bguppl.github.io/interpreters/practice_sessions/ps1_sol.html#exercise-1-implementing-map-with-reduce">Solution</a></p>
+
+<h3 id="32-implement-filter-using-reduce">3.2 Implement <code class="language-plaintext highlighter-rouge">filter</code> using <code class="language-plaintext highlighter-rouge">reduce</code></h3>
+
+<p>What should be changed in the solution of the previous exercise?</p>
+
+<p>We can skip adding the current element if it does not satisfy the predicate, in which case the next accumulator will not change. However, if the current element does satisfy the predicate, we will set the next accumulator to be the current one, only enlarged by the current element</p>
+
+<p><a href="https://bguppl.github.io/interpreters/practice_sessions/ps1_sol.html#exercise-2-implementing-filter-with-reduce">Solution</a></p>
+
+<h3 id="33-implement-some-and-every-using-map-and-reduce">3.3 Implement <code class="language-plaintext highlighter-rouge">some</code> and <code class="language-plaintext highlighter-rouge">every</code> using <code class="language-plaintext highlighter-rouge">map</code> and <code class="language-plaintext highlighter-rouge">reduce</code></h3>
+
+<p><code class="language-plaintext highlighter-rouge">some(pred)</code> is a method that returns <code class="language-plaintext highlighter-rouge">true</code> if and only if <em>at least one</em> element in an array satisfies a given predicate.</p>
+
+<p><code class="language-plaintext highlighter-rouge">every(pred)</code> is a method that returns true if and only if <em>all</em> the elements in an array satisfy a given predicate.</p>
+
+<p>For example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">even</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">arr1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">];</span>
+<span class="kd">let</span> <span class="nx">arr2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">];</span>
+<span class="kd">let</span> <span class="nx">arr3</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">];</span>
+<span class="kd">let</span> <span class="nx">arr1HasEvenNumbers</span> <span class="o">=</span> <span class="nx">arr1</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">even</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">arr2HasEvenNumbers</span> <span class="o">=</span> <span class="nx">arr2</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">even</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">allInArr1AreEven</span> <span class="o">=</span> <span class="nx">arr1</span><span class="p">.</span><span class="nx">every</span><span class="p">(</span><span class="nx">even</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">allInArr3AreEven</span> <span class="o">=</span> <span class="nx">arr3</span><span class="p">.</span><span class="nx">every</span><span class="p">(</span><span class="nx">even</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`arr1HasEvenNumbers = </span><span class="p">${</span><span class="nx">arr1HasEvenNumbers</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; arr1HasEvenNumbers = true</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`arr2HasEvenNumbers = </span><span class="p">${</span><span class="nx">arr2HasEvenNumbers</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; arr2HasEvenNumbers = false</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`allInArr1AreEven = </span><span class="p">${</span><span class="nx">allInArr1AreEven</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; allInArr1AreEven = false</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`allInArr3AreEven = </span><span class="p">${</span><span class="nx">allInArr3AreEven</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="c1">// ==&gt; allInArr3AreEven = true</span>
+</code></pre></div></div>
+
+<p>Instructions:</p>
+
+<p>A way to implement <code class="language-plaintext highlighter-rouge">some</code> is by mapping the array to <code class="language-plaintext highlighter-rouge">true/false</code> values of whether each element satisfies the predicate, and then doing an accumulated logical <code class="language-plaintext highlighter-rouge">or</code> between the elements using <code class="language-plaintext highlighter-rouge">reduce</code>, with the initial accumulator equal to <code class="language-plaintext highlighter-rouge">false</code>.</p>
+
+<p>Similarly, we can implement <code class="language-plaintext highlighter-rouge">every</code> in the same way as above, except that we need to use a logical <code class="language-plaintext highlighter-rouge">and</code> and our initial accumulator should be <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<p><a href="https://bguppl.github.io/interpreters/practice_sessions/ps1_sol.html#exercise-3-implementing-some-and-every-with-map-and-reduce">Solution</a></p>
+
+<h2 id="shortcut-semantics">Shortcut Semantics</h2>
+
+<p>The native <code class="language-plaintext highlighter-rouge">some</code> and <code class="language-plaintext highlighter-rouge">every</code> methods employ a concept known as ‘shortcut semantics’. What this means, is that <code class="language-plaintext highlighter-rouge">some</code> stops and immediately returns <code class="language-plaintext highlighter-rouge">true</code> at the moment it finds an element that satisfies the predicate. <code class="language-plaintext highlighter-rouge">every</code> stops and immediately returns <code class="language-plaintext highlighter-rouge">false</code> at the moment it finds an element that does not satisfy the predicate.</p>
+
+<p><strong>Question</strong>: does our implementation satisfy shortcut semantics?</p>
+
+<p>It is difficult to distinguish between shortcut semantics and non-shortcut semantics because both shortcut and non-shortcut versions return the same values for all parameters.</p>
+
+<p>Can we conclude that a shortcut and non-shortcut versions of <code class="language-plaintext highlighter-rouge">some</code> are equivalent according to the definition of function equivalence we provided in class?</p>
+
+<p>Remember though the difference between mathematical function equivalence and programming functions equivalence: 2 programming functions <code class="language-plaintext highlighter-rouge">f</code> and <code class="language-plaintext highlighter-rouge">g</code> are equivalent if they have the same domain, same range and for all values in the domain:</p>
+<ul>
+  <li>Either <code class="language-plaintext highlighter-rouge">f(x)</code> has a value and <code class="language-plaintext highlighter-rouge">g(x)</code> has the same value</li>
+  <li>Or <code class="language-plaintext highlighter-rouge">f(x)</code> does not terminate and <code class="language-plaintext highlighter-rouge">g(x)</code> does not terminate as well</li>
+  <li>Or <code class="language-plaintext highlighter-rouge">f(x)</code> throws an error and <code class="language-plaintext highlighter-rouge">g(x)</code> throws an error as well</li>
+</ul>
+
+<p>How can we then distinguish between a shortcut semantics version of <code class="language-plaintext highlighter-rouge">some</code> and one that is not shortcut?</p>
+
+<p>The solution is to choose parameters that will distinguish between the two computations using either non-termination (infinite loops) or errors.</p>
+
+<p>Let us define such an example on arrays of numbers.  We can trigger an error in JavaScript by using the <code class="language-plaintext highlighter-rouge">throw</code> primitive.</p>
+
+<p>To test whether an error was thrown, we use the same syntax as in Java - with <code class="language-plaintext highlighter-rouge">try/catch</code>.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">throwOnZero</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="k">throw</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nx">a</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">throwOnZero</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">e</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The code above returns <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">someExercise</span> <span class="o">=</span> <span class="p">(</span><span class="nx">pred</span><span class="p">,</span> <span class="nx">arr</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">pred</span><span class="p">).</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">cur</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">acc</span> <span class="o">||</span> <span class="nx">cur</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nx">someExercise</span><span class="p">(</span><span class="nx">throwOnZero</span><span class="p">,</span> <span class="nx">a</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">e</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The code above will return <code class="language-plaintext highlighter-rouge">false</code>.</p>
+
+<p>By using deliberate error throwing, we are able to distinguish between shortcut and non-shortcut semantics on the definition of the <code class="language-plaintext highlighter-rouge">some</code> function.</p>
+
+<p>The next question that arises is whether we can define a version of <code class="language-plaintext highlighter-rouge">some</code> using <code class="language-plaintext highlighter-rouge">reduce</code> that has shortcut semantics. We will revisit this question in Chapter 3 of the course, when we introduce generators.</p>
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>
