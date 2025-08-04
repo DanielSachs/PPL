@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)https://bguppl.github.io/interpreters/class_material/2.3Syntax.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Syntax | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Syntax">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/2.3Syntax.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/2.3Syntax.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Syntax">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Syntax","url":"https://bguppl.github.io/interpreters/class_material/2.3Syntax.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Syntax _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Syntax _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Syntax _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="syntax">Syntax</h1>
+<h2 id="ppl-2023">PPL 2023</h2>
+
+<p>In the previous section, we introduced new programming languages by adopting the following method:</p>
+<ul>
+  <li>Define the syntax of the language - which defines the set of all possible expressions in the language.</li>
+  <li>Define the set of all possible values that can be computed by the language.</li>
+  <li>Define the computation rules for each type of expression which map any expression to a value.</li>
+</ul>
+
+<p>This method provides a complete operational semantics procedure for the language by applying the method of <strong>structural induction</strong>: by applying the computation rules over all possible expressions in the language recursively, we can map any expression to a value.</p>
+
+<p>To describe this process more formally, we must provide a more detailled account of the <strong>syntax</strong> of the language.
+This is the topic of this Lecture.</p>
+
+<h2 id="syntax-concrete-vs-abstract">Syntax: Concrete vs. Abstract</h2>
+
+<p>The syntax of a language determines which sequences of tokens form an expression in the language (and which don’t).
+It also determines how to extract the significant parts of the expression, and what is their function within the larger expression.</p>
+
+<p>The syntax also has another objective: make it easy for humans to read and understand code and identify the structure
+of expressions which form the program. (Recall the distinction between the lambda-application and the let-expression forms we used in the previous lecture – the motivation for introducing <code class="language-plaintext highlighter-rouge">let</code> was to make the expression easier to read.)</p>
+
+<p>Accordingly, we distinguish two aspects of the definition of the syntax of a programming language:</p>
+<ul>
+  <li><strong>Concrete syntax</strong>: this determines how expressions “look like” to the programmer.  It includes devices such as keywords to mark the type of the expression, delimiters and punctuation, parentheses, indentation.</li>
+  <li><strong>Abstract syntax</strong>: this is an internal data type representing expressions of the program in a way that is easy to consume by programs operating on expressions - such as interpreters or compilers.  Such data types are called <strong>abstract syntax trees</strong> (AST).</li>
+</ul>
+
+<h3 id="many-concrete-syntax-variants-can-be-mapped-to-the-same-abstract-syntax">Many Concrete Syntax Variants can be mapped to the same Abstract Syntax</h3>
+
+<p>In general, concrete syntax can be quite varied - according to stylistic preferences.
+For example, most languages encode arithmetic operations in infix style as in:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span> <span class="nv">+</span> <span class="mi">2</span><span class="nv">*3</span>
+</code></pre></div></div>
+
+<p>Scheme uses a prefix syntax as in:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>which more or less corresponds to the English way of expressing:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>the sum of 1 and the product of 2 and 3.
+</code></pre></div></div>
+<p>(the words that denote the operations occur before the words that denote the arguments to the operations).</p>
+
+<p>Similarly, there can be different concrete syntax ways to express the same construct.  In JavaScript, we saw that we can define functions in two ways:</p>
+<ul>
+  <li>With the <code class="language-plaintext highlighter-rouge">function</code> keyword: <code class="language-plaintext highlighter-rouge">function (&lt;params&gt;) &lt;body&gt;;</code></li>
+  <li>With the fat-arrow construct: <code class="language-plaintext highlighter-rouge">(&lt;params&gt;) =&gt; &lt;body&gt;;</code></li>
+</ul>
+
+<p>In Scheme, we also saw that different concrete syntax forms are interpreted in the same way - for example:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">(let ((a 1)) (f a))</code> is interpreted in the same way as <code class="language-plaintext highlighter-rouge">((lambda (a) (f a)) 1)</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">(if (f x) (+ x 1) x)</code> is interpreted in the same way as <code class="language-plaintext highlighter-rouge">(cond ((f x) (+ x 1)) (else x))</code>.</li>
+</ul>
+
+<h3 id="concrete-syntax-can-be-ambiguous">Concrete Syntax can be Ambiguous</h3>
+
+<p>In order to interpret concrete syntax, an interpreter must be able to:</p>
+<ul>
+  <li>Separate the sub-parts of an expression</li>
+  <li>Determine what is the role of each sub-part within the expression</li>
+</ul>
+
+<p>For example, in a JavaScript statement:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">big</span><span class="dl">"</span><span class="p">);</span>
+<span class="k">else</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">large</span><span class="dl">"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>the keyword <code class="language-plaintext highlighter-rouge">if</code> is used to mark the type of the conditional compound statement which has 3 components - the test (<code class="language-plaintext highlighter-rouge">(x&gt;2)</code>), the consequent statement and the alternative statement.  The keyword <code class="language-plaintext highlighter-rouge">else</code> is used to separate the consequent from the alternative and to indicate the role that the alternative statement plays with respect to the if-statement of which it is a part.</p>
+
+<p>Sometimes, the relation between embedded components and their parents is ambiguous. 
+For example, in the following statement, the place of the <code class="language-plaintext highlighter-rouge">else</code> statement is ambiguous:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">x</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="nx">y</span><span class="o">=</span><span class="mi">5</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">y</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">)</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">mid</span><span class="dl">'</span><span class="p">);</span>
+  <span class="k">else</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">large</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// --&gt; large</span>
+</code></pre></div></div>
+
+<p>We could interpret the syntactic structure in two ways:</p>
+<ul>
+  <li>Either it is the <code class="language-plaintext highlighter-rouge">else</code> part matching the <code class="language-plaintext highlighter-rouge">(x &gt; 2)</code> test</li>
+  <li>Or it is the <code class="language-plaintext highlighter-rouge">else</code> part matching the <code class="language-plaintext highlighter-rouge">(y &lt; 4)</code> test</li>
+</ul>
+
+<p>Similarly, in the infix expression:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="mi">5</span>
+</code></pre></div></div>
+
+<p>The structure could be interpreted as either:</p>
+<ul>
+  <li>1+(3*5) (which reduces to 16)</li>
+  <li>(1+3)*5 (which reduces to 20)</li>
+</ul>
+
+<p>These forms of ambiguity are frequent in natural language as well - as in the example:</p>
+<ul>
+  <li><em>I saw a man on the hill with a telescope.</em></li>
+</ul>
+
+<p>which can be interpreted in multiple ways:</p>
+<ul>
+  <li><em>The man I saw was on the hill and I saw him through a telescope</em></li>
+  <li><em>The man I saw was on the hill and he had a telescope with him</em></li>
+</ul>
+
+<p>In natural languages, we rely on the intelligence of the reader to resolve these ambiguities.</p>
+
+<p>In programming languages, in contrast, such ambiguities must be resolved in a unique and deterministic manner - so that the same program is always interpreted in the same manner.  The concrete syntax, therefore, must also provide <strong>precedence rules</strong> to disambiguate such cases.</p>
+
+<p>For example, in infix arithmetic notation, preference rules specify that the operations * and / have higher precedence over operations + and -.</p>
+
+<p>When multiple operations with the same preference occur, <strong>associativity rules</strong> determine how operations are grouped.
+For example, <code class="language-plaintext highlighter-rouge">1 - 3 - 5</code> is intepreted as <code class="language-plaintext highlighter-rouge">(1-3)-5</code> (yielding -7) and not as <code class="language-plaintext highlighter-rouge">1 - (3 -5)</code> (which would yield 3) - because
+the infix operator <code class="language-plaintext highlighter-rouge">-</code> is specified as left-associative.</p>
+
+<p>Parentheses can also be used in most languages to explicitly override or indicate the desired syntactic structure of an expression - as in <code class="language-plaintext highlighter-rouge">1 - (3 - 5)</code>.</p>
+
+<p>The Scheme concrete syntax does not require such precedence and associativity disambiguation rules, because it requires full parentheses to explicitly encode the structure of expressions.</p>
+
+<h3 id="parser">Parser</h3>
+
+<ul>
+  <li>Concrete syntax is intended to be read by humans</li>
+  <li>Abstract syntax is intended to be consumed by programs (interpreter, compiler…).</li>
+</ul>
+
+<p>It is the role of a <strong>parser</strong> to map the input <strong>concrete syntax</strong> (encoded as a string) into ASTs.</p>
+
+<p>To specify how a parser works, we must specify both:</p>
+<ul>
+  <li>The rules of the concrete syntax</li>
+  <li>The structure of all possible ASTs the parser can construct</li>
+</ul>
+
+<p>A good way to think about the role of the parser is that it is a <code class="language-plaintext highlighter-rouge">factory</code> to construct ASTs given linear string representations of programs.</p>
+
+<h2 id="specifying-concrete-syntax">Specifying Concrete Syntax</h2>
+
+<p>Concrete syntax is defined as a formal language using grammatical rules.</p>
+
+<p>Programming language specifications have mostly adopted mild variants of <strong>context free languages</strong> (CFG) to specify concrete syntax.  In the hierarchy of formal languages (see <a href="https://en.wikipedia.org/wiki/Chomsky_hierarchy">Chomsky Hierarchy</a>),  CFGs are right above <strong>regular language</strong> and below Context Sensitive Languages (which are hard to parse).</p>
+
+<p>In programming languages, language designers have adopted the Backus-Naur Form (BNF) notation to specify formally
+the rules of concrete syntax.<br>
+For example:</p>
+<ul>
+  <li><a href="https://www.cs.indiana.edu/scheme-repository/R4RS/r4rs_9.html#SEC76">R4RS Scheme Grammar</a> presents the formal syntax of the R4RS Scheme programming language</li>
+  <li><a href="https://262.ecma-international.org/#sec-grammar-summary">ECMAScript Grammar</a> presents the formal syntax of JavaScript 2020</li>
+  <li><a href="https://docs.oracle.com/javase/specs/jls/se15/html/jls-19.html">Java Grammar</a> presents the formal syntax of Java 15.</li>
+  <li><a href="https://docs.python.org/3/reference/grammar.html">Python Grammar</a> presents the formal syntax of Python.</li>
+</ul>
+
+<p>We confirm in a brief overview the minimalistic approach of Scheme - the full language only needs about 10 keywords and 8 syntactic forms. In comparison, Python has 33 keywords and 110 syntactic forms, and Java has 50 keywords and 133 syntactic forms.</p>
+
+<h3 id="bnf-specification">BNF Specification</h3>
+
+<p>BNF is a meta-syntax used to express context-free grammars: it is a formal way to describe formal languages.
+BNF specifications include two types of rules:</p>
+<ul>
+  <li>Lexical rules</li>
+  <li>Syntactic rules</li>
+</ul>
+
+<p>Lexical rules determine how to tokenize a stream of characters into a stream of significant tokens.
+It indicates which delimiters can be skipped (for example, white spaces) and which delimiters indicate the end or
+beginning of other tokens (for example, parentheses or punctuation).  Lexical rules also specify the types of tokens 
+that can be distinguished - for example, numbers are sequences of digit characters, identifiers are sequences of 
+alpha-numeric characters, left parenthesis, right parenthesis etc.</p>
+
+<p>Syntactic rules determine how tokens are combined into significant hierarchical structures which form the expressions of the language.  Syntactic rules refer to the token categories defined by lexical rules.</p>
+
+<p>Usually, lexical rules form a <strong>regular language</strong> - which are powerful enough to describe tokenization.
+In contrast, <strong>syntactic rules</strong> form a <strong>context free language</strong> (sometimes BNFs are extended to support mildly more powerful languages than CFGs).</p>
+
+<p>Because lexical rules and syntactic rules are of different nature, they are processed by different software components:</p>
+<ul>
+  <li>The <strong>scanner</strong> turns a stream of characters into a stream of tokens (each tagged by its category)</li>
+  <li>The <strong>parser</strong> turns a stream of tokens into a parse tree where each token is a terminal, covered by non-terminal categories.</li>
+</ul>
+
+<h4 id="scheme-lexical-rules">Scheme Lexical Rules</h4>
+
+<p>Consider the first few lexical rules in the Scheme specification <a href="https://www.cs.indiana.edu/scheme-repository/R4RS/r4rs_9.html#SEC76">R4RS Scheme Grammar</a>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">token</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">identifier</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">boolean</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">character</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">|</span> <span class="p">(</span> <span class="o">|</span> <span class="p">)</span> <span class="o">|</span> <span class="dl">'</span><span class="s1"> | .
+&lt;delimiter&gt; ==&gt; &lt;whitespace&gt; | ( | ) | " | ;
+&lt;whitespace&gt; ==&gt; &lt;space or newline&gt;
+&lt;comment&gt; ==&gt; ; &lt;all subsequent characters up to a line break&gt;
+&lt;identifier&gt; ==&gt; &lt;initial&gt; &lt;subsequent&gt;*
+&lt;initial&gt; ==&gt; &lt;letter&gt;
+&lt;letter&gt; ==&gt; a | b | c | ... | z
+&lt;subsequent&gt; ==&gt; &lt;initial&gt; | &lt;digit&gt;
+&lt;digit&gt; ==&gt; 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+&lt;string&gt; ==&gt; " &lt;string element&gt;* "
+&lt;string element&gt; ==&gt; &lt;any character other than " or </span><span class="se">\</span><span class="s1">&gt; | </span><span class="se">\</span><span class="s1">" | </span><span class="se">\\</span><span class="s1">
+&lt;boolean&gt; ==&gt; #t | #f
+</span></code></pre></div></div>
+
+<p>In BNF notation, categories (non-terminals) are denoted as <code class="language-plaintext highlighter-rouge">&lt;category&gt;</code>.
+Rules are specified as <code class="language-plaintext highlighter-rouge">&lt;lhs&gt; ==&gt; rhs</code> – where <code class="language-plaintext highlighter-rouge">lhs</code> is the left-hand side of the rule, <code class="language-plaintext highlighter-rouge">rhs</code> the right-hand side.</p>
+
+<p>The LHS of rules is a single <code class="language-plaintext highlighter-rouge">&lt;category&gt;</code> (which means that the language defined by BNF is CFG or Regular and not Context Sensitive or Recursively Enumerable).</p>
+
+<p>The RHS can be a sequence of terminals (for lexical rules, terminals are characters) or categories, or an alternation of such sequences, indicated by the “|” special character.  In syntactic rules, terminals are usually marked with quotes around them.</p>
+
+<p>Within the RHS sequences, categories can be followed by the special markers <code class="language-plaintext highlighter-rouge">*</code> to indicate repetition 0 or more times, <code class="language-plaintext highlighter-rouge">+</code> to indicate 1 or more times and <code class="language-plaintext highlighter-rouge">?</code> to indicate optional elements.</p>
+
+<p>Observe in particular that the lexical rules above are <strong>not recursive</strong> (there is no category reachable from the RHS which is on the LHS).  Because lexical rules denote a regular language, we can use <strong>regular expressions</strong> to implement the scanner.</p>
+
+<h4 id="scheme-syntactic-rules">Scheme Syntactic Rules</h4>
+
+<p>Consider the top-level (slightly simplified) definition of Scheme expressions in the formal syntactic rules for Scheme:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">expression</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">variable</span><span class="o">&gt;</span>
+     <span class="o">|</span> <span class="o">&lt;</span><span class="nx">procedure</span> <span class="nx">call</span><span class="o">&gt;</span>
+     <span class="o">|</span> <span class="o">&lt;</span><span class="nx">lambda</span> <span class="nx">expression</span><span class="o">&gt;</span>
+     <span class="o">|</span> <span class="o">&lt;</span><span class="nx">conditional</span><span class="o">&gt;</span>
+     <span class="o">|</span> <span class="o">&lt;</span><span class="nx">literal</span><span class="o">&gt;</span>
+     
+<span class="o">&lt;</span><span class="nx">variable</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">identifier</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>These are the different types of syntactic forms that are defined in Scheme - this rule only contains a disjunction.
+Each syntactic form is defined in turn:</p>
+
+<h5 id="procedure-call">Procedure Call</h5>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">procedure</span> <span class="nx">call</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="p">(</span><span class="o">&lt;</span><span class="nx">operator</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">operand</span><span class="o">&gt;*</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="nx">operator</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">expression</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">operand</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">expression</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>An example concrete string that corresponds to this specification of procedure call is:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nb">+</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>It is <em>recognized</em> by first applying lexical rules to turn it into a sequence of tokens:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&lt;</span><span class="p">(</span><span class="nf">:lparen&gt;</span> <span class="nv">&lt;+:identifier&gt;</span> <span class="nv">&lt;a:identifier&gt;</span> <span class="nv">&lt;b:identifier&gt;</span> <span class="nv">&lt;</span><span class="p">)</span><span class="nv">:rparen&gt;</span>
+</code></pre></div></div>
+
+<p>Each token is annotated by its category as recognized by the scanner.</p>
+
+<p>The concrete parser then turns this stream of tokens into a concrete parse tree:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">expression</span> 
+  <span class="p">(</span><span class="nf">procedure-call</span>
+    <span class="p">(</span><span class="nf">lparen</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">operator</span> <span class="p">(</span><span class="nf">expression</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">&lt;+:identifier&gt;</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nf">operands</span> <span class="p">((</span><span class="nf">expression</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">&lt;a:identifier&gt;</span><span class="p">))</span>
+               <span class="p">(</span><span class="nf">expression</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">&lt;b:identifier&gt;</span><span class="p">))))</span>
+    <span class="p">(</span><span class="nf">rparen</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>This representation corresponds to the instantiation of the <code class="language-plaintext highlighter-rouge">&lt;expression&gt; ==&gt; &lt;procedure call&gt;</code> syntactic rule on a specific sequence of tokens. It is a <strong>tree</strong> - with the non-terminal category as its root, and derived categories as children.  There is one child for each element in the RHS of the rules.</p>
+
+<p><img src="./Syntax _ Principles of Programming Languages_files/parse-tree-add-a-b.png" alt="parse tree"></p>
+
+<p>The syntactic rule is <strong>recursive</strong> - the category <code class="language-plaintext highlighter-rouge">&lt;expression&gt;</code> can be derived into an
+expression of type <code class="language-plaintext highlighter-rouge">&lt;procedure call&gt;</code> which in turn, contains in its derivation components of type <code class="language-plaintext highlighter-rouge">&lt;expression&gt;</code>.
+This leads to the observation that the defined language is an infinite set of expressions.</p>
+
+<h5 id="lambda-expression">Lambda Expression</h5>
+
+<p>Lambda expressions are defined by this syntactic rule:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">lambda</span> <span class="nx">expression</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="p">(</span><span class="nx">lambda</span> <span class="o">&lt;</span><span class="nx">formals</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">body</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="nx">formals</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="p">(</span><span class="o">&lt;</span><span class="nx">variable</span><span class="o">&gt;*</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="nx">body</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">sequence</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">sequence</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">command</span><span class="o">&gt;*</span> <span class="o">&lt;</span><span class="nx">expression</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">command</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">expression</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>An example string recognized by this rule is:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>which is recognized as a lambda-expression through the following derivation parse tree:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">lambda-expression</span>
+  <span class="p">(</span><span class="nf">lparen</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">lambda</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">formals</span> <span class="p">(</span><span class="nf">lparen</span><span class="p">)</span>
+           <span class="p">((</span><span class="nf">variable</span> <span class="nv">&lt;x:identifier&gt;</span><span class="p">))</span>
+           <span class="p">(</span><span class="nf">rparen</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">body</span> <span class="p">(</span><span class="nf">sequence</span> <span class="p">((</span><span class="nf">commands</span> <span class="p">())</span>
+                   <span class="p">(</span><span class="nf">expression</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">&lt;x:identifier&gt;</span><span class="p">)))))</span>
+  <span class="p">(</span><span class="nf">rparen</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>This tree proves that the expression belongs to the <code class="language-plaintext highlighter-rouge">&lt;lambda-expression&gt;</code> category.
+It can be read as a top-down derivation through the rules of the grammar:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span><span class="p">.</span> <span class="o">&lt;</span><span class="nx">lambda</span><span class="o">-</span><span class="nx">expression</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="p">(</span><span class="nx">lambda</span> <span class="o">&lt;</span><span class="nx">formals</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">body</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">.</span> <span class="o">&lt;</span><span class="nx">formals</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="p">(</span><span class="o">&lt;</span><span class="nx">variable</span><span class="o">&gt;*</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">.</span> <span class="o">&lt;</span><span class="nx">variable</span><span class="o">&gt;*</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">variable</span><span class="o">&gt;</span>
+<span class="mi">4</span><span class="p">.</span> <span class="o">&lt;</span><span class="nx">variable</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">x</span><span class="p">:</span><span class="nx">identifier</span><span class="o">&gt;</span>
+<span class="mi">5</span><span class="p">.</span> <span class="o">&lt;</span><span class="nx">body</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">command</span><span class="o">&gt;*</span> <span class="o">&lt;</span><span class="nx">expression</span><span class="o">&gt;</span>
+<span class="mi">6</span><span class="p">.</span> <span class="o">&lt;</span><span class="nx">command</span><span class="o">&gt;*</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">empty</span><span class="o">&gt;</span>
+<span class="mi">7</span><span class="p">.</span> <span class="o">&lt;</span><span class="nx">expression</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">variable</span><span class="o">&gt;</span>
+<span class="mi">8</span><span class="p">.</span> <span class="o">&lt;</span><span class="nx">variable</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">x</span><span class="p">:</span><span class="nx">identifier</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<h5 id="conditional-expressions">Conditional Expressions</h5>
+
+<p>The concrete syntax of conditional expressions is specified by this rule:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">conditional</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="p">(</span><span class="k">if</span> <span class="o">&lt;</span><span class="nx">test</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">consequent</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">alternate</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="nx">test</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">expression</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">consequent</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">expression</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">alternate</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">expression</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>An example expression of this category is:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="nv">x</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">x</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h5 id="literal-expressions">Literal Expressions</h5>
+
+<p>Literal expressions are either self-evaluating expressions (boolean, number or string tokens) or quoted expressions:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">literal</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">quotation</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nb">self</span><span class="o">-</span><span class="nx">evaluating</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nb">self</span><span class="o">-</span><span class="nx">evaluating</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">boolean</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">quotation</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="dl">'</span><span class="s1">&lt;datum&gt; | (quote &lt;datum&gt;)
+</span></code></pre></div></div>
+
+<p>Datum (also called <strong>s-exp</strong> for Symbol-Expressions) plays in Scheme the same role as the JSON notation in JavaScript - it corresponds to the external notation for values that can be read by the <code class="language-plaintext highlighter-rouge">read</code> primitive procedure (equivalent to the JavaScript JSON.parse primitive) and manipulated as a value. 
+Reversely, any value in Scheme can be turned into a well-formed <code class="language-plaintext highlighter-rouge">&lt;datum&gt;</code> string by using the <code class="language-plaintext highlighter-rouge">format</code> primitive (equivalent to <code class="language-plaintext highlighter-rouge">JSON.stringify</code> in JavaScript).</p>
+
+<p>In particular, any string that parses as an <code class="language-plaintext highlighter-rouge">&lt;expression&gt;</code> will also parse as a <code class="language-plaintext highlighter-rouge">&lt;datum&gt;</code>.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">datum</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">simple</span> <span class="nx">datum</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">compound</span> <span class="nx">datum</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">simple</span> <span class="nx">datum</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">boolean</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">|</span>  <span class="o">&lt;</span><span class="nx">symbol</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">symbol</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">identifier</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">compound</span> <span class="nx">datum</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">list</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">list</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="p">(</span><span class="o">&lt;</span><span class="nx">datum</span><span class="o">&gt;*</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="o">&lt;</span><span class="nx">datum</span><span class="o">&gt;+</span> <span class="p">.</span> <span class="o">&lt;</span><span class="nx">datum</span><span class="o">&gt;</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Examples of literal expressions in Scheme are:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span>
+<span class="ss">'1</span>  
+<span class="no">#t</span>
+<span class="no">#f</span>
+<span class="s">"a string"</span>
+<span class="ss">'symbol</span>
+<span class="o">'</span><span class="p">()</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">1</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">a</span> <span class="mi">1</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">a</span> <span class="o">.</span> <span class="mi">1</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nf">a</span> <span class="nv">b</span> <span class="o">.</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>It is a remarkable property of Scheme that the concrete syntax of the language can be recognized as a literal value.
+It makes it possible with little effort to <strong>manipulate programs as data</strong>.  In other words, the concrete syntax of Scheme
+is a subset of the S-Expressions.</p>
+
+<p>This is not the case for JavaScript with the JSON notation - JavaScript programs are not JSON literal expressions and cannot be read by a primitive function in the language. For example, the expression <code class="language-plaintext highlighter-rouge">x =&gt; x</code> is a JavaScript expression, but it is not a valid JSON literal value.</p>
+
+<h2 id="abstract-syntax">Abstract Syntax</h2>
+
+<p>The Abstract Syntax of a language is a way to encode expressions in a way that captures the relevant information in the expressions so that they can be processed by programs.<br>
+The key perspective is that Abstract Syntax considers <strong>programs as data</strong> - so that they can be manipulated by other programs.</p>
+
+<p>Abstract syntax removes details from the concrete syntax and presents the parsed expressions through an abstract interface that can be manipulated by an interpreter or a compiler.  The overall pipeline of modules we have defined at this point is summarized here:</p>
+
+<p><img src="./Syntax _ Principles of Programming Languages_files/eval-process.jpg" alt="evaluation process"></p>
+
+<p>The abstract syntax of a language captures the following two types of relations between expressions and other expressions:</p>
+<ul>
+  <li>An expression can be of different types of expressions</li>
+  <li>An expression is composed of sub-expressions, each fulfilling a specific role with respect to the parent expression.</li>
+</ul>
+
+<p>For example, in the Scheme abstract syntax, an expression can be of the following types:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">expression</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">variable</span><span class="o">&gt;</span>
+     <span class="o">|</span> <span class="o">&lt;</span><span class="nx">procedure</span> <span class="nx">call</span><span class="o">&gt;</span>
+     <span class="o">|</span> <span class="o">&lt;</span><span class="nx">lambda</span> <span class="nx">expression</span><span class="o">&gt;</span>
+     <span class="o">|</span> <span class="o">&lt;</span><span class="nx">conditional</span><span class="o">&gt;</span>
+     <span class="o">|</span> <span class="o">&lt;</span><span class="nx">literal</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>We call this relation a <strong>disjunction</strong> between different types of expressions.</p>
+
+<p>A specific expression type, such as a lambda-expression, contains sub-expressions:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">lambda</span><span class="o">-</span><span class="nx">expression</span><span class="p">:</span> 
+    <span class="nx">formals</span><span class="p">:</span> <span class="nx">List</span><span class="p">(</span><span class="kd">var</span><span class="o">-</span><span class="nx">expression</span><span class="p">)</span> 
+    <span class="nx">body</span><span class="p">:</span> <span class="nx">List</span><span class="p">(</span><span class="nx">expression</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>We call this relation a <strong>conjunction</strong> between different sub-expressions.
+When we specify a conjunction in abstract syntax, we abstract away the details of the concrete syntax - for example, the fact that the keyword ‘lambda’ is used to mark this type of expression and the place of parentheses to separate the components of the sub-expressions (formals and body) within the parent expression (the lambda-expression).</p>
+
+<p>We do specify the type of the expected sub-expressions (for example, <code class="language-plaintext highlighter-rouge">formals</code> is a list of <code class="language-plaintext highlighter-rouge">var-expression</code> specifically) and their cardinality.</p>
+
+<h3 id="abstract-syntax-as-disjoint-union-type">Abstract Syntax as Disjoint Union Type</h3>
+
+<p>Abstract Syntax defines a data type which denotes a set of values: the values representing all legal expressions in the programming language.</p>
+
+<p>Abstract syntax defines alternative <strong>kinds for expression categories</strong>, and the <strong>components of composite elements</strong>. 
+For each component, the abstract syntax defines:</p>
+<ul>
+  <li>its <strong>role</strong> in the composite sentence,</li>
+  <li>its <strong>category</strong> and</li>
+  <li>its <strong>cardinality</strong> (how many instances of the component can appear in the parent expression).<br>
+Specifically, we distinguish single value components and List value components.</li>
+</ul>
+
+<p>We apply the construct of <strong>disjoint union types</strong> (which we introduced in <a href="https://bguppl.github.io/interpreters/class_material/1.3TypescriptTypeChecking.html">Chapter 1.4</a>) 
+to define formally the abstract syntax of a language.
+The notation we adopt is the following (defined in the book “Essentials of Programming Languages”):</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">define</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span>            <span class="sr">/ def-exp | cex</span><span class="err">p
+</span><span class="o">&lt;</span><span class="nx">define</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span> <span class="nx">define</span> <span class="o">&lt;</span><span class="kd">var</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="p">)</span>   <span class="o">/</span> <span class="nx">def</span><span class="o">-</span><span class="nx">exp</span><span class="p">(</span><span class="kd">var</span><span class="p">:</span><span class="nx">varDecl</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span><span class="nx">cexp</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="kd">var</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">identifier</span><span class="o">&gt;</span>                 <span class="sr">/ varRef</span><span class="se">(</span><span class="sr">var:string</span><span class="err">)
+</span><span class="o">&lt;</span><span class="nx">binding</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span> <span class="o">&lt;</span><span class="kd">var</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="p">)</span>         <span class="o">/</span> <span class="nx">binding</span><span class="p">(</span><span class="kd">var</span><span class="p">:</span><span class="nx">varDecl</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span><span class="nx">cexp</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span>                    <span class="sr">/ num-exp</span><span class="se">(</span><span class="sr">val:number</span><span class="err">)
+</span>  <span class="o">|</span>  <span class="o">&lt;</span><span class="nx">boolean</span><span class="o">&gt;</span>                         <span class="sr">/ bool-exp</span><span class="se">(</span><span class="sr">val:boolean</span><span class="err">)
+</span>  <span class="o">|</span>  <span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span>                          <span class="sr">/ str-exp</span><span class="se">(</span><span class="sr">val:string</span><span class="err">)
+</span>  <span class="o">|</span>  <span class="o">&lt;</span><span class="nx">varRef</span><span class="o">&gt;</span>                          <span class="sr">/ varRef</span><span class="se">(</span><span class="sr">var</span><span class="err">)
+</span>  <span class="o">|</span>  <span class="p">(</span> <span class="nx">lambda</span> <span class="p">(</span> <span class="o">&lt;</span><span class="nx">varDecl</span><span class="o">&gt;*</span> <span class="p">)</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;+</span> <span class="p">)</span> <span class="o">/</span> <span class="nx">proc</span><span class="o">-</span><span class="nx">exp</span><span class="p">(</span><span class="nx">params</span><span class="p">:</span><span class="nx">List</span><span class="p">(</span><span class="nx">varDecl</span><span class="p">),</span> <span class="nx">body</span><span class="p">:</span><span class="nx">List</span><span class="p">(</span><span class="nx">cexp</span><span class="p">))</span>
+  <span class="o">|</span>  <span class="p">(</span> <span class="k">if</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="p">)</span>       <span class="o">/</span> <span class="k">if</span><span class="o">-</span><span class="nx">exp</span><span class="p">(</span><span class="nx">test</span><span class="p">:</span> <span class="nx">cexp</span><span class="p">,</span> <span class="nx">then</span><span class="p">:</span> <span class="nx">cexp</span><span class="p">,</span> <span class="k">else</span><span class="p">:</span> <span class="nx">cexp</span><span class="p">)</span><span class="nx">F</span>
+  <span class="o">|</span>  <span class="p">(</span> <span class="kd">let</span> <span class="p">(</span> <span class="nx">binding</span><span class="o">*</span> <span class="p">)</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;+</span> <span class="p">)</span>      <span class="o">/</span> <span class="kd">let</span><span class="o">-</span><span class="nx">exp</span><span class="p">(</span><span class="nx">bindings</span><span class="p">:</span><span class="nx">List</span><span class="p">(</span><span class="nx">binding</span><span class="p">),</span> <span class="nx">body</span><span class="p">:</span><span class="nx">List</span><span class="p">(</span><span class="nx">cexp</span><span class="p">))</span>
+  <span class="o">|</span>  <span class="p">(</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;*</span> <span class="p">)</span>                <span class="o">/</span> <span class="nx">app</span><span class="o">-</span><span class="nx">exp</span><span class="p">(</span><span class="nx">operator</span><span class="p">:</span><span class="nx">cexp</span><span class="p">,</span> <span class="nx">operands</span><span class="p">:</span><span class="nx">List</span><span class="p">(</span><span class="nx">cexp</span><span class="p">))</span>
+  <span class="o">|</span>  <span class="p">(</span> <span class="nx">quote</span> <span class="o">&lt;</span><span class="nx">sexp</span><span class="o">&gt;</span> <span class="p">)</span>                  <span class="o">/</span> <span class="nx">literal</span><span class="o">-</span><span class="nx">exp</span><span class="p">(</span><span class="nx">val</span><span class="p">:</span><span class="nx">sexp</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This definition combines in one notation the concrete syntax syntactic rules as BNF notation and for each rule,
+the corresponding abstract syntax type.</p>
+
+<p>The abstract syntax type is a variant notation of what would be defined as disjoint types in TypeScript as follows:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Disjoint union types</span>
+<span class="kd">type</span> <span class="nx">Exp</span> <span class="o">=</span> <span class="nx">DefineExp</span> <span class="o">|</span> <span class="nx">CExp</span><span class="p">;</span>
+<span class="kd">type</span> <span class="nx">CExp</span> <span class="o">=</span> <span class="nx">NumExp</span> <span class="o">|</span> <span class="nx">BoolExp</span> <span class="o">|</span> <span class="nx">StrExp</span> <span class="o">|</span> <span class="nx">IfExp</span> <span class="o">|</span> <span class="nx">PrimOp</span> <span class="o">|</span> <span class="nx">VarRef</span> <span class="o">|</span> <span class="nx">ProcExp</span> <span class="o">|</span> <span class="nx">AppExp</span> <span class="o">|</span> <span class="nx">LitExp</span> <span class="o">|</span> <span class="nx">LetExp</span><span class="p">;</span>
+
+<span class="c1">// Composite types</span>
+<span class="kd">type</span> <span class="nx">Program</span> <span class="o">=</span> <span class="p">{</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Program</span><span class="dl">"</span><span class="p">;</span> <span class="nl">exps</span><span class="p">:</span> <span class="nx">Exp</span><span class="p">[];</span> <span class="p">};</span>
+<span class="kd">type</span> <span class="nx">DefineExp</span> <span class="o">=</span> <span class="p">{</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">DefineExp</span><span class="dl">"</span><span class="p">;</span> <span class="nl">var</span><span class="p">:</span> <span class="nx">VarDecl</span><span class="p">;</span> <span class="nl">val</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">;</span> <span class="p">};</span>
+<span class="kd">type</span> <span class="nx">NumExp</span> <span class="o">=</span> <span class="p">{</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">NumExp</span><span class="dl">"</span><span class="p">;</span> <span class="nl">val</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span> <span class="p">};</span>
+<span class="kd">type</span> <span class="nx">BoolExp</span> <span class="o">=</span> <span class="p">{</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">BoolExp</span><span class="dl">"</span><span class="p">;</span> <span class="nl">val</span><span class="p">:</span> <span class="nx">boolean</span><span class="p">;</span> <span class="p">};</span>
+<span class="kd">type</span> <span class="nx">StrExp</span> <span class="o">=</span> <span class="p">{</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">StrExp</span><span class="dl">"</span><span class="p">;</span> <span class="nl">val</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span> <span class="p">};</span>
+<span class="kd">type</span> <span class="nx">PrimOp</span> <span class="o">=</span> <span class="p">{</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">PrimOp</span><span class="dl">"</span><span class="p">;</span> <span class="nl">op</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span> <span class="p">};</span>
+<span class="kd">type</span> <span class="nx">VarRef</span> <span class="o">=</span> <span class="p">{</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">VarRef</span><span class="dl">"</span><span class="p">;</span> <span class="nl">var</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span> <span class="p">};</span>
+<span class="kd">type</span> <span class="nx">VarDecl</span> <span class="o">=</span> <span class="p">{</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">VarDecl</span><span class="dl">"</span><span class="p">;</span> <span class="nl">var</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span> <span class="p">};</span>
+<span class="kd">type</span> <span class="nx">AppExp</span> <span class="o">=</span> <span class="p">{</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">AppExp</span><span class="dl">"</span><span class="p">;</span> <span class="nl">rator</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">;</span> <span class="nl">rands</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">[];</span> <span class="p">};</span>
+<span class="kd">type</span> <span class="nx">IfExp</span> <span class="o">=</span> <span class="p">{</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">IfExp</span><span class="dl">"</span><span class="p">;</span> <span class="nl">test</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">;</span> <span class="nl">then</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">;</span> <span class="nl">alt</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">;</span> <span class="p">};</span>
+<span class="kd">type</span> <span class="nx">LitExp</span> <span class="o">=</span> <span class="p">{</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">LitExp</span><span class="dl">"</span><span class="p">;</span> <span class="nl">val</span><span class="p">:</span> <span class="nx">SExp</span><span class="p">;</span> <span class="p">};</span>
+<span class="kd">type</span> <span class="nx">LetExp</span> <span class="o">=</span> <span class="p">{</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">LetExp</span><span class="dl">"</span><span class="p">;</span> <span class="nl">bindings</span><span class="p">:</span> <span class="nx">Bindings</span><span class="p">[];</span> <span class="nl">body</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">[];</span> <span class="p">}</span>
+<span class="kd">type</span> <span class="nx">ProcExp</span> <span class="o">=</span> <span class="p">{</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ProcExp</span><span class="dl">"</span><span class="p">;</span> <span class="nl">params</span><span class="p">:</span> <span class="nx">VarDecl</span><span class="p">[];</span> <span class="nl">body</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">[];</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Given this definition of Abstract Syntax types, the role of the parser is to map concrete expressions (strings) to values of the appropriate type.  For example, the expression:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>corresponds to the abstract syntax tree:</p>
+
+<p><img src="./Syntax _ Principles of Programming Languages_files/id-ast.png" alt="ast for identity"></p>
+
+<p>This tree value is encoded as follows in a Scheme implementation of the AST data type:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">'</span><span class="p">(</span><span class="nf">proc-exp</span> <span class="p">((</span><span class="nf">var-exp</span> <span class="nv">x</span><span class="p">))</span> <span class="p">((</span><span class="nf">var-exp</span> <span class="nv">x</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>In a JSON type corresponding to the TypeScript type definitions above, it is encoded as the following value, in whch we distinguish here between the two roles of variables: variable declarations as VarDecl when they appear in the context of the procedure formal parameters) and variable references as VarRef:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span> <span class="nl">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">ProcExp</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">params</span><span class="p">:</span> <span class="p">[</span> <span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">VarDecl</span><span class="dl">'</span><span class="p">,</span> <span class="na">var</span><span class="p">:</span> <span class="dl">'</span><span class="s1">x</span><span class="dl">'</span> <span class="p">}</span> <span class="p">],</span>
+  <span class="nx">body</span><span class="p">:</span> <span class="p">[</span> <span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">VarRef</span><span class="dl">'</span><span class="p">,</span> <span class="na">var</span><span class="p">:</span> <span class="dl">'</span><span class="s1">x</span><span class="dl">'</span> <span class="p">}</span> <span class="p">]</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Similarly, the expression:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">if</span> <span class="no">#t</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="ss">'ok</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<p>corresponds to the abstract syntax tree:</p>
+
+<p><img src="./Syntax _ Principles of Programming Languages_files/if-ast.png" alt="ast for if expression"></p>
+
+<p>This tree can be encoded in a Scheme value as follows:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">'</span><span class="p">(</span><span class="nf">if-exp</span> <span class="p">(</span><span class="nf">bool-exp</span> <span class="no">#t</span><span class="p">)</span> <span class="p">(</span><span class="nf">app-exp</span> <span class="p">(</span><span class="nf">var-exp</span> <span class="nv">+</span><span class="p">)</span> <span class="p">((</span><span class="nf">num-exp</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">num-exp</span> <span class="mi">2</span><span class="p">)))</span> <span class="p">(</span><span class="nf">literal-exp</span> <span class="nv">ok</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>And in the following JSON value in TypeScript:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span> <span class="nl">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">IfExp</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">test</span><span class="p">:</span> <span class="p">{</span> <span class="nl">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">BoolExp</span><span class="dl">'</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
+  <span class="nx">then</span><span class="p">:</span>
+   <span class="p">{</span> <span class="nl">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">AppExp</span><span class="dl">'</span><span class="p">,</span>
+     <span class="nx">rator</span><span class="p">:</span> <span class="p">{</span> <span class="nl">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">PrimOp</span><span class="dl">'</span><span class="p">,</span> <span class="nx">op</span><span class="p">:</span> <span class="dl">'</span><span class="s1">+</span><span class="dl">'</span> <span class="p">},</span>
+     <span class="nx">rands</span><span class="p">:</span> <span class="p">[</span> <span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">NumExp</span><span class="dl">'</span><span class="p">,</span> <span class="na">val</span><span class="p">:</span> <span class="mi">1</span> <span class="p">},</span> 
+              <span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">NumExp</span><span class="dl">'</span><span class="p">,</span> <span class="na">val</span><span class="p">:</span> <span class="mi">2</span> <span class="p">}</span> <span class="p">]</span> <span class="p">},</span>
+  <span class="nx">alt</span><span class="p">:</span> <span class="p">{</span> <span class="nl">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LitExp</span><span class="dl">'</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span> <span class="nx">ok</span> <span class="p">}</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>It should be clear that abstract syntax is <strong>not</strong> intended for human consumption.  ASTs are to be consumed by programs that manipulate expressions.</p>
+
+<h5 id="parse-tree-vs-ast">Parse Tree vs. AST</h5>
+
+<p>In the AST type definitions, disjoint union types (exp, cexp) play the role of <strong>abstract types</strong> (as was defined in Java) - that is, there are no values in the AST of this specific type.  There can only be values of composite types with components.</p>
+
+<p>Compare the AST displayed above with the Parse Tree displayed when we discussed concrete syntax.
+The Parse Tree includes trees for <code class="language-plaintext highlighter-rouge">&lt;expression&gt;</code> - the AST does not.</p>
+
+<p>These two trees play different functions:</p>
+<ul>
+  <li>The AST is a concrete value that will be manipulated by the interpreter.</li>
+  <li>The Parse Tree is a proof that a concrete expression belongs to the language.</li>
+</ul>
+
+<p>ASTs are defined for all programming languages, they provide the first part of the formal specification of the language.
+You can experiment with ASTs of existing languages in the <a href="https://astexplorer.net/">AST Explorer</a> site which provides an interactive browser of ASTs for a wide range of programming languages (JavaScript, Scala, Go, SQL and many more).</p>
+
+<h3 id="implementing-asts-in-typescript">Implementing ASTs in TypeScript</h3>
+
+<p>Please refer to the code in our <a href="https://github.com/bguppl/interpreters">Github</a> to review and execute the code of the implementation of ASTs and Parsers in TypeScript.
+In this lecture, we will cover the code in the following aspects:</p>
+<ul>
+  <li><strong><a href="https://github.com/bguppl/interpreters/blob/master/src/L1/L1-ast.ts">L1/L1-ast.ts</a></strong></li>
+  <li><strong><a href="https://github.com/bguppl/interpreters/blob/master/src/shared/s-expression.d.ts">shared/s-expression.d.ts</a></strong></li>
+  <li><strong><a href="https://github.com/bguppl/interpreters/blob/master/src/shared/type-predicates.ts">shared/type-predicates.ts</a></strong></li>
+  <li><strong><a href="https://github.com/bguppl/interpreters/blob/master/src/shared/parser.ts">shared/parser.ts</a></strong></li>
+  <li><strong><a href="https://github.com/bguppl/interpreters/blob/master/src/shared/result.ts">shared/result.ts</a></strong></li>
+</ul>
+
+<p>ASTs describe types which correspond directly to Disjoint Union Types.</p>
+
+<p>We implement them in TypeScript in the following manner:</p>
+
+<ol>
+  <li>For every composite type <code class="language-plaintext highlighter-rouge">CT</code>, define:
+    <ol>
+      <li>A type definition <code class="language-plaintext highlighter-rouge">type CT = { tag:"CT"; ... }</code> with a field for each constituent</li>
+      <li>A value constructor named <code class="language-plaintext highlighter-rouge">makeCT</code></li>
+      <li>A type predicate named <code class="language-plaintext highlighter-rouge">isCT</code></li>
+    </ol>
+  </li>
+  <li>For every disjoint union type <code class="language-plaintext highlighter-rouge">DT</code> , define:
+    <ol>
+      <li>A type definition <code class="language-plaintext highlighter-rouge">type DT = CT1 | CT2 | ...</code></li>
+      <li>A type predicate named <code class="language-plaintext highlighter-rouge">isDT</code></li>
+    </ol>
+  </li>
+</ol>
+
+<p>The functions defined by this recipe provide a functional interface which encapsulates the data type definition.</p>
+
+<p>For example, let us consider the following abstract syntax definition.
+It specifies infix arithmetic formula, with no parentheses (not Scheme expressions):</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span>    <span class="sr">/ num-exp</span><span class="se">(</span><span class="sr">val:number</span><span class="err">)
+</span>     <span class="o">|</span>  <span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span> <span class="o">+</span> <span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span>   <span class="sr">/ add-exp</span><span class="se">(</span><span class="sr">arg1:E, arg2:E</span><span class="err">)
+</span>     <span class="o">|</span>  <span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span> <span class="o">*</span> <span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span>   <span class="sr">/ mul-exp</span><span class="se">(</span><span class="sr">arg1:E, arg2:E</span><span class="err">)
+</span></code></pre></div></div>
+
+<p>We derive one disjoint union type (E) and three composite types (num-exp, add-exp and mul-exp).</p>
+
+<p>We define the following AST definition (similar to the more complete definition in <strong><a href="https://github.com/bguppl/interpreters/blob/master/src/L1/L1-ast.ts">L1/L1-ast.ts</a></strong>):</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Disjoint type E</span>
+<span class="kd">type</span> <span class="nx">E</span> <span class="o">=</span> <span class="nx">NumExp</span> <span class="o">|</span> <span class="nx">AddExp</span> <span class="o">|</span> <span class="nx">MulExp</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">isE</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">E</span> <span class="o">=&gt;</span> <span class="nx">isNumExp</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">||</span> <span class="nx">isAddExp</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">||</span> <span class="nx">isMulExp</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+
+<span class="c1">// For each constituent type define a type, a constructor and a type predicate.</span>
+<span class="kd">type</span> <span class="nx">NumExp</span> <span class="o">=</span> <span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">NumExp</span><span class="dl">"</span><span class="p">;</span> <span class="nl">val</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span> <span class="p">};</span>
+<span class="kd">const</span> <span class="nx">makeNumExp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="nx">NumExp</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">NumExp</span><span class="dl">"</span><span class="p">,</span> <span class="na">val</span><span class="p">:</span> <span class="nx">n</span> <span class="p">});</span>
+<span class="kd">const</span> <span class="nx">isNumExp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">NumExp</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">NumExp</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">type</span> <span class="nx">AddExp</span> <span class="o">=</span> <span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">AddExp</span><span class="dl">"</span><span class="p">;</span> <span class="nl">left</span><span class="p">:</span> <span class="nx">E</span><span class="p">;</span> <span class="nl">right</span><span class="p">:</span> <span class="nx">E</span> <span class="p">};</span>
+<span class="kd">const</span> <span class="nx">makeAddExp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">left</span><span class="p">:</span> <span class="nx">E</span><span class="p">,</span> <span class="nx">right</span><span class="p">:</span> <span class="nx">E</span><span class="p">):</span> <span class="nx">AddExp</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">AddExp</span><span class="dl">"</span><span class="p">,</span> <span class="na">left</span><span class="p">:</span> <span class="nx">left</span><span class="p">,</span> <span class="na">right</span><span class="p">:</span> <span class="nx">right</span> <span class="p">});</span>
+<span class="kd">const</span> <span class="nx">isAddExp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">AddExp</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">AddExp</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">type</span> <span class="nx">MulExp</span> <span class="o">=</span> <span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">MulExp</span><span class="dl">"</span><span class="p">;</span> <span class="nl">left</span><span class="p">:</span> <span class="nx">E</span><span class="p">;</span> <span class="nl">right</span><span class="p">:</span> <span class="nx">E</span> <span class="p">};</span>
+<span class="kd">const</span> <span class="nx">makeMulExp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">left</span><span class="p">:</span> <span class="nx">E</span><span class="p">,</span> <span class="nx">right</span><span class="p">:</span> <span class="nx">E</span><span class="p">):</span> <span class="nx">MulExp</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">MulExp</span><span class="dl">"</span><span class="p">,</span> <span class="na">left</span><span class="p">:</span> <span class="nx">left</span><span class="p">,</span> <span class="na">right</span><span class="p">:</span> <span class="nx">right</span> <span class="p">});</span>
+<span class="kd">const</span> <span class="nx">isMulExp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">MulExp</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">MulExp</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="parser-as-ast-factory">Parser as AST Factory</h3>
+
+<p>The parser plays the role of a <strong>factory of ASTs</strong> - given a stream of tokens, it returns an AST of the appropriate type.</p>
+
+<p>In the case of working on Scheme, it is convenient to split the work of the parser in 2 stages:</p>
+<ul>
+  <li>Stream of tokens to S-exp</li>
+  <li>S-exp to AST</li>
+</ul>
+
+<p>This strategy exploits the characteristic property of Scheme that all Scheme expressions are also S-expressions.
+For other languages (such as JavaScript or Python), a similar strategy is also often employed.</p>
+
+<p>In TypeScript, we rely on an existing package to parse S-expressions into nested lists of tokens.
+This package is installed through npm:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; npm install s-expression --save
+</code></pre></div></div>
+
+<p>This package performs two functions:</p>
+<ul>
+  <li>Scanning</li>
+  <li>Token stream to S-exp conversion</li>
+</ul>
+
+<p>The following example illustrates the structure of a parser.</p>
+<ul>
+  <li>The type of a parser is [Sexp -&gt; Exp]</li>
+  <li>The structure of the parser follows the structure of SExp:
+    <ul>
+      <li>Atomic values that are acceptable as Exp</li>
+      <li>List values represent compound Exp</li>
+    </ul>
+  </li>
+  <li>For compound values, the parser recognizes each of the shapes of the various composite expressions in the grammar.</li>
+  <li>At the end of all branches in the logic, appears a constructor for one of the expression types (make-xxx) according to the AST type definition. This is the main property of a parser as a factory function for ASTs.</li>
+  <li>The parameters of the constructors are recursive calls to the parser.</li>
+</ul>
+
+<h3 id="the-s-exp-type">The S-exp Type</h3>
+
+<p>The S-expression parser we use from npm is written in JavaScript - it does not specify the type of the value it returns.</p>
+
+<p>We analyzed the code, and inferred manually the precise type returned by this parser and added this type annotation, which we add as the “contract” that we expect from the library and which can be trusted by the TypeScript type checker.  This is achieved by adding a file with extension d.ts in our codebase <strong><a href="https://github.com/bguppl/interpreters/blob/master/src/shared/s-expression.d.ts">shared/s-expression.d.ts</a></strong>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">declare</span> <span class="kr">module</span> <span class="dl">'</span><span class="s1">s-expression</span><span class="dl">'</span> <span class="p">{</span>
+    <span class="k">export</span> <span class="kd">type</span> <span class="nx">SexpString</span> <span class="o">=</span> <span class="nb">String</span><span class="p">;</span>
+    <span class="k">export</span> <span class="kd">type</span> <span class="nx">Token</span> <span class="o">=</span> <span class="kr">string</span> <span class="o">|</span> <span class="nx">SexpString</span><span class="p">;</span>
+    <span class="k">export</span> <span class="kd">type</span> <span class="nx">CompoundSexp</span> <span class="o">=</span> <span class="nx">Sexp</span><span class="p">[];</span>
+    <span class="k">export</span> <span class="kd">type</span> <span class="nx">Sexp</span> <span class="o">=</span> <span class="nx">Token</span> <span class="o">|</span> <span class="nx">CompoundSexp</span><span class="p">;</span>
+
+    <span class="cm">/*
+        The types returned by the parser are:
+        string - for any token which is not a string,
+                 according to the tokenization rules of S-expressions.
+        SexpString - for tokens of the form "..."
+        Sexp[] - for S-expressions that contain sub-expressions
+                 (of the form "(&lt;s-expr1&gt; ... &lt;s-exprn&gt;)")
+    */</span>
+    <span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">parse</span><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">Sexp</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The S-expression parser interprets all atomic tokens according to Scheme’s lexical rules.
+In particular, it encodes tokens of type string, which are written as balanced double-quotes <code class="language-plaintext highlighter-rouge">"....."</code> in a specific TypeScript type called String (with capital-S, which is different from the usual string).  We call this token type a <code class="language-plaintext highlighter-rouge">SexpString</code> in our type definition.</p>
+
+<p>The structure of the <code class="language-plaintext highlighter-rouge">Sexp</code> type is the usual disjunction between Atomic tokens and Compound expressions.
+Atomic tokens form the base case of the inductive definition. 
+Compound expressions are encoded as arrays of embedded expressions.</p>
+
+<h3 id="recognizing-token-types">Recognizing Token Types</h3>
+
+<p>Different types of tokens can be returned by the parser - as indicated by the Scheme lexical rule reviewed above:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">token</span><span class="o">&gt;</span> <span class="o">==&gt;</span> <span class="o">&lt;</span><span class="nx">identifier</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">boolean</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">character</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">|</span> <span class="p">(</span> <span class="o">|</span> <span class="p">)</span> <span class="o">|</span> <span class="dl">'</span><span class="s1"> | .
+</span></code></pre></div></div>
+
+<p>The relevant types of tokens must be recognized by analyzing a <code class="language-plaintext highlighter-rouge">Token</code> value to decide the type of literal value the token represents (boolean, number or string).
+We use the following TypeScript type predicates (using the TypeScript type predicate notation <code class="language-plaintext highlighter-rouge">x is &lt;T&gt;</code>).
+These definitions are provided in <strong><a href="https://github.com/bguppl/interpreters/blob/master/src/shared/type-predicates.ts">shared/type-predicates.ts</a></strong>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ========================================================</span>
+<span class="c1">// Parsing utilities to distinguish types of tokens</span>
+<span class="c1">// ========================================================</span>
+<span class="c1">// Type utilities</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isArray</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">isArray</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isString</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="kr">string</span> <span class="o">=&gt;</span> <span class="k">typeof</span> <span class="nx">x</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">string</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isNumber</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="kr">number</span> <span class="o">=&gt;</span> <span class="k">typeof</span> <span class="nx">x</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">number</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isBoolean</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">boolean</span> <span class="o">=&gt;</span> <span class="k">typeof</span> <span class="nx">x</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">boolean</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isError</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nb">Error</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="k">instanceof</span> <span class="nb">Error</span><span class="p">;</span>
+
+<span class="c1">// A weird method to check that a string is a string encoding of a number</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isNumericString</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">boolean</span> <span class="o">=&gt;</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="o">+</span><span class="nx">x</span><span class="p">)</span> <span class="o">===</span> <span class="nx">x</span><span class="p">;</span>
+
+<span class="c1">// A predicate for a valid identifier</span>
+<span class="c1">// In Scheme, a valid identifier is a token that starts with an alphabetic letter (a-z or A-Z) followed by any number of letters or numbers.</span>
+<span class="c1">// As discussed in the Section on Lexical Rules - we use Regular Expressions (regexp) to recognize these.</span>
+<span class="k">export</span> <span class="kd">type</span> <span class="nx">Identifier</span> <span class="o">=</span> <span class="kr">string</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isIdentifier</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">Identifier</span> <span class="o">=&gt;</span>
+    <span class="sr">/</span><span class="se">[</span><span class="sr">A-Za-z</span><span class="se">][</span><span class="sr">A-Za-z0-9</span><span class="se">]</span><span class="sr">*/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The code above corresponds to the TypeScript implementation (our meta-language) of the BNF Lexical Rules discussed above.
+We use TypeScript primitives when they exist to distinguish among the various types of tokens (string, number).
+For more delicate tests, we rely on Regular Expressions (regexp) - as exemplified in the <code class="language-plaintext highlighter-rouge">isIdentifier</code> predicate.
+You can read more on the important topic of regexp in <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">Regular Expressions Page</a>.</p>
+
+<p>Since we rely on the S-expression external library to parse S-Expressions into TypeScript values, we introduce TypeScript type definitions that reflect the exact types we expect,
+in <strong><a href="https://github.com/bguppl/interpreters/blob/master/src/shared/parser.ts">shared/parser.ts</a></strong>.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">p</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Sexp</span><span class="p">,</span> <span class="nx">SexpString</span><span class="p">,</span> <span class="nx">Token</span><span class="p">,</span> <span class="nx">CompoundSexp</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">s-expression</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">makeFailure</span><span class="p">,</span> <span class="nx">makeOk</span><span class="p">,</span> <span class="nx">Result</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">./result</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">isString</span><span class="p">,</span> <span class="nx">isArray</span><span class="p">,</span> <span class="nx">isError</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">./type-predicates</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">allT</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">./list</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="c1">// s-expression returns strings quoted as "a" as [String: 'a'] objects</span>
+<span class="c1">// to distinguish them from symbols - which are encoded as 'a'</span>
+<span class="c1">// These are constructed using the new String("a") constructor</span>
+<span class="c1">// and can be distinguished from regular strings based on the constructor.</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isSexpString</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">SexpString</span> <span class="o">=&gt;</span>
+    <span class="o">!</span> <span class="nx">isString</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">x</span><span class="p">.</span><span class="kd">constructor</span> <span class="o">&amp;&amp;</span> <span class="nx">x</span><span class="p">.</span><span class="kd">constructor</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">String</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isSexp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">Sexp</span> <span class="o">=&gt;</span> <span class="nx">isToken</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">||</span> <span class="nx">isCompoundSexp</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isToken</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">Token</span> <span class="o">=&gt;</span> <span class="nx">isString</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">||</span> <span class="nx">isSexpString</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isCompoundSexp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">CompoundSexp</span> <span class="o">=&gt;</span> <span class="nx">isArray</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">allT</span><span class="p">(</span><span class="nx">isSexp</span><span class="p">,</span> <span class="nx">x</span><span class="p">);</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">parse</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">Sexp</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">parsed</span> <span class="o">=</span> <span class="nx">p</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">isError</span><span class="p">(</span><span class="nx">parsed</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeFailure</span><span class="p">(</span><span class="nx">parsed</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span> <span class="p">:</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">parsed</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The external s-expression parser library can fail when it faces an illegal combination of parentheses or ill-formed tokens.
+In this case, it returns a value of type <code class="language-plaintext highlighter-rouge">Error</code>.<br>
+In the rest of the course, we will use a functional approach to handle errors, based on the <code class="language-plaintext highlighter-rouge">Result&lt;T&gt;</code> monad.<br>
+Therefore, we wrap the call to the library parser in a function that adapts the <code class="language-plaintext highlighter-rouge">Error</code> protocol into a <code class="language-plaintext highlighter-rouge">Result&lt;Sexp&gt;</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">parse</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">Sexp</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">parsed</span> <span class="o">=</span> <span class="nx">p</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">isError</span><span class="p">(</span><span class="nx">parsed</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeFailure</span><span class="p">(</span><span class="nx">parsed</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span> <span class="p">:</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">parsed</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="parsing-into-an-ast">Parsing into an AST</h2>
+
+<p>Given a stream of tokens, each one identified as a specific type of Token (number, identifier, boolean) according to the lexical rules of the grammar,
+we now construct an AST.  The following code shows how to construct an AST according to the rules of the grammar for the E-expressions shown above:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span>    <span class="sr">/ num-exp</span><span class="se">(</span><span class="sr">val:number</span><span class="err">)
+</span>     <span class="o">|</span>  <span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span> <span class="o">+</span> <span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span>   <span class="sr">/ add-exp</span><span class="se">(</span><span class="sr">arg1:E, arg2:E</span><span class="err">)
+</span>     <span class="o">|</span>  <span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span> <span class="o">*</span> <span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span>   <span class="sr">/ mul-exp</span><span class="se">(</span><span class="sr">arg1:E, arg2:E</span><span class="err">)
+</span></code></pre></div></div>
+
+<p>The full code is available in <strong><a href="https://github.com/bguppl/interpreters/blob/master/src/L1/E-parser.ts">L1/E-parser.ts</a></strong>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// --------------------------------------------</span>
+<span class="c1">// Toplevel function: parse a string into an E expression.</span>
+<span class="c1">// Since parse can fail, return a Result&lt;E&gt;</span>
+<span class="c1">// We split the parsing process in 2 stages:</span>
+<span class="c1">// - Tokenization and embedding with the general S-expression parser.</span>
+<span class="c1">// - Parsing according to the E-grammar implemented in this package.</span>
+<span class="c1">// We adopt the Result&lt;T&gt; monad pattern to process errors.</span>
+<span class="c1">// bind is used to compose functions that return Result&lt;T&gt; values.</span>
+<span class="c1">// - First invoke parse(x)</span>
+<span class="c1">// - If the result is a Failure, stop</span>
+<span class="c1">// - Else we received an Ok&lt;Sexp&gt; value, pass the Sexp result to the next function (parseESexp)</span>
+<span class="c1">// Once we get used to this notation, we can simplify this type of calls as follows:</span>
+<span class="c1">// bind(parse(x), parseESexp);</span>
+<span class="c1">// since the function (s: Sexp) =&gt; parseESexp(s); is just parseESexp.</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">parseE</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">bind</span><span class="p">(</span><span class="nx">parse</span><span class="p">(</span><span class="nx">x</span><span class="p">),</span> <span class="p">(</span><span class="nx">s</span><span class="p">:</span> <span class="nx">Sexp</span><span class="p">)</span> <span class="o">=&gt;</span> 
+         <span class="nx">parseESexp</span><span class="p">(</span><span class="nx">s</span><span class="p">));</span>
+
+<span class="c1">// ========================================================</span>
+<span class="c1">// Parsing</span>
+
+<span class="kd">const</span> <span class="nx">parseESexp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">sexp</span><span class="p">:</span> <span class="nx">Sexp</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">isEmpty</span><span class="p">(</span><span class="nx">sexp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">Unexpected empty</span><span class="dl">"</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isString</span><span class="p">(</span><span class="nx">sexp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">parseEAtomic</span><span class="p">(</span><span class="nx">sexp</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isArray</span><span class="p">(</span><span class="nx">sexp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">parseECompound</span><span class="p">(</span><span class="nx">sexp</span><span class="p">)</span> <span class="p">:</span>
+    <span class="c1">// Quoted strings are not legal in the E-expression language</span>
+    <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">Expected either a compound expression or a token, got a quoted string</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="c1">// Only numeric tokens are ok in this language</span>
+<span class="c1">// We decided not to refer to "+" and other primitives as distinct atomic expressions.</span>
+<span class="c1">// The decision is different in Scheme (and L1)</span>
+<span class="kd">const</span> <span class="nx">parseEAtomic</span> <span class="o">=</span> <span class="p">(</span><span class="nx">sexp</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">isNumericString</span><span class="p">(</span><span class="nx">sexp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">makeNumExp</span><span class="p">(</span><span class="o">+</span><span class="nx">sexp</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">Bad token </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">sexp</span><span class="p">);</span>
+
+<span class="c1">// Compound expressions must be of the form (&lt;exp&gt; &lt;op&gt; &lt;exp&gt;) where op in (*, +)</span>
+<span class="c1">// This procedure is recursive since the left and right sides can be embedded compound expressions.</span>
+<span class="kd">const</span> <span class="nx">parseECompound</span> <span class="o">=</span> <span class="p">(</span><span class="nx">sexps</span><span class="p">:</span> <span class="nx">Sexp</span><span class="p">[]):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="p">(</span><span class="nx">sexps</span><span class="p">.</span><span class="nx">length</span> <span class="o">!==</span> <span class="mi">3</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">Wrong length</span><span class="dl">"</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isString</span><span class="p">(</span><span class="nx">sexps</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">?</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">parseESexp</span><span class="p">(</span><span class="nx">sexps</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="nx">arg1</span><span class="p">:</span> <span class="nx">E</span><span class="p">)</span> <span class="o">=&gt;</span>
+                              <span class="nx">bind</span><span class="p">(</span><span class="nx">parseESexp</span><span class="p">(</span><span class="nx">sexps</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="p">(</span><span class="nx">arg2</span><span class="p">:</span> <span class="nx">E</span><span class="p">)</span> <span class="o">=&gt;</span>
+                                   <span class="nx">parseE3</span><span class="p">(</span><span class="nx">sexps</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nx">arg1</span><span class="p">,</span> <span class="nx">arg2</span><span class="p">)))</span> <span class="p">:</span>
+    <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">Expected operator, got compound expression</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">parseE3</span> <span class="o">=</span> <span class="p">(</span><span class="nx">op</span><span class="p">:</span> <span class="nx">Sexp</span><span class="p">,</span> <span class="nx">arg1</span><span class="p">:</span> <span class="nx">E</span><span class="p">,</span> <span class="nx">arg2</span><span class="p">:</span> <span class="nx">E</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">E</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">+</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">makeAddExp</span><span class="p">(</span><span class="nx">arg1</span><span class="p">,</span> <span class="nx">arg2</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">*</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">makeMulExp</span><span class="p">(</span><span class="nx">arg1</span><span class="p">,</span> <span class="nx">arg2</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">Bad operator </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">op</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">parseE</span><span class="p">(</span><span class="dl">"</span><span class="s2">1</span><span class="dl">"</span><span class="p">));</span>
+<span class="o">--&gt;</span>
+<span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Ok</span><span class="dl">'</span><span class="p">,</span> <span class="na">value</span><span class="p">:</span> <span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">NumExp</span><span class="dl">'</span><span class="p">,</span> <span class="na">val</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span> <span class="p">}</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">parseE</span><span class="p">(</span><span class="dl">"</span><span class="s2">(1 + 2)</span><span class="dl">"</span><span class="p">));</span>
+<span class="o">--&gt;</span>
+<span class="nx">parseE</span><span class="p">(</span><span class="dl">"</span><span class="s2">(1 + 2)</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Ok</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">value</span><span class="p">:</span> <span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">AddExp</span><span class="dl">'</span><span class="p">,</span>
+           <span class="na">left</span><span class="p">:</span> <span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">NumExp</span><span class="dl">'</span><span class="p">,</span> <span class="na">val</span><span class="p">:</span> <span class="mi">1</span> <span class="p">},</span>
+           <span class="na">right</span><span class="p">:</span> <span class="p">{</span> <span class="na">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">NumExp</span><span class="dl">'</span><span class="p">,</span> <span class="na">val</span><span class="p">:</span> <span class="mi">2</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">parseE</span><span class="p">(</span><span class="dl">"</span><span class="s2">(1 + (2 * 3))</span><span class="dl">"</span><span class="p">));</span>
+<span class="o">--&gt;</span>
+<span class="nx">parseE</span><span class="p">(</span><span class="dl">"</span><span class="s2">(1 + (2 * 3))</span><span class="dl">"</span><span class="p">)</span>
+
+<span class="p">{</span> <span class="nl">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Ok</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">value</span><span class="p">:</span> <span class="p">{</span> <span class="nl">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">AddExp</span><span class="dl">'</span><span class="p">,</span>
+           <span class="nx">left</span><span class="p">:</span> <span class="p">{</span> <span class="nl">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">NumExp</span><span class="dl">'</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span> <span class="mi">1</span> <span class="p">},</span>
+           <span class="nx">right</span><span class="p">:</span> <span class="p">{</span> <span class="nl">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">MulExp</span><span class="dl">'</span><span class="p">,</span>
+                    <span class="nx">left</span><span class="p">:</span> <span class="p">{</span> <span class="nl">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">NumExp</span><span class="dl">'</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span> <span class="mi">2</span> <span class="p">},</span>
+                    <span class="nx">right</span><span class="p">:</span> <span class="p">{</span> <span class="nl">tag</span><span class="p">:</span> <span class="dl">'</span><span class="s1">NumExp</span><span class="dl">'</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span> <span class="mi">3</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>In this example, there is no handling for precedence rules or various associativity.  So that, we do not know how to parse an expression such as “1 + 2 * 3”.  This would require explicit handling of a stack to resolve the ambiguous structure into an unambiguous fully parenthesized structure.</p>
+
+<p>This is as much as needed for Scheme parsing - for other languages, more logic would be needed to implement such rules.
+You will learn about more complex parsing implementation in the Compilation course.</p>
+
+<h3 id="recipe-for-processing-asts">Recipe for Processing ASTs</h3>
+
+<p>This convention to implement the AST as a disjoint union types with <code class="language-plaintext highlighter-rouge">make</code>-constructors and <code class="language-plaintext highlighter-rouge">is</code>-type-predicates determines the <strong>interface between the parser module and the interpreter</strong>.</p>
+
+<p>On the basis of this recipe, we define a recipe to write procedures that process ASTs relying on the disjoint-union type interface.</p>
+
+<p>For example, let us write a function to compute the height of an AST for the simple arithmetic language introduced above.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">max</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n1</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">n2</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="p">(</span><span class="nx">n1</span> <span class="o">&gt;</span> <span class="nx">n2</span><span class="p">)</span> <span class="p">?</span> <span class="nx">n1</span> <span class="p">:</span> <span class="nx">n2</span><span class="p">;</span>
+
+<span class="c1">// Compute the height of an E-AST</span>
+<span class="kd">const</span> <span class="nx">Eheight</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">:</span> <span class="nx">E</span><span class="p">):</span> <span class="kr">number</span> <span class="o">=&gt;</span>
+    <span class="nx">isNumExp</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">?</span> <span class="mi">0</span> <span class="p">:</span>
+    <span class="nx">isAddExp</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">?</span> <span class="nx">max</span><span class="p">(</span><span class="nx">Eheight</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">left</span><span class="p">),</span> <span class="nx">Eheight</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">right</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span>
+    <span class="nx">isMulExp</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">?</span> <span class="nx">max</span><span class="p">(</span><span class="nx">Eheight</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">left</span><span class="p">),</span> <span class="nx">Eheight</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">right</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span>
+    <span class="mi">0</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>This typical processor of AST has the following structure:</p>
+<ul>
+  <li>The type is [AST -&gt; something]</li>
+  <li>The structure of the function is a conditional expression that covers all types of expressions according to the AST disjoint-type definition.</li>
+  <li>For each branch in the conditional, the code breaks the AST into its components using the AST accessors for the specific type of the branch. (For example, in the branch for <code class="language-plaintext highlighter-rouge">isAddExp</code>, we have accessors for <code class="language-plaintext highlighter-rouge">AddExp.left</code> and <code class="language-plaintext highlighter-rouge">AddExp.right</code>.)</li>
+  <li>Usually, the function is called recursively on each of the components of compound AST values.</li>
+</ul>
+
+<p>The type system of TypeScript infers that the parameter <code class="language-plaintext highlighter-rouge">e</code> is of type <code class="language-plaintext highlighter-rouge">AddExp</code> in the clause that follows the <code class="language-plaintext highlighter-rouge">isAddExp</code> guard, and similarly for <code class="language-plaintext highlighter-rouge">isMulExp</code> - so that we obtain type-safe code in TypeScript when using this idiom.</p>
+
+<h2 id="scheme-abstract-syntax">Scheme Abstract Syntax</h2>
+
+<p>In the rest of the review of the interpreter we will adopt this syntax for Scheme:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">;;</span> <span class="o">&lt;</span><span class="nx">program</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">exp</span><span class="o">&gt;+</span>                     <span class="sr">/ program</span><span class="se">(</span><span class="sr">exps:List</span><span class="se">(</span><span class="sr">exp</span><span class="se">)</span><span class="err">)
+</span><span class="p">;;</span> <span class="o">&lt;</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">define</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span>              <span class="sr">/ def-exp | cex</span><span class="err">p
+</span><span class="p">;;</span> <span class="o">&lt;</span><span class="nx">define</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span> <span class="nx">define</span> <span class="o">&lt;</span><span class="nx">varDecl</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="p">)</span> <span class="o">/</span> <span class="nx">def</span><span class="o">-</span><span class="nx">exp</span><span class="p">(</span><span class="kd">var</span><span class="p">:</span><span class="nx">varDecl</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span><span class="nx">cexp</span><span class="p">)</span>
+<span class="p">;;</span> <span class="o">&lt;</span><span class="nx">binding</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span> <span class="o">&lt;</span><span class="nx">varDecl</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="p">)</span>       <span class="o">/</span> <span class="nx">binding</span><span class="p">(</span><span class="kd">var</span><span class="p">:</span><span class="nx">varDecl</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span><span class="nx">cexp</span><span class="p">)</span>
+<span class="p">;;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span>                      <span class="sr">/ num-exp</span><span class="se">(</span><span class="sr">val:number</span><span class="err">)
+</span><span class="p">;;</span>    <span class="o">|</span>  <span class="o">&lt;</span><span class="nx">boolean</span><span class="o">&gt;</span>                     <span class="sr">/ bool-exp</span><span class="se">(</span><span class="sr">val:boolean</span><span class="err">)
+</span><span class="p">;;</span>    <span class="o">|</span>  <span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span>                      <span class="sr">/ str-exp</span><span class="se">(</span><span class="sr">val:string</span><span class="err">)
+</span><span class="p">;;</span>    <span class="o">|</span>  <span class="o">&lt;</span><span class="nx">varRef</span><span class="o">&gt;</span>                      <span class="sr">/ varRef</span><span class="se">(</span><span class="sr">var:string</span><span class="err">)
+</span><span class="p">;;</span>    <span class="o">|</span>  <span class="p">(</span> <span class="nx">lambda</span> <span class="p">(</span> <span class="o">&lt;</span><span class="kd">var</span><span class="o">&gt;*</span> <span class="p">)</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;+</span> <span class="p">)</span> <span class="o">/</span> <span class="nx">proc</span><span class="o">-</span><span class="nx">exp</span><span class="p">(</span><span class="nx">params</span><span class="p">:</span><span class="nx">List</span><span class="p">(</span><span class="nx">varDecl</span><span class="p">),</span> <span class="nx">body</span><span class="p">:</span><span class="nx">List</span><span class="p">(</span><span class="nx">cexp</span><span class="p">))</span>
+<span class="p">;;</span>    <span class="o">|</span>  <span class="p">(</span> <span class="k">if</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="p">)</span>   <span class="o">/</span> <span class="k">if</span><span class="o">-</span><span class="nx">exp</span><span class="p">(</span><span class="nx">test</span><span class="p">:</span> <span class="nx">cexp</span><span class="p">,</span> <span class="nx">then</span><span class="p">:</span> <span class="nx">cexp</span><span class="p">,</span> <span class="k">else</span><span class="p">:</span> <span class="nx">cexp</span><span class="p">)</span>
+<span class="p">;;</span>    <span class="o">|</span>  <span class="p">(</span> <span class="kd">let</span> <span class="p">(</span> <span class="nx">binding</span><span class="o">*</span> <span class="p">)</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;+</span> <span class="p">)</span>  <span class="o">/</span> <span class="kd">let</span><span class="o">-</span><span class="nx">exp</span><span class="p">(</span><span class="nx">bindings</span><span class="p">:</span><span class="nx">List</span><span class="p">(</span><span class="nx">binding</span><span class="p">),</span> <span class="nx">body</span><span class="p">:</span><span class="nx">List</span><span class="p">(</span><span class="nx">cexp</span><span class="p">))</span>
+<span class="p">;;</span>    <span class="o">|</span>  <span class="p">(</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;*</span> <span class="p">)</span>            <span class="o">/</span> <span class="nx">app</span><span class="o">-</span><span class="nx">exp</span><span class="p">(</span><span class="nx">operator</span><span class="p">:</span><span class="nx">cexp</span><span class="p">,</span> <span class="nx">operands</span><span class="p">:</span><span class="nx">List</span><span class="p">(</span><span class="nx">cexp</span><span class="p">))</span>
+<span class="p">;;</span>    <span class="o">|</span>  <span class="p">(</span> <span class="nx">quote</span> <span class="o">&lt;</span><span class="nx">sexp</span><span class="o">&gt;</span> <span class="p">)</span>              <span class="o">/</span> <span class="nx">literal</span><span class="o">-</span><span class="nx">exp</span><span class="p">(</span><span class="nx">val</span><span class="p">:</span><span class="nx">sexp</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">define</code> category is defined in a way that define expressions cannot be embedded inside other expressions.
+<code class="language-plaintext highlighter-rouge">cexp</code> correspond to expressions that can be embedded into each other recursively. (C-exp stands for Constituent expressions - that is, expressions which can occur as components of a larger expression.)</p>
+
+<h2 id="summary">Summary</h2>
+
+<ul>
+  <li>The syntax of a language:
+    <ul>
+      <li>determines which sequences of tokens form an expression in the language.</li>
+      <li>determines how to extract the significant parts of an expression, and what is their function within the parent expression.</li>
+      <li>is designed make it easy for humans to read and understand code</li>
+    </ul>
+  </li>
+  <li><strong>Concrete syntax</strong> determines how expressions “look like” to the programmer using:
+    <ul>
+      <li>keywords to mark the type of the expression,</li>
+      <li>delimiters and punctuation, parentheses, indentation.</li>
+    </ul>
+  </li>
+  <li><strong>Abstract syntax</strong> is an internal data type  called abstract syntax trees (AST) and representing expressions of the program in a way that is easy to consume by programs.</li>
+  <li>Many Concrete Syntax Variants can be mapped to the same Abstract Syntax - for example, <code class="language-plaintext highlighter-rouge">cond</code> and <code class="language-plaintext highlighter-rouge">if</code> can be mapped to the same abstract syntax.</li>
+  <li>
+    <p>Concrete syntax can be ambiguous.  When this is the case, additional rules (precedence, associativity) must be specified to provide a deterministic way to analyze expressions.</p>
+  </li>
+  <li>Syntax is specified using <strong>BNF rules</strong>.
+    <ul>
+      <li><strong>Lexical rules</strong> specify how the character stream is split into tokens of different types (numbers, identifiers, etc).</li>
+      <li><strong>Syntactic rules</strong> specify how compound expressions are formed from tokens and sub-expressions.</li>
+    </ul>
+  </li>
+  <li>A <strong>parser</strong> maps concrete syntax (a stream of characters) to abstract syntax (AST values).
+The overall parsing process is split into different sub-modules:
+    <ul>
+      <li>A <strong>scanner</strong> implements the lexical rules and outputs a stream of tokens - using regular expressions.</li>
+      <li>A <strong>reader</strong> parses the stream of tokens into a stream of nested S-expressions (S-exp).</li>
+      <li>A <strong>parser</strong> maps S-exps into ASTs.</li>
+    </ul>
+  </li>
+  <li>ASTs are implemented using the pattern of <strong>disjoint union types</strong>.
+    <ul>
+      <li>Each compound expression form is represented by a map-like type which has a distinct tag and a field for each sub-expression.</li>
+      <li>Unions of compound types correspond to the abstract types such as “expression”.</li>
+      <li>Such disjoint union types are implemented in TypeScript using a recipe which defines a functional interface for each type:
+        <ul>
+          <li>Union types are implemented using a type predicate function <code class="language-plaintext highlighter-rouge">isExp</code></li>
+          <li>Compound types are implemented by:
+            <ol>
+              <li>a value constructor <code class="language-plaintext highlighter-rouge">makeC</code></li>
+              <li>a type predicate <code class="language-plaintext highlighter-rouge">isC</code></li>
+              <li>a type definition with a field for each sub-expression <code class="language-plaintext highlighter-rouge">c.subexp</code></li>
+            </ol>
+          </li>
+        </ul>
+      </li>
+      <li>The parser is implemented as a factory function to build AST values.</li>
+    </ul>
+  </li>
+  <li>Functions operating over ASTs operate according to the recipe of <strong>structural induction</strong>:
+They have a structure that reflects the type structure:
+    <ul>
+      <li>A conditional for each type of expression (disjunction).</li>
+      <li>In each branch, the sub-expressions are extracted from the expression using the appropriate accessors and processed recursively.</li>
+    </ul>
+  </li>
+</ul>
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

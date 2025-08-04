@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<!-- saved from url=(0077)https://bguppl.github.io/interpreters/class_material/4.1AsyncProgramming.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Asynchronous Programming | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Asynchronous Programming">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/4.1AsyncProgramming.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/4.1AsyncProgramming.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Asynchronous Programming">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Asynchronous Programming","url":"https://bguppl.github.io/interpreters/class_material/4.1AsyncProgramming.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Asynchronous Programming _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Asynchronous Programming _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D43F.TEX-I::before {
+  padding: 0.683em 0.681em 0 0;
+  content: "L";
+}
+
+mjx-c.mjx-c37::before {
+  padding: 0.676em 0.5em 0.022em 0;
+  content: "7";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Asynchronous Programming _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="asynchronous-programming">Asynchronous Programming</h1>
+<h2 id="ppl-2023">PPL 2023</h2>
+
+<h2 id="control-flow-in-programming-languages">Control Flow in Programming Languages</h2>
+
+<h3 id="types-of-control-flows">Types of Control Flows</h3>
+
+<p>In this chapter, we will investigate the general topic of how to manage <a href="https://en.wikipedia.org/wiki/Control_flow"><em>control flow</em></a> in programming languages.
+Control flow is the order in which operations are executed within a program.  In procedural languages, the simplest form of control flow is the <em>sequence</em> 
+(execute statements one after the other).  <em>Conditional statements</em> (if, switch, case) determine which of multiple continuations are followed depending 
+on the value of a tested expression. <em>Loops</em> determine how often a block of operations are executed depending on the value of a tested expression.</p>
+
+<p>In functional languages, the key control flow is <em>function invocation</em>: the body of the function is executed within a scope in which the arguments are bound 
+to the parameters of the invocation, and then the flow returns to the context in which the invocation took place.</p>
+
+<p>In addition to these classical control flows, programming languages include <em>non local control flow</em>: in these constructs, flows exits from a context of execution and continues at a predefined point.  These include <em>exceptions</em> (try/catch/finally/throw), <em>coroutines</em>, <em>generators</em>, <em>async/await</em>, and <em>continuation</em>.</p>
+
+<p>The study of control flow also includes a description of concurrency such as <em>threads</em> and their synchronization.</p>
+
+<h3 id="interpreters-and-control-flow-asynchronous-programming-and-continuation-passing-style">Interpreters and Control Flow: Asynchronous Programming and Continuation Passing Style</h3>
+
+<p>In the interpreters we have designed in Chapter 2, we did not explicitly model the call stack.  The reason is that we relied on the call stack mechanism of the meta-language to provide the proper control of function calls and the return to their calling location.  In this sense, the interpreter we wrote does not <em>explain</em> how control flow is implemented in the object language, because we use the control flow primitives of the meta language.</p>
+
+<p>In this chapter, we investigate the mechanisms through which programming languages provide control flow, and variants of control flow across different programming paradigms.  In particular, we present practical issues in Asynchronous Programming, and techniques allowing proper management of asynchronous tasks: <em>callbacks</em>, <em>promises</em>, and <em>co-routines</em>.  We review these topics in TypeScript - where they practically fill an important role both in the domains of client user interface (to deal with User Interface events in a reactive manner) and of backend servers (to deal with protocol implementation which are IO-bound in a resource efficient manner).</p>
+
+<p>We then introduce a technique called <strong>continuation passing style (CPS)</strong>, investigate its properties and relate it to the way our interpreters model control flow, recursion and iteration. We switch back to Scheme and to our Interpreter models and demonstrate a systematic transformation from recursive to CPS style and introduce techniques which elucidate the way asynchronous and lazy programming techniques are designed.</p>
+
+<p>Finally, we use the notion of <em>continuation</em> that we have made concrete in the CPS transformation, and use it to re-implement the interpreter of Chapter 2 with explicit
+description of control flow as general continuations.  In this model, the interpreter is modeled as a function <code class="language-plaintext highlighter-rouge">eval(exp, env, cont) =&gt; (value, cont)</code> where <code class="language-plaintext highlighter-rouge">cont</code> represents the <code class="language-plaintext highlighter-rouge">control state</code> of the interpreter.  At each step of the computation as explained by the operational semantics, the interpreter computes which expression to evaluate next and where to pass the result of this evaluation.  We implement this new approach in the language <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c37"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>7</mn></math></mjx-assistive-mml></mjx-container>.</p>
+
+<h2 id="function-invocation---call-stack">Function Invocation - Call Stack</h2>
+
+<p>When a function <code class="language-plaintext highlighter-rouge">f</code> calls a function <code class="language-plaintext highlighter-rouge">g</code>, <code class="language-plaintext highlighter-rouge">g</code> needs to know where to return to (inside <code class="language-plaintext highlighter-rouge">f</code>) after it is done. 
+This information is usually managed with a stack, the call stack. Let’s look at an example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// [Based on http://exploringjs.com/es6/ch_async.html]</span>
+
+<span class="kd">function</span> <span class="nx">h</span><span class="p">(</span><span class="nx">z</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Print stack trace</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">().</span><span class="nx">stack</span><span class="p">);</span> <span class="c1">// (A)</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">g</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">h</span><span class="p">(</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// (B)</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">f</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">g</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// (C)</span>
+<span class="p">}</span>
+<span class="nx">f</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span> <span class="c1">// (D)</span>
+
+<span class="o">--&gt;</span>
+    <span class="nb">Error</span>
+        <span class="nx">at</span> <span class="nx">h</span> <span class="p">(</span><span class="nx">evalmachine</span><span class="p">.</span><span class="o">&lt;</span><span class="nx">anonymous</span><span class="o">&gt;</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span><span class="mi">17</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">g</span> <span class="p">(</span><span class="nx">evalmachine</span><span class="p">.</span><span class="o">&lt;</span><span class="nx">anonymous</span><span class="o">&gt;</span><span class="p">:</span><span class="mi">8</span><span class="p">:</span><span class="mi">5</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">f</span> <span class="p">(</span><span class="nx">evalmachine</span><span class="p">.</span><span class="o">&lt;</span><span class="nx">anonymous</span><span class="o">&gt;</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">5</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">evalmachine</span><span class="p">.</span><span class="o">&lt;</span><span class="nx">anonymous</span><span class="o">&gt;</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">1</span>
+        <span class="nx">at</span> <span class="nx">ContextifyScript</span><span class="p">.</span><span class="nx">Script</span><span class="p">.</span><span class="nx">runInThisContext</span> <span class="p">(</span><span class="nx">vm</span><span class="p">.</span><span class="nx">js</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="mi">33</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">runInThisContext</span> <span class="p">(</span><span class="nx">vm</span><span class="p">.</span><span class="nx">js</span><span class="p">:</span><span class="mi">79</span><span class="p">:</span><span class="mi">17</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">run</span> <span class="p">([</span><span class="nb">eval</span><span class="p">]:</span><span class="mi">608</span><span class="p">:</span><span class="mi">19</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">onRunRequest</span> <span class="p">([</span><span class="nb">eval</span><span class="p">]:</span><span class="mi">379</span><span class="p">:</span><span class="mi">22</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">onMessage</span> <span class="p">([</span><span class="nb">eval</span><span class="p">]:</span><span class="mi">347</span><span class="p">:</span><span class="mi">17</span><span class="p">)</span>
+        <span class="nx">at</span> <span class="nx">emitTwo</span> <span class="p">(</span><span class="nx">events</span><span class="p">.</span><span class="nx">js</span><span class="p">:</span><span class="mi">106</span><span class="p">:</span><span class="mi">13</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Initially, when the program is started, the call stack is empty. 
+After the function call <code class="language-plaintext highlighter-rouge">f(3)</code> in line D, the stack has one entry:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Location in global scope
+</code></pre></div></div>
+
+<p>After the function call <code class="language-plaintext highlighter-rouge">g(x + 1)</code> in line C, the stack has two entries:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Location in f
+Location in global scope
+</code></pre></div></div>
+
+<p>After the function call <code class="language-plaintext highlighter-rouge">h(y + 1)</code> in line B, the stack has three entries:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Location in g
+Location in f
+Location in global scope
+</code></pre></div></div>
+
+<p>The stack trace printed in line A shows you what the call stack looks like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error
+    at h (...:2:17)
+    at g (...:6:5)
+    at f (...:9:5)
+    at ...
+</code></pre></div></div>
+
+<p>Next, each of the functions terminates and each time the top entry is removed from the stack. After function f is done, we are back in global scope and the call stack is empty.</p>
+
+<p>The mechanism of a call stack to manage function calls and their return is present in all languages.</p>
+
+<p>The call stack is managed implicitly at runtime, and is usually not exposed to the programmer.<br>
+In JavaScript, as demonstrated above, the <code class="language-plaintext highlighter-rouge">Error()</code> object provides access to the current state of the call stack - so that we can inspect it (this is mostly useful when debugging errors at runtime).  A similar facility exists in Java with the method <code class="language-plaintext highlighter-rouge">Thread.currentThread().getStackTrace()</code>.</p>
+
+<h2 id="event-loops">Event Loops</h2>
+
+<p>JavaScript as a programming language is used in two main contexts:</p>
+<ul>
+  <li>Inside Web browsers to implement user interface client code</li>
+  <li>Inside Node processes on the backend to perform protocol handling code - usually, exposing access to resources as a REST API.</li>
+</ul>
+
+<p>In both of these application domains, it is useful to think of the task of the JavaScript interpreter as processing an <a href="https://html.spec.whatwg.org/multipage/webappapis.html#event-loops"><strong>event loop</strong></a>.</p>
+
+<p>The following 25min presentation:
+<a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ">Philip Roberts: What the heck is the event loop anyway? | JSConf EU 2014</a> 
+provides a useful explanation of what is the event loop in the context of Web browsers.<br>
+The companion tool to this presentation visualizes the mechanism of the event loop: <a href="http://latentflip.com/loupe/">loupe</a></p>
+
+<h3 id="event-loops-in-the-browser">Event Loops in the Browser</h3>
+
+<p>Consider first a Browser context.  The browser event loop executes browser-related <strong>tasks</strong> that are fed into the browser <strong>task queue</strong>. Typical browser tasks are generated when an HTML page is loaded into a browser tab, and they include:</p>
+
+<ul>
+  <li>Parsing HTML</li>
+  <li>Executing JavaScript code in script elements</li>
+  <li>Reacting to user input (mouse clicks, key presses, etc.)</li>
+  <li>Processing the result of asynchronous network requests (calls to HTTP server)</li>
+</ul>
+
+<p>The last 3 are tasks that run JavaScript code, in the JavaScript interpreter embedded in the browser. 
+These tasks terminate when the code terminates. 
+Then the next task from the queue can be executed.</p>
+
+<p>For example, browsers offer a timer facility: setTimeout() creates a timer, waits until it fires and then adds a task to the queue. It has the signature:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">setTimeout</span><span class="p">(</span><span class="nx">callback</span><span class="p">,</span> <span class="nx">ms</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>After ms milliseconds, callback is added to the task queue. It is important to understand that ms only specifies when the callback is added, not when it actually is executed. That may happen much later, especially if the event loop is heavily loaded.</p>
+
+<p>Practically, the <code class="language-plaintext highlighter-rouge">setTimeout</code> primitive is a way to submit a task to the event loop for later execution.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">After sometime...</span><span class="dl">"</span><span class="p">);</span> <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Immediately</span><span class="dl">"</span><span class="p">);</span>
+<span class="o">--&gt;</span>
+    <span class="nx">Immediately</span>
+    
+    <span class="kc">undefined</span>
+
+    <span class="nx">After</span> <span class="nx">sometime</span><span class="p">...</span>
+</code></pre></div></div>
+
+<p>In the <code class="language-plaintext highlighter-rouge">setTimeout</code> example, the first parameter is a function passed as an argument (taking advantage of the support for closures in the JavaScript language).  The task that is posted to the event queue is called a <strong>callback</strong> (because it is called back by the event loop when it can instead of being called by the programmer directly).</p>
+
+<p>Note how the task is represented: it is a procedure of no parameters.  What we submit to the task queue is a closure.
+The idiom: <code class="language-plaintext highlighter-rouge">() =&gt; { ... }</code> indicates we “package” code to be executed later.  When and who executes it later can be decided
+by the programmer or by the runtime environment.</p>
+
+<p>Another typical example of callbacks in the Browser context is to associate callbacks to User Interface widgets.
+A typical example would be:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#btn_1</span><span class="dl">"</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span>
+  <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">Btn 1 Clicked</span><span class="dl">"</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>The anonymous function passed as an argument to the <code class="language-plaintext highlighter-rouge">click()</code> method defines a callback which is invoked by the Browser event loop whenever the button is clicked.</p>
+
+<h3 id="event-loops-in-node">Event Loops in Node</h3>
+
+<p>In the node.js context, the event loop is driven by events related to asynchronous I/O calls.  For example, when invoking
+the file system, to open a file, the time taken by the Operating System (OS) system call is extremely large compared to the time it takes to execute a function call.  Instead of making the interpreter block and wait for this system call to complete, the Node interpreter submits a task to the event loop, which consists of invoking the <strong>callback</strong> of the system call when it has completed.</p>
+
+<p>This strategy requires the programmer to change fundamentally the way I/O calls are organized.  All the primitive calls to the File System (fs) module take a function as an argument - which is called the <strong>callback</strong> which is invoked when the slow FS operation has completed.</p>
+
+<p>Compare the synchronous and asynchronous versions of a file system call:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Synchronous (blocking) call to readFileSync</span>
+<span class="c1">// The return value of the readFileSync procedure can be passed directly to the JSON.parse function.</span>
+<span class="kd">const</span> <span class="nx">readJSONSync</span> <span class="o">=</span> <span class="p">(</span><span class="nx">filename</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">writeJSONSync</span> <span class="o">=</span> <span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">map</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFileSync</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">map</span><span class="p">),</span> <span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">writeJSONSync</span><span class="p">(</span><span class="dl">"</span><span class="s2">test</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span><span class="na">id</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="na">text</span><span class="p">:</span><span class="dl">'</span><span class="s1">hello</span><span class="dl">'</span><span class="p">});</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">readJSONSync</span><span class="p">(</span><span class="dl">"</span><span class="s2">test</span><span class="dl">"</span><span class="p">));</span>
+<span class="o">--&gt;</span>
+
+    <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">text</span><span class="p">:</span> <span class="dl">'</span><span class="s1">hello</span><span class="dl">'</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Asynchronous version using callbacks</span>
+<span class="kd">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">readJSON</span> <span class="o">=</span> <span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> 
+      <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">);</span>
+    <span class="k">else</span>
+      <span class="nx">callback</span><span class="p">(</span><span class="kc">undefined</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">res</span><span class="p">));</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">writeJSON</span> <span class="o">=</span> <span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">map</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">map</span><span class="p">),</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="k">else</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">The file was saved: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">filename</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">This is invoked before the callback is invoked.</span><span class="dl">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">writeJSON</span><span class="p">(</span><span class="dl">"</span><span class="s2">test.async</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span><span class="na">id</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="na">test</span><span class="p">:</span><span class="dl">'</span><span class="s1">async</span><span class="dl">'</span><span class="p">});</span>
+<span class="nx">readJSON</span><span class="p">(</span><span class="dl">"</span><span class="s2">test.async</span><span class="dl">"</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span> <span class="p">});</span>
+
+<span class="o">--&gt;</span>
+    <span class="nx">This</span> <span class="k">is</span> <span class="nx">invoked</span> <span class="nx">before</span> <span class="nx">the</span> <span class="nx">callback</span> <span class="k">is</span> <span class="nx">invoked</span><span class="p">.</span>
+    <span class="kc">undefined</span>
+    <span class="nx">The</span> <span class="nx">file</span> <span class="nx">was</span> <span class="nx">saved</span><span class="p">:</span>  <span class="nx">test</span><span class="p">.</span><span class="k">async</span>
+    <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">test</span><span class="p">:</span> <span class="dl">'</span><span class="s1">async</span><span class="dl">'</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>In the example above, the <code class="language-plaintext highlighter-rouge">fs.writeFile</code> Node method takes 3 arguments:</p>
+<ul>
+  <li>The name of the file to create</li>
+  <li>The string to write into the file</li>
+  <li>The callback to invoke when the writeFile operation has completed.</li>
+</ul>
+
+<p>This pattern takes advantage of the fact that JavaScript allows passing functions as arguments to other functions: the callback is an argument passed to the file system primitive.</p>
+
+<p>Internally, the way the Node interpreter implements asynchronous methods such as <code class="language-plaintext highlighter-rouge">fs.writeFile</code> is that it invokes a non-blocking system call of the Operating System.
+(For students who took the Systems Programming course, recall the lecture on non-blocking-IO in Java (<a href="https://www.cs.bgu.ac.il/~spl211/index.php?page=Reactor">SPL chapter on Reactor</a>.)
+The Node interpreter then adds a subscription to the corresponding selector (which indicates when the asynchronous non-blocking call has completed). The event-loop of the interpreter performs as follows: execute a task, when the task is completed, wait on the selector, when the selector is fired (indicating an earlier asynchronous call completed), retrieve the closure corresponding to the fired event and execute it as a task, then loop again.</p>
+
+<p>Programming with callbacks is not easy.  We cannot make the usual time-sequencing assumptions we make in sequential code.
+In the example above, we know that the expression immediately after the call to fs.writeFile() is executed <strong>before</strong> the callback is invoked.  This guarantee is part of the semantics of the Node interpreter.</p>
+
+<p>But we cannot make any assumption as to <strong>when</strong> the callback will be executed.  It can take a very long time.
+The problem for the programmer is to decide where and how to write code which <strong>depends</strong> on the completion of the file system operation.  Answering this question will be the main topic of this chapter.</p>
+
+<p>Thinking of the JavaScript engine as a <strong>reactive event loop</strong> instead of an active process which invokes procedures
+is an important change of perspective - which is related to the design pattern of <a href="https://en.wikipedia.org/wiki/Inversion_of_control"><strong>inversion of control</strong></a> and which defines the <strong>event-driven</strong> programming paradigm.</p>
+
+<h2 id="callbacks-and-the-call-stack">Callbacks and the Call Stack</h2>
+
+<p>In asynchronous programming, callbacks are not invoked in the same call stack as the procedure that creates the callback.
+Instead, the function which generates the task (the asynchronous call) executes, and when it ends, it creates a task (a closure) which is added to the task queue.</p>
+
+<p>When the event loop determines that the callback is ready to be called, the runtime environment invokes the task with the appropriate arguments.  The signature of the callback is determined by the asynchronous function: in the example above, the callback for the <code class="language-plaintext highlighter-rouge">readFile</code> procedure is a function with 2 parameters <code class="language-plaintext highlighter-rouge">(err, data)</code> which represent either an error object or the data that was read from the file.  These arguments are passed to the callback when the event is signaled.</p>
+
+<p>The callback is a closure which is created in the context of the asynchronous function.  Hence, according to the operational semantics of the language, we know it has access to the environment in which it was created (not to the environment which is current when the closure is invoked).  See for example how the environment of the callback is used:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">readJSONTime</span> <span class="o">=</span> <span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">invoked</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>  <span class="c1">// Timestamp when the read is invoked.</span>
+  <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> 
+      <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">);</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">// This accesses a variable from the closure env.</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Invoked at: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">invoked</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Callback at: </span><span class="dl">"</span><span class="p">,</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">());</span>
+      <span class="nx">callback</span><span class="p">(</span><span class="kc">undefined</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">res</span><span class="p">));</span>    
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="nx">readJSONTime</span><span class="p">(</span><span class="dl">'</span><span class="s1">test.async</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">));</span>
+<span class="o">--&gt;</span>
+    <span class="kc">undefined</span>
+
+    <span class="nx">Invoked</span> <span class="nx">at</span><span class="p">:</span>  <span class="mi">2017</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">08</span><span class="nx">T12</span><span class="p">:</span><span class="mi">55</span><span class="p">:</span><span class="mf">42.764</span><span class="nx">Z</span>
+    <span class="nx">Callback</span> <span class="nx">at</span><span class="p">:</span>  <span class="mi">2017</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">08</span><span class="nx">T12</span><span class="p">:</span><span class="mi">55</span><span class="p">:</span><span class="mf">42.765</span><span class="nx">Z</span>
+    <span class="p">{</span> <span class="nl">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">test</span><span class="p">:</span> <span class="dl">'</span><span class="s1">async</span><span class="dl">'</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Even if the <strong>environment</strong> is available, the callback is evaluated in a different <strong>control context</strong> - that is, in a different call stack.</p>
+
+<h2 id="composing-asynchronous-functions">Composing Asynchronous Functions</h2>
+
+<p>Composing synchronous functions is easy: given a function <code class="language-plaintext highlighter-rouge">f(x:Tx):Tf</code> and a function <code class="language-plaintext highlighter-rouge">g(y:Ty):Tx</code> - we can compose the calls by simply passing the return value of <code class="language-plaintext highlighter-rouge">g</code> as a parameter to <code class="language-plaintext highlighter-rouge">f</code>: <code class="language-plaintext highlighter-rouge">f(g(y))</code>.  As long as the types are compatible, this composition works (the return type of g must be the parameter type of f).</p>
+
+<p>Composing asynchronous functions is more challenging: we must write a specific callback each time we compose two functions:</p>
+
+<p><code class="language-plaintext highlighter-rouge">g(y, (gRes) =&gt; f(gRes, callback))</code></p>
+
+<p>If we want to compose three functions - the callbacks must be nested accordingly - instead of <code class="language-plaintext highlighter-rouge">f(g(h(x)))</code> we must write:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">h</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="p">(</span><span class="nx">hRes</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">g</span><span class="p">(</span><span class="nx">hRes</span><span class="p">,</span> <span class="p">(</span><span class="nx">gRes</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">f</span><span class="p">(</span><span class="nx">gRes</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+    <span class="p">})</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Note how the order of the occurrences has changed: we read the program in the order in which the functions are invoked (first invoked h, then invoke g, then invoke f).</p>
+
+<h2 id="the-type-of-asynchronous-functions">The Type of Asynchronous Functions</h2>
+
+<p>When we think of composing synchronous functions, we check their type - that is, we verify that the type returned by g matches the type expected by f in order to enable the composition f(g(x)).</p>
+
+<p>Asynchronous functions do not return any value - that is, they are of return type <code class="language-plaintext highlighter-rouge">void</code>.<br>
+Instead, they post a future task which will receive a parameter of a certain type in the future.</p>
+
+<p>That is, if a synchronous function has type <code class="language-plaintext highlighter-rouge">f(x: Tx): Tf</code> - the corresponding asynchronous function will have type 
+<code class="language-plaintext highlighter-rouge">asyncF(x: Tx, callback: (Tf -&gt; Tc)): void</code>.</p>
+
+<h2 id="error-handling-with-asynchronous-procedures-success--fail-callbacks">Error Handling with Asynchronous Procedures (Success / Fail callbacks)</h2>
+
+<p>In many cases, asynchronous functions can fail - this is the case for most I/O calls (file system, networking calls) which are most likely to be used in an asynchronous manner.</p>
+
+<p>To process the case of errors - the callback passed to the async function must be prepared to deal with either a success outcome, or with an error outcome.  Conceptually - this means the async function has 2 callbacks: one to process success, one to process failure.</p>
+
+<p>In the examples we reviewed above, we worked with a callback that has two parameters - one for error and one for the returned data in case of success.  When composing asynchronous functions with two parameters of this type, we introduce systematic complexity - because there is no way to “stop early” the chain of calls when an error is detected - as we would do by throwing an exception in a synchronous case.  We must handle the error case at all steps of the chain of calls.</p>
+
+<p>For example, assuming the function f, g and h can return an error or a success, the composition of <code class="language-plaintext highlighter-rouge">f(g(h(x)))</code> requires the following structure:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">h</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="p">(</span><span class="nx">hErr</span><span class="p">,</span> <span class="nx">hRes</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">hErr</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">failCallback</span><span class="p">(</span><span class="nx">hErr</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">g</span><span class="p">(</span><span class="nx">hRes</span><span class="p">,</span> <span class="p">(</span><span class="nx">gErr</span><span class="p">,</span> <span class="nx">gRes</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">gErr</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">failCallback</span><span class="p">(</span><span class="nx">gErr</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="nx">f</span><span class="p">(</span><span class="nx">gRes</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">})</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>The following issues make the usage of asynchronous functions difficult for the programmer:</p>
+<ul>
+  <li>all calls must deal with error cases</li>
+  <li>sequence of calls or composed calls must be translated into nested callbacks</li>
+  <li>the types of the functions are obscure</li>
+</ul>
+
+<h2 id="using-promises-to-simplify-asynchronous-composition">Using Promises to Simplify Asynchronous Composition</h2>
+
+<p>Promises are a general programming pattern designed to simplify asynchronous composition, in particular error handling.</p>
+
+<p>A promise represents the result of an asynchronous operation - it is an object which serves as the proxy for a delayed computation which can be in different states:</p>
+
+<ul>
+  <li><strong>pending</strong> - The initial state of a promise - before the computation has completed</li>
+  <li><strong>fulfilled</strong> - The state of a promise representing a successful operation.</li>
+  <li><strong>rejected</strong> - The state of a promise representing a failed operation.</li>
+</ul>
+
+<p>Once a promise is fulfilled or rejected, it becomes immutable (i.e. it can never change again).</p>
+
+<p>Promises allow the client (the programmer) to associate handlers with an asynchronous action’s eventual success value or failure reason. This lets asynchronous methods return values like synchronous methods: instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future.</p>
+
+<p>Clients of a promise register with the promise by submitting the callbacks they want the promise to execute.
+Since we want to simplify error handling, the client of a promise can register one callback for success completion (fulfillment) and one for error handling (rejection handler).</p>
+
+<p>The registration is performed using two methods of the Promise interface:</p>
+<ul>
+  <li>Promise.then(successHandler)</li>
+  <li>Promise.catch(rejectionHandler)</li>
+</ul>
+
+<p>The handlers are functions which are submitted to be executed in the future, when the promise is resolved (either fulfilled or rejected).</p>
+
+<p>At this point, our understanding of a promise is that it is an object with the following state:</p>
+<ul>
+  <li>task: the asynchronous task to be computed</li>
+  <li>value: the result of the task when it is resolved</li>
+  <li>state: state of the promise (pending, fulfilled or rejected)</li>
+  <li>handlers: the handlers for success and failure</li>
+</ul>
+
+<p>The key events in the lifecycle of a promise correspond to state transitions:</p>
+<ul>
+  <li>created in state Pending</li>
+  <li>pending to fulfilled: triggered when the async computation completes (usually by the event loop); triggers the success handlers.</li>
+  <li>pending to rejected: triggered when the async computation ends in error; triggers the failure handlers.</li>
+  <li>attach handlers: if the state is pending, just add the handlers to the internal state of the promise, else immediately invoke the new handler with the stored value of the promise.</li>
+</ul>
+
+<h3 id="making-a-promise">Making a Promise</h3>
+
+<p>To construct a promise from an asynchronous function with a callback, we use the Promise constructor and abstract the callbacks for success and failure:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">readFilePromise</span> <span class="o">=</span> <span class="p">(</span><span class="nx">filename</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span><span class="p">(</span> <span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> 
+        <span class="nx">reject</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+      <span class="k">else</span>
+        <span class="nx">resolve</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">));</span>
+    <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="the-type-of-a-promise">The Type of a Promise</h3>
+
+<p>A promise is a container for a value which may become available in the future.  A function such as <code class="language-plaintext highlighter-rouge">readFilePromise</code> above returns a promise - in contrast to the original <code class="language-plaintext highlighter-rouge">readFile</code> asynchronous function which had a <code class="language-plaintext highlighter-rouge">void</code> return type.</p>
+
+<p>This ends up simplifying the type and making it more similar to the familiar synchronous version:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">filename</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="kr">string</span><span class="p">;</span>
+
+<span class="nx">readFile</span><span class="p">(</span><span class="nx">filename</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">:</span><span class="kr">string</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nx">T</span><span class="p">):</span> <span class="k">void</span><span class="p">;</span>
+
+<span class="nx">readFilePromise</span><span class="p">(</span><span class="nx">filename</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>TypeScript supports generic Promise types to document this type of return value.</p>
+
+<h3 id="using-a-promise">Using a Promise</h3>
+
+<p>We use the Promisified-version of the asynchronous function according to the Promise client pattern:</p>
+<ul>
+  <li>We decouple the creation of the promise from its consumption.</li>
+  <li>We separate success and error handling in two separate concerns.</li>
+</ul>
+
+<p>To this end, we use the 2 methods of the <code class="language-plaintext highlighter-rouge">Promise</code> object: <code class="language-plaintext highlighter-rouge">then(successHandler)</code> and <code class="language-plaintext highlighter-rouge">catch(errorHandler)</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">testContent</span> <span class="o">=</span> <span class="nx">readFilePromise</span><span class="p">(</span><span class="dl">'</span><span class="s1">test.async</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">testContent</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">content</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Content: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">content</span><span class="p">)))</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">));</span>
+<span class="o">--&gt;</span>
+
+    <span class="nb">Promise</span> <span class="p">{</span> <span class="o">&lt;</span><span class="nx">pending</span><span class="o">&gt;</span> <span class="p">}</span>
+    <span class="nl">Content</span><span class="p">:</span>  <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">test</span><span class="p">:</span> <span class="dl">'</span><span class="s1">async</span><span class="dl">'</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>The style that the <code class="language-plaintext highlighter-rouge">then</code> and <code class="language-plaintext highlighter-rouge">catch</code> methods implement is special: they return a value of the same type as the object on which they are invoked, so that they can be chained.  This style is called the <a href="https://en.wikipedia.org/wiki/Fluent_interface">fluent interface pattern</a>.</p>
+
+<p>Observe how the use of Promises is similar to the known type patterns we exploited when implementing interpreters and the type inference system in Chapters 2 and 3: <code class="language-plaintext highlighter-rouge">Result</code> and <code class="language-plaintext highlighter-rouge">bind</code>, <code class="language-plaintext highlighter-rouge">Maybe</code> and <code class="language-plaintext highlighter-rouge">either</code>.</p>
+
+<h2 id="chaining-promises">Chaining Promises</h2>
+
+<p>Using promises, we can achieve 3 main benefits over the structure that callbacks only would require:</p>
+<ul>
+  <li>The type of functions returning Promises is more informative and similar to the simple types of synchronous versions</li>
+  <li>We can chain sequences of asynchronous calls in a chain of <code class="language-plaintext highlighter-rouge">.then()</code> calls.</li>
+  <li>We can aggregate error handling in a single handler for a chain of calls, in a way similar to exception handling.</li>
+</ul>
+
+<p>The following example illustrates these 3 benefits:</p>
+<ul>
+  <li>We want to read a file containing a JSON value</li>
+  <li>Update the content of the JSON</li>
+  <li>Write back the updated value of the JSON to the file</li>
+</ul>
+
+<p>This requires a chain of asynchronous calls (reading the file and writing it).</p>
+
+<p>Note that the error handler needs to be specified only once for the two operations</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">fs</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">readFilePromise</span> <span class="o">=</span> <span class="p">(</span><span class="nx">filename</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span><span class="p">(</span> <span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+        <span class="nx">reject</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+      <span class="k">else</span>
+        <span class="nx">resolve</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">));</span>
+    <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">writeFilePromise</span> <span class="o">=</span> <span class="p">(</span><span class="nx">filename</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">content</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span> <span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">content</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+        <span class="nx">reject</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+      <span class="k">else</span>
+        <span class="nx">resolve</span><span class="p">();</span>
+    <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="c1">// Chain the calls together</span>
+<span class="kd">const</span> <span class="nx">readUpdateWrite</span> <span class="o">=</span> <span class="p">(</span><span class="nx">filename</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">readFilePromise</span><span class="p">(</span><span class="nx">filename</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">content</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">content</span><span class="p">);</span>
+                <span class="nx">j</span><span class="p">.</span><span class="nx">lastModified</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+                <span class="k">return</span> <span class="nx">writeFilePromise</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">j</span><span class="p">));</span>
+            <span class="p">})</span>
+            <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="nx">writeFilePromise</span><span class="p">(</span><span class="dl">'</span><span class="s1">test.async</span><span class="dl">'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="na">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">}))</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">File is created</span><span class="dl">"</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">readFilePromise</span><span class="p">(</span><span class="dl">'</span><span class="s1">test.async</span><span class="dl">'</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">content</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">content</span><span class="p">)))</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">readUpdateWrite</span><span class="p">(</span><span class="dl">'</span><span class="s1">test.async</span><span class="dl">'</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">File is updated</span><span class="dl">'</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">readFilePromise</span><span class="p">(</span><span class="dl">'</span><span class="s1">test.async</span><span class="dl">'</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">content</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">content</span><span class="p">)));</span>
+<span class="o">--&gt;</span>
+    <span class="nx">File</span> <span class="k">is</span> <span class="nx">created</span>
+    <span class="p">{</span> <span class="nl">a</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+    <span class="nx">File</span> <span class="k">is</span> <span class="nx">updated</span>
+    <span class="p">{</span> <span class="nl">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">lastModified</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2018-05-27T14:43:57.435Z</span><span class="dl">'</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="promises-summary">Promises Summary</h2>
+
+<p>Promises simplify the usage of asynchronous functions on three aspects:</p>
+<ul>
+  <li>Types of functions that return promises are clearer: for a synchronous function<code class="language-plaintext highlighter-rouge">f(x:T1):T2</code> the corresponding Promise version will have type <code class="language-plaintext highlighter-rouge">fp(x:T1):Promise&lt;T2&gt;</code>.<br>
+This is in contrast with a callback-based version which would have type <code class="language-plaintext highlighter-rouge">fc(x:T1, (err:Error, res:T2)-&gt;T3): void</code>.</li>
+  <li>Composition is simplified by chaining <code class="language-plaintext highlighter-rouge">.then(handler)</code>.</li>
+  <li>Error handling can be specified in a single place, as errors are cascaded through promises in a chain.</li>
+</ul>
+
+<h2 id="from-promises-to-async--await">From Promises to Async / Await</h2>
+
+<p>Promises improve significantly over callback-based asynchronous functions, but still cannot be used as simply as synchronous functions within simple control flow operations (sequence, conditionals, composition).  Instead, we still need to pass the promise to a function using the <code class="language-plaintext highlighter-rouge">.then(function)</code> mechanism.</p>
+
+<p>Promises are made even easier to use through the mechanism of <code class="language-plaintext highlighter-rouge">async</code> and <code class="language-plaintext highlighter-rouge">await</code> syntactic sugar which was introduced in standard JavaScript around 2017.  These two new syntactic keywords introduce syntactic variants of the pattern which consists of building a promise and then chaining code into the <code class="language-plaintext highlighter-rouge">then</code> and <code class="language-plaintext highlighter-rouge">catch</code> methods of the promise.  So that for example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Chain the calls together</span>
+<span class="kd">const</span> <span class="nx">readUpdateWrite</span> <span class="o">=</span> <span class="p">(</span><span class="nx">filename</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">readFilePromise</span><span class="p">(</span><span class="nx">filename</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">content</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">content</span><span class="p">);</span>
+                <span class="nx">j</span><span class="p">.</span><span class="nx">lastModified</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+                <span class="k">return</span> <span class="nx">writeFilePromise</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">j</span><span class="p">));</span>
+            <span class="p">})</span>
+            <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>is equivalent to the following syntactic variant:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// The async/await version</span>
+<span class="kd">const</span> <span class="nx">readUpdateWrite_async</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">filename</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">content</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">readFilePromise</span><span class="p">(</span><span class="nx">filename</span><span class="p">);</span>
+        <span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">content</span><span class="p">);</span>
+        <span class="nx">j</span><span class="p">.</span><span class="nx">lastModified</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+        <span class="k">return</span> <span class="nx">writeFilePromise</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">j</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function">specification for async and await</a> explains how async and await
+are <em>syntactic abstraction</em> around Promises.</p>
+
+<p>Key points about using <code class="language-plaintext highlighter-rouge">async</code> and <code class="language-plaintext highlighter-rouge">await</code>:</p>
+<ul>
+  <li>Async functions always return a Promise value.  For example:</li>
+</ul>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">Resolver</span><span class="o">&lt;</span><span class="nx">T</span><span class="p">,</span><span class="nx">R</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">(</span><span class="nx">value</span><span class="p">:</span> <span class="nx">T</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">R</span><span class="p">;</span>
+
+<span class="c1">// wait ms milliseconds</span>
+<span class="kd">const</span> <span class="nx">wait</span> <span class="o">=</span> <span class="p">(</span><span class="nx">ms</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">=&gt;</span> 
+    <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">r</span> <span class="p">:</span> <span class="nx">Resolver</span><span class="o">&lt;</span><span class="kr">string</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span> <span class="nx">ms</span><span class="p">));</span>
+
+<span class="kd">const</span> <span class="nx">hello</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="p">:</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nx">wait</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">world</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">world</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="p">:</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="o">=&gt;</span> 
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">await</span> <span class="nx">hello</span><span class="p">());</span>
+
+<span class="nx">world</span><span class="p">();</span>
+</code></pre></div></div>
+<p>An async function may not contain any await, it still returns a Promise:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nx">f</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>returns a Promise which fulfills to 1.</p>
+
+<ul>
+  <li>Await can only be used within the body of an async function.</li>
+  <li>Await is followed by a call that produces a Promise (usually an async function)</li>
+  <li>Await can throw an exception (corresponding to the fact that the promise that is awaited is rejected) - it should therefore be wrapped in try/catch construct.</li>
+  <li><code class="language-plaintext highlighter-rouge">const x = await &lt;something producing a promise&gt;; &lt;continuation&gt;;</code> is equivalent to: <code class="language-plaintext highlighter-rouge">&lt;something producing a promise&gt;.then((x) =&gt; &lt;continuation&gt;);</code></li>
+</ul>
+
+<p>The following example is from <a href="https://developers.google.com/web/fundamentals/primers/async-functions">https://developers.google.com/web/fundamentals/primers/async-functions</a>:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">logFetch</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">text</span><span class="p">())</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">text</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span>
+    <span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">'</span><span class="s1">fetch failed</span><span class="dl">'</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>is equivalent to:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nx">logFetch</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">text</span><span class="p">());</span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">fetch failed</span><span class="dl">'</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="generators-and-co-routines">Generators and Co-routines</h2>
+
+<p>Javascript (and other programming languages, including Python and Scheme) offer a mechanism called 
+<a href="https://en.wikipedia.org/wiki/Generator_(computer_programming)">generators</a>
+(see <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*">MDN generator documentation</a>)
+which can be combined with promises to provide excellent support for asynchronous programming.</p>
+
+<p><strong>Generators</strong> are functions which can be exited and later re-entered. Their context (variable bindings and current control locations) are saved across re-entries.  A generator is created with the keyword <code class="language-plaintext highlighter-rouge">function*</code>.</p>
+
+<p>Calling a generator function does not execute its body immediately; an <strong>iterator</strong> object for the function is returned instead.
+An iterator is a map with two fields: <code class="language-plaintext highlighter-rouge">{value: x, done: boolean}</code> and that has a <code class="language-plaintext highlighter-rouge">next()</code> method:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">interface</span> <span class="nx">IteratorResult</span> <span class="p">{</span>
+    <span class="nl">value</span><span class="p">:</span> <span class="kr">any</span><span class="p">;</span>
+    <span class="nl">done</span><span class="p">:</span> <span class="nx">boolean</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kr">interface</span> <span class="nx">Iterator</span> <span class="p">{</span>
+    <span class="nx">next</span><span class="p">():</span> <span class="nx">IteratorResult</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When the iterator’s <code class="language-plaintext highlighter-rouge">next()</code> method is called, the generator function’s body is executed until the first <code class="language-plaintext highlighter-rouge">yield()</code> expression, which specifies the value to be returned from the iterator. The <code class="language-plaintext highlighter-rouge">next()</code> method returns an object with a value property containing the yielded value and a done property which indicates whether the generator has yielded its last value as a boolean. Calling the <code class="language-plaintext highlighter-rouge">next()</code> method with an argument will resume the generator function execution, replacing the yield statement where execution was paused with the argument from <code class="language-plaintext highlighter-rouge">next()</code>.</p>
+
+<p>A <code class="language-plaintext highlighter-rouge">return</code> statement in a generator, when executed, will make the generator <code class="language-plaintext highlighter-rouge">done</code>. If a value is returned from the body of generator, it will be passed back as the value to the next <code class="language-plaintext highlighter-rouge">next()</code> call. 
+A generator which has returned will not yield any more values. (That is, <code class="language-plaintext highlighter-rouge">return x</code> is like <code class="language-plaintext highlighter-rouge">yield(x)</code> plus the side effect that the generator is now done.)</p>
+
+<p>Let us examine a few examples of using generators:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span><span class="o">*</span> <span class="nx">idMaker</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="nx">index</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">yield</span><span class="p">(</span><span class="nx">index</span><span class="o">++</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">gen</span> <span class="o">=</span> <span class="nx">idMaker</span><span class="p">();</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">gen</span><span class="p">.</span><span class="nx">next</span><span class="p">().</span><span class="nx">value</span><span class="p">);</span> <span class="c1">// 0</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">gen</span><span class="p">.</span><span class="nx">next</span><span class="p">().</span><span class="nx">value</span><span class="p">);</span> <span class="c1">// 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">gen</span><span class="p">.</span><span class="nx">next</span><span class="p">().</span><span class="nx">value</span><span class="p">);</span> <span class="c1">// 2</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">gen</span><span class="p">.</span><span class="nx">next</span><span class="p">().</span><span class="nx">value</span><span class="p">);</span> <span class="c1">// undefined </span>
+<span class="mi">0</span>
+<span class="mi">1</span>
+<span class="mi">2</span>
+<span class="kc">undefined</span>
+</code></pre></div></div>
+
+<p>The client of the generator can pass a parameter back to the generator by passing it through the <code class="language-plaintext highlighter-rouge">next(val)</code> call.<br>
+This value is retrieved on the generator side as the returned value of the <code class="language-plaintext highlighter-rouge">yield()</code> call.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span><span class="o">*</span> <span class="nx">demo</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">res</span> <span class="o">=</span> <span class="k">yield</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+  <span class="nx">assert</span><span class="p">(</span><span class="nx">res</span> <span class="o">===</span> <span class="mi">32</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">42</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">demo</span><span class="p">();</span>
+<span class="nx">d</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+<span class="o">--&gt;</span> <span class="p">{</span> <span class="na">value</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="na">done</span><span class="p">:</span> <span class="kc">false</span> <span class="p">}</span>
+
+<span class="nx">d</span><span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+<span class="o">--&gt;</span> <span class="p">{</span> <span class="na">value</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span> <span class="na">done</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+
+<span class="nx">d</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+<span class="o">--&gt;</span> <span class="p">{</span> <span class="na">value</span><span class="p">:</span> <span class="kc">undefined</span><span class="p">,</span> <span class="na">done</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <strong><code class="language-plaintext highlighter-rouge">function*</code></strong> special form is used to construct a generator.  Within the body of a generator, the <code class="language-plaintext highlighter-rouge">yield</code> special form can be used.</p>
+
+<p>Generators are most often consumed inside loops - and as their names indicate they <em>generate</em> a sequence of values in a <strong>lazy manner</strong>: instead of eagerly constructing a list of values, the generator knows how to generate the values only when asked to.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">for</code> loop of JavaScript is a syntax which is adapted to consume any object which implements the iterator protocol, and hence works well with generators:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span><span class="o">*</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">yield</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">yield</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="k">yield</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="k">yield</span> <span class="mi">4</span><span class="p">;</span>
+    <span class="k">yield</span> <span class="mi">5</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">6</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="p">(</span> <span class="kd">let</span> <span class="nx">v</span> <span class="k">of</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">v</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Generators can be used to generate computed sequences - which can even be infinite, since they are only generated when requested:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span><span class="o">*</span> <span class="nx">range</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">n</span><span class="o">=</span><span class="nx">start</span><span class="p">;</span> <span class="nx">n</span> <span class="o">&lt;</span> <span class="nx">end</span><span class="p">;</span> <span class="nx">n</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">yield</span> <span class="nx">n</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="nx">n</span> <span class="k">of</span> <span class="nx">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span> 
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>A generator can produce a potentially infinite stream of data.
+Such a generator is useful in case the consumer of the stream can limit the number of items to actually extract.</p>
+
+<p>The following example demonstrates an infinite generator and a higher order function called <code class="language-plaintext highlighter-rouge">take</code> which takes as input a number and a generator - and returns a new generator which generates less than <code class="language-plaintext highlighter-rouge">n</code> items from the generator:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// An infinite generator</span>
+<span class="kd">function</span><span class="o">*</span> <span class="nx">naturalNumbers</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">n</span><span class="o">=</span><span class="mi">0</span><span class="p">;;</span> <span class="nx">n</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">yield</span> <span class="nx">n</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="o">*</span> <span class="nx">take</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">generator</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="k">of</span> <span class="nx">generator</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">n</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+        <span class="nx">n</span><span class="o">--</span><span class="p">;</span>
+        <span class="k">yield</span> <span class="nx">x</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">n</span> <span class="k">of</span> <span class="nx">take</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="nx">naturalNumbers</span><span class="p">()))</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Generators are an efficient mechanism to combine iterations without copying lists of data at each stage.</p>
+
+<p>Consider the following examples:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// A map operator adapted to generators</span>
+<span class="kd">function</span><span class="o">*</span> <span class="nx">mapGen</span><span class="p">(</span><span class="nx">generator</span><span class="p">,</span> <span class="nx">mapFunc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="k">of</span> <span class="nx">generator</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">yield</span> <span class="nx">mapFunc</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Can be combined with infinite generators</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">n</span> <span class="k">of</span> <span class="nx">take</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="nx">mapGen</span><span class="p">(</span><span class="nx">naturalNumbers</span><span class="p">(),</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="p">)))</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// 0, 1, 4, 9</span>
+</code></pre></div></div>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// A filter operator adapted to generators</span>
+<span class="kd">function</span><span class="o">*</span> <span class="nx">filterGen</span><span class="p">(</span><span class="nx">generator</span><span class="p">,</span> <span class="nx">filterFunc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="k">of</span> <span class="nx">generator</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">filterFunc</span><span class="p">(</span><span class="nx">x</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">yield</span> <span class="nx">x</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">n</span> <span class="k">of</span> <span class="nx">take</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="nx">filterGen</span><span class="p">(</span><span class="nx">naturalNumbers</span><span class="p">(),</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">x</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)))</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// 0, 2, 4, 6</span>
+</code></pre></div></div>
+
+<p>Such operators can be combined together - with the advantage that the data is not copied between each stage.  Instead, each time an element of the combination is requested, the chain of functions is evaluated:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">evenSquares</span> <span class="o">=</span> <span class="nx">filterGen</span><span class="p">(</span><span class="nx">mapGen</span><span class="p">(</span><span class="nx">naturalNumbers</span><span class="p">(),</span> <span class="nx">x</span><span class="o">=&gt;</span> <span class="nx">x</span><span class="o">*</span><span class="nx">x</span><span class="p">),</span> <span class="nx">x</span><span class="o">=&gt;</span> <span class="p">(</span><span class="nx">x</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">===</span> <span class="mi">0</span><span class="p">);</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">n</span> <span class="k">of</span> <span class="nx">take</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="nx">evenSquares</span><span class="p">))</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+<span class="c1">// 0, 4, 16, 36</span>
+
+<span class="kd">const</span> <span class="nx">evenSquaresVerbose</span> <span class="o">=</span> <span class="nx">filterGen</span><span class="p">(</span><span class="nx">mapGen</span><span class="p">(</span><span class="nx">naturalNumbers</span><span class="p">(),</span> <span class="nx">x</span><span class="o">=&gt;</span> <span class="p">{</span> 
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">square </span><span class="dl">"</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="dl">"</span><span class="s2">-&gt;</span><span class="dl">"</span><span class="p">,</span> <span class="nx">x</span><span class="o">*</span><span class="nx">x</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">x</span><span class="o">*</span><span class="nx">x</span><span class="p">;</span>
+    <span class="p">}),</span> 
+    <span class="nx">x</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">filter </span><span class="dl">"</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="dl">"</span><span class="s2">-&gt;</span><span class="dl">"</span><span class="p">,</span> <span class="p">(</span><span class="nx">x</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">===</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nx">x</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">===</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">});</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">n</span> <span class="k">of</span> <span class="nx">take</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="nx">evenSquaresVerbose</span><span class="p">))</span> 
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">EvenSquaresVerbose: </span><span class="dl">"</span><span class="p">,</span> <span class="nx">n</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The order in which the functions are executed is item by item: map-square / filter-even / take</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">square</span>  <span class="mi">0</span> <span class="o">-&gt;</span> <span class="mi">0</span>
+<span class="nx">filter</span>  <span class="mi">0</span> <span class="o">-&gt;</span> <span class="kc">true</span>
+<span class="nx">EvenSquaresVerbose</span><span class="p">:</span>  <span class="mi">0</span>
+<span class="nx">square</span>  <span class="mi">1</span> <span class="o">-&gt;</span> <span class="mi">1</span>
+<span class="nx">filter</span>  <span class="mi">1</span> <span class="o">-&gt;</span> <span class="kc">false</span>
+<span class="nx">square</span>  <span class="mi">2</span> <span class="o">-&gt;</span> <span class="mi">4</span>
+<span class="nx">filter</span>  <span class="mi">4</span> <span class="o">-&gt;</span> <span class="kc">true</span>
+<span class="nx">EvenSquaresVerbose</span><span class="p">:</span>  <span class="mi">4</span>
+<span class="nx">square</span>  <span class="mi">3</span> <span class="o">-&gt;</span> <span class="mi">9</span>
+<span class="nx">filter</span>  <span class="mi">9</span> <span class="o">-&gt;</span> <span class="kc">false</span>
+<span class="nx">square</span>  <span class="mi">4</span> <span class="o">-&gt;</span> <span class="mi">16</span>
+<span class="nx">filter</span>  <span class="mi">16</span> <span class="o">-&gt;</span> <span class="kc">true</span>
+<span class="nx">EvenSquaresVerbose</span><span class="p">:</span>  <span class="mi">16</span>
+<span class="nx">square</span>  <span class="mi">5</span> <span class="o">-&gt;</span> <span class="mi">25</span>
+<span class="nx">filter</span>  <span class="mi">25</span> <span class="o">-&gt;</span> <span class="kc">false</span>
+<span class="nx">square</span>  <span class="mi">6</span> <span class="o">-&gt;</span> <span class="mi">36</span>
+<span class="nx">filter</span>  <span class="mi">36</span> <span class="o">-&gt;</span> <span class="kc">true</span>
+<span class="nx">EvenSquaresVerbose</span><span class="p">:</span>  <span class="mi">36</span>
+<span class="nx">square</span>  <span class="mi">7</span> <span class="o">-&gt;</span> <span class="mi">49</span>
+<span class="nx">filter</span>  <span class="mi">49</span> <span class="o">-&gt;</span> <span class="kc">false</span>
+<span class="nx">square</span>  <span class="mi">8</span> <span class="o">-&gt;</span> <span class="mi">64</span>
+<span class="nx">filter</span>  <span class="mi">64</span> <span class="o">-&gt;</span> <span class="kc">true</span>
+</code></pre></div></div>
+
+<p>In contrast, the traditional <code class="language-plaintext highlighter-rouge">map</code> and <code class="language-plaintext highlighter-rouge">filter</code> functions allocate a list (an array) to store the intermediary results.
+The functions are evaluated on all the array at once - square on all the items of the input array first, then even on all the items of the output array.</p>
+
+<h1 id="summary">Summary</h1>
+
+<ul>
+  <li>When evaluating an expression, two contexts are necessary to determine how to resolve variables (the <em>environment</em> context we have already analyzed) and the <em>control context</em> which determines to which further computation the value of the expression is to be passed.</li>
+  <li>
+    <p>The control context is usually represented as a control stack when we use traditional control structures - sequence, conditional and function calls.</p>
+  </li>
+  <li>Non traditional control structures such as asynchronous functions and generators manipulate the control context in different manners than a control stack.</li>
+  <li>Asynchronous functions perform a first computation, which creates a task, which is then passed to a framework such as the Node event loop.  The framework posts the task on a queue and executes it according to the rules of the function.
+The tasks are computed in the future, in the same environment as the original asynchronous function, but in a different control context.</li>
+  <li>
+    <p>Generators are functions which implement the iterator protocol (value, done, next) and can be paused (with the <code class="language-plaintext highlighter-rouge">yield</code> special form) and resumed (with the next() method).  When a generator is paused, it remembers its control context, which is re-activated when the generator is resumed.</p>
+  </li>
+  <li>Asynchronous introduce 3 problems for the programmer using them:
+    <ul>
+      <li>obscured types;</li>
+      <li>cannot be used in simple control structures (conditionals, sequences, loops, composed function calls);</li>
+      <li>require systematic error handling after all calls.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Promises are a pattern which improves on these issues.</p>
+  </li>
+  <li>Generators can be used to model streams of computed data, including infinite streams.</li>
+  <li>Higher-order generators define generators on the basis of simpler generators - for example, take, mapGen, filterGen.</li>
+</ul>
+
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

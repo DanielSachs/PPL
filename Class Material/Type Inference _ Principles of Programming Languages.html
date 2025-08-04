@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<!-- saved from url=(0074)https://bguppl.github.io/interpreters/class_material/3.2TypeInference.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Type Inference | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Type Inference">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/3.2TypeInference.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/3.2TypeInference.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Type Inference">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Type Inference","url":"https://bguppl.github.io/interpreters/class_material/3.2TypeInference.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Type Inference _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Type Inference _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D43F.TEX-I::before {
+  padding: 0.683em 0.681em 0 0;
+  content: "L";
+}
+
+mjx-c.mjx-c35::before {
+  padding: 0.666em 0.5em 0.022em 0;
+  content: "5";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Type Inference _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="type-inference">Type Inference</h1>
+<h2 id="ppl-2023">PPL 2023</h2>
+
+<p>After having described the process of <strong>type checking</strong>, we now address a more ambitious task in type analysis: <strong>type inference</strong>.<br>
+In this task, we not only verify that a program is safe, we also allow the programmer to leave some (or even all)
+the type annotations empty - and attempt to guess their value from the structure of the program.</p>
+
+<p>If we can infer such a consistent set of type annotations for the program, we conclude that the program is type safe and provide the annotations.
+Otherwise, we point to the inconsistency.</p>
+
+<p>To enable this process, we consider all the type annotations in the <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> language as <strong>optional</strong>.
+This process is similar to the strategy adopted in TypeScript which we reviewed in Chapter 1 (<em>gradual typing</em>).</p>
+
+<p>We first investigate how we can perform the process of type inference manually, and then present an algorithm
+which automates this process, relying on a critical operation on substitutions called <strong>unification</strong>.
+The operation of unification is a fundamental tool in the semantics of programming languages, and we will further expand its use in Chapter 5 (on Logic Programming).</p>
+
+<h2 id="type-inference-using-type-equations">Type Inference using Type Equations</h2>
+
+<p>The algorithm we present extends the type checker method by introducing type equations which are constructed for every sub-expression of the expression to be typed.
+A solution to the equations assigns types to every sub-expression. The type checking/inference procedure turns into a type equation solver.</p>
+
+<p>Let us first present informally how we would proceed manually to infer the type of some programs.</p>
+
+<h3 id="type-inference-example-1">Type Inference: Example 1</h3>
+
+<p>Let us consider an example: we want to type the following expression:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">((</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> 
+   <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">3</span><span class="p">))</span>
+ <span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>We consider this equation as an AST where all variable declarations have optional type annotations which are not provided.
+That is, we view this expression as if it had been provided as follows in the <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> syntax with full type annotations:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">((</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">Tx</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">T1</span>
+   <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">3</span><span class="p">))</span>
+ <span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>In this notation, type variables are used to indicate our <em>lack of knowledge</em> of the actual types.
+Our objective is to infer the value of the type variables <code class="language-plaintext highlighter-rouge">Tx</code> and <code class="language-plaintext highlighter-rouge">T1</code>.</p>
+
+<p>In addition, we also want to type check the whole expression and verify that every node in the AST can be assigned a consistent type.<br>
+Therefore, we also introduce type variables for the nodes in the expression:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Tapp</code> for the overall application expression</li>
+  <li><code class="language-plaintext highlighter-rouge">Tproc</code> for the lambda expression</li>
+  <li><code class="language-plaintext highlighter-rouge">T+</code> for the + application expression</li>
+</ul>
+
+<p>Given these 5 type variables: <code class="language-plaintext highlighter-rouge">Tx, T1, Tapp, Tproc</code> and <code class="language-plaintext highlighter-rouge">T+</code>, we derive type constraints (equations) by inspecting the syntactic type of each expression and applying typing rules to each node:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Tproc</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T1</span><span class="p">]</span> <span class="c1">// By the procedure-typing rule #1</span>
+<span class="nx">T1</span> <span class="o">=</span> <span class="nx">T</span><span class="o">+</span>  <span class="c1">// By the procedure-typing rule - the return type of the procedure is that of the last exp in the body #2</span>
+</code></pre></div></div>
+
+<p>These two constraints are derived from the <strong>procedure-typing rule</strong> which we introduced in the previous lecture:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Typing</span> <span class="nx">rule</span> <span class="nx">Procedure</span> <span class="p">:</span>
+<span class="nx">For</span> <span class="nx">every</span><span class="p">:</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span><span class="p">,</span>
+           <span class="nx">variables</span> <span class="nx">_x1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_xn</span><span class="p">,</span> <span class="nx">n</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="p">(</span><span class="nx">the</span> <span class="nx">parameters</span> <span class="k">of</span> <span class="nx">the</span> <span class="nx">procedure</span><span class="p">)</span>
+           <span class="nx">expressions</span> <span class="nx">_e1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_em</span><span class="p">,</span> <span class="nx">m</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="nx">the</span> <span class="nx">body</span> <span class="k">of</span> <span class="nx">the</span> <span class="nx">procedure</span><span class="p">)</span>
+           <span class="kd">type</span> <span class="nx">expressions</span> <span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span><span class="nx">_Sn</span><span class="p">,</span> <span class="nx">_U1</span><span class="p">,</span> <span class="p">...,</span><span class="nx">_Um</span> <span class="p">:</span>
+
+<span class="nx">Procedure</span> <span class="kd">with</span> <span class="nx">parameters</span> <span class="p">(</span><span class="nx">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="nx">o</span> <span class="p">{</span><span class="nl">_x1</span><span class="p">:</span><span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_xn</span><span class="p">:</span><span class="nx">_Sn</span> <span class="p">}</span> <span class="o">|-</span> <span class="nx">_ei</span><span class="p">:</span><span class="nx">_Ui</span> <span class="k">for</span> <span class="nx">all</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">..</span><span class="nx">m</span> <span class="p">,</span>
+    <span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">lambda</span> <span class="p">(</span><span class="nx">_x1</span> <span class="p">...</span> <span class="nx">_xn</span> <span class="p">)</span> <span class="nx">_e1</span> <span class="p">...</span> <span class="nx">_em</span><span class="p">)</span> <span class="p">:</span> <span class="p">[</span><span class="nx">_S1</span> <span class="o">*</span> <span class="p">...</span> <span class="o">*</span> <span class="nx">_Sn</span> <span class="o">-&gt;</span> <span class="nx">_Um</span><span class="p">]</span>
+
+<span class="nx">Parameter</span><span class="o">-</span><span class="nx">less</span> <span class="nx">Procedure</span> <span class="p">(</span><span class="nx">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_ei</span><span class="p">:</span><span class="nx">_Ui</span> <span class="k">for</span> <span class="nx">all</span> <span class="nx">i</span><span class="o">=</span><span class="mi">1</span><span class="p">..</span><span class="nx">m</span><span class="p">,</span>
+    <span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">lambda</span> <span class="p">()</span> <span class="nx">_e1</span> <span class="p">...</span> <span class="nx">_em</span><span class="p">)</span> <span class="p">:</span> <span class="p">[</span><span class="nx">Empty</span> <span class="o">-&gt;</span> <span class="nx">_Um</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>In our case, we consider the procedure <code class="language-plaintext highlighter-rouge">(lambda ([x : Tx] : T1 (+ x 3))</code>  and we have named the type of the application 
+<code class="language-plaintext highlighter-rouge">(+ x 3)</code> <code class="language-plaintext highlighter-rouge">T+</code>.</p>
+
+<p>The procedure typing rule mandates that:</p>
+<ul>
+  <li>The type of the procedure be of the form <code class="language-plaintext highlighter-rouge">[T1 * ... * Tn -&gt; T]</code> where <code class="language-plaintext highlighter-rouge">Ti</code> are the types of the formal parameters and <code class="language-plaintext highlighter-rouge">T</code> the return type.</li>
+  <li>The type of all the expressions in the body be checked</li>
+  <li>The return type of the procedure be the same as the type of the last expression in the body.</li>
+</ul>
+
+<p>In general, we derive 2 constraints from each procedure node in the AST:</p>
+<ul>
+  <li>One for the type of the procedure as a whole (#1 above)</li>
+  <li>One for the return type of the procedure (#2 above)</li>
+</ul>
+
+<p>Observe that we did not explicitly take into account the Tenv extension specified in the rule when we derived type equations.
+Instead, we assigned a type variable to the variable declaration (<code class="language-plaintext highlighter-rouge">Tx</code> for the variable <code class="language-plaintext highlighter-rouge">x</code> in our case) - and in the continuation of the analysis, 
+we assume that all occurrences of <code class="language-plaintext highlighter-rouge">x</code> have type <code class="language-plaintext highlighter-rouge">Tx</code>.</p>
+
+<p>This assumption relies on the implicit assumption that all the bound variables in the program have been renamed to distinct names to avoid confusion.</p>
+
+<p>We then consider the application expression and derive two more constraints:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Tapp</span> <span class="o">=</span> <span class="nx">T1</span>   <span class="c1">// By the application-typing rule - T1 is the return type of the procedure</span>
+<span class="nx">Tx</span> <span class="o">=</span> <span class="nb">Number</span> <span class="c1">// By the application-typing rule - the arguments have the type of the formal parameters</span>
+</code></pre></div></div>
+
+<p>We derive these constraints from the <strong>application typing rule</strong>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Typing</span> <span class="nx">rule</span> <span class="nx">Application</span> <span class="p">:</span>
+<span class="nx">For</span> <span class="nx">every</span><span class="p">:</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span><span class="p">,</span>
+           <span class="nx">expressions</span> <span class="nx">_f</span><span class="p">,</span> <span class="nx">_e1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_en</span><span class="p">,</span> <span class="nx">n</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="p">,</span> <span class="nx">and</span>
+           <span class="kd">type</span> <span class="nx">expressions</span> <span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_Sn</span><span class="p">,</span> <span class="nx">_S</span><span class="p">:</span>
+
+<span class="nx">Procedure</span> <span class="kd">with</span> <span class="nx">parameters</span> <span class="p">(</span><span class="nx">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_f</span> <span class="p">:</span> <span class="p">[</span><span class="nx">_S1</span> <span class="o">*</span> <span class="p">...</span> <span class="o">*</span> <span class="nx">_Sn</span> <span class="o">-&gt;</span> <span class="nx">_S</span><span class="p">],</span>
+         <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_e1</span> <span class="p">:</span> <span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_en</span> <span class="p">:</span> <span class="nx">_Sn</span>
+    <span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">_f</span> <span class="nx">_e1</span> <span class="p">...</span> <span class="nx">_en</span><span class="p">)</span> <span class="p">:</span> <span class="nx">_S</span>
+
+<span class="nx">Parameter</span><span class="o">-</span><span class="nx">less</span> <span class="nx">Procedure</span> <span class="p">(</span><span class="nx">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_f</span> <span class="p">:</span> <span class="p">[</span><span class="nx">Empty</span> <span class="o">-&gt;</span> <span class="nx">_S</span><span class="p">]</span>
+    <span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">_f</span><span class="p">)</span> <span class="p">:</span> <span class="nx">_S</span>
+</code></pre></div></div>
+
+<p>In our case, we apply a procedure of type <code class="language-plaintext highlighter-rouge">Tproc = [Tx -&gt; T1]</code> to the parameter <code class="language-plaintext highlighter-rouge">5</code> of type <code class="language-plaintext highlighter-rouge">Number</code>.
+The rule mandates that:</p>
+
+<ul>
+  <li>The type of the application be the same type as the return type of the procedure <code class="language-plaintext highlighter-rouge">(f e1 ...) = S</code></li>
+  <li>The type of the arguments be the same as the type of the formal parameters (<code class="language-plaintext highlighter-rouge">ei = Si</code>)</li>
+</ul>
+
+<p>In general, typing an application expression creates <code class="language-plaintext highlighter-rouge">n+1</code> equations - one for each formal parameter <code class="language-plaintext highlighter-rouge">ei</code> and one for the type of the whole application.</p>
+
+<p>Finally, we consider the primitive application expression <code class="language-plaintext highlighter-rouge">(+ x 3)</code> and derive three constraints:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="nb">Number</span>         <span class="c1">// By the primitive-application rule for +: (Number * Number -&gt; Number)</span>
+<span class="nx">Tx</span> <span class="o">=</span> <span class="nb">Number</span>
+<span class="k">typeof</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="nb">Number</span>
+</code></pre></div></div>
+
+<p>In general, we derive <code class="language-plaintext highlighter-rouge">n+1</code> type equations for every primitive application analysis: one for each of the <code class="language-plaintext highlighter-rouge">n</code> parameters
+(our primitives so far have either 1 or 2 parameters) and one for the return type of the primitive application.</p>
+
+<p>Observe how primitive expressions produce extremely rich constraints - they are supremely informative.
+This is because primitives in our language are strongly typed - they expect a single type for their parameter
+and produce a single type.</p>
+
+<p>Primitives in JavaScript are much less informative, because they accept variables of many types and can return many types as well.</p>
+
+<p>We then solve this system of equations by systematic inspection and susbstitution across all equations when we find the value of a type variable.</p>
+
+<ul>
+  <li>By substituting <code class="language-plaintext highlighter-rouge">T+</code>, we find that <code class="language-plaintext highlighter-rouge">T1=Number</code></li>
+  <li>By substituting <code class="language-plaintext highlighter-rouge">Tx</code> and <code class="language-plaintext highlighter-rouge">T1</code>, we find that <code class="language-plaintext highlighter-rouge">Tproc = [Number -&gt; Number]</code></li>
+  <li>By substituting <code class="language-plaintext highlighter-rouge">T1</code>, we find that <code class="language-plaintext highlighter-rouge">Tapp = Number</code></li>
+</ul>
+
+<p>We have thus derived the type of the overall expression.<br>
+In addition, we have inferred the type of the variables <code class="language-plaintext highlighter-rouge">Tx</code> and <code class="language-plaintext highlighter-rouge">T1</code> and can thus provide a fully annotated version of the program:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">((</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">Number</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">Number</span>
+   <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">3</span><span class="p">))</span>
+ <span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="type-inference-example-2">Type Inference: Example 2</h3>
+
+<p>Let us type the following expression - which computes the derivative of the function <code class="language-plaintext highlighter-rouge">g</code> with resolution <code class="language-plaintext highlighter-rouge">gx</code>:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">g</span> <span class="nv">dx</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">/</span> <span class="p">(</span><span class="nb">-</span> <span class="p">(</span><span class="nf">g</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">dx</span><span class="p">))</span> <span class="p">(</span><span class="nf">g</span> <span class="nv">x</span><span class="p">))</span>
+       <span class="nv">dx</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>We consider this equation as an AST where all variable declarations have optional type annotations which are not provided.
+We view this expression as if it had been provided as follows:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">g</span> <span class="nv">:</span> <span class="nv">Tg</span><span class="p">]</span> <span class="p">[</span><span class="nf">dx</span> <span class="nv">:</span> <span class="nv">Tdx</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">T1</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">Tx</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">T2</span>
+    <span class="p">(</span><span class="nb">/</span> <span class="p">(</span><span class="nb">-</span> <span class="p">(</span><span class="nf">g</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">dx</span><span class="p">))</span> <span class="p">(</span><span class="nf">g</span> <span class="nv">x</span><span class="p">))</span>
+       <span class="nv">dx</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>Our objective is to infer the value of the type variables <code class="language-plaintext highlighter-rouge">Tg, Tdx, T1, Tx</code> and <code class="language-plaintext highlighter-rouge">T2</code>.</p>
+
+<p>In addition, we also want to type check the whole expression and verify that every node in the AST can be assigned a consistent type.  Therefore, we also introduce type variables for the nodes in the expression:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Tproc1</code> for the whole lambda expression</li>
+  <li><code class="language-plaintext highlighter-rouge">Tproc2</code> for the lambda expression in 2nd line</li>
+  <li><code class="language-plaintext highlighter-rouge">Tdiv</code> for the <code class="language-plaintext highlighter-rouge">/</code> application expression</li>
+  <li><code class="language-plaintext highlighter-rouge">T-</code> for the <code class="language-plaintext highlighter-rouge">-</code> application</li>
+  <li><code class="language-plaintext highlighter-rouge">Tg1</code> for the first <code class="language-plaintext highlighter-rouge">g</code> application</li>
+  <li><code class="language-plaintext highlighter-rouge">T+</code> for the <code class="language-plaintext highlighter-rouge">+</code> application</li>
+  <li><code class="language-plaintext highlighter-rouge">Tg2</code> for the second <code class="language-plaintext highlighter-rouge">g</code> application</li>
+</ul>
+
+<p>Given these 12 type variables: <code class="language-plaintext highlighter-rouge">Tg, Tdx, T1, Tx, T2</code> and <code class="language-plaintext highlighter-rouge">Tproc1, Tproc2, Tdiv, T-, Tg1, T+, Tg2</code>, we derive type constraints (equations)
+by inspecting the syntactic type of each expression and applying typing rules to each node:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Tproc1</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tg</span> <span class="o">*</span> <span class="nx">Tdx</span> <span class="o">-&gt;</span> <span class="nx">T1</span><span class="p">]</span>   <span class="c1">// By the procedure-typing rule</span>
+<span class="nx">T1</span> <span class="o">=</span> <span class="nx">Tproc2</span>                 <span class="c1">// By the procedure-typing rule: </span>
+                            <span class="c1">// the type of the last exp in body is the return type of the proc</span>
+
+<span class="nx">Tproc2</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span> <span class="c1">// By the procedure-typing rule </span>
+<span class="nx">T2</span> <span class="o">=</span> <span class="nx">Tdiv</span>           <span class="c1">// By the procedure-typing rule: type of body</span>
+
+<span class="nx">Tdiv</span> <span class="o">=</span> <span class="nb">Number</span>  <span class="c1">// By the primitive application typing rule for /</span>
+<span class="nx">T</span><span class="o">-</span> <span class="o">=</span> <span class="nb">Number</span>
+<span class="nx">Tdx</span> <span class="o">=</span> <span class="nb">Number</span>
+
+<span class="nx">T</span><span class="o">-</span> <span class="o">=</span> <span class="nb">Number</span>    <span class="c1">// By the primitive application typing rule for -</span>
+<span class="nx">Tg1</span> <span class="o">=</span> <span class="nb">Number</span>
+<span class="nx">Tg2</span> <span class="o">=</span> <span class="nb">Number</span>
+
+<span class="nx">Tg</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T</span><span class="o">+</span> <span class="o">-&gt;</span> <span class="nx">Tg1</span><span class="p">]</span>  <span class="c1">// By the application typing rule on application g1</span>
+<span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="nx">T</span><span class="o">+</span>
+
+<span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="nb">Number</span>     <span class="c1">// By the primitive application typing rule for +</span>
+<span class="nx">Tx</span> <span class="o">=</span> <span class="nb">Number</span>
+<span class="nx">Tdx</span> <span class="o">=</span> <span class="nb">Number</span>
+
+<span class="nx">Tg</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">Tg2</span><span class="p">]</span>  <span class="c1">// By the application typing rule on application g2</span>
+<span class="nx">Tx</span> <span class="o">=</span> <span class="nx">Tx</span>
+</code></pre></div></div>
+
+<p>We then solve this system of equations by systematic inspection and susbstitution across all equations when we find the value of a type variable.</p>
+
+<p>By substituting <code class="language-plaintext highlighter-rouge">Tg2</code> and <code class="language-plaintext highlighter-rouge">Tx</code> with their values, we find:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Tg</span> <span class="o">=</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>By substituting <code class="language-plaintext highlighter-rouge">Tdiv</code> - we get <code class="language-plaintext highlighter-rouge">T2 = Number</code>, then <code class="language-plaintext highlighter-rouge">Tproc2 = [Number -&gt; Number]</code>, then <code class="language-plaintext highlighter-rouge">T1 = [Number -&gt; Number]</code>
+and eventually:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Tproc1</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span><span class="p">]</span> <span class="o">*</span> <span class="nb">Number</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span><span class="p">]]</span>
+</code></pre></div></div>
+
+<p>This is the expected type for the derivative function, which given a numeric function and a resolution, returns a new numeric function.</p>
+
+<p>In addition, we can provide the fully annotated version of the program:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">g</span> <span class="nv">:</span> <span class="p">[</span><span class="nf">Number</span> <span class="nv">-&gt;</span> <span class="nv">Number</span><span class="p">]</span> <span class="p">[</span><span class="nf">dx</span> <span class="nv">:</span> <span class="nv">Number</span><span class="p">])</span> <span class="nv">:</span> <span class="p">[</span><span class="nf">Number</span> <span class="nv">-&gt;</span> <span class="nv">Number</span><span class="p">]</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">Number</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">Number</span>
+    <span class="p">(</span><span class="nb">/</span> <span class="p">(</span><span class="nb">-</span> <span class="p">(</span><span class="nf">g</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">dx</span><span class="p">))</span> <span class="p">(</span><span class="nf">g</span> <span class="nv">x</span><span class="p">))</span>
+       <span class="nv">dx</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<h3 id="type-inference-example-3">Type Inference: Example 3</h3>
+
+<p>Let us type this expression:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">x</span> <span class="mi">1</span><span class="p">))</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>We consider this equation as an AST where all variable declarations have optional type annotations which are not provided.
+We view this expression as if it had been provided as follows:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">let</span> <span class="p">(([</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">Tx</span><span class="p">]</span> <span class="mi">1</span><span class="p">))</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">f</span> <span class="nv">:</span> <span class="nv">Tf</span><span class="p">]</span> <span class="p">[</span><span class="nf">y</span> <span class="nv">:</span> <span class="nv">Ty</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">Tres</span>
+    <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>Our objective is to infer the value of the type variables <code class="language-plaintext highlighter-rouge">Tx, Tf, Ty</code> and <code class="language-plaintext highlighter-rouge">Tproc</code>.
+In addition, we also want to type check the whole expression and verify that every node in the AST can be assigned a consistent type.<br>
+Therefore, we also introduce type variables for the nodes in the expression:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Tlet</code> for the whole let expression</li>
+  <li><code class="language-plaintext highlighter-rouge">Tproc</code> for the lambda expression</li>
+  <li><code class="language-plaintext highlighter-rouge">Tapp</code> for the f-application expression</li>
+  <li><code class="language-plaintext highlighter-rouge">T+</code> for the +-application expression</li>
+</ul>
+
+<p>Given these 8 type variables: <code class="language-plaintext highlighter-rouge">Tx, Tf, Ty, Tres, Tlet, Tproc, Tapp, T+</code>, we derive type constraints (equations) by inspecting the syntactic type 
+of each expression and applying typing rules to each node:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Tx</span> <span class="o">=</span> <span class="nb">Number</span>   <span class="c1">// By the let-typing rule - binding of the variable x to a number</span>
+<span class="nx">Tlet</span> <span class="o">=</span> <span class="nx">Tproc</span>  <span class="c1">// By the let-typing rule - the type of the let-exp is that of the last exp in body.</span>
+</code></pre></div></div>
+
+<p>We use here the let-typing rule, which combines the type constraints of procedure definition and application:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Typing</span> <span class="nx">rule</span> <span class="nx">Let</span> <span class="p">:</span>
+<span class="nx">For</span> <span class="nx">every</span><span class="p">:</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span><span class="p">,</span>
+           <span class="nx">n</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="nx">and</span> <span class="nx">m</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+           <span class="nx">variables</span> <span class="nx">_x1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_xn</span><span class="p">,</span> <span class="p">(</span><span class="nx">the</span> <span class="nx">variables</span> <span class="k">of</span> <span class="nx">the</span> <span class="nx">bindings</span> <span class="k">in</span> <span class="nx">the</span> <span class="kd">let</span><span class="o">-</span><span class="nx">exp</span><span class="p">)</span>
+           <span class="nx">expressions</span> <span class="nx">_e1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_en</span><span class="p">,</span> <span class="p">(</span><span class="nx">the</span> <span class="nx">values</span> <span class="k">of</span> <span class="nx">the</span> <span class="nx">bindings</span> <span class="k">in</span> <span class="nx">the</span> <span class="kd">let</span><span class="o">-</span><span class="nx">exp</span><span class="p">)</span>
+           <span class="nx">expressions</span> <span class="nx">_b1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_bm</span><span class="p">,</span> <span class="p">(</span><span class="nx">the</span> <span class="nx">body</span> <span class="k">of</span> <span class="nx">the</span> <span class="kd">let</span><span class="o">-</span><span class="nx">exp</span><span class="p">)</span>
+           <span class="kd">type</span> <span class="nx">expressions</span> <span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span><span class="nx">_Sn</span><span class="p">,</span> <span class="nx">_U1</span><span class="p">,</span> <span class="p">...,</span><span class="nx">_Um</span> <span class="p">:</span>
+
+<span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="nx">o</span> <span class="p">{</span><span class="nl">_x1</span> <span class="p">:</span> <span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_xn</span> <span class="p">:</span> <span class="nx">_Sn</span> <span class="p">}</span> <span class="o">|-</span> <span class="nx">_bi</span> <span class="p">:</span> <span class="nx">_Ui</span> <span class="k">for</span> <span class="nx">all</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">..</span><span class="nx">m</span>
+     <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_ei</span> <span class="p">:</span> <span class="nx">_Si</span> <span class="k">for</span> <span class="nx">all</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">..</span><span class="nx">n</span>
+<span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="kd">let</span> <span class="p">((</span><span class="nx">_x1</span> <span class="nx">_e</span><span class="p">)</span> <span class="p">...</span> <span class="p">(</span><span class="nx">_xn</span> <span class="nx">_en</span><span class="p">))</span> <span class="nx">_b1</span> <span class="p">...</span> <span class="nx">_bm</span><span class="p">)</span> <span class="p">:</span> <span class="nx">_Um</span>
+</code></pre></div></div>
+
+<p>In general, applying the let-typing rule yields n+1 constraints, one for each binding in the <code class="language-plaintext highlighter-rouge">let</code>, and one for the type of the body being equal to the type of the whole let-expression.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Tres</span> <span class="o">=</span> <span class="nx">Tapp</span>               <span class="c1">// By the procedure-typing rule</span>
+<span class="nx">Tproc</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tf</span> <span class="o">*</span> <span class="nx">Ty</span> <span class="o">-&gt;</span> <span class="nx">Tapp</span><span class="p">]</span> <span class="c1">// By the procedure typing rule</span>
+
+<span class="nx">Tf</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T</span><span class="o">+</span> <span class="o">-&gt;</span> <span class="nx">Tapp</span><span class="p">]</span>         <span class="c1">// By the application typing rule</span>
+
+<span class="nx">Tx</span> <span class="o">=</span> <span class="nb">Number</span>   <span class="c1">// By the primitive-application + rule</span>
+<span class="nx">Ty</span> <span class="o">=</span> <span class="nb">Number</span>   <span class="c1">// By the primitive-application + rule</span>
+<span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="nb">Number</span>   <span class="c1">// By the primitive-application + rule</span>
+</code></pre></div></div>
+
+<p>We then solve this system of equations by systematic inspection and susbstitution across all equations when we find the value of a type variable.</p>
+
+<p>By substituting <code class="language-plaintext highlighter-rouge">T+</code> with its value, we find:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Tf</span> <span class="o">=</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nx">Tapp</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Then, by substituting <code class="language-plaintext highlighter-rouge">Tf</code> and <code class="language-plaintext highlighter-rouge">Ty</code> by their value:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Tproc</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nx">Tapp</span><span class="p">]</span> <span class="o">*</span> <span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nx">Tapp</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>We eventually infer that <code class="language-plaintext highlighter-rouge">Tlet = [[Number -&gt; Tapp] * Number -&gt; Tapp]</code>.</p>
+
+<p>We also have inferred the type of all the variables which appear in the annotations and can fill the annotations as follows:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">let</span> <span class="p">(([</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">]</span> <span class="mi">1</span><span class="p">))</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">f</span> <span class="nv">:</span> <span class="p">[</span><span class="nf">Number</span> <span class="nv">-&gt;</span> <span class="nv">Tapp</span><span class="p">]]</span> <span class="p">[</span><span class="nf">y</span> <span class="nv">:</span> <span class="nv">Number</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">Tapp</span>
+    <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>We observe that the resulting type for <code class="language-plaintext highlighter-rouge">Tlet</code> includes type variables.<br>
+This is because this expression is polymorphic - we can compute this program for any type <code class="language-plaintext highlighter-rouge">Tapp</code> and ensure that no typing error will be met.</p>
+
+<h3 id="type-inference-example-4">Type Inference: Example 4</h3>
+
+<p>We want to type the procedure <code class="language-plaintext highlighter-rouge">(lambda (f x) (f x x))</code> using type equations.</p>
+
+<p>We consider this equation as an AST where all variable declarations have optional type annotations which are not provided.
+We view this expression as if it had been provided as follows:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">f</span> <span class="nv">:</span> <span class="nv">Tf</span><span class="p">]</span> <span class="p">[</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">Tx</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">Tres</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>Our objective is to infer the value of the type variables <code class="language-plaintext highlighter-rouge">Tf</code> and <code class="language-plaintext highlighter-rouge">Tx</code>.
+In addition, we also want to type check the whole expression and verify that every node in the AST can be assigned a consistent type. 
+Therefore, we also introduce type variables for the application node <code class="language-plaintext highlighter-rouge">(f x x)</code> (<code class="language-plaintext highlighter-rouge">Tapp</code>) and for the overall procedure <code class="language-plaintext highlighter-rouge">(lambda (f x) (f x x))</code> (<code class="language-plaintext highlighter-rouge">Tproc</code>).</p>
+
+<p>Given these 4 type variables: <code class="language-plaintext highlighter-rouge">Tf, Tx, Tapp, Tproc</code>, we derive type constraints (equations) by inspecting the syntactic type of each expression and applying typing rules to each node:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Tf</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">*</span> <span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">Tapp</span><span class="p">]</span>     <span class="c1">// By the application typing rule</span>
+<span class="nx">Tproc</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tf</span> <span class="o">*</span> <span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">Tres</span><span class="p">]</span>  <span class="c1">// By the procedure typing rule</span>
+<span class="nx">Tres</span> <span class="o">=</span> <span class="nx">Tapp</span>                <span class="c1">// By the procedure typing rule</span>
+</code></pre></div></div>
+
+<p>Crucially, the same variables appear in the two equations.  Our objective is to find a solution which assigns
+a value to the variables to make the whole system consistent.  Alternatively, if there is a problem in the type 
+of the expressions, we must detect the conflict.</p>
+
+<p>Our solution consists of inspecting each equation, and to try to make the two sides of the equation equal by applying 
+consistent substitution on both sides (this approach is quite similar to the way we solve algebraic equations).</p>
+
+<p>In our case, the solution is provided by replacing <code class="language-plaintext highlighter-rouge">Tf</code> by its value in the right-hand side of the second equation, yielding:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Tproc</span> <span class="o">=</span> <span class="p">[[</span><span class="nx">Tx</span> <span class="o">*</span> <span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">Tapp</span><span class="p">]</span> <span class="o">*</span> <span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">Tapp</span><span class="p">].</span>
+</code></pre></div></div>
+
+<p>In addition, we have inferred the required types for all variables in the expression, and can produce the fully annotated version:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">f</span> <span class="nv">:</span> <span class="p">[</span><span class="nf">Tx</span> <span class="nv">*</span> <span class="nv">Tx</span> <span class="nv">-&gt;</span> <span class="nv">Tapp</span><span class="p">]]</span> <span class="p">[</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">Tx</span><span class="p">])</span> <span class="nv">:</span> <span class="p">[[</span><span class="nf">Tx</span> <span class="nv">*</span> <span class="nv">Tx</span> <span class="nv">-&gt;</span> <span class="nv">Tapp</span><span class="p">]</span> <span class="nv">*</span> <span class="nv">Tx</span> <span class="nv">-&gt;</span> <span class="nv">Tapp</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">f</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>We observe that the resulting expression still contains type variables (<code class="language-plaintext highlighter-rouge">Tx</code> and <code class="language-plaintext highlighter-rouge">Tapp</code>).
+This is ok - it means the procedure we have typed is <em>polymorphic</em> - it can work on any type pairs <code class="language-plaintext highlighter-rouge">(Tx, Tapp)</code> and still be executed without leading to a typing error.</p>
+
+<h3 id="type-inference-example-5">Type Inference: Example 5</h3>
+
+<p>Let us now consider a case where type inference fails:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">x</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>The annotated AST is:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">Tx</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">T1</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">x</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>The additional type variables are:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Tproc</code> for the whole lambda expression</li>
+  <li><code class="language-plaintext highlighter-rouge">Tapp</code> for the application expression <code class="language-plaintext highlighter-rouge">(x x)</code></li>
+</ul>
+
+<p>We derive type equations:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Tproc</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T1</span><span class="p">]</span>   <span class="c1">// By the procedure-typing rule (shape of the procedure type)</span>
+<span class="nx">T1</span> <span class="o">=</span> <span class="nx">Tapp</span>            <span class="c1">// By the procedure typing rule (type of the last exp in the body)</span>
+
+<span class="nx">Tx</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">Tapp</span><span class="p">]</span>    <span class="c1">// By the application-typing rule on (x x) (type of rator)</span>
+<span class="nx">Tx</span> <span class="o">=</span> <span class="nx">Tx</span>              <span class="c1">// By the application-typing rule on (x x) (type of rand)</span>
+</code></pre></div></div>
+
+<p>There is no solution to this system of equations - because we cannot solve the constraint:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Tx</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">Tapp</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h2 id="type-inference-algorithm-using-type-equations">Type Inference Algorithm using Type Equations</h2>
+
+<p>Let us now present the algorithm which performs type inference by constructing and solving type equations.</p>
+
+<p>Type equation solvers use the unification algorithm for unifying type expressions and producing a consistent
+substitution of type variables which makes all equations equal.</p>
+
+<p>The method has four stages:</p>
+<ol>
+  <li>Rename bound variables in <code class="language-plaintext highlighter-rouge">e</code>.</li>
+  <li>Assign type variables to all sub-expressions.</li>
+  <li>Construct type equations.</li>
+  <li>Solve the equations.</li>
+</ol>
+
+<h3 id="type-substitutions-and-unifiers">Type Substitutions and Unifiers</h3>
+
+<p>In order to describe the process of type equations more formal, we introduce the definition of type substitutions and unifiers.
+The notions of substitutions and renaming we will use are identical to those we introduced when describing the operational semantics of the language.<br>
+The notion of unifier builds on those.</p>
+
+<h4 id="definition-type-substitution">Definition: Type Substitution</h4>
+
+<p>A type-substitution <code class="language-plaintext highlighter-rouge">s</code> is a mapping from a finite set of type variables to a finite set of type expressions, 
+such that <code class="language-plaintext highlighter-rouge">s(T)</code> does not include <code class="language-plaintext highlighter-rouge">T</code>. A type-binding is a pair <code class="language-plaintext highlighter-rouge">T; s(T)</code>.</p>
+
+<p>Substitutions are written using set notions: <code class="language-plaintext highlighter-rouge">{T1=Number, T2=[[Number-&gt;T3]-&gt;T3]}</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">{T1=Number, T2=[[Number-&gt;T3]-&gt;T2]}</code> is an illegal substitution because <code class="language-plaintext highlighter-rouge">T2</code> occurs in <code class="language-plaintext highlighter-rouge">s(T2)</code>.</p>
+
+<h4 id="definition-substitution-application">Definition: Substitution Application</h4>
+
+<p>The application of a type-substitution <code class="language-plaintext highlighter-rouge">s</code> to a type expression <code class="language-plaintext highlighter-rouge">T</code>, denoted <code class="language-plaintext highlighter-rouge">T o s</code> (or just <code class="language-plaintext highlighter-rouge">Ts</code>), 
+consistently replaces all occurrences of type variables <code class="language-plaintext highlighter-rouge">Ti</code> in <code class="language-plaintext highlighter-rouge">T</code> by their mapped type expressions <code class="language-plaintext highlighter-rouge">s(Ti)</code>. 
+The replacement is simultaneous.</p>
+
+<p>Example:</p>
+
+<p><code class="language-plaintext highlighter-rouge">[[T1-&gt;T2]-&gt;T2] o {T1=Boolean, T2=[T3-&gt;T3]} = [[Boolean-&gt;[T3-&gt;T3]] -&gt; [T3-&gt;T3]]</code></p>
+
+<h4 id="definition-type-instance-more-general-relation">Definition: Type Instance, More General Relation</h4>
+
+<p>We say that a type expression <code class="language-plaintext highlighter-rouge">T'</code> is an instance of a type expression <code class="language-plaintext highlighter-rouge">T</code>, if there is a type substitution <code class="language-plaintext highlighter-rouge">s</code> such that
+<code class="language-plaintext highlighter-rouge">T o s = T'</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">T</code> is more general than <code class="language-plaintext highlighter-rouge">T'</code>, if <code class="language-plaintext highlighter-rouge">T'</code> is an instance of <code class="language-plaintext highlighter-rouge">T</code>.</p>
+
+<p>The following type expressions are instances of <code class="language-plaintext highlighter-rouge">[T -&gt; T]</code>:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T</span><span class="o">-&gt;</span><span class="nx">T</span><span class="p">]</span> <span class="nx">o</span> <span class="p">{</span><span class="nx">T</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">}</span>
+<span class="p">[</span><span class="nb">Symbol</span> <span class="o">-&gt;</span> <span class="nb">Symbol</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T</span><span class="o">-&gt;</span><span class="nx">T</span><span class="p">]</span> <span class="nx">o</span> <span class="p">{</span><span class="nx">T</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">}</span>
+<span class="p">[[</span><span class="nb">Number</span><span class="o">-&gt;</span><span class="nb">Number</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">Number</span><span class="o">-&gt;</span><span class="nb">Number</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T</span><span class="o">-&gt;</span><span class="nx">T</span><span class="p">]</span> <span class="nx">o</span> <span class="p">{</span><span class="nx">T</span> <span class="o">=</span> <span class="p">[</span><span class="nb">Number</span><span class="o">-&gt;</span><span class="nb">Number</span><span class="p">]}</span>
+<span class="p">[[</span><span class="nb">Number</span><span class="o">-&gt;</span><span class="nx">T1</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">Number</span><span class="o">-&gt;</span><span class="nx">T1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T</span><span class="o">-&gt;</span><span class="nx">T</span><span class="p">]</span> <span class="nx">o</span> <span class="p">{</span><span class="nx">T</span> <span class="o">=</span> <span class="p">[</span><span class="nb">Number</span><span class="o">-&gt;</span><span class="nx">T1</span><span class="p">]}</span>
+</code></pre></div></div>
+
+<h4 id="definition-combination-composition-of-type-substitutions">Definition: Combination (composition) of Type Substitutions</h4>
+
+<p>The combination of type-substitutions <code class="language-plaintext highlighter-rouge">s</code> and <code class="language-plaintext highlighter-rouge">s'</code>, denoted <code class="language-plaintext highlighter-rouge">s o s'</code>, is an operation that results in a type-substitution, or fails.</p>
+
+<p>It is defined by:</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">s'</code> is applied to the type-expressions of <code class="language-plaintext highlighter-rouge">s</code>, i.e., for every variable <code class="language-plaintext highlighter-rouge">T'</code> for which <code class="language-plaintext highlighter-rouge">s'(T')</code> is defined, occurrences of <code class="language-plaintext highlighter-rouge">T'</code> in type expressions in <code class="language-plaintext highlighter-rouge">s</code> are replaced by <code class="language-plaintext highlighter-rouge">s'(T')</code>.</li>
+  <li>A variable <code class="language-plaintext highlighter-rouge">T'</code> in <code class="language-plaintext highlighter-rouge">s'</code>, for which <code class="language-plaintext highlighter-rouge">s(T)</code> is defined, is removed from the domain of <code class="language-plaintext highlighter-rouge">s'</code>, i.e., <code class="language-plaintext highlighter-rouge">s'(T)</code> is not defined on it anymore.</li>
+  <li>The modified <code class="language-plaintext highlighter-rouge">s'</code> is added to <code class="language-plaintext highlighter-rouge">s</code>.</li>
+  <li>Identity bindings, i.e., <code class="language-plaintext highlighter-rouge">s(T) = T</code>, are removed.</li>
+  <li>If for some variable, <code class="language-plaintext highlighter-rouge">(s o s')(T)</code> includes <code class="language-plaintext highlighter-rouge">T</code>, the combination fails.</li>
+</ol>
+
+<p>For example,</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="nx">T1</span><span class="o">=</span><span class="nb">Number</span><span class="p">,</span> <span class="nx">T2</span><span class="o">=</span><span class="p">[[</span><span class="nb">Number</span><span class="o">-&gt;</span><span class="nx">T3</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="nx">T3</span><span class="p">]}</span> <span class="nx">o</span> <span class="p">{</span><span class="nx">T3</span><span class="o">=</span><span class="nb">Boolean</span><span class="p">,</span> <span class="nx">T1</span><span class="o">=</span><span class="p">[</span><span class="nx">T2</span><span class="o">-&gt;</span><span class="nx">T2</span><span class="p">]}</span> <span class="o">=</span>
+<span class="p">{</span><span class="nx">T1</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">,</span> <span class="nx">T2</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">Number</span><span class="o">-&gt;</span><span class="nb">Boolean</span><span class="p">]</span><span class="o">-&gt;</span><span class="nb">Boolean</span><span class="p">],</span> <span class="nx">T3</span><span class="o">=</span><span class="nb">Boolean</span><span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="definition-renaming-of-type-variables">Definition: Renaming of Type Variables</h4>
+
+<p>Renaming is the operation of consistent renaming of type variables within a type expression, by new type symbols, that do not occur in the type expression.</p>
+
+<p>Renamed type expressions are equivalent:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[[</span><span class="nx">T1</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span><span class="o">*</span><span class="nx">T1</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span> <span class="o">~</span> <span class="p">[[</span><span class="nx">S1</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span> <span class="o">*</span> <span class="nx">S1</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span>
+<span class="p">[[</span><span class="nx">T1</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span><span class="o">*</span><span class="nx">T1</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span> <span class="o">~</span> <span class="p">[[</span><span class="nx">S1</span> <span class="o">-&gt;</span> <span class="nx">S2</span><span class="p">]</span> <span class="o">*</span> <span class="nx">S1</span> <span class="o">-&gt;</span> <span class="nx">S2</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>The variables in the substituting expressions should be new. For example, the following renamings of 
+<code class="language-plaintext highlighter-rouge">[[T1-&gt;T2]*T1 -&gt; T2]</code> are illegal:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[[</span><span class="nx">T1</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span> <span class="o">*</span> <span class="nx">S2</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span>   <span class="c1">// T1 is not consistently replaced - T1 and S2 are not kept together</span>
+<span class="p">[[</span><span class="nx">T2</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span> <span class="o">*</span> <span class="nx">T2</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span>   <span class="c1">// T2 is reused to replace T1</span>
+</code></pre></div></div>
+
+<h4 id="definition-unification-of-type-expressions">Definition: Unification of Type Expressions</h4>
+
+<p>Unification is an operation that makes type expressions identical by application of a type substitution to both expressions.
+When such a subtitution can be found, it is called a <strong>unifier</strong> of the two type expressions.</p>
+
+<p>For example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="nx">S</span> <span class="o">*</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nx">S</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="nx">S</span><span class="p">]</span>   <span class="nx">o</span> <span class="p">{</span><span class="nx">S</span><span class="o">=</span><span class="nx">Pair</span><span class="p">(</span><span class="nx">T1</span><span class="p">),</span> <span class="nx">T2</span><span class="o">=</span><span class="p">[</span><span class="nb">Number</span><span class="o">-&gt;</span><span class="nx">S</span><span class="p">],</span> <span class="nx">T3</span><span class="o">=</span><span class="nx">Pair</span><span class="p">(</span><span class="nx">T1</span><span class="p">)}</span> <span class="o">=</span>
+<span class="p">[</span><span class="nx">Pair</span><span class="p">(</span><span class="nx">T1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">T2</span> <span class="o">-&gt;</span> <span class="nx">T3</span><span class="p">]</span>      <span class="nx">o</span> <span class="p">{</span><span class="nx">S</span><span class="o">=</span><span class="nx">Pair</span><span class="p">(</span><span class="nx">T1</span><span class="p">),</span> <span class="nx">T2</span><span class="o">=</span><span class="p">[</span><span class="nb">Number</span><span class="o">-&gt;</span><span class="nx">S</span><span class="p">],</span> <span class="nx">T3</span><span class="o">=</span><span class="nx">Pair</span><span class="p">(</span><span class="nx">T1</span><span class="p">)}</span> <span class="o">=</span>
+
+<span class="p">[</span><span class="nx">Pair</span><span class="p">(</span><span class="nx">T1</span><span class="p">)</span><span class="o">*</span><span class="p">[</span><span class="nb">Number</span><span class="o">-&gt;</span><span class="nx">Pair</span><span class="p">(</span><span class="nx">T1</span><span class="p">)]</span><span class="o">-&gt;</span><span class="nx">Pair</span><span class="p">(</span><span class="nx">T1</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<p>Therefore, <code class="language-plaintext highlighter-rouge">{S=Pair(T1), T2=[Number-&gt;S], T3=Pair(T1)}</code> is a <strong>unifier</strong> for these type expressions.</p>
+
+<h4 id="definition-unifier-of-type-expressions">Definition: Unifier of Type Expressions</h4>
+
+<p>A unifier of type expressions <code class="language-plaintext highlighter-rouge">T1; T2</code> is a type substitution <code class="language-plaintext highlighter-rouge">s</code> such that <code class="language-plaintext highlighter-rouge">T1 o s = T2 o s</code>.</p>
+
+<p>The type expressions should not include common type variables! (Apply renaming, if needed.)</p>
+
+<h4 id="example-unification-of-type-expressions">Example: Unification of Type Expressions</h4>
+
+<p>Consider the type expressions:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="nx">S</span> <span class="o">*</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nx">S1</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="nx">S</span><span class="p">]</span> <span class="nx">and</span>
+<span class="p">[</span><span class="nx">Pair</span><span class="p">(</span><span class="nx">T1</span><span class="p">)</span> <span class="o">*</span> <span class="p">[</span><span class="nx">T1</span> <span class="o">-&gt;</span> <span class="nx">T1</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span>
+
+<span class="nx">are</span> <span class="nx">unifiable</span> <span class="nx">by</span><span class="p">:</span>
+
+<span class="p">{</span><span class="nx">S</span> <span class="o">=</span> <span class="nx">Pair</span><span class="p">(</span><span class="nb">Number</span><span class="p">),</span> <span class="nx">T1</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">,</span> <span class="nx">S1</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">,</span> <span class="nx">T2</span> <span class="o">=</span> <span class="nx">Pair</span><span class="p">(</span><span class="nb">Number</span><span class="p">)}</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="nx">S</span> <span class="o">*</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nx">S</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="nx">S</span><span class="p">]</span> <span class="nx">and</span>
+<span class="p">[</span><span class="nx">Pair</span><span class="p">(</span><span class="nx">T1</span><span class="p">)</span> <span class="o">*</span> <span class="p">[</span><span class="nx">T1</span> <span class="o">-&gt;</span> <span class="nx">T1</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span>
+
+<span class="nx">are</span> <span class="nx">not</span> <span class="nx">unifiable</span> <span class="o">-</span> <span class="nx">because</span> <span class="nx">we</span> <span class="nx">would</span> <span class="nx">need</span> <span class="nx">to</span> <span class="nx">resolve</span> <span class="p">(</span><span class="nx">find</span> <span class="nx">a</span> <span class="nx">substitution</span> <span class="nx">which</span> <span class="nx">leads</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nx">equality</span><span class="p">):</span>
+
+<span class="nx">S</span> <span class="o">=</span> <span class="nx">Pair</span><span class="p">(</span><span class="nx">T1</span><span class="p">)</span> <span class="nx">and</span>
+<span class="nx">S</span> <span class="o">=</span> <span class="nx">T2</span> <span class="nx">and</span>
+<span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nx">S</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T1</span> <span class="o">-&gt;</span> <span class="nx">T1</span><span class="p">]</span>
+
+<span class="nx">hence</span> <span class="nx">S</span> <span class="o">=</span> <span class="nx">T1</span>
+
+<span class="nx">which</span> <span class="k">is</span> <span class="nx">not</span> <span class="nx">compatible</span> <span class="kd">with</span> <span class="nx">T1</span> <span class="o">=</span> <span class="nx">Pair</span><span class="p">(</span><span class="nx">T1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="definition-most-general-unifier-mgu">Definition: Most General Unifier (mgu)</h4>
+
+<p>Unifiable type expressions can be unified by <strong>multiple unifiers</strong>.</p>
+
+<p>For example, the type expressions <code class="language-plaintext highlighter-rouge">[S * S -&gt; S]</code> and <code class="language-plaintext highlighter-rouge">[Pair(T1) * T2 -&gt; T2]</code> are unifiable by the unifiers:</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">{S=Pair(T1), T2=Pair(T1)}</code></li>
+  <li><code class="language-plaintext highlighter-rouge">{S=Pair(Number), T2=Pair(Number)}</code></li>
+  <li><code class="language-plaintext highlighter-rouge">{S=Pair(Boolean), T2=Pair(Boolean)}</code>, etc</li>
+</ol>
+
+<p>The first unifier is the most general unifier (mgu), since it substitutes only the necessary type variables,
+without making additional assumptions about the replaced terms. All other unifiers are obtained from it by application of additional substitutions.
+The most general unifier is unique, up to consistent renaming. It is called the <strong>most general unifier (mgu)</strong> of the two type expressions.</p>
+
+<p>We will use in the type inference algorithm the function <strong>unify(TE1, TE2)</strong> which returns the mgu of <code class="language-plaintext highlighter-rouge">TE1</code> and <code class="language-plaintext highlighter-rouge">TE2</code> 
+if it can be found and false otherwise (indicating the two expressions cannot be unified).</p>
+
+<h3 id="type-inference-with-equations-step-by-step">Type Inference With Equations Step by Step</h3>
+
+<p>With the unification tool at our disposal, let us run the full details of the type inference algorithm step by step:</p>
+
+<p>We want to type the following expression:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">g</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">g</span> <span class="mi">3</span><span class="p">)))))</span>
+</code></pre></div></div>
+
+<p>We consider it with its type annotations:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">f</span> <span class="nv">:</span> <span class="nv">Tf</span><span class="p">]</span> <span class="p">[</span><span class="nf">g</span> <span class="nv">:</span> <span class="nv">Tg</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">T1</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">Tx</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">T2</span>
+    <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">g</span> <span class="mi">3</span><span class="p">)))))</span>
+</code></pre></div></div>
+
+<h4 id="stage-i-renaming-">Stage I: Renaming :</h4>
+
+<p>None needed because all declared variables already have distinct names.</p>
+
+<h4 id="stage-ii-assign-type-variables-every-sub-expression-is-assigned-a-type-variable">Stage II: Assign type variables: Every sub expression is assigned a type variable</h4>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">Expression</span>                                    <span class="nv">Variable</span>
+<span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">g</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">g</span> <span class="mi">3</span><span class="p">)))))</span>   <span class="nv">T0</span>
+<span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">g</span> <span class="mi">3</span><span class="p">))))</span>                  <span class="nv">T1</span>
+<span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">g</span> <span class="mi">3</span><span class="p">)))</span>                               <span class="nv">T2</span>
+<span class="nv">f</span>                                             <span class="nv">Tf</span>
+<span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">g</span> <span class="mi">3</span><span class="p">))</span>                                   <span class="nv">T3</span>
+<span class="nv">+</span>                                             <span class="nv">T+</span>
+<span class="nv">x</span>                                             <span class="nv">Tx</span>
+<span class="p">(</span><span class="nf">g</span> <span class="mi">3</span><span class="p">)</span>                                         <span class="nv">T4</span>
+<span class="nv">g</span>                                             <span class="nv">Tg</span>
+<span class="mi">3</span>                                             <span class="nv">Tnum3</span>
+</code></pre></div></div>
+
+<h4 id="stage-iii-construct-type-equations">Stage III: Construct type equations</h4>
+
+<p>The typing rules of algorithm Type-derivation turn into type equations: The rules are:</p>
+
+<ol>
+  <li>Number, Boolean, Symbol, Primitive-procedures: Construct equations using their types.</li>
+</ol>
+
+<p>For example, for the number 3: Tnum3 = Number and for the binary primitive procedure +: T+ = [Number * Number -&gt; Number].</p>
+
+<ol>
+  <li>Procedure (Lambda expressions):</li>
+</ol>
+
+<p>The type inference rule is:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">For</span> <span class="nx">every</span><span class="p">:</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span><span class="p">,</span>
+           <span class="nx">variables</span> <span class="nx">_x1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_xn</span><span class="p">,</span> <span class="nx">n</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+           <span class="nx">expressions</span> <span class="nx">_e1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_em</span><span class="p">,</span> <span class="nx">m</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">and</span>
+           <span class="kd">type</span> <span class="nx">expressions</span> <span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span><span class="nx">_Sn</span><span class="p">,</span> <span class="nx">_U1</span><span class="p">,</span> <span class="p">...,</span><span class="nx">_Um</span> <span class="p">:</span>
+<span class="nx">Procedure</span> <span class="kd">with</span> <span class="nx">parameters</span> <span class="p">(</span><span class="nx">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="nx">o</span> <span class="p">{</span><span class="nl">_x1</span><span class="p">:</span><span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_xn</span><span class="p">:</span><span class="nx">_Sn</span> <span class="p">}</span> <span class="o">|-</span> <span class="nx">_ei</span> <span class="p">:</span> <span class="nx">_Ui</span> <span class="k">for</span> <span class="nx">all</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">..</span><span class="nx">m</span> <span class="p">,</span>
+    <span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">lambda</span> <span class="p">(</span><span class="nx">_x1</span> <span class="p">...</span> <span class="nx">_xn</span> <span class="p">)</span> <span class="nx">_e1</span> <span class="p">...</span> <span class="nx">_em</span><span class="p">)</span> <span class="p">:</span> <span class="p">[</span><span class="nx">_S1</span> <span class="o">*</span> <span class="p">...</span> <span class="o">*</span><span class="nx">_Sn</span> <span class="o">-&gt;</span> <span class="nx">_Um</span><span class="p">]</span>
+
+<span class="nx">Parameter</span><span class="o">-</span><span class="nx">less</span> <span class="nx">Procedure</span> <span class="p">(</span><span class="nx">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_ei</span> <span class="p">:</span> <span class="nx">_Ui</span> <span class="k">for</span> <span class="nx">all</span> <span class="nx">i</span><span class="o">=</span><span class="mi">1</span><span class="p">..</span><span class="nx">m</span><span class="p">,</span>
+    <span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">lambda</span> <span class="p">(</span> <span class="p">)</span> <span class="nx">_e1</span> <span class="p">...</span> <span class="nx">_em</span><span class="p">)</span> <span class="p">:</span> <span class="p">[</span><span class="nx">Empty</span> <span class="o">-&gt;</span> <span class="nx">_Um</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Extracting the type restriction on the involved sub-expressions yields:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">For</span> <span class="p">(</span><span class="nx">lambda</span> <span class="p">(</span><span class="nx">v1</span> <span class="p">...</span><span class="nx">vn</span><span class="p">)</span> <span class="nx">e1</span> <span class="p">...</span> <span class="nx">em</span><span class="p">)</span> <span class="kd">with</span> <span class="nx">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">construct</span> <span class="nx">the</span> <span class="nx">equation</span><span class="p">:</span>
+
+<span class="nx">T</span><span class="p">(</span><span class="nx">lambda</span><span class="p">(</span><span class="nx">v1</span><span class="p">...</span><span class="nx">vn</span><span class="p">)</span> <span class="nx">e1</span><span class="p">...</span><span class="nx">em</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tv1</span> <span class="o">*</span> <span class="p">...</span> <span class="o">*</span> <span class="nx">Tvn</span> <span class="o">-&gt;</span> <span class="nx">Tem</span><span class="p">].</span>
+
+<span class="nx">For</span> <span class="p">(</span><span class="nx">lambda</span> <span class="p">(</span> <span class="p">)</span> <span class="nx">e1</span> <span class="p">...</span> <span class="nx">em</span><span class="p">),</span> <span class="nx">construct</span> <span class="nx">the</span> <span class="nx">equation</span><span class="p">:</span>
+
+<span class="nx">T</span><span class="p">(</span><span class="nx">lambda</span><span class="p">()</span> <span class="nx">e1</span><span class="p">...</span><span class="nx">em</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Empty</span> <span class="o">-&gt;</span> <span class="nx">Tem</span><span class="p">].</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Application: The type-inference rule is:</li>
+</ol>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">For</span> <span class="nx">every</span><span class="p">:</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span><span class="p">,</span>
+           <span class="nx">expressions</span> <span class="nx">_f</span><span class="p">,</span> <span class="nx">_e1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_en</span><span class="p">,</span> <span class="nx">n</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="p">,</span> <span class="nx">and</span>
+           <span class="kd">type</span> <span class="nx">expressions</span> <span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_Sn</span><span class="p">,</span> <span class="nx">_S</span><span class="p">:</span>
+<span class="nx">Procedure</span> <span class="kd">with</span> <span class="nx">parameters</span> <span class="p">(</span><span class="nx">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_f</span> <span class="p">:</span> <span class="p">[</span><span class="nx">_S1</span> <span class="o">*</span> <span class="p">...</span> <span class="o">*</span> <span class="nx">_Sn</span> <span class="o">-&gt;</span> <span class="nx">_S</span><span class="p">],</span>
+         <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_e1</span> <span class="p">:</span> <span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_en</span> <span class="p">:</span> <span class="nx">_Sn</span>
+    <span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">_f</span> <span class="nx">_e1</span> <span class="p">...</span> <span class="nx">_en</span><span class="p">)</span> <span class="p">:</span> <span class="nx">_S</span>
+
+<span class="nx">Parameter</span><span class="o">-</span><span class="nx">less</span> <span class="nx">Procedure</span> <span class="p">(</span><span class="nx">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nx">If</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_f</span><span class="p">:[</span><span class="nx">Empty</span> <span class="o">-&gt;</span> <span class="nx">_S</span><span class="p">]</span>
+    <span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">_f</span><span class="p">):</span><span class="nx">_S</span>
+</code></pre></div></div>
+
+<p>Extracting the type restriction on the involved sub-expressions yields:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">For</span> <span class="p">(</span><span class="nx">f</span> <span class="nx">e1</span> <span class="p">...</span> <span class="nx">en</span><span class="p">)</span> <span class="kd">with</span> <span class="nx">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">construct</span> <span class="nx">the</span> <span class="nx">equation</span><span class="p">:</span>
+<span class="nx">Tf</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Te1</span> <span class="o">*</span> <span class="p">...</span> <span class="o">*</span> <span class="nx">Ten</span> <span class="o">-&gt;</span> <span class="nx">T</span><span class="p">].</span>
+
+<span class="nx">For</span> <span class="p">(</span><span class="nx">f</span><span class="p">)</span> <span class="nx">construct</span> <span class="nx">the</span> <span class="nx">equation</span><span class="p">:</span>
+<span class="nx">Tf</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Empty</span> <span class="o">-&gt;</span> <span class="nx">T</span><span class="p">(</span><span class="nx">f</span><span class="p">)].</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: Observe that the inference rules for Procedure and Application require type inference for all internal expressions, 
+even though the final inferred type does not depend on their type. Why?</p>
+
+<p>In the type-equations approach this requirement is achieved by constructing type equations for all sub-expressions, as described below.
+The algorithm constructs equations for the primitive sub-expressions and for all composite sub-expressions.</p>
+
+<p>In our example:</p>
+
+<p>The equations for the primitive sub-expressions are:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">Expression</span>       <span class="nv">Equation</span>
+<span class="nv">===============================================</span>
+<span class="mi">3</span>                <span class="nv">Tnum3</span> <span class="nv">=</span> <span class="nv">Number</span>
+<span class="nv">+</span>                <span class="nv">T+</span> <span class="nv">=</span> <span class="nv">Number</span> <span class="nv">*</span> <span class="nv">Number</span> <span class="nv">-&gt;</span> <span class="nv">Number</span>
+</code></pre></div></div>
+
+<p>The equations for composite sub-expressions are:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">Expression</span>                                    <span class="nv">Equation</span>
+<span class="nv">==================================================================</span>
+<span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">g</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">g</span> <span class="mi">3</span><span class="p">)))))</span>   <span class="nv">T0</span> <span class="nv">=</span> <span class="p">[</span><span class="nf">Tf</span> <span class="nv">*</span> <span class="nv">Tg</span> <span class="nv">-&gt;</span> <span class="nv">T1</span><span class="p">]</span>
+<span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">g</span> <span class="mi">3</span><span class="p">))))</span>                  <span class="nv">T1</span> <span class="nv">=</span> <span class="p">[</span><span class="nf">Tx</span> <span class="nv">-&gt;</span> <span class="nv">T2</span><span class="p">]</span>
+<span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">g</span> <span class="mi">3</span><span class="p">)))</span>                               <span class="nv">Tf</span> <span class="nv">=</span> <span class="p">[</span><span class="nf">T3</span> <span class="nv">-&gt;</span> <span class="nv">T2</span><span class="p">]</span>
+<span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">g</span> <span class="mi">3</span><span class="p">))</span>                                   <span class="nv">T+</span> <span class="nv">=</span> <span class="p">[</span><span class="nf">Tx</span> <span class="nv">*</span> <span class="nv">T4</span> <span class="nv">-&gt;</span> <span class="nv">T3</span><span class="p">]</span>
+<span class="p">(</span><span class="nf">g</span> <span class="mi">3</span><span class="p">)</span>                                         <span class="nv">Tg</span> <span class="nv">=</span> <span class="p">[</span><span class="nf">Tnum3</span> <span class="nv">-&gt;</span> <span class="nv">T4</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h4 id="stage-iv-solving-the-equations">Stage IV: Solving the Equations</h4>
+
+<p>The equations are solved by gradually producing type-substitutions for all type variables. 
+For an expression <code class="language-plaintext highlighter-rouge">e</code>, the algorithm infers a type <code class="language-plaintext highlighter-rouge">t</code> if the final type-substitution maps its variable <code class="language-plaintext highlighter-rouge">Te</code> to <code class="language-plaintext highlighter-rouge">t</code>. 
+If an expression has an infered type then all of its sub-expressions have types as well. 
+If the procedure fails (output is FAIL) then either there is a type error or the constructed type equations are too weak.</p>
+
+<p>Circular type-substitution cause failure.</p>
+
+<p>The solution is processed by considering the equations one by one.</p>
+
+<p>The equation solving process is described by this algorithm:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Input</span><span class="p">:</span>  <span class="nx">A</span> <span class="kd">set</span> <span class="k">of</span> <span class="kd">type</span> <span class="nx">equations</span><span class="p">.</span>
+<span class="nx">Output</span><span class="p">:</span> <span class="nx">A</span> <span class="kd">type</span> <span class="nx">substitution</span> <span class="k">of</span> <span class="nx">FAIL</span><span class="p">.</span>
+
+<span class="nx">Initialization</span><span class="p">:</span>
+  <span class="nx">substitution</span> <span class="p">:</span><span class="o">=</span> <span class="p">{</span> <span class="p">}</span>
+  <span class="nx">Order</span> <span class="nx">the</span> <span class="kd">set</span> <span class="k">of</span> <span class="nx">input</span> <span class="nx">equations</span> <span class="k">in</span> <span class="kr">any</span> <span class="nx">sequential</span> <span class="nx">order</span><span class="p">.</span>
+  <span class="nx">equation</span> <span class="p">:</span><span class="o">=</span> <span class="nx">te1</span> <span class="o">=</span> <span class="nx">te2</span><span class="p">,</span> <span class="nx">the</span> <span class="nx">first</span> <span class="nx">equation</span><span class="p">.</span>
+
+<span class="nx">Loop</span><span class="p">:</span>
+  <span class="mi">1</span><span class="p">.</span> <span class="nx">Apply</span> <span class="nx">the</span> <span class="nx">current</span> <span class="nx">substitution</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nx">equation</span><span class="p">:</span> 
+     <span class="nx">equation</span> <span class="p">:</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">te1</span> <span class="nx">o</span> <span class="nx">substitution</span> <span class="o">=</span> <span class="nx">te2</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="o">&gt;</span>
+  
+  <span class="mi">2</span><span class="p">.</span> <span class="nx">If</span> <span class="p">[</span><span class="nx">te1</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="p">]</span> <span class="nx">and</span> <span class="p">[</span><span class="nx">te2</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="p">]</span> <span class="nx">are</span> <span class="nx">atomic</span> <span class="nx">types</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">[</span><span class="nx">te1</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="p">]</span> <span class="o">!=</span> <span class="p">[</span><span class="nx">te2</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="p">]:</span> 
+            <span class="nx">substitution</span> <span class="p">:</span><span class="o">=</span> <span class="nx">FAIL</span>
+        <span class="nx">otherwise</span><span class="p">:</span> 
+            <span class="nx">Do</span> <span class="nx">nothing</span><span class="p">.</span>
+  
+  <span class="mi">3</span><span class="p">.</span> <span class="nx">Without</span> <span class="nx">loss</span> <span class="k">of</span> <span class="nx">generality</span><span class="p">:</span>
+     <span class="nx">If</span> <span class="p">[</span><span class="nx">te1</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="p">]</span> <span class="o">=</span> <span class="nx">T</span><span class="p">,</span> <span class="nx">i</span><span class="p">.</span><span class="nx">e</span><span class="p">.,</span> <span class="nx">a</span> <span class="kd">type</span> <span class="nx">variable</span><span class="p">,</span> <span class="nx">and</span> <span class="p">[</span><span class="nx">te1</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="p">]</span> <span class="o">!=</span> <span class="p">[</span><span class="nx">te2</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="p">]:</span>
+         <span class="nx">substitution</span> <span class="p">:</span><span class="o">=</span> <span class="nx">substitution</span> <span class="nx">o</span> <span class="p">{</span><span class="nx">T</span> <span class="o">=</span> <span class="p">[</span><span class="nx">te2</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="p">]}.</span> 
+         <span class="nx">That</span> <span class="k">is</span><span class="p">,</span> <span class="nx">apply</span> <span class="nx">the</span> <span class="nx">equation</span> <span class="nx">to</span> <span class="nx">substitution</span><span class="p">,</span> <span class="nx">and</span> <span class="nx">add</span> <span class="nx">the</span> <span class="nx">equation</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nx">substitution</span><span class="p">.</span> 
+         <span class="nx">If</span> <span class="nx">the</span> <span class="nx">application</span> <span class="nx">fails</span> <span class="p">(</span><span class="nx">circular</span> <span class="nx">mapping</span><span class="p">),</span> <span class="nx">substitution</span> <span class="p">:</span><span class="o">=</span> <span class="nx">FAIL</span><span class="p">.</span>
+  
+  <span class="mi">4</span><span class="p">.</span> <span class="k">if</span> <span class="p">[</span><span class="nx">te1</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="p">]</span> <span class="nx">and</span> <span class="p">[</span><span class="nx">te2</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="p">]</span> <span class="nx">are</span> <span class="nx">composite</span> <span class="nx">types</span><span class="p">:</span>
+         <span class="k">if</span> <span class="nx">they</span> <span class="nx">have</span> <span class="nx">the</span> <span class="nx">same</span> <span class="kd">type</span> <span class="kd">constructor</span><span class="p">:</span> 
+             <span class="nx">Split</span> <span class="p">[</span><span class="nx">te1</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="p">]</span> <span class="nx">and</span> <span class="p">[</span><span class="nx">te2</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="p">]</span> <span class="nx">into</span> <span class="nx">component</span> <span class="kd">type</span> <span class="nx">expressions</span><span class="p">,</span> 
+             <span class="nx">Create</span> <span class="nx">equations</span> <span class="k">for</span> <span class="nx">corresponding</span> <span class="nx">components</span><span class="p">,</span> <span class="nx">and</span> 
+             <span class="nx">Add</span> <span class="nx">the</span> <span class="k">new</span> <span class="nx">equations</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nx">pool</span> <span class="k">of</span> <span class="nx">equations</span><span class="p">.</span>
+         <span class="k">if</span> <span class="nx">they</span> <span class="nx">have</span> <span class="nx">different</span> <span class="kd">type</span> <span class="nx">constructors</span><span class="p">:</span> <span class="nx">substitution</span> <span class="p">:</span><span class="o">=</span> <span class="nx">FAIL</span>
+
+  <span class="mi">5</span><span class="p">.</span> <span class="nx">Without</span> <span class="nx">loss</span> <span class="k">of</span> <span class="nx">generality</span><span class="p">:</span>
+     <span class="k">if</span> <span class="p">[</span><span class="nx">te1</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="p">]</span> <span class="k">is</span> <span class="nx">an</span> <span class="nx">atomic</span> <span class="kd">type</span> <span class="nx">and</span> <span class="p">[</span><span class="nx">te2</span> <span class="nx">o</span> <span class="nx">substitution</span><span class="p">]</span> <span class="k">is</span> <span class="nx">a</span> <span class="nx">composite</span> <span class="kd">type</span><span class="p">:</span> 
+         <span class="nx">substitution</span> <span class="p">:</span><span class="o">=</span> <span class="nx">FAIL</span>
+
+  <span class="mi">6</span><span class="p">.</span> <span class="k">if</span> <span class="nx">there</span> <span class="k">is</span> <span class="nx">a</span> <span class="nx">next</span> <span class="nx">equation</span><span class="p">:</span> <span class="nx">equation</span> <span class="p">:</span><span class="o">=</span> <span class="nx">next</span><span class="p">(</span><span class="nx">equation</span><span class="p">)</span>
+
+<span class="nx">until</span> <span class="nx">substitution</span> <span class="o">=</span> <span class="nx">FAIL</span> <span class="nx">or</span>
+      <span class="nx">there</span> <span class="k">is</span> <span class="nx">no</span> <span class="nx">next</span> <span class="nx">equation</span><span class="p">.</span>
+      
+<span class="nx">Return</span><span class="p">:</span> <span class="nx">Substitution</span>
+</code></pre></div></div>
+
+<p>This algorithm computes the unifier of all the equations into a single consistent type substitution.</p>
+
+<p>In other words, each time we process an equation <code class="language-plaintext highlighter-rouge">[Te1 = Te2]</code>, we <strong>make the two sides equal</strong> by finding their unifier 
+and then apply the resulting unifier to the remaining equations and continue the process.
+The constraints flow from equation to equation because we re-use the same substitution across equations and,
+thus, propagate information from one equation to the next.</p>
+
+<p>Let us continue our example applying this algorithm to solve the equations:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Equations</span>                 <span class="nx">substitution</span>
+<span class="o">=========================================</span>
+<span class="mi">1</span><span class="p">.</span> <span class="nx">T0</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tf</span> <span class="o">*</span> <span class="nx">Tg</span> <span class="o">-&gt;</span> <span class="nx">T1</span><span class="p">]</span>   <span class="p">{}</span>
+<span class="mi">2</span><span class="p">:</span> <span class="nx">T1</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span>
+<span class="mi">3</span><span class="p">:</span> <span class="nx">Tf</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T3</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span>
+<span class="mi">4</span><span class="p">:</span> <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">*</span> <span class="nx">T4</span> <span class="o">-&gt;</span> <span class="nx">T3</span><span class="p">]</span>
+<span class="mi">5</span><span class="p">:</span> <span class="nx">Tg</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tnum3</span> <span class="o">-&gt;</span> <span class="nx">T4</span><span class="p">]</span>
+<span class="mi">6</span><span class="p">:</span> <span class="nx">Tnum3</span> <span class="o">=</span> <span class="nb">Number</span>
+<span class="mi">7</span><span class="p">:</span> <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="nb">Number</span> <span class="o">*</span> <span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span>
+</code></pre></div></div>
+
+<p>Equation 1 is processed by the case 3 of the algorithm - since one of its sides is a type variable (<code class="language-plaintext highlighter-rouge">T0</code>).</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Equations</span>                     <span class="nx">substitution</span>
+<span class="mi">2</span><span class="p">:</span> <span class="nx">T1</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span>            <span class="p">{</span><span class="nx">T0</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tf</span> <span class="o">*</span> <span class="nx">Tg</span> <span class="o">-&gt;</span> <span class="nx">T1</span><span class="p">]}</span>
+<span class="mi">3</span><span class="p">:</span> <span class="nx">Tf</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T3</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span>
+<span class="mi">4</span><span class="p">:</span> <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">*</span> <span class="nx">T4</span> <span class="o">-&gt;</span> <span class="nx">T3</span><span class="p">]</span>
+<span class="mi">5</span><span class="p">:</span> <span class="nx">Tg</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tnum3</span> <span class="o">-&gt;</span> <span class="nx">T4</span><span class="p">]</span>
+<span class="mi">6</span><span class="p">:</span> <span class="nx">Tnum3</span> <span class="o">=</span> <span class="nb">Number</span>
+<span class="mi">7</span><span class="p">:</span> <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="nb">Number</span> <span class="o">*</span> <span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span>
+</code></pre></div></div>
+
+<p>In the second iteration, we process the second equation, and again apply case 3 of the algorithm:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Equations</span>                     <span class="nx">substitution</span>
+<span class="mi">3</span><span class="p">:</span> <span class="nx">Tf</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T3</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span>            <span class="p">{</span><span class="nx">T0</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tf</span> <span class="o">*</span> <span class="nx">Tg</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">],</span> 
+<span class="mi">4</span><span class="p">:</span> <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">*</span> <span class="nx">T4</span> <span class="o">-&gt;</span> <span class="nx">T3</span><span class="p">]</span>        <span class="nx">T1</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]}</span>
+<span class="mi">5</span><span class="p">:</span> <span class="nx">Tg</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tnum3</span> <span class="o">-&gt;</span> <span class="nx">T4</span><span class="p">]</span>
+<span class="mi">6</span><span class="p">:</span> <span class="nx">Tnum3</span> <span class="o">=</span> <span class="nb">Number</span>
+<span class="mi">7</span><span class="p">:</span> <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="nb">Number</span> <span class="o">*</span> <span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span>
+</code></pre></div></div>
+<p>Note how the substitution composition resulted in the transformation of the 
+<code class="language-plaintext highlighter-rouge">T1</code> argument by its value in the right hand side of <code class="language-plaintext highlighter-rouge">T0</code> in the substitution.</p>
+
+<p>Same case 3 for the third equation:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Equations</span>                     <span class="nx">substitution</span>
+<span class="mi">4</span><span class="p">:</span> <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">*</span> <span class="nx">T4</span> <span class="o">-&gt;</span> <span class="nx">T3</span><span class="p">]</span>       <span class="p">{</span><span class="nx">T0</span> <span class="o">=</span> <span class="p">[[</span><span class="nx">T3</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span> <span class="o">*</span> <span class="nx">Tg</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]],</span> 
+<span class="mi">5</span><span class="p">:</span> <span class="nx">Tg</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tnum3</span> <span class="o">-&gt;</span> <span class="nx">T4</span><span class="p">]</span>          <span class="nx">T1</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">],</span> <span class="nx">Tf</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T3</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]}</span>
+<span class="mi">6</span><span class="p">:</span> <span class="nx">Tnum3</span> <span class="o">=</span> <span class="nb">Number</span>
+<span class="mi">7</span><span class="p">:</span> <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="nb">Number</span> <span class="o">*</span> <span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span>
+</code></pre></div></div>
+
+<p>Again case 3 for the 4th equation:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Equations</span>                     <span class="nx">substitution</span>
+<span class="mi">5</span><span class="p">:</span> <span class="nx">Tg</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tnum3</span> <span class="o">-&gt;</span> <span class="nx">T4</span><span class="p">]</span>         <span class="p">{</span><span class="nx">T0</span> <span class="o">=</span> <span class="p">[[</span><span class="nx">T3</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span> <span class="o">*</span> <span class="nx">Tg</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]],</span> 
+                               <span class="nx">T1</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">],</span> <span class="nx">Tf</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T3</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">],</span>
+<span class="mi">6</span><span class="p">:</span> <span class="nx">Tnum3</span> <span class="o">=</span> <span class="nb">Number</span>              <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">*</span> <span class="nx">T4</span> <span class="o">-&gt;</span> <span class="nx">T3</span><span class="p">]}</span>
+<span class="mi">7</span><span class="p">:</span> <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="nb">Number</span> <span class="o">*</span> <span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span>
+</code></pre></div></div>
+
+<p>One more case 3 for the 5th equation:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Equations</span>                          <span class="nx">substitution</span>
+<span class="mi">6</span><span class="p">:</span> <span class="nx">Tnum3</span> <span class="o">=</span> <span class="nb">Number</span>                  <span class="p">{</span><span class="nx">T0</span> <span class="o">=</span> <span class="p">[[</span><span class="nx">T3</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span> <span class="o">*</span> <span class="p">[</span><span class="nx">Tnum3</span> <span class="o">-&gt;</span> <span class="nx">T4</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]],</span>
+<span class="mi">7</span><span class="p">:</span> <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="nb">Number</span> <span class="o">*</span> <span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span>   <span class="nx">T1</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">],</span> <span class="nx">Tf</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T3</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">],</span>
+                                    <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">*</span> <span class="nx">T4</span> <span class="o">-&gt;</span> <span class="nx">T3</span><span class="p">],</span>
+                                    <span class="nx">Tg</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tnum3</span> <span class="o">-&gt;</span> <span class="nx">T4</span><span class="p">]}</span>
+</code></pre></div></div>
+
+<p>Equation 6:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Equations</span>                          <span class="nx">substitution</span>
+<span class="mi">7</span><span class="p">:</span> <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="nb">Number</span> <span class="o">*</span> <span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span>  <span class="p">{</span><span class="nx">T0</span> <span class="o">=</span> <span class="p">[[</span><span class="nx">T3</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span> <span class="o">*</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nx">T4</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]],</span>
+                                    <span class="nx">T1</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">],</span> <span class="nx">Tf</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T3</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">],</span>
+                                    <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="p">[</span><span class="nx">Tx</span> <span class="o">*</span> <span class="nx">T4</span> <span class="o">-&gt;</span> <span class="nx">T3</span><span class="p">],</span>
+                                    <span class="nx">Tg</span> <span class="o">=</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nx">T4</span><span class="p">],</span>
+                                    <span class="nx">Tnum3</span> <span class="o">=</span> <span class="nb">Number</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>When processing Equation 7, we must solve:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="nx">Tx</span> <span class="o">*</span> <span class="nx">T4</span> <span class="o">-&gt;</span> <span class="nx">T3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">*</span> <span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>This is case 4 of the algorithm - we split the two sides of the equation into components -
+because they have the same type constructor (<code class="language-plaintext highlighter-rouge">proc-te</code>) and yield the new equations:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Tx</span> <span class="o">=</span> <span class="nb">Number</span>
+<span class="nx">T4</span> <span class="o">=</span> <span class="nb">Number</span>
+<span class="nx">T3</span> <span class="o">=</span> <span class="nb">Number</span>
+</code></pre></div></div>
+
+<p>We eventually output the following substitution:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="nx">T0</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]</span> <span class="o">*</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]],</span>
+ <span class="nx">T1</span> <span class="o">=</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">],</span> 
+ <span class="nx">Tf</span> <span class="o">=</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">],</span>
+ <span class="nx">T</span><span class="o">+</span> <span class="o">=</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">*</span> <span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span><span class="p">],</span>
+ <span class="nx">Tg</span> <span class="o">=</span> <span class="p">[</span><span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span><span class="p">],</span>
+ <span class="nx">Tnum3</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">,</span>
+ <span class="nx">Tx</span> <span class="o">=</span> <span class="nb">Number</span>
+ <span class="nx">T4</span> <span class="o">=</span> <span class="nb">Number</span>
+ <span class="nx">T3</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">}</span>
+</code></pre></div></div>
+
+<p>On the basis of this substitution, we can return the fully annotated expression:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">f</span> <span class="nv">:</span> <span class="nv">Tf</span><span class="p">]</span> <span class="p">[</span><span class="nf">g</span> <span class="nv">:</span> <span class="nv">Tg</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">T1</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">Tx</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">T2</span>
+    <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">g</span> <span class="mi">3</span><span class="p">)))))</span>
+</code></pre></div></div>
+
+<p>becomes:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">f</span> <span class="nv">:</span> <span class="p">[</span><span class="nf">Number</span> <span class="nv">-&gt;</span> <span class="nv">T2</span><span class="p">]</span> <span class="p">[</span><span class="nf">g</span> <span class="nv">:</span> <span class="p">[</span><span class="nf">Number</span> <span class="nv">-&gt;</span> <span class="nv">Number</span><span class="p">]])</span> <span class="nv">:</span> <span class="p">[</span><span class="nf">Number</span> <span class="nv">-&gt;</span> <span class="nv">T2</span><span class="p">]</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">Number</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">T2</span>
+    <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">g</span> <span class="mi">3</span><span class="p">)))))</span>
+</code></pre></div></div>
+
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

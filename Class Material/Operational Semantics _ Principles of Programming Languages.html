@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<!-- saved from url=(0081)https://bguppl.github.io/interpreters/class_material/2.5OperationalSemantics.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Operational Semantics | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Operational Semantics">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/2.5OperationalSemantics.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/2.5OperationalSemantics.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Operational Semantics">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Operational Semantics","url":"https://bguppl.github.io/interpreters/class_material/2.5OperationalSemantics.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Operational Semantics _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Operational Semantics _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D43F.TEX-I::before {
+  padding: 0.683em 0.681em 0 0;
+  content: "L";
+}
+
+mjx-c.mjx-c31::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "1";
+}
+
+mjx-c.mjx-c33::before {
+  padding: 0.665em 0.5em 0.022em 0;
+  content: "3";
+}
+
+mjx-c.mjx-c32::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "2";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Operational Semantics _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="operational-semantics">Operational Semantics</h1>
+
+<h2 id="ppl-2023">PPL 2023</h2>
+
+<p>The operational semantics of a programming language is specified by a set of formal evaluation rules that operate on the AST of an expression. The evaluation process can be specified as an algorithm <code class="language-plaintext highlighter-rouge">eval(exp)</code> which maps an <code class="language-plaintext highlighter-rouge">AST</code> to a <code class="language-plaintext highlighter-rouge">Value</code>.</p>
+
+<p>In this lecture, we go back to the definition of languages <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> to <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c33"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>3</mn></math></mjx-assistive-mml></mjx-container> (which are all subsets of Scheme) and present their operational semantics in a more formal manner, based on the definition of the AST of the languages and the method of structural induction.  For each language, we also specify the set of Values that can be computed by the language and review different implementation options for the domain of Values.</p>
+
+<p>In Sections 1 to 4, we studied the formal description of the <strong>syntax</strong> of programming languages.
+In Sections 5 to 8, we study the formal description of their <strong>semantics</strong> - using the <strong>operational semantics</strong> approach.
+The tool we use is to describe the implementation of interpreters for these languages using a functional subset of TypeScript as a metalanguage.</p>
+
+<p>The pipeline of operations we describe is:</p>
+
+<p>Concrete Syntax (string) ==&gt; (Parser) ==&gt; Abstract Syntax (AST) ==&gt; (Interpreter) ==&gt; Value</p>
+
+<h2 id="l1-operational-semantics"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="2" style="font-size: 117.3%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> Operational Semantics</h2>
+
+<p><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="3" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> is a language in which primitive operators and primitive values can be combined recursively.
+In addition, composite expressions can be given a name and bound to variables using the <code class="language-plaintext highlighter-rouge">define</code> special form.</p>
+
+<p>For example, the following is a program in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="4" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container>:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nf">L1</span>
+  <span class="p">(</span><span class="k">define</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="mi">2</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<h3 id="l1-syntax"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="5" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> Syntax</h3>
+
+<p>Let us summarize the syntax of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="6" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> using the BNF + Abstract Syntax specification we have developed in the previous lectures:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">program</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span><span class="nx">L1</span> <span class="o">&lt;</span><span class="nx">exp</span><span class="o">&gt;+</span><span class="p">)</span> <span class="c1">// program(exps:List(exp))</span>
+<span class="o">&lt;</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">define</span><span class="o">-</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">define</span><span class="o">-</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span><span class="nx">define</span> <span class="o">&lt;</span><span class="kd">var</span><span class="o">-</span><span class="nx">decl</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span><span class="p">)</span> <span class="c1">// def-exp(var:var-decl, val:cexp)</span>
+<span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">num</span><span class="o">-</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="c1">// num-exp(val:Number)</span>
+       <span class="o">|</span> <span class="o">&lt;</span><span class="nx">bool</span><span class="o">-</span><span class="nx">exp</span><span class="o">&gt;</span>  <span class="c1">// bool-exp(val:Boolean)</span>
+       <span class="o">|</span> <span class="o">&lt;</span><span class="nx">prim</span><span class="o">-</span><span class="nx">op</span><span class="o">&gt;</span>   <span class="c1">// prim-op(op:String)</span>
+       <span class="o">|</span> <span class="o">&lt;</span><span class="kd">var</span><span class="o">-</span><span class="nx">ref</span><span class="o">&gt;</span>   <span class="c1">// var-ref(var:String)</span>
+       <span class="o">|</span> <span class="p">(</span><span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;*</span><span class="p">)</span> <span class="c1">// app-exp(rator:cexp, rands:List(cexp))</span>
+<span class="o">&lt;</span><span class="nx">prim</span><span class="o">-</span><span class="nx">op</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">+</span> <span class="o">|</span> <span class="o">-</span> <span class="o">|</span> <span class="o">*</span> <span class="o">|</span> <span class="sr">/ | &lt; | &gt; | = | no</span><span class="err">t
+</span><span class="o">&lt;</span><span class="nx">num</span><span class="o">-</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="nx">a</span> <span class="kr">number</span> <span class="nx">token</span>
+<span class="o">&lt;</span><span class="nx">bool</span><span class="o">-</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="err">#</span><span class="nx">t</span> <span class="o">|</span> <span class="err">#</span><span class="nx">f</span>
+<span class="o">&lt;</span><span class="kd">var</span><span class="o">-</span><span class="nx">ref</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="nx">an</span> <span class="nx">identifier</span> <span class="nx">token</span>
+<span class="o">&lt;</span><span class="kd">var</span><span class="o">-</span><span class="nx">decl</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="nx">an</span> <span class="nx">identifier</span> <span class="nx">token</span>
+</code></pre></div></div>
+
+<p>The corresponding TypeScript implementation of this AST using the Disjoint-Union pattern and with the <code class="language-plaintext highlighter-rouge">parseL1</code> AST factory function is provided in <a href="https://github.com/bguppl/interpreters/blob/master/src/L1/L1-ast.ts">L1-ast.ts</a> which maps a string containing the concrete syntax of a program in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="7" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> to its AST representation.</p>
+
+<h3 id="l1-values"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="8" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> Values</h3>
+
+<p>To determine which values can be computed by <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="9" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> programs, we proceed inductively on the structure of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="10" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container>-ASTs.</p>
+<ul>
+  <li>Atomic expressions can return as a value:
+    <ul>
+      <li>A number (<code class="language-plaintext highlighter-rouge">NumExp</code>)</li>
+      <li>A boolean (<code class="language-plaintext highlighter-rouge">BoolExp</code>)</li>
+      <li>The value of a primitive operator (<code class="language-plaintext highlighter-rouge">PrimOp</code>)</li>
+      <li>The value of a variable reference (<code class="language-plaintext highlighter-rouge">VarRef</code>) - which can be any value (we need to define how this works)</li>
+    </ul>
+  </li>
+  <li>Define expressions return a void value.</li>
+  <li>Composite expressions return a value returned by the application of a primitive operator.
+This can be proved by induction - the value of a compound expression will always be either the value of a literal expression
+or the result of a primitive operator applied to values.
+We posit that primitive operators are delegated to the corresponding TypeScript primitives, which return either:
+    <ul>
+      <li>A number (<code class="language-plaintext highlighter-rouge">+,-,*,/</code>)</li>
+      <li>A boolean (<code class="language-plaintext highlighter-rouge">&lt;,&gt;,=,not</code>)
+Hence, composite expressions will return either a number, a boolean value or one of the literal values that atomic 
+expressions can return.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Altogether, we conclude that the set of all possible values computed by <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="11" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> programs is:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Value</span> <span class="o">=</span> <span class="nb">Number</span> <span class="o">|</span> <span class="nb">Boolean</span> <span class="o">|</span> <span class="nx">PrimOp</span> <span class="o">|</span> <span class="nx">Void</span>
+</code></pre></div></div>
+
+<h3 id="l1-value-type"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="12" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> Value Type</h3>
+
+<p>We decide to use the following type in the metalanguage (TypeScript) to represent the values that can be computed by <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="13" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> expressions:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Value</span> <span class="o">=</span> <span class="nb">Number</span> <span class="o">|</span> <span class="nb">Boolean</span> <span class="o">|</span> <span class="nx">PrimOp</span>
+</code></pre></div></div>
+
+<h3 id="representing-primitive-operators">Representing Primitive Operators</h3>
+
+<p>The decision to represent <code class="language-plaintext highlighter-rouge">Number</code> and <code class="language-plaintext highlighter-rouge">Boolean</code> using the corresponding value types in the meta-language (in our case, in TypeScript) is natural.
+Note, however, that there are many options to represent Numbers in different languages.  For example, the way Scheme represents integers and rational numbers is very different 
+from the way they are represented in JavaScript or C (experiment in Racket to see the differences).  In this implementation of the interpreter, we will ignore these differences.</p>
+
+<p>We must then decide how to represent primitive operators as computed values - so that we can decide which value to return when we compute the expression <code class="language-plaintext highlighter-rouge">+</code>.</p>
+
+<p>In Scheme, when we compute this expression, we get:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="nv">+</span>
+<span class="o">#</span><span class="nv">&lt;procedure:+&gt;</span>
+</code></pre></div></div>
+
+<p>That is, the value of the <code class="language-plaintext highlighter-rouge">+</code> expression (which is an expression of type Symbol) is a procedure in Scheme.
+If we implement primitive values as procedures, we rely on the fact that our meta-language (TypeScript) is a functional language which supports fist-class procedures: a procedure value can be bound to a variable.</p>
+
+<p>In JavaScript (and TypeScript), primitive operators are <em>not</em> variables bound to procedures.  This can be verified by the following test:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">plus</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+<span class="nx">plus</span>
+<span class="c1">// --&gt; [Function]</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">+</span>
+<span class="c1">// --&gt; Error</span>
+</code></pre></div></div>
+
+<p>We observe that if we bind a function to a variable, then its value is returned as an object of type <code class="language-plaintext highlighter-rouge">[Function]</code>.
+In contrast, the expression <code class="language-plaintext highlighter-rouge">+</code> (where <code class="language-plaintext highlighter-rouge">+</code> can be any primitive operator) is <em>not</em> a well formed expression in TypeScript.</p>
+
+<p>We decide in our language <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="14" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> to represent primitive operators as strings, and in the code of the interpreter, map each primitive operator to the underlying primitive operation in the meta-language.
+We will adopt this solution in our first model and in our implementation.</p>
+
+<p>We represent primitive operators as a specify expression type in the AST <code class="language-plaintext highlighter-rouge">PrimOp(op:PrimOpKeyword)</code>, 
+where primOpKeyword is an enumerated type of all the defined primitive operators.
+The value of a <code class="language-plaintext highlighter-rouge">PrimOp</code> expression is itself when we evaluate the expression.
+When we apply a primitive operator to arguments, we explicitly dispatch to each known primitive operator in the language
+and apply the corresponding primitive operation in the meta-language.  The exhaustive enumeration of operators is
+terminated by a <code class="language-plaintext highlighter-rouge">never</code> case.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// There are type errors which we will address in L3</span>
+<span class="kd">const</span> <span class="nx">applyPrimitive</span> <span class="o">=</span> <span class="p">(</span><span class="nx">proc</span><span class="p">:</span> <span class="nx">PrimOp</span><span class="p">,</span> <span class="nx">args</span><span class="p">:</span> <span class="nx">Value</span><span class="p">[]):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">Value</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">proc</span><span class="p">.</span><span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">+</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">args</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">proc</span><span class="p">.</span><span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">-</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">-</span> <span class="nx">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">args</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">proc</span><span class="p">.</span><span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">*</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">args</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">proc</span><span class="p">.</span><span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">/</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">/</span> <span class="nx">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">args</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">proc</span><span class="p">.</span><span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">&gt;</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nx">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">:</span>
+    <span class="nx">proc</span><span class="p">.</span><span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">&lt;</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">:</span>
+    <span class="nx">proc</span><span class="p">.</span><span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">=</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">===</span> <span class="nx">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">:</span>
+    <span class="nx">proc</span><span class="p">.</span><span class="nx">op</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">not</span><span class="dl">"</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="o">!</span><span class="nx">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">:</span>
+    <span class="nx">proc</span><span class="p">.</span><span class="nx">op</span><span class="p">;</span>  <span class="c1">// never</span>
+</code></pre></div></div>
+
+<h4 id="variadic-primitives">Variadic Primitives</h4>
+
+<p>We adopt Scheme’s model for the arithmetic operators: they are <strong>variadic</strong> - meaning that they can accept any number of arguments (from 0 and up).<br>
+Since the AST of application forms (<code class="language-plaintext highlighter-rouge">app-exp</code>) supports any number of arguments, 
+the syntax of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="15" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> also supports expressions of the form: <code class="language-plaintext highlighter-rouge">(+ 1 2), (+ 1 2 3 4)</code> and even <code class="language-plaintext highlighter-rouge">(+ 1)</code> and <code class="language-plaintext highlighter-rouge">(+)</code>.
+In the meta-language, to apply a procedure to a list of arguments, we use <code class="language-plaintext highlighter-rouge">reduce</code>.</p>
+
+<p>Think about what the value of <code class="language-plaintext highlighter-rouge">(+)</code> and <code class="language-plaintext highlighter-rouge">(*)</code> without parameters should be (compare with the general problem of finding the initial value passed to a <code class="language-plaintext highlighter-rouge">reduce</code> operation).</p>
+
+<p>It turns out the handling of ‘-‘ and ‘/’ is more complex than ‘+’ and <code class="language-plaintext highlighter-rouge">*</code> because they are not associative operators.
+The code above does not reflect correctly the way <code class="language-plaintext highlighter-rouge">-</code> works in Scheme.  We will revise this problem in the interpreter for <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="16" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c33"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>3</mn></math></mjx-assistive-mml></mjx-container>.</p>
+
+<p>Check in Scheme what is the value returned by <code class="language-plaintext highlighter-rouge">(-)</code> and <code class="language-plaintext highlighter-rouge">(/)</code>.</p>
+
+<h4 id="type-strict-primitives">Type Strict Primitives</h4>
+
+<p>We have already pointed at the difference in behavior of primitives in Scheme and in JavaScript:</p>
+<ul>
+  <li>Scheme has type-strict primitives.  Invoking a primitive like <code class="language-plaintext highlighter-rouge">+</code> with non-number parameters throws an error.</li>
+  <li>JavaScript has type-flexible primitives.  Primitives do not fail in general when given unexpected data types as arguments.</li>
+</ul>
+
+<p>In the implementation of the <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="17" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> interpreter, we do not test the type of arguments at runtime.<br>
+We also do not attempt to “do the right thing” when given unexpected arguments.  Instead we silently compute “junk”.</p>
+
+<p>In the implementation of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="18" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c33"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>3</mn></math></mjx-assistive-mml></mjx-container>, we will properly implement type checking for primitives.</p>
+
+<h3 id="representing-the-value-returned-by-define">Representing the value returned by <code class="language-plaintext highlighter-rouge">define</code></h3>
+
+<p>We need to decide how to handle the case of <code class="language-plaintext highlighter-rouge">define</code> expressions, because these expressions behave in a special way: 
+In Scheme, a define expression does not return any value:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">&gt;</span> <span class="p">(</span><span class="k">define</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nv">&gt;</span> 
+</code></pre></div></div>
+
+<p>This is unusual for a functional language - where all expressions are expected to return a value.
+The reason <code class="language-plaintext highlighter-rouge">define</code> does not return a usable value is that it is only used for its side-effect (which is to create
+a new binding for the variable with universal scope).</p>
+
+<p>In non-functional languages, such expressions are called <strong>statements</strong> - as opposed to expressions which return a value.</p>
+
+<p>To avoid the dichotomy expression/statement, we will adopt Scheme’s model which is that expressions that have a side-effect return a special type of value - which is called <strong>void</strong>.<br>
+The void type contains a single value (also called void).
+In TypeScript, there are multiple <em>strange values</em> that can be used to encode the <strong>void</strong> value.  We choose to use the <strong>undefined</strong> TypeScript value for this purpose.</p>
+
+<p>We thus adopt the convention that the value of a define expression will be the <code class="language-plaintext highlighter-rouge">undefined</code> value.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Value</span> <span class="o">=</span> <span class="kr">number</span> <span class="o">|</span> <span class="nx">boolean</span> <span class="o">|</span> <span class="kr">string</span> <span class="o">|</span> <span class="nx">PrimOp</span> <span class="o">|</span> <span class="kc">undefined</span>
+</code></pre></div></div>
+
+<h3 id="l1-evaluation-rules"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="19" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> Evaluation Rules</h3>
+
+<p>The operational semantics of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="20" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> is a function which maps inductively any Expression in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="21" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> to a Value:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">eval</span><span class="p">:</span> <span class="nx">Expression</span> <span class="o">-&gt;</span> <span class="nx">Value</span>
+</code></pre></div></div>
+<p>We have now established how to represent a Value. 
+Let us define the <code class="language-plaintext highlighter-rouge">eval</code> algorithm in an inductive manner - by starting from the base cases - atomic expressions,
+and then moving up to composite expressions.</p>
+
+<h4 id="1-evaluation-of-atomic-expressions">1. Evaluation of Atomic Expressions</h4>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Number atomic literal expressions evaluate to number values.</span>
+<span class="mi">1</span><span class="p">.</span> <span class="nb">eval</span><span class="p">(</span><span class="nx">NumExp</span><span class="p">(</span><span class="nx">val</span><span class="p">))</span> <span class="o">=&gt;</span> <span class="nx">val</span>         
+<span class="c1">// Boolean atomic literal expressions evaluate to boolean values true and false.</span>
+<span class="mi">2</span><span class="p">.</span> <span class="nb">eval</span><span class="p">(</span><span class="nx">BoolExp</span><span class="p">(</span><span class="nx">val</span><span class="p">))</span> <span class="o">=&gt;</span> <span class="nx">val</span>        
+<span class="c1">// Primitive procedures evaluate to the primitive operation </span>
+<span class="mi">3</span><span class="p">.</span> <span class="nb">eval</span><span class="p">(</span><span class="nx">PrimOp</span><span class="p">(</span><span class="nx">op</span><span class="p">))</span> <span class="o">=&gt;</span> <span class="nx">PrimOp</span><span class="p">(</span><span class="nx">op</span><span class="p">)</span>   
+<span class="c1">// Variables are evaluated by looking up their value in the global environment - see below definition.</span>
+<span class="mi">4</span><span class="p">.</span> <span class="nb">eval</span><span class="p">(</span><span class="nx">VarRef</span><span class="p">(</span><span class="kd">var</span><span class="p">))</span> <span class="o">=&gt;</span> <span class="nx">applyEnv</span><span class="p">(</span><span class="nx">env</span><span class="p">,</span> <span class="kd">var</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<h4 id="2-evaluation-of-compound-forms">2. Evaluation of Compound Forms</h4>
+
+<p>The evaluation of compound forms involves the recursive evaluation of parts of the compound forms, followed by a
+rule that determines how to combine the resulting values to obtain the value of the compound form.</p>
+
+<p>For special forms, not all the parts of the compound form are always evaluated.<br>
+The order in which the parts is evaluated is determined by the computation rule of the compound form type.<br>
+In <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="22" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> there is a single special form - <code class="language-plaintext highlighter-rouge">define</code>.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span><span class="p">.</span> <span class="nb">eval</span><span class="p">(</span><span class="nx">DefineExp</span><span class="p">(</span><span class="kd">var</span><span class="p">,</span> <span class="nx">val</span><span class="p">))</span> <span class="o">=&gt;</span> 
+    <span class="c1">// var is of type VarDecl</span>
+    <span class="c1">// val is of type Cexp</span>
+    <span class="kd">let</span> <span class="nx">val</span><span class="p">:</span><span class="nx">Value</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span>
+        <span class="nx">add</span> <span class="nx">the</span> <span class="nx">binding</span> <span class="o">&lt;</span><span class="p">(</span><span class="kd">var</span><span class="o">-</span><span class="nx">decl</span><span class="o">-&gt;</span><span class="kd">var</span> <span class="kd">var</span><span class="p">),</span> <span class="nx">val</span><span class="o">&gt;</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nb">global</span> <span class="nx">environment</span>
+        <span class="k">return</span> <span class="kc">undefined</span><span class="p">.</span>
+<span class="mi">2</span><span class="p">.</span> <span class="nb">eval</span><span class="p">(</span><span class="nx">AppExp</span><span class="p">(</span><span class="nx">rator</span><span class="p">,</span> <span class="nx">rands</span><span class="p">))</span> <span class="o">=&gt;</span>
+    <span class="c1">// rator is of type Cexp</span>
+    <span class="c1">// rands is of type List(Cexp)</span>
+    <span class="kd">let</span> <span class="nx">proc</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="nx">rator</span><span class="p">)</span>
+        <span class="nx">args</span> <span class="o">=</span> <span class="p">[</span><span class="nb">eval</span><span class="p">(</span><span class="nx">r</span><span class="p">)</span> <span class="k">for</span> <span class="nx">r</span> <span class="k">in</span> <span class="nx">rands</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nx">applyProc</span><span class="p">(</span><span class="nx">proc</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="global-environment-variable-references-and-define-expressions">Global Environment, Variable References and Define Expressions</h3>
+
+<p>In the specification of the eval algorithm above, we need to clarify two clauses:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Variables are evaluated by looking up their value in the global environment.</span>
+<span class="nb">eval</span><span class="p">(</span><span class="nx">VarRef</span><span class="p">(</span><span class="kd">var</span><span class="p">))</span> <span class="o">=&gt;</span> <span class="nx">applyEnv</span><span class="p">(</span><span class="nx">env</span><span class="p">,</span> <span class="kd">var</span><span class="p">)</span> 
+<span class="nb">eval</span><span class="p">(</span><span class="nx">DefineExp</span><span class="p">(</span><span class="kd">var</span><span class="p">,</span><span class="nx">val</span><span class="p">)</span><span class="o">=&gt;</span> <span class="p">...</span> <span class="nx">add</span> <span class="nx">the</span> <span class="nx">binding</span> <span class="o">&lt;</span><span class="p">(</span><span class="kd">var</span><span class="o">-</span><span class="nx">decl</span><span class="o">-&gt;</span><span class="kd">var</span> <span class="kd">var</span><span class="p">),</span> <span class="nx">val</span><span class="o">&gt;</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nb">global</span> <span class="nx">environment</span> <span class="p">...</span>
+</code></pre></div></div>
+
+<p>These evaluation rules help us deal with the following cases:</p>
+<ul>
+  <li>What is the value of the expression <code class="language-plaintext highlighter-rouge">x</code>? (that is, the evaluation of a <code class="language-plaintext highlighter-rouge">VarRef(x)</code> AST).</li>
+</ul>
+
+<p>The answer is that it depends on the context.  If the variable <code class="language-plaintext highlighter-rouge">x</code> has been previously defined (using a <code class="language-plaintext highlighter-rouge">define</code> expression),
+then <code class="language-plaintext highlighter-rouge">x</code> should <code class="language-plaintext highlighter-rouge">remember</code> this value and return it.  Else, the evaluation should fail.<br>
+In other words, the evaluation of variable references requires us to maintain a <em>memory</em>: the memory is filled when we define a variable,
+it is accessed when we evaluate a variable reference.</p>
+
+<p>We implement this memory with an object we call the <strong>global environment</strong>.<br>
+We model an <strong>environment</strong> as a <strong>partial function which maps variable references to values</strong>.
+A function is <strong>partial</strong> when it is defined on a restricted domain - in our case, not all variable references will be defined in a given environment, and the function is actually a <strong>finite function</strong> (defined on a finite set of values).  When the function is invoked outside of its domain, it returns a failure.</p>
+
+<p>We model environments as an inductive data type, to reflect the fact that environments can be extended (this is what happens when we define a new variable and bind it to a value).  We adopt the method discussed in <a href="https://bguppl.github.io/interpreters/class_material/class_material/1.4TypesAndOperations.html">Chapter 1.5</a> to model environments (which are mutable data structures) in a functional manner.</p>
+
+<p>Recall that the strategy to implement mutable data structures in a functional manner consists of the following steps:</p>
+<ul>
+  <li>Define a data type for the possible values of the data structure as a disjoint union - specifically, distinguish atomic value types and recursive value types.</li>
+  <li>For each mutation operation, define a distinct value constructor for the data type which receives as a parameter the mutation parameters together with the original value of the object and returns a new value which represents the result of the mutation.</li>
+  <li>Clients that perform mutation operations obtain a new value which represents the result of applying the mutation on the old version of the object.</li>
+</ul>
+
+<p>In the case of the environment data structure, we obtain the following inductive data type definition:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">env</span> <span class="p">::</span><span class="o">=</span> <span class="nx">empty</span><span class="o">-</span><span class="nx">env</span> <span class="o">|</span> <span class="nx">extended</span><span class="o">-</span><span class="nx">env</span>
+<span class="nx">empty</span><span class="o">-</span><span class="nx">env</span> <span class="c1">// empty-env()</span>
+<span class="nx">extended</span><span class="o">-</span><span class="nx">env</span><span class="p">(</span><span class="kd">var</span><span class="p">,</span> <span class="nx">val</span><span class="p">,</span> <span class="nx">env</span><span class="p">)</span> <span class="c1">// extended-env(var:string, val:Value, next-env:Env)</span>
+</code></pre></div></div>
+<p>That is, we define an environment as either:</p>
+<ul>
+  <li>An empty environment</li>
+  <li>Or an extended environment which maps variables (strings) to values on top of an existing environment.</li>
+</ul>
+
+<p>On the basis of this inductive definition, we define a single value accessor for environment, which we call <code class="language-plaintext highlighter-rouge">applyEnv</code>
+(see full source code in <a href="https://github.com/bguppl/interpreters/blob/master/src/L1/L1-eval.ts#L13">L1-eval.ts</a>):</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ========================================================</span>
+<span class="c1">// Environment data type for L1</span>
+
+<span class="k">export</span> <span class="kd">type</span> <span class="nx">Env</span> <span class="o">=</span> <span class="nx">EmptyEnv</span> <span class="o">|</span> <span class="nx">NonEmptyEnv</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">type</span> <span class="nx">EmptyEnv</span> <span class="o">=</span> <span class="p">{</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">EmptyEnv</span><span class="dl">"</span> <span class="p">};</span>
+<span class="k">export</span> <span class="kd">type</span> <span class="nx">NonEmptyEnv</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Env</span><span class="dl">"</span><span class="p">;</span>
+    <span class="nl">var</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="nl">val</span><span class="p">:</span> <span class="nx">Value</span><span class="p">;</span>
+    <span class="nl">nextEnv</span><span class="p">:</span> <span class="nx">Env</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">makeEmptyEnv</span> <span class="o">=</span> <span class="p">():</span> <span class="nx">EmptyEnv</span> <span class="o">=&gt;</span> <span class="p">({</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">EmptyEnv</span><span class="dl">"</span><span class="p">});</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">makeEnv</span> <span class="o">=</span> <span class="p">(</span><span class="nx">v</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span> <span class="nx">Value</span><span class="p">,</span> <span class="nx">env</span><span class="p">:</span> <span class="nx">Env</span><span class="p">):</span> <span class="nx">NonEmptyEnv</span> <span class="o">=&gt;</span>
+    <span class="p">({</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Env</span><span class="dl">"</span><span class="p">,</span> <span class="na">var</span><span class="p">:</span> <span class="nx">v</span><span class="p">,</span> <span class="na">val</span><span class="p">:</span> <span class="nx">val</span><span class="p">,</span> <span class="na">nextEnv</span><span class="p">:</span> <span class="nx">env</span><span class="p">});</span>
+<span class="kd">const</span> <span class="nx">isEmptyEnv</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">EmptyEnv</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">EmptyEnv</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">isNonEmptyEnv</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">NonEmptyEnv</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">Env</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">isEnv</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">Env</span> <span class="o">=&gt;</span> <span class="nx">isEmptyEnv</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">||</span> <span class="nx">isNonEmptyEnv</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">applyEnv</span> <span class="o">=</span> <span class="p">(</span><span class="nx">env</span><span class="p">:</span> <span class="nx">Env</span><span class="p">,</span> <span class="nx">v</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">Value</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">isEmptyEnv</span><span class="p">(</span><span class="nx">env</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">var not found </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">v</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">env</span><span class="p">.</span><span class="kd">var</span> <span class="o">===</span> <span class="nx">v</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">env</span><span class="p">.</span><span class="nx">val</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">applyEnv</span><span class="p">(</span><span class="nx">env</span><span class="p">.</span><span class="nx">nextEnv</span><span class="p">,</span> <span class="nx">v</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>To lookup a variable <code class="language-plaintext highlighter-rouge">v</code> in an environment <code class="language-plaintext highlighter-rouge">env</code>, we apply the <code class="language-plaintext highlighter-rouge">env</code> function on the variable.
+This is implemented recursively:</p>
+<ul>
+  <li>No variable is defined in an empty environment - in this case, we return a Failure.</li>
+  <li>Else, for an environment made up of the binding <code class="language-plaintext highlighter-rouge">(var)-&gt;(val)</code> and a next environment <code class="language-plaintext highlighter-rouge">nextEnv</code>:
+    <ul>
+      <li>If <code class="language-plaintext highlighter-rouge">var</code> is the same as <code class="language-plaintext highlighter-rouge">v</code> - return the correspond <code class="language-plaintext highlighter-rouge">val</code>.</li>
+      <li>Else continue searching in the embedded environment <code class="language-plaintext highlighter-rouge">nextEnv</code>.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>As usual - this computation is an instance of the structural induction principle (we exhaustively traverse all the cases of the <code class="language-plaintext highlighter-rouge">env</code> type definition).</p>
+
+<p>Here is an example using this data structure:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Lookup of any variable in an empty env fails</span>
+<span class="nx">isFailure</span><span class="p">(</span><span class="nx">applyEnv</span><span class="p">(</span><span class="nx">makeEmptyEnv</span><span class="p">(),</span> <span class="dl">"</span><span class="s2">x</span><span class="dl">"</span><span class="p">))</span>
+<span class="c1">// --&gt; true</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Lookup of a variable defined in an extended env succeeds</span>
+<span class="nx">applyEnv</span><span class="p">(</span><span class="nx">makeEnv</span><span class="p">(</span><span class="dl">"</span><span class="s2">x</span><span class="dl">"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">makeEmptyEnv</span><span class="p">()),</span> <span class="dl">"</span><span class="s2">x</span><span class="dl">"</span><span class="p">)</span>
+<span class="c1">// --&gt; 1</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Lookup of a variable that is not defined in an extended env fails</span>
+<span class="nx">isFailure</span><span class="p">(</span><span class="nx">applyEnv</span><span class="p">(</span><span class="nx">makeEnv</span><span class="p">(</span><span class="dl">"</span><span class="s2">x</span><span class="dl">"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">makeEmptyEnv</span><span class="p">()),</span> <span class="dl">"</span><span class="s2">y</span><span class="dl">"</span><span class="p">))</span>
+<span class="c1">// --&gt; true</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Lookup of a variable that is defined in a deeper env is retrieved</span>
+<span class="c1">// Here we have 2 levels: (&lt;y 2&gt; &lt;x 1&gt; &lt;empty&gt;)</span>
+<span class="nx">applyEnv</span><span class="p">(</span><span class="nx">makeEnv</span><span class="p">(</span><span class="dl">"</span><span class="s2">y</span><span class="dl">"</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> 
+         <span class="nx">makeEnv</span><span class="p">(</span><span class="dl">"</span><span class="s2">x</span><span class="dl">"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> 
+         <span class="nx">makeEmptyEnv</span><span class="p">())),</span> <span class="dl">"</span><span class="s2">x</span><span class="dl">"</span><span class="p">)</span>
+<span class="c1">// --&gt; 1        </span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Lookup of a variable that is defined in a deeper env is overridden by a newer binding</span>
+<span class="c1">// Here we have 2 levels: (&lt;x 2&gt; &lt;x 1&gt; &lt;empty&gt;)</span>
+<span class="nx">applyEnv</span><span class="p">(</span><span class="nx">makeEnv</span><span class="p">(</span><span class="dl">"</span><span class="s2">x</span><span class="dl">"</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> 
+         <span class="nx">makeEnv</span><span class="p">(</span><span class="dl">"</span><span class="s2">x</span><span class="dl">"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> 
+         <span class="nx">makeEmptyEnv</span><span class="p">())),</span> <span class="dl">"</span><span class="s2">x</span><span class="dl">"</span><span class="p">)</span>
+<span class="o">--&gt;</span> <span class="mi">2</span>         
+</code></pre></div></div>
+
+<h4 id="handling-variable-references">Handling Variable References</h4>
+
+<p>Given this definition of the <strong>environment</strong> data type, let us review how to handle variable references and define expressions.
+We first observe that mutation to the environment are necessary when evaluating a program (that is, a sequence of expressions that can include define expressions), 
+while the evaluation of <code class="language-plaintext highlighter-rouge">cexp</code> expressions does not require any mutation.
+Yet, the evaluation of variable references (<code class="language-plaintext highlighter-rouge">var-ref</code> expressions) requires access to an environment.</p>
+
+<p>We split the implementation of the eval algorithm in two cases:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">L1eval(exp, env)</code>: evaluate a <code class="language-plaintext highlighter-rouge">&lt;cexp&gt;</code> AST with reference to a given environment.</li>
+  <li><code class="language-plaintext highlighter-rouge">L1evalProgram(program)</code>: evaluate a program</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">L1eval</code> handles the case of evaluating a variable reference with respect to a given environment.
+The evaluation rule for <code class="language-plaintext highlighter-rouge">VarRef</code> expressions is now clarified:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Variables are evaluated by looking up their value in the global environment.</span>
+<span class="nx">L1eval</span><span class="p">(</span><span class="nx">VarRef</span><span class="p">(</span><span class="kd">var</span><span class="p">))</span> <span class="o">=&gt;</span> <span class="nx">applyEnv</span><span class="p">(</span><span class="nx">env</span><span class="p">,</span> <span class="kd">var</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<p>We still need to determine how the value of <code class="language-plaintext highlighter-rouge">env</code> is obtained so that it can be used in this clause.</p>
+
+<h3 id="handling-defineexp-and-evaluating-programs">Handling DefineExp and Evaluating Programs</h3>
+
+<p>Let us now address the issue of evaluating a program - which is a sequence of expressions, which can be either
+<code class="language-plaintext highlighter-rouge">define</code> expressions, which update the current environment (and return void), or <code class="language-plaintext highlighter-rouge">cexp</code> expressions, which return a value.</p>
+
+<p><code class="language-plaintext highlighter-rouge">L1evalProgram(program)</code> receives a program, which includes an ordered sequence of expressions.
+It iterates over the expressions and depending on the type of each expression, it performs the following:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">DefineExp</span><span class="p">(</span><span class="kd">var</span><span class="p">,</span> <span class="nx">val</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="kd">let</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">L1eval</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="nx">env</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nx">there</span> <span class="nx">are</span> <span class="nx">more</span> <span class="nx">expressions</span> <span class="k">in</span> <span class="nx">the</span> <span class="nx">program</span><span class="p">:</span>
+            <span class="kd">let</span> <span class="nx">newEnv</span> <span class="o">=</span> <span class="nx">extendEnv</span><span class="p">(</span><span class="kd">var</span><span class="p">,</span> <span class="nx">val</span><span class="p">,</span> <span class="nx">env</span><span class="p">)</span>
+                <span class="k">continue</span> <span class="nx">evaluating</span> <span class="nx">remaining</span> <span class="nx">expressions</span> <span class="k">in</span> <span class="nx">newEnv</span>
+        <span class="k">else</span>
+            <span class="k">return</span> <span class="k">void</span>
+
+<span class="nx">Cexp</span> <span class="o">=&gt;</span>
+    <span class="kd">let</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">L1eval</span><span class="p">(</span><span class="nx">cexp</span><span class="p">,</span> <span class="nx">env</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nx">there</span> <span class="nx">are</span> <span class="nx">more</span> <span class="nx">expressions</span> <span class="k">in</span> <span class="nx">the</span> <span class="nx">program</span>
+            <span class="k">continue</span> <span class="nx">evaluating</span> <span class="nx">remaining</span> <span class="nx">expressions</span> <span class="k">in</span> <span class="nx">env</span>
+        <span class="k">else</span>
+            <span class="k">return</span> <span class="nx">value</span>
+</code></pre></div></div>
+
+<p>This algorithm is implemented in <a href="https://github.com/bguppl/interpreters/blob/master/src/L1/L1-eval.ts#L90">L1-eval.ts</a>.</p>
+
+<p>The function <code class="language-plaintext highlighter-rouge">L1applicativeEval</code> has the typical structure of a syntax-driven function, as was reviewed in <a href="https://bguppl.github.io/interpreters/class_material/class_material/2.4SyntacticOperations.html">Section 2.4</a>
+with a conditional clause for each type of AST expression.  It returns a <code class="language-plaintext highlighter-rouge">Result&lt;Value&gt;</code> given a <code class="language-plaintext highlighter-rouge">CExp</code> and the current <code class="language-plaintext highlighter-rouge">Env</code>.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">L1applicativeEval</span> <span class="o">=</span> <span class="p">(</span><span class="nx">exp</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">,</span> <span class="nx">env</span><span class="p">:</span> <span class="nx">Env</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">Value</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">isNumExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">exp</span><span class="p">.</span><span class="nx">val</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isBoolExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">exp</span><span class="p">.</span><span class="nx">val</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isPrimOp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isVarRef</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">applyEnv</span><span class="p">(</span><span class="nx">env</span><span class="p">,</span> <span class="nx">exp</span><span class="p">.</span><span class="kd">var</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isAppExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">mapResult</span><span class="p">((</span><span class="nx">rand</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">L1applicativeEval</span><span class="p">(</span><span class="nx">rand</span><span class="p">,</span> <span class="nx">env</span><span class="p">),</span> <span class="nx">exp</span><span class="p">.</span><span class="nx">rands</span><span class="p">),</span> <span class="p">(</span><span class="nx">rands</span><span class="p">:</span> <span class="nx">Value</span><span class="p">[])</span> <span class="o">=&gt;</span> 
+                         <span class="nx">L1applyProcedure</span><span class="p">(</span><span class="nx">exp</span><span class="p">.</span><span class="nx">rator</span><span class="p">,</span> <span class="nx">rands</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">exp</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">L1evalProgram</code> invokes <code class="language-plaintext highlighter-rouge">evalExps</code> to evaluate the sequence of expressions that appear inside the program with an initially empty environment.  The expressions can either be of type DefineExp (which modify the current environment) or CExp (which have no side effect).  To model the updates of the current environment in a functional manner, we implement in the <code class="language-plaintext highlighter-rouge">evalDefineExps</code> the process that creates a new environment after each define, and passes the new environment to the evaluation of the next expressions.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Purpose: evaluate a program made up of a sequence of expressions.</span>
+<span class="c1">// When def-exp expressions are executed, thread an updated env to the continuation.</span>
+<span class="c1">// For other expressions (that have no side-effect), execute the expressions sequentially.</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">L1evalProgram</span> <span class="o">=</span> <span class="p">(</span><span class="nx">program</span><span class="p">:</span> <span class="nx">Program</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">Value</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">evalSequence</span><span class="p">(</span><span class="nx">program</span><span class="p">.</span><span class="nx">exps</span><span class="p">,</span> <span class="nx">makeEmptyEnv</span><span class="p">());</span>
+
+<span class="c1">// Evaluate a sequence of expressions (in a program)</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">evalSequence</span> <span class="o">=</span> <span class="p">(</span><span class="nx">seq</span><span class="p">:</span> <span class="nx">Exp</span><span class="p">[],</span> <span class="nx">env</span><span class="p">:</span> <span class="nx">Env</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">Value</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">isEmpty</span><span class="p">(</span><span class="nx">seq</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">Empty sequence</span><span class="dl">"</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">evalSequenceFirst</span><span class="p">(</span><span class="nx">first</span><span class="p">(</span><span class="nx">seq</span><span class="p">),</span> <span class="nx">rest</span><span class="p">(</span><span class="nx">seq</span><span class="p">),</span> <span class="nx">env</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">evalSequenceFirst</span> <span class="o">=</span> <span class="p">(</span><span class="nx">first</span><span class="p">:</span> <span class="nx">Exp</span><span class="p">,</span> <span class="nx">rest</span><span class="p">:</span> <span class="nx">Exp</span><span class="p">[],</span> <span class="nx">env</span><span class="p">:</span> <span class="nx">Env</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">Value</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">isDefineExp</span><span class="p">(</span><span class="nx">first</span><span class="p">)</span> <span class="p">?</span> <span class="nx">evalDefineExps</span><span class="p">(</span><span class="nx">first</span><span class="p">,</span> <span class="nx">rest</span><span class="p">,</span> <span class="nx">env</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isEmpty</span><span class="p">(</span><span class="nx">rest</span><span class="p">)</span> <span class="p">?</span> <span class="nx">L1applicativeEval</span><span class="p">(</span><span class="nx">first</span><span class="p">,</span> <span class="nx">env</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">bind</span><span class="p">(</span><span class="nx">L1applicativeEval</span><span class="p">(</span><span class="nx">first</span><span class="p">,</span> <span class="nx">env</span><span class="p">),</span> <span class="nx">_</span> <span class="o">=&gt;</span> <span class="nx">evalSequence</span><span class="p">(</span><span class="nx">rest</span><span class="p">,</span> <span class="nx">env</span><span class="p">));</span>
+
+<span class="c1">// Eval a sequence of expressions when the first exp is a Define.</span>
+<span class="c1">// Compute the rhs of the define, extend the env with the new binding</span>
+<span class="c1">// then compute the rest of the exps in the new env.</span>
+<span class="kd">const</span> <span class="nx">evalDefineExps</span> <span class="o">=</span> <span class="p">(</span><span class="nx">def</span><span class="p">:</span> <span class="nx">DefineExp</span><span class="p">,</span> <span class="nx">exps</span><span class="p">:</span> <span class="nx">Exp</span><span class="p">[],</span> <span class="nx">env</span><span class="p">:</span> <span class="nx">Env</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">Value</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">bind</span><span class="p">(</span><span class="nx">L1applicativeEval</span><span class="p">(</span><span class="nx">def</span><span class="p">.</span><span class="nx">val</span><span class="p">,</span> <span class="nx">env</span><span class="p">),</span>
+         <span class="p">(</span><span class="nx">rhs</span><span class="p">:</span> <span class="nx">Value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">evalSequence</span><span class="p">(</span><span class="nx">exps</span><span class="p">,</span> <span class="nx">makeEnv</span><span class="p">(</span><span class="nx">def</span><span class="p">.</span><span class="kd">var</span><span class="p">.</span><span class="kd">var</span><span class="p">,</span> <span class="nx">rhs</span><span class="p">,</span> <span class="nx">env</span><span class="p">)));</span>
+</code></pre></div></div>
+
+<p>Interestingly, we implemented a form of mutation in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="23" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> (the evaluation of <code class="language-plaintext highlighter-rouge">define</code>) <strong>without mutation</strong> in the interpreter.
+This is obtained by using a functional implementation of the environment and <em>threading</em> the updated value of this environment 
+(which is a new constructed value, obtained without mutation) at each step of the evaluation process.</p>
+
+<h3 id="procedure-calls">Procedure Calls</h3>
+
+<p>The last aspect of the operational semantics that is left to clarify is how procedure calls are handled.
+In <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="24" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container>, the only procedures that can be applied are primitives, since we have not yet provided a way to define user procedures (we will do this next in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="25" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c32"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>2</mn></math></mjx-assistive-mml></mjx-container>).</p>
+
+<p>Consider for example the computation of this <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="26" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container>-expression:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="nb">-</span> <span class="mi">3</span> <span class="mi">2</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>The way this expression is evaluated according to the computation rule for <code class="language-plaintext highlighter-rouge">AppExp(rator, rands)</code> expressions is:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nx">isAppExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">mapResult</span><span class="p">((</span><span class="nx">rand</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">L1applicativeEval</span><span class="p">(</span><span class="nx">rand</span><span class="p">,</span> <span class="nx">env</span><span class="p">),</span> <span class="nx">exp</span><span class="p">.</span><span class="nx">rands</span><span class="p">),</span> <span class="p">(</span><span class="nx">rands</span><span class="p">:</span> <span class="nx">Value</span><span class="p">[])</span> <span class="o">=&gt;</span> 
+                         <span class="nx">L1applyProcedure</span><span class="p">(</span><span class="nx">exp</span><span class="p">.</span><span class="nx">rator</span><span class="p">,</span> <span class="nx">rands</span><span class="p">))</span> <span class="p">:</span>
+</code></pre></div></div>
+
+<p>We first evaluate all the arguments, then we invoke the procedure on the computed values.
+In the example above, it means that we compute the expression in this order:</p>
+<ol>
+  <li>Compute (* 2 3) and (- 3 2)</li>
+  <li>Compute (+ 6 1)</li>
+</ol>
+
+<p>Recursively, if we have an expression that is nested deeper, we start by computing the inner-most sub-expression,
+and then move up towards the root of the AST.</p>
+
+<p>The operational semantics does <strong>not</strong> specify the order of execution among the arguments - we could compute
+(* 2 3) first and (- 3 2) next, or in reverse, or even together (in parallel).</p>
+
+<p>The procedure <code class="language-plaintext highlighter-rouge">apply-proc</code> does <strong>not</strong> need an <code class="language-plaintext highlighter-rouge">env</code> parameter because it receives only values, not expressions, and in particular, it does not receive any variable reference or any object that may contain a variable reference.</p>
+
+<h3 id="l1-operational-semantics-summary"><mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="27" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> Operational Semantics Summary</h3>
+
+<p>The complete code of the <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="28" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> interpreter which implements the operational semantics described here is available in the following program:<br>
+<a href="https://github.com/bguppl/interpreters/blob/master/src/L1/L1-eval.ts">L1-eval.ts</a></p>
+
+<p>Tests are available in <a href="https://github.com/bguppl/interpreters/blob/master/test/L1/L1-eval.test.ts">L1-eval.test.ts</a></p>
+
+<p>In general, the operational semantics is defined as a syntax-driven traversal of an input AST.
+The algorithm of this AST traversal is specified inductively:</p>
+
+<ol>
+  <li>Evaluation of atomic expressions
+    <div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Number atomic literal expressions evaluate to number values.</span>
+<span class="nb">eval</span><span class="p">(</span><span class="nx">NumExp</span><span class="p">(</span><span class="nx">val</span><span class="p">),</span> <span class="nx">env</span><span class="p">)</span>  <span class="o">=&gt;</span> <span class="nx">val</span> 
+<span class="c1">// Boolean atomic literal expressions evaluate to boolean values true and false.</span>
+<span class="nb">eval</span><span class="p">(</span><span class="nx">BoolExp</span><span class="p">(</span><span class="nx">val</span><span class="p">),</span> <span class="nx">env</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">val</span> 
+<span class="c1">// Primitive procedures evaluate to the primitive operation </span>
+<span class="nb">eval</span><span class="p">(</span><span class="nx">PrimOp</span><span class="p">(</span><span class="nx">op</span><span class="p">),</span> <span class="nx">env</span><span class="p">)</span>   <span class="o">=&gt;</span> <span class="nx">PrimOp</span><span class="p">(</span><span class="nx">op</span><span class="p">)</span> 
+<span class="c1">// Variables are evaluated by looking up their value in the global environment.</span>
+<span class="nb">eval</span><span class="p">(</span><span class="nx">VarRef</span><span class="p">(</span><span class="kd">var</span><span class="p">),</span> <span class="nx">env</span><span class="p">)</span>  <span class="o">=&gt;</span> <span class="nx">applyEnv</span><span class="p">(</span><span class="nx">env</span><span class="p">,</span> <span class="kd">var</span><span class="p">)</span> 
+</code></pre></div>    </div>
+  </li>
+  <li>Evaluation of compound forms
+    <div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">eval</span><span class="p">(</span><span class="nx">DefineExp</span><span class="p">(</span><span class="kd">var</span><span class="p">,</span> <span class="nx">val</span><span class="p">))</span> <span class="o">=&gt;</span>
+ <span class="c1">// var is of type var-decl</span>
+ <span class="c1">// val is of type cexp</span>
+ <span class="kd">let</span> <span class="nx">val</span><span class="p">:</span><span class="nx">Value</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span>
+     <span class="nx">add</span> <span class="nx">the</span> <span class="nx">binding</span> <span class="p">[</span><span class="kd">var</span><span class="p">,</span> <span class="nx">val</span><span class="p">]</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nb">global</span> <span class="nx">environment</span>
+     <span class="k">return</span> <span class="k">void</span><span class="p">.</span>
+<span class="nb">eval</span><span class="p">(</span><span class="nx">AppExp</span><span class="p">(</span><span class="nx">rator</span><span class="p">,</span> <span class="nx">rands</span><span class="p">))</span> <span class="o">=&gt;</span>
+ <span class="c1">// rator is of type cexp</span>
+ <span class="c1">// rands is of type List(cexp)</span>
+ <span class="kd">let</span>  <span class="nx">proc</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="nx">rator</span><span class="p">,</span> <span class="nx">env</span><span class="p">)</span>
+      <span class="nx">args</span> <span class="o">=</span> <span class="p">[</span><span class="nb">eval</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="nx">env</span><span class="p">)</span> <span class="k">for</span> <span class="nx">r</span> <span class="k">in</span> <span class="nx">rands</span><span class="p">]</span>
+      <span class="k">return</span> <span class="nx">applyProc</span><span class="p">(</span><span class="nx">proc</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>The key decisions we made are:</p>
+<ul>
+  <li>Primitive operations are represented as syntactically distinct expressions (PrimOp) with a specific type for their value (PrimOp as well).</li>
+  <li>Primitive operations are dispatched to the meta-language (TypeScript) based on their name.</li>
+  <li>We represent the global environment using an inductive data-structure - <code class="language-plaintext highlighter-rouge">env = empty-env | ExtEnv(vars, vals)</code> with the
+accessor <code class="language-plaintext highlighter-rouge">applyEnv(env, var)</code>.</li>
+  <li>Variable references are resolved by applying the global environment to the variable name.</li>
+  <li>Define expressions are evaluated sequentially - they return a <code class="language-plaintext highlighter-rouge">void</code> value (<code class="language-plaintext highlighter-rouge">undefined</code>), and have a side-effect which is to update the current global environment.</li>
+  <li>We model the mutation of the global environment by obtaining from the evaluation of Define expressions the updated environment and passing the new value to further evaluations.</li>
+  <li>When evaluating an application expression (<code class="language-plaintext highlighter-rouge">AppExp</code>), we first compute the arguments (in any order), then apply the procedure to the argument values.</li>
+</ul>
+
+<p>The set of computed values for <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="29" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> is:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Value</span> <span class="o">=</span> <span class="nb">Number</span> <span class="o">|</span> <span class="nb">Boolean</span> <span class="o">|</span> <span class="nx">Prim</span><span class="o">-</span><span class="nx">ops</span> <span class="o">|</span> <span class="nx">Void</span>
+</code></pre></div></div>
+
+<p>Variables in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="30" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container> are bound to Values.</p>
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

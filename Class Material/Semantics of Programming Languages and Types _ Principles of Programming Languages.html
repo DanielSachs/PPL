@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<!-- saved from url=(0080)https://bguppl.github.io/interpreters/class_material/1.1TypescriptDatatypes.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Semantics of Programming Languages and Types | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Semantics of Programming Languages and Types">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/1.1TypescriptDatatypes.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/1.1TypescriptDatatypes.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Semantics of Programming Languages and Types">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Semantics of Programming Languages and Types","url":"https://bguppl.github.io/interpreters/class_material/1.1TypescriptDatatypes.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Semantics of Programming Languages and Types _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Semantics of Programming Languages and Types _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D438.TEX-I::before {
+  padding: 0.68em 0.764em 0 0;
+  content: "E";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Semantics of Programming Languages and Types _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="semantics-of-programming-languages-and-types">Semantics of Programming Languages and Types</h1>
+<h3 id="ppl-2023">PPL 2023</h3>
+
+<p>This lecture introduces notion of <strong>programming language semantics</strong> and the role of <strong>types</strong> in programming languages in the context of Functional Programming.</p>
+
+<p>It leads to the definition of the following concepts:</p>
+
+<ol>
+  <li>Operational semantics of programming languages
+    <ul>
+      <li>High-level definition of programming language semantics</li>
+      <li>Distinguish expressions and values in programming languages</li>
+      <li>Define expression types: atomic vs. compound expressions</li>
+      <li>Define the evaluation algorithm to map expressions to values</li>
+    </ul>
+  </li>
+  <li>Types in programming languages
+    <ul>
+      <li>Define value types: atomic vs compound values</li>
+      <li>Define typing errors and type safety</li>
+      <li>Distinguish untyped and typed programming languages</li>
+      <li>Define static and dynamic type checking</li>
+    </ul>
+  </li>
+  <li>Types with TypeScript
+    <ul>
+      <li>Illustrate type checking in TypeScript</li>
+      <li>Illustrate the benefits of gradual typing with TypeScript</li>
+      <li>Review the type language of TypeScript:</li>
+    </ul>
+    <ul>
+      <li>Primitive types vs. Defined types</li>
+      <li>Atomic types vs. Compound types</li>
+    </ul>
+  </li>
+</ol>
+
+<p>In the next lecture, we will go deeper into complex data types in TypeScript and review:</p>
+<ul>
+  <li>Compound values, literal constants and serialized values with JSON</li>
+  <li>Recursive types</li>
+  <li>Generic types</li>
+  <li>Function types</li>
+</ul>
+
+<h2 id="operational-semantics-of-programming-languages">Operational Semantics of Programming Languages</h2>
+
+<p>This section introduces very briefly the notion of <em>operational semantics for programming languages</em>.
+We will refine this definition in Chapter 2.  This definition will help us define more precisely what
+is meant by <em>data types</em>.</p>
+
+<h3 id="high-level-definition-of-programming-languages-semantics">High-level definition of programming languages semantics</h3>
+
+<p>Semantics is the study of the meaning of languages. The word <em>meaning</em> is complex and we must specify what is meant by <em>meaning of a programming language</em>.  We adopt here the presentation offered in Chapter 1 of:</p>
+
+<p><a href="http://www.cs.kun.nl/~hubbers/courses/sc_1718/materiaal/wiley.pdf"><strong>Semantics with Applications: A Formal Introduction</strong></a>
+<em>Hanne Riis Nielson, Flemming Nielson</em>
+Wiley Professional Computing, Wiley, Second Edition 1999.</p>
+
+<p>A computer language is specified by two main components:</p>
+<ul>
+  <li>a (formal) syntax – describing the structure of programs as they are written by programmers</li>
+  <li>a semantics – which describes the intended meaning of programs.</li>
+</ul>
+
+<p>Various tools manipulate programs (compilers, interpreters, debuggers, IDEs, verification tools).
+All of these tools must agree upon a formal specification of what is expected when we execute the program.
+The formal semantics of a programming language provides an unambiguous definition of what the execution should achieve.</p>
+
+<p>This formal definition has several uses - among which:</p>
+<ul>
+  <li>People learning the language can understand what each of the programming language construct is expected to achieve.</li>
+  <li>Implementers of tools for the language (parsers, compilers, interpreters, debuggers etc) have a formal reference for their tool and a formal definition of its correctness/completeness</li>
+  <li>2 different programs in the same language or in different languages can be proved formally as equivalent/non-equivalent</li>
+</ul>
+
+<p>Proving that programs are equivalent is necessary for example to prove that a compiler generates assembly code which is equivalent to the source program.
+Naturally, we want to be able to prove that this equivalence holds for any possible source program.</p>
+
+<h4 id="semantic-domain">Semantic Domain</h4>
+
+<p>Formal semantics gives rules for translation from one domain (usually the program’s syntax) to another formally defined domain.</p>
+
+<p>We adopt the <strong>Operational Semantics</strong> approach which determines that:
+the meaning of an expression in the programming language is specified by the computation it induces when it is executed on a machine.  The operational semantics of a programming language tells us how to execute the program step by step.
+When we follow this specification, we record the steps and keep track of the <strong>state</strong> of the computation as steps are executed.
+The specification determines what is meant by the state and which parts of the state are updated when</p>
+
+<p>Take as example an imperative programming language with global variables and assignment to variables.
+For this language, the semantics specifies that the state of an execution consists of the list of defined variables and their value at each step.</p>
+
+<p>The result of the execution of a program according to the semantic specification is a <strong>derivation sequence</strong> which represents the computation history.  Each step in the derivation indicates which part of the program was executed, and the state that was reached as a consequence.</p>
+
+<p>In this example, a program is a sequence of assignments:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Initial state: [x:5, y:3, z:7]
+Program: "z = x; x = y; y = z;"
+
+Step 1: execute "z=x;" 
+    Remaining program: "x=y; y=z;"
+    New state: [x:5; y:3, z:5]
+Step 2: execute "x=y;"
+    Remaining program: "y=z;"
+    New state: [x:3, y:3, z:5]
+Step 3: execute "y=z;"
+    Remaining program: ""
+    New state: [x:3, y:5, z:5]
+</code></pre></div></div>
+
+<p>This result can be understood as a representation of the <em>history of the computation</em> - it traces the steps of the execution into <em>primitive steps</em>
+and the successive states of the computation.</p>
+
+<p>This view is an <strong>abstraction</strong> - it does not provide all the details of what should happen in a concrete computation on specific hardware. 
+For example, it does not mention registers, translation to machine language, encoding of data types.
+This computation history is a formal mathematical object which is in the <strong>semantic domain</strong>.</p>
+
+<p>The rules of the semantics of the specific programming language indicate how to select a sub-expression to evaluate at each
+step of the computation, and what are the effects on the state of the computation each time a primitive sub-expression is 
+executed.</p>
+
+<p>In summary, the operational semantics of the language maps a program and an initial state to a formal structure -
+in this case, we informally refer to this structure as a <em>computation history</em>.</p>
+
+<h2 id="statements-vs-expressions-vs-values">Statements vs. Expressions vs. Values</h2>
+
+<p>In <strong>imperative programs</strong>, programs are constructed from <strong>statements</strong>.  A statement is a unit of program execution.</p>
+<ul>
+  <li><strong>Atomic statements</strong> such as variable assignment or print-statements have a single effect either on the world (screen is updated, disk is updated, information is sent in the network) or on the internal state of the program (the memory owned by the process is updated).</li>
+  <li><strong>Compound statements</strong> are built from multiple sub-statements.  For example, an <code class="language-plaintext highlighter-rouge">if-then-else</code> construct is used to
+build a compound statement, or a <code class="language-plaintext highlighter-rouge">for-loop</code> construct.<br>
+When a statement is executed, the state of the program is modified.</li>
+</ul>
+
+<p>In contrast, in <strong>Funcional Programming</strong> (FP), programs are <strong>expressions</strong>.  Expressions can either be:</p>
+<ul>
+  <li><strong>Atomic expressions</strong> - for example, the number expression <code class="language-plaintext highlighter-rouge">-12</code> or the boolean expression <code class="language-plaintext highlighter-rouge">true</code> or the variable expression <code class="language-plaintext highlighter-rouge">x</code>.</li>
+  <li><strong>Compound expressions</strong> - which are made up of sub-expressions according to the syntax of the language. For example the expression <code class="language-plaintext highlighter-rouge">12 &gt;= 7</code> is a compound expression made up of 3 sub-expressions. <code class="language-plaintext highlighter-rouge">(12 === 13) ? -1 : 2</code> is also a compound expression (called a conditional expression).</li>
+</ul>
+
+<p>In FP, we do not ‘execute an expression’, but instead we compute its value - a process we call <strong>evaluation</strong>.
+The <em>evaluation function</em> maps expressions to <strong>values</strong>.</p>
+
+<p>The operational semantics of an FP language describes how the evaluation function operates over all possible expressions in the language.  It is defined inductively over the syntactic structure of expressions.</p>
+
+<p>In the rest of the course, we will focus on specifying the operational semantics of a functional language.</p>
+
+<h3 id="types-of-expressions">Types of Expressions</h3>
+
+<p>The JavaScript language mixes both expressions and statements - it is a multi-paradigm language.
+This makes it difficult to describe completely its operational semantics in a concise manner.
+We will completely define a smaller language in Chapter 2 - here, we only provide an informal description for JavaScript.</p>
+
+<p>Intuitively, the types of expressions we consider are:</p>
+<ul>
+  <li><strong>Atomic expressions</strong>: number expressions (<code class="language-plaintext highlighter-rouge">1, -12</code>), string expressions (<code class="language-plaintext highlighter-rouge">"abc"</code>), boolean expressions (<code class="language-plaintext highlighter-rouge">true, false</code>).</li>
+  <li><strong>Compound expressions</strong>: arithmetic expressions <code class="language-plaintext highlighter-rouge">(10 + v) * (w / 5)</code>, relational expressions (<code class="language-plaintext highlighter-rouge">x === 5</code>), ternary conditional expression <code class="language-plaintext highlighter-rouge">&lt;condition&gt; ? &lt;expr1&gt; : &lt;expr2&gt;</code>.</li>
+  <li><strong>Variable bindings</strong>: these are expressions of the form <code class="language-plaintext highlighter-rouge">let &lt;var&gt; = &lt;expr1&gt;; &lt;expr2&gt;</code> which define a block in which the variable <code class="language-plaintext highlighter-rouge">&lt;var&gt;</code> is defined and bound to the value of <code class="language-plaintext highlighter-rouge">&lt;expr1&gt;</code> and then evaluate the value of <code class="language-plaintext highlighter-rouge">&lt;expr2&gt;</code>.</li>
+  <li><strong>Function invocation</strong>: of the form <code class="language-plaintext highlighter-rouge">f(&lt;expr1&gt;,...,&lt;exprn&gt;)</code></li>
+  <li><strong>Function definition</strong>: of the form <code class="language-plaintext highlighter-rouge">(&lt;var1&gt;,...) =&gt; &lt;expr&gt;</code>.</li>
+</ul>
+
+<p>The list of these expression types and their structure defines the <em>syntax of the programming language</em>.
+We intentionally did not include in this partial description the syntax of <em>statements</em> in JavaScript.</p>
+
+<p>Expressions are combined recursively to form trees of compound expressions with atomic expressions at the leaves. 
+For example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let v = 12;
+  (v &gt;= 7) ? (v * 3) : 9
+</code></pre></div></div>
+<p>is a compound expression of type <code class="language-plaintext highlighter-rouge">let</code>, with 2 sub-expressions - a binding expression <code class="language-plaintext highlighter-rouge">v=12</code> and a body expression which
+is a conditional ternary expression; in turn, this sub-expression has 3 sub-expressions.</p>
+
+<h3 id="types-of-values">Types of Values</h3>
+
+<p>Once an expression is evaluated by applying the <em>evaluation function</em>, it becomes a <strong>value</strong>.
+The <em>evaluation function</em> maps expressions to values.</p>
+
+<p>As we can distinguish types of expressions, we can also characterize the set of all possible values in an inductive manner - that is, start from <strong>atomic values</strong> and then build up <strong>compound values</strong> which are made up of smaller value parts.</p>
+
+<p>This lecture focuses on the characterization of the <strong>domain of values</strong> in JavaScript.</p>
+
+<h2 id="evaluation-of-expressions-into-values">Evaluation of Expressions into Values</h2>
+
+<p>The operational semantics of an FP language defines the evaluation function.  It determines how a top-level expression (the program) is evaluated into a value.  This definition is inductive. For each syntactic construct, an evaluation rule indicates how the sub-expressions are evaluated - in which order.  At each step of the computation, a sub-expression is evaluated and then substituted by its value in the embedding expression.</p>
+
+<p>There may be a need to describe the state of the computation during this evaluation process - similar to the set of bindings <code class="language-plaintext highlighter-rouge">var:value</code> we observed above when describing the operational semantics of a very simple imperative language.  But the operations on this state will be quite different from what we observed, as in pure FP languages there is no need to perform variable assignment (because variables are immutable).</p>
+
+<p>The output of the operational semantics is a computation history - but in this chapter we will not describe the computation history - we will only describe the values produced by the evaluation function.</p>
+
+<h3 id="evaluation-algorithm">Evaluation Algorithm</h3>
+
+<p>Consider the complex expression we presented above:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let v = 12;
+  (v &gt;= 7) ? (v * 3) : 9
+</code></pre></div></div>
+<p>The evaluation algorithm consists of the following steps: given an expression <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D438 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>E</mi></math></mjx-assistive-mml></mjx-container></p>
+<ol>
+  <li>Identify the toplevel syntactic construct of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D438 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>E</mi></math></mjx-assistive-mml></mjx-container> - in our case a <code class="language-plaintext highlighter-rouge">let</code> construct.</li>
+  <li>Identify the immediate sub-expressions of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="2" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D438 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>E</mi></math></mjx-assistive-mml></mjx-container> - in our case - the binding construct <code class="language-plaintext highlighter-rouge">v=12</code> and the body (rest of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="3" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D438 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>E</mi></math></mjx-assistive-mml></mjx-container>).</li>
+  <li>Perform the specific <em>evaluation rule</em> defined for the construct of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="4" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D438 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>E</mi></math></mjx-assistive-mml></mjx-container> - in this case - the <em>let-evaluation rule</em> is:
+    <ol>
+      <li>Compute the value of the <code class="language-plaintext highlighter-rouge">&lt;expr&gt;</code> on the right-hand-side of the binding expression - call it <code class="language-plaintext highlighter-rouge">v1</code>.</li>
+      <li>Add to the state of the computation the binding <code class="language-plaintext highlighter-rouge">{v:v1}</code></li>
+      <li>Compute the value of the body sub-expression - call it <code class="language-plaintext highlighter-rouge">v2</code>.</li>
+      <li>Remove the binding <code class="language-plaintext highlighter-rouge">{v:v1}</code> from the state of the computation.</li>
+      <li>The value of the overall <code class="language-plaintext highlighter-rouge">let</code> construct is <code class="language-plaintext highlighter-rouge">v2</code>.</li>
+    </ol>
+  </li>
+</ol>
+
+<p>This definition of the evaluation function is <strong>recursive</strong>: in steps 3.A and 3.C - we invoked the evaluation function recursively on sub-expressions of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="5" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D438 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>E</mi></math></mjx-assistive-mml></mjx-container>.</p>
+
+<p>The evaluation function refers to a <em>state</em> which describes the set of known variables at every single step of the computation, and the values to which they are bound.</p>
+
+<p>This recursive definition must have a base case to terminate. The base case of the recursion consists of evaluating 
+<strong>atomic expressions</strong> or to invoke <strong>atomic primitive operators or functions</strong>.  For example:</p>
+<ul>
+  <li>The expression <code class="language-plaintext highlighter-rouge">v</code> is an atomic expression (it has no sub-expressions); it is an expression of type <em>variable</em>.
+The computation rule for evaluating a variable is to lookup its value in the current state of the computation.
+In our case, the value of the expression <code class="language-plaintext highlighter-rouge">v</code> is <code class="language-plaintext highlighter-rouge">12</code>.</li>
+  <li>The expression <code class="language-plaintext highlighter-rouge">7</code> is an atomic expression of type <code class="language-plaintext highlighter-rouge">number</code>; The computation rule for evaluating a number is to convert the way numbers are written in the language into a number value.</li>
+  <li>The expression <code class="language-plaintext highlighter-rouge">(v &gt;= 7)</code> is a compound expression of type <code class="language-plaintext highlighter-rouge">relational operator</code> with a primitive atomic operator (<code class="language-plaintext highlighter-rouge">&gt;=</code>); The computation rule for evaluating a relational operator is to (1) evaluate the left side sub-expression (we obtain <code class="language-plaintext highlighter-rouge">12</code>); (2) evaluate the right-side sub-expression (we obtain <code class="language-plaintext highlighter-rouge">7</code>); (3) pass the 2 values to the primitive comparison operator which must return a boolean value (in this case <code class="language-plaintext highlighter-rouge">true</code>).</li>
+</ul>
+
+<h4 id="reduction-of-expressions">Reduction of Expressions</h4>
+
+<p>A useful way to think about the evaluation of complex expressions is in terms of <strong>reduction</strong>.</p>
+
+<p>Consider the following example (adopted from <a href="http://papl.cs.brown.edu/2020/basic-data-expr.html">PAPL Section 5.6</a>):</p>
+
+<p>We want to evaluate the following expression, which is a formula for computing the wage of a worker given the number of hours she worked:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">hours</span><span class="o">=</span><span class="mi">45</span><span class="p">;</span>
+  <span class="p">(</span><span class="nx">hours</span> <span class="o">&lt;=</span> <span class="mi">40</span><span class="p">)</span> <span class="p">?</span> <span class="nx">hours</span> <span class="o">*</span> <span class="mi">10</span> <span class="p">:</span>
+  <span class="p">(</span><span class="nx">hours</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">)</span> <span class="p">?</span> <span class="p">(</span><span class="mi">40</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="nx">hours</span> <span class="o">-</span> <span class="mi">40</span><span class="p">)</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span> <span class="p">:</span>
+  <span class="mi">0</span>
+</code></pre></div></div>
+
+<p>This formula in a more explicit form states that:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">hours</span> <span class="o">&lt;=</span> <span class="mi">40</span><span class="p">)</span>
+      <span class="nx">hours</span> <span class="o">*</span> <span class="mi">10</span>  <span class="c1">// 10$ per hour for less than 40 hours a week</span>
+   <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">hours</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">)</span>
+      <span class="p">(</span><span class="mi">40</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="nx">hours</span> <span class="o">-</span> <span class="mi">40</span><span class="p">)</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span> <span class="c1">// 10$/hour up to 40hrs - 15$ above</span>
+   <span class="k">else</span>
+       <span class="mi">0</span>  <span class="c1">// This should not happen.</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">hours</span><span class="o">=</span><span class="mi">45</span><span class="p">;</span>
+  <span class="p">(</span><span class="nx">hours</span> <span class="o">&lt;=</span> <span class="mi">40</span><span class="p">)</span> <span class="p">?</span> <span class="nx">hours</span> <span class="o">*</span> <span class="mi">10</span> <span class="p">:</span>
+  <span class="p">(</span><span class="nx">hours</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">)</span> <span class="p">?</span> <span class="p">(</span><span class="mi">40</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="nx">hours</span> <span class="o">-</span> <span class="mi">40</span><span class="p">)</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span> <span class="p">:</span>
+  <span class="mi">0</span>
+</code></pre></div></div>
+
+<p>Let’s now see how this expression is reduced to a value, using a step-by-step process:</p>
+
+<p>The first step is to <strong>substitute the <code class="language-plaintext highlighter-rouge">hours</code> variable</strong> with 45:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="p">(</span><span class="mi">45</span> <span class="o">&lt;=</span> <span class="mi">40</span><span class="p">)</span> <span class="p">?</span> <span class="mi">45</span> <span class="o">*</span> <span class="mi">10</span> <span class="p">:</span>
+  <span class="p">(</span><span class="mi">45</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">)</span> <span class="p">?</span> <span class="p">(</span><span class="mi">40</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="mi">45</span> <span class="o">-</span> <span class="mi">40</span><span class="p">)</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span> <span class="p">:</span>
+  <span class="mi">0</span>
+</code></pre></div></div>
+
+<p>Next, the conditional part of the <code class="language-plaintext highlighter-rouge">?</code> expression is evaluated, which in this case is false.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">=&gt;</span>  <span class="kc">false</span> <span class="p">?</span> <span class="mi">45</span> <span class="o">*</span> <span class="mi">10</span> <span class="p">:</span>
+    <span class="p">(</span><span class="mi">45</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">):</span> <span class="p">(</span><span class="mi">40</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="mi">45</span> <span class="o">-</span> <span class="mi">40</span><span class="p">)</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span> <span class="p">:</span>
+    <span class="mi">0</span>
+</code></pre></div></div>
+
+<p>Since the condition is false, the next branch is tried. Note that at each step, a sub-expression is evaluated and replaced by its value:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">=&gt;</span>  <span class="kc">false</span> <span class="p">?</span> <span class="mi">45</span> <span class="o">*</span> <span class="mi">10</span> <span class="p">:</span>
+    <span class="kc">true</span><span class="p">:</span> <span class="p">(</span><span class="mi">40</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="mi">45</span> <span class="o">-</span> <span class="mi">40</span><span class="p">)</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span> <span class="p">:</span>
+    <span class="mi">0</span>
+</code></pre></div></div>
+
+<p>Since the condition is true, the expression reduces to the body of that branch. After that, it’s just arithmetic (but each step is done in a specific order):</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">=&gt;</span>  <span class="p">(</span><span class="mi">40</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="mi">45</span> <span class="o">-</span> <span class="mi">40</span><span class="p">)</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span>
+<span class="o">=&gt;</span>  <span class="mi">400</span> <span class="o">+</span> <span class="p">((</span><span class="mi">45</span> <span class="o">-</span> <span class="mi">40</span><span class="p">)</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span>
+<span class="o">=&gt;</span>  <span class="mi">400</span> <span class="o">+</span> <span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span>
+<span class="o">=&gt;</span>  <span class="mi">400</span> <span class="o">+</span> <span class="mi">75</span>
+<span class="o">=&gt;</span>  <span class="mi">475</span>
+</code></pre></div></div>
+
+<p>This style of reduction is the best way to think about the evaluation of complex expressions.
+It is called a process of <strong>reduction</strong> - because the complex expression is incrementally reduced into a value.</p>
+
+<h2 id="types-in-programming-languages">Types in Programming Languages</h2>
+
+<p>In the same way as <strong>expressions</strong> can be atomic or compound and built-up into complex recursive programs,
+the <strong>values</strong> that are generated by programs can be:</p>
+<ul>
+  <li><strong>atomic values</strong>: values which have no “sub-components” - such as numbers or booleans.</li>
+  <li><strong>compound values</strong>: values which are constructed from sub-values, such as arrays or structures.</li>
+</ul>
+
+<p>Compound values can be created in the following manner:</p>
+<ul>
+  <li>Specified as <strong>constant literal values</strong> in the program; for example the expression <code class="language-plaintext highlighter-rouge">[1,2,3]</code> denotes in JavaScript an array value containing 3 number components.</li>
+  <li>Computed by <strong>primitive constructor</strong> functions - for example, the expression <code class="language-plaintext highlighter-rouge">[1].concat([12])</code> returns a new array value containing 2 number components <code class="language-plaintext highlighter-rouge">[1,12]</code>.</li>
+  <li><strong>Deserialized from strings</strong> that represent compound values according to a value syntax (we will see in the next lecture the example of JSON).</li>
+</ul>
+
+<p><strong>NOTE 1</strong>: the capability to specify compound values as literal constants is a characteristic of dynamic languages such as JavaScript, Scheme or Python.<br>
+It is more difficult to <em>write down compound values</em> in languages such as Java or C++.
+We will return to this important distinction later.</p>
+
+<p><strong>NOTE 2</strong>: the distinction that a value is atomic depends on a language design decision: for example, strings in JavaScript are defined to be immutable atomic values.<br>
+This is because there is no accessor that can take apart a string into characters and mutate one of these parts in place.<br>
+In contrast, in C and C++, strings are mutable compound (non-atomic) values (arrays of characters). 
+There are functions in JavaScript that can compute a sub-string of a string, but these are string constructors - they compute a new string given another string as input, not accessors which give access to a part of an existing compound string.</p>
+
+<h3 id="typed-vs-untyped-languages">Typed vs. Untyped Languages</h3>
+
+<p>As you have noted, JavaScript is an <strong>untyped language</strong> - this means: when we declare variables (using the <code class="language-plaintext highlighter-rouge">let</code> construct)
+or functions (with the <code class="language-plaintext highlighter-rouge">function</code> or <code class="language-plaintext highlighter-rouge">=&gt;</code> constructs), we do not specify the type of the variables or parameters.
+We also do not need to specify the type returned by the function.</p>
+
+<p>This is in contrast to <strong>typed languages</strong> such as Java and C++ - which require the programmer to specify the type
+of all variables before they can be defined or used.</p>
+
+<p>Yet - even if <strong>variables</strong> are not declared with a type in Javascript, <strong>values</strong> in JavaScript <strong>do have</strong> a type – they can be either <code class="language-plaintext highlighter-rouge">number</code> or <code class="language-plaintext highlighter-rouge">string</code> or <code class="language-plaintext highlighter-rouge">boolean</code> or compound values.</p>
+
+<p>Why would we want or not want to declare the type of variables?</p>
+
+<p>What are the benefits of each of the approaches?</p>
+
+<h3 id="typing-errors-at-runtime">Typing Errors at Runtime</h3>
+
+<p>In the description of the evaluation function above, we indicated that expressions are traversed recursively, til 
+atomic expressions are evaluated (into numbers, booleans or strings) and primitive operators or functions are invoked
+(for example <code class="language-plaintext highlighter-rouge">(v &gt;= 7)</code>).</p>
+
+<p>When primitive operators or functions are invoked - we can obtain errors at runtime because the value which is passed to the operator does not fit the type of the primitive operator.<br>
+For example, in most languages, the evaluation of <code class="language-plaintext highlighter-rouge">(7 &gt;= "a")</code> or <code class="language-plaintext highlighter-rouge">(8 + "b")</code>would return an error at runtime because the 
+operators <code class="language-plaintext highlighter-rouge">"&gt;="</code> and <code class="language-plaintext highlighter-rouge">+</code> do not know how to operate on a mixture of numbers and strings.
+This will be the case in Scheme for example as we will see in Chapter 2.</p>
+
+<h4 id="javascript-primitives-do-not-fail">JavaScript Primitives do not Fail</h4>
+
+<p>In JavaScript, the language designers took a different approach: they made the primitive operators extremely flexible and robust.  So that evaluations of <em>strange expressions</em> do not trigger a runtime error - but instead do either automatic conversions or return special values indicating an <em>impossible value</em>.</p>
+
+<p>For example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="dl">"</span><span class="s2">a</span><span class="dl">"</span> <span class="o">&gt;</span> <span class="mi">2</span>
+<span class="c1">// =&gt; false</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">2</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">ab</span><span class="dl">"</span>
+<span class="c1">// =&gt;    '2ab'</span>
+</code></pre></div></div>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="dl">"</span><span class="s2">a</span><span class="dl">"</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="c1">// =&gt;    NaN</span>
+</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">NaN</code> is a special value which means <em>“Not a Number”</em>.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="dl">"</span><span class="s2">a</span><span class="dl">"</span> <span class="o">&amp;&amp;</span> <span class="kc">true</span>
+<span class="c1">// =&gt;     true</span>
+</code></pre></div></div>
+
+<p>Non-boolean values are interpreted as boolean when they appear as arguments to boolean operators such as <code class="language-plaintext highlighter-rouge">&amp;&amp;</code> and <code class="language-plaintext highlighter-rouge">||</code>.
+Arithmetic operations are defined over strings and numbers.</p>
+
+<p>So that overall - primitive operations in JavaScript do not fail easily.</p>
+
+<p>This is a dubious decision - as such automatic handling of unexpected variations is most often a sign of poorly written code
+and produces <em>surprising</em> results.</p>
+
+<h4 id="accessors-to-compound-values-in-javascript-do-not-fail">Accessors to Compound Values in JavaScript do not Fail</h4>
+
+<p>Another decision of the JavaScript designers was to make access to compound values “robust” against runtime errors as well:</p>
+<ul>
+  <li>Accessing an index out of bounds in an array returns the special value <code class="language-plaintext highlighter-rouge">undefined</code></li>
+  <li>Accessing an undefined key in a map returns the special value <code class="language-plaintext highlighter-rouge">undefined</code> as well.</li>
+</ul>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">arr</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+    <span class="nx">arr</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+<span class="c1">// =&gt;    undefined</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">map</span><span class="o">=</span><span class="p">{</span><span class="na">a</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="na">b</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
+    <span class="nx">map</span><span class="p">.</span><span class="nx">c</span>
+<span class="c1">// =&gt;  undefined</span>
+</code></pre></div></div>
+
+<h4 id="undefined-variables-in-javascript-do-fail">Undefined Variables in JavaScript do Fail</h4>
+
+<p>Variables access, however, <strong>can fail</strong>: trying to access an undefined variable raises an error at runtime.
+When variable expressions are evaluated, it may turn out that the variable is not defined in the current state of the program at the time its value is looked up.</p>
+
+<p>For example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">b</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>
+    <span class="nx">c</span><span class="p">;</span> <span class="c1">// Trigger a reference error</span>
+<span class="c1">// =&gt; ReferenceError: c is not defined</span>
+</code></pre></div></div>
+
+<p>Similarly, trying to access a key from an <code class="language-plaintext highlighter-rouge">undefined</code> value triggers an error at runtime:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">e</span><span class="p">.</span><span class="nx">k</span> 
+<span class="c1">// =&gt; ReferenceError: e is not defined</span>
+</code></pre></div></div>
+
+<h2 id="type-safety">Type Safety</h2>
+
+<p>Now that we have seen which errors can be triggered when executing a JavaScript program - and which <em>surprising</em> results may be returned when we combine unexpected value types in primitive operators invocations - we return to our question:</p>
+<ul>
+  <li>Can we avoid such errors and surprises?</li>
+  <li>What are the benefits of declaring the types of variables?</li>
+</ul>
+
+<p><strong>Type safety</strong> (see <a href="https://en.wikipedia.org/wiki/Type_safety">Wikipedia Type Safety</a>) is <em>the extent to which a programming language discourages or prevents type errors. A type error is erroneous or undesirable program behaviour caused by a discrepancy between differing data types for the program’s constants, variables, and methods (functions), e.g., treating an integer (int) as a floating-point number (float).</em></p>
+
+<p>Type enforcement can be either:</p>
+<ul>
+  <li><strong>static</strong>, catching potential errors at compile time,</li>
+  <li>or <strong>dynamic</strong>, associating type information with values at run-time and consulting them as needed to detect imminent errors,</li>
+  <li>or a combination of both.</li>
+</ul>
+
+<p>In the context of static (compile-time) type systems, type safety usually involves a <strong>guarantee that the eventual value of any expression will be a legitimate member of that expression’s static type</strong>.</p>
+
+<p>We will develop the notion of type safety incrementally, after we discuss what are types.</p>
+
+<h2 id="types-of-values-1">Types of Values</h2>
+
+<p>A data type is a classification of data which indicates what the programmer intends to do with the data. 
+Data types are defined along 2 aspects:</p>
+<ul>
+  <li>Types correspond to <strong>sets of values</strong> - for example, the type <code class="language-plaintext highlighter-rouge">Boolean</code> is the set of values {<code class="language-plaintext highlighter-rouge">true</code>, <code class="language-plaintext highlighter-rouge">false</code>};
+the type <code class="language-plaintext highlighter-rouge">Number</code> is the (possibly infinite) set of numeric values.</li>
+  <li>Types define the <strong>operations that can be done on data values</strong> in the set.  For example, values of type <code class="language-plaintext highlighter-rouge">Boolean</code> can be
+computed using logical operators such as <code class="language-plaintext highlighter-rouge">and</code>, <code class="language-plaintext highlighter-rouge">or</code>; <code class="language-plaintext highlighter-rouge">Number</code> values can be manipulated with operators <code class="language-plaintext highlighter-rouge">+</code>, <code class="language-plaintext highlighter-rouge">*</code> and
+compared with operators such as <code class="language-plaintext highlighter-rouge">&lt;</code>, <code class="language-plaintext highlighter-rouge">&gt;</code>.</li>
+</ul>
+
+<p>Types also determine how the interpreter reads and writes the values, and how it stores the values in memory.</p>
+
+<p>When discussing types, we must distinguish the <strong>type of a value</strong> and the <strong>type of a variable</strong>:</p>
+<ul>
+  <li><strong>Values</strong> always have a type - that is, they belong to a specific set of values. The number <code class="language-plaintext highlighter-rouge">3</code> belongs to the set of <code class="language-plaintext highlighter-rouge">number</code> values; the value <code class="language-plaintext highlighter-rouge">true</code> belongs to the set of <code class="language-plaintext highlighter-rouge">boolean</code> values.</li>
+  <li><strong>Variables</strong> are parts of the programming language expressions. They are bound to values as the expressions are computed at runtime.  When a programmer declares that a <em>variable has a type</em> - the meaning is that we express the intent of the programmer that this variable can <strong>only be bound to values of this type</strong> during the lifecycle of the variable. It states a constraint on the variable usage.</li>
+</ul>
+
+<p>In most typed languages, this constraint can be checked at compile time: this is an extremely strong result.  It means that the compiler can at compile time guarantee that all possible executions of the program, with all possible input values will satisfy the stated constraint.  This static verification (that is, a verification performed at compile-time - without knowing the value of the variables) is called <strong>type checking</strong>.</p>
+
+<h2 id="value-types">Value Types</h2>
+
+<p>As mentioned, a value always has a type - this simply states that a value belongs to a set of values.
+For example, the value <code class="language-plaintext highlighter-rouge">1</code> belongs to the set of values <code class="language-plaintext highlighter-rouge">number</code> - which means that the value <code class="language-plaintext highlighter-rouge">1</code> has type <code class="language-plaintext highlighter-rouge">number</code>.</p>
+
+<p>In most cases, a value will have more than one type: consider for example the case of <em>sub-types</em>
+such as <code class="language-plaintext highlighter-rouge">Integer</code> and <code class="language-plaintext highlighter-rouge">Number</code>. <code class="language-plaintext highlighter-rouge">Integer</code> as a set of values is a proper subset of <code class="language-plaintext highlighter-rouge">Number</code> as a set of values.
+This means in particular that a value like <code class="language-plaintext highlighter-rouge">6</code> belongs both to the type <code class="language-plaintext highlighter-rouge">Integer</code> and to the type <code class="language-plaintext highlighter-rouge">Number</code>.</p>
+
+<p>A good type system helps programmers not only declare the intended types of variables to obtain type safety,
+it also helps the programmer <strong>design the range of values</strong> the program will process and produce.
+This is a constructive process which helps structure the set of all possible values in meaningful ways
+and also document the domain upon which programs operate.</p>
+
+<p>As we write more complex programs over more complex data structures - we will feel more strongly the benefit 
+of describing precise data types - which will also guide the structure of the code we write to operate over them.</p>
+
+<h3 id="types-and-set-relations">Types and Set Relations</h3>
+
+<p>Since types denote set of values, we can define relations among types that are similar to set relations:</p>
+<ul>
+  <li>Type T1 can be a subset of type T2: this means any value of type T1 is also a value of type T2.  We also say that T1 is a subtype of T2.</li>
+  <li>Types T1 and T2 can be disjoint - meaning there are no values that are both of type T1 and T2.  For example, 
+<code class="language-plaintext highlighter-rouge">number</code> and <code class="language-plaintext highlighter-rouge">boolean</code> are disjoint.</li>
+  <li>One can define a universal type - which is the type of all possible values.  (This type is exists in TypeScript and is called <code class="language-plaintext highlighter-rouge">any</code>).</li>
+  <li>Some types denote finite sets (<code class="language-plaintext highlighter-rouge">boolean</code> has 2 values), others are infinite (<code class="language-plaintext highlighter-rouge">number</code>, <code class="language-plaintext highlighter-rouge">string</code>).</li>
+  <li>One can construct new types on the basis of existing types:
+    <ul>
+      <li>The union of T1 and T2 contains all the values of T1 and T2 together.</li>
+      <li>The intersection of T1 and T2.</li>
+      <li>The cartesian product of T1 and T2 would be the type that contains pairs of values (v1, v2) such that v1 is of type T1 and v2 is of type T2.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>This last construction opens the door to compound data types - that is, types which contains values that have sub-components.</p>
+
+<p>We will see later that most typed programming languages allow programmers to define new types (user-defined types) on the basis of primitive types (types provided by the language) by using set theory operations like Union, Intersection or Cartesian Product.</p>
+
+<p>Different languages offer various levels of introspection (often called <em>reflection</em>) to enable the analysis of
+the type of values <em>at runtime</em>, or <em>at interpretation/compile time</em>.</p>
+
+<p>In JavaScript (the underlying language into which TypeScript is translated), variables are not typed, values have a type (which is encoded in the binary representation of the values in memory) and the <code class="language-plaintext highlighter-rouge">typeof</code> primitive operator can be used to inspect the type of values at runtime.  Primitives in JavaScript use this introspection mechanism to decide how to operate on each combination of value types they receive as parameters.</p>
+
+<p>In contrast, in Java and C/C++, primitive values (non-object values such as integers, booleans, characters, pointers and references) cannot be inspected at runtime: values of different types (for example a char, a boolean or an integer) are encoded in binary format in RAM without any distinctive sign that could be used at runtime to determine that the value belongs to different types.</p>
+
+<h2 id="types-in-typescript">Types in TypeScript</h2>
+
+<p>We now describe the basic data types manipulated in TypeScript.
+The online reference is available in the <a href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html">TypeScript Tutorial</a>:</p>
+
+<p>TypeScript is a language built on top of JavaScript: it adds optional <strong>type declarations</strong> to variables (which do not exist 
+in JavaScript). The TypeScript compiler (invoked by the command line tool <code class="language-plaintext highlighter-rouge">tsc</code>) translates TypeScript into JavaScript.
+During the translation, the TypeScript compiler performs <strong>type checking</strong> - which we will explain later.</p>
+
+<h3 id="atomic-primitive-value-types">Atomic Primitive Value Types</h3>
+
+<p>Simple values can have the following primitive data types in TypeScript:</p>
+<ul>
+  <li>Boolean: <code class="language-plaintext highlighter-rouge">true</code>, <code class="language-plaintext highlighter-rouge">false</code>;</li>
+  <li>Number: floating point numbers; <code class="language-plaintext highlighter-rouge">6, 6.1, -4, 0xf0a</code> (hexadecimal notation)</li>
+  <li>String: immutable sequences of characters, <code class="language-plaintext highlighter-rouge">"this is a string"</code>.</li>
+</ul>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="kc">true</span><span class="p">))</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="dl">"</span><span class="s2">a</span><span class="dl">"</span><span class="p">))</span>
+<span class="c1">// =&gt;     number</span>
+<span class="c1">//        boolean</span>
+<span class="c1">//        string</span>
+</code></pre></div></div>
+
+<p>There are two <em>special</em> value types that are not useful on their own - but will play an important role when we start
+building more complex types:</p>
+<ul>
+  <li><strong>null</strong>: this is a type that contains only the special value <code class="language-plaintext highlighter-rouge">null</code></li>
+  <li><strong>undefined</strong>: this is a type that contains only the special value <code class="language-plaintext highlighter-rouge">undefined</code></li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">undefined</code> plays a special role in the lifecycle of variables.  We will return to this when we discuss the types of
+variables (as opposed to the type of values which are we now reviewing).</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">null1</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">undef</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">null1</span><span class="p">));</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">undef</span><span class="p">));</span>
+
+<span class="c1">// =&gt;     object</span>
+<span class="c1">//        undefined</span>
+</code></pre></div></div>
+
+<p><em>NOTE</em>:
+<em>the value of the expression <code class="language-plaintext highlighter-rouge">typeof null</code> returns <code class="language-plaintext highlighter-rouge">object</code> - this is a well-known error in JavaScript that
+has not yet been cleaned up - <code class="language-plaintext highlighter-rouge">null</code> should still be understood as a distinct atomic primitive value type - not as a compound type.</em></p>
+
+<h2 id="compound-value-types">Compound Value Types</h2>
+
+<p>In contrast to atomic values, one can also define <em>compound values</em> - which are values that are built from multiple parts.
+There are two basic compound types in TypeScript:</p>
+<ul>
+  <li>Arrays</li>
+  <li>Maps</li>
+</ul>
+
+<p>Values of arrays are written as literal constants of the form <code class="language-plaintext highlighter-rouge">[1, 2, 3]</code>.</p>
+
+<p>Maps are written as literal constants of the form: <code class="language-plaintext highlighter-rouge">{ a : 1, b : 2 }</code></p>
+
+<p>Any value that is not an atomic value is a <em>compound value</em> - which is called in Javascript an <em>object</em> value.</p>
+
+<p><em>NOTE</em>:
+The term of <strong>object</strong> is confusing in this context - it does not refer to <em>objects</em> as used in the more standard 
+context of <em>object oriented programming</em>.  <em>Object</em> in this context means any value which is <em>not</em> an atomic value type.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">arr1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="nx">arr2</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">b</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">c</span><span class="dl">'</span><span class="p">];</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">arr1</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">arr2</span><span class="p">));</span>
+
+<span class="c1">// =&gt;     object</span>
+<span class="c1">//       object</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">map1</span> <span class="o">=</span> <span class="p">{</span> <span class="na">a</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">b</span> <span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+    <span class="nx">map2</span> <span class="o">=</span> <span class="p">{</span> <span class="dl">'</span><span class="s1">a</span><span class="dl">'</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="dl">'</span><span class="s1">b</span><span class="dl">'</span> <span class="p">:</span> <span class="mi">2</span><span class="p">};</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">map1</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">map2</span><span class="p">));</span>
+
+<span class="c1">// =&gt;     object</span>
+<span class="c1">//       object</span>
+</code></pre></div></div>
+
+<p><em>NOTE:</em>
+Notice that the primitive <code class="language-plaintext highlighter-rouge">typeof</code> operator is limited in its capability to distinguish the types of values, even if they are 
+very different.  We will see later that TypeScript improves on this operator tremendously.</p>
+
+<p>More specific reflection operators allow finer distinction in the types of values, for example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">arrIns</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="nx">mapIns</span> <span class="o">=</span> <span class="p">{</span> <span class="na">a</span><span class="p">:</span><span class="mi">1</span> <span class="p">}</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arrIns</span> <span class="k">instanceof</span> <span class="nb">Array</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">mapIns</span> <span class="k">instanceof</span> <span class="nb">Array</span><span class="p">);</span>
+
+<span class="c1">// =&gt;    true</span>
+<span class="c1">//       false</span>
+</code></pre></div></div>
+
+<p>Compound values can be entered as constant literals (as above) or can be constructed by invoking the appropriate constructors
+and mutators (functions which incrementally change a value).</p>
+
+<p>For example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">arrConstructed</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+  <span class="nx">arrConstructed</span>
+<span class="c1">// =&gt;     [ 1, 2, 3 ]</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">mapConstructed</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="nx">mapConstructed</span><span class="p">.</span><span class="nx">a</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="nx">mapConstructed</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="nx">mapConstructed</span>
+<span class="c1">// =&gt;  { a: 1, b: 2 }</span>
+</code></pre></div></div>
+
+<h3 id="compound-value-getters">Compound Value Getters</h3>
+
+<p>Compound values can be “taken apart” by using getters - for arrays, using indexes which refer to the positions of the items
+within the array, and for maps using key values.  In addition, the <code class="language-plaintext highlighter-rouge">slice()</code> method of arrays can return a range of values from within the array:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">arrInd</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">a</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">b</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">c</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">d</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">e</span><span class="dl">"</span><span class="p">]</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arrInd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>          <span class="c1">// Array indexes start at 0</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arrInd</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arrInd</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>    <span class="c1">// Extract from item 1 to the end.</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arrInd</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>  <span class="c1">// Extract from item 1 to 4 - 4 not included.</span>
+
+<span class="c1">// =&gt;     a</span>
+<span class="c1">//    b</span>
+<span class="c1">//    [ 'b', 'c', 'd', 'e' ]</span>
+<span class="c1">//    [ 'b', 'c', 'd' ]</span>
+</code></pre></div></div>
+
+<p>Maps are collections of pairs (key, value).</p>
+
+<p>Map getters use the key to access the value.</p>
+
+<p>Alternatively, the dot notation <code class="language-plaintext highlighter-rouge">m.k</code> can be used when the key is a string.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">mapInd</span> <span class="o">=</span> <span class="p">{</span> <span class="na">a</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">b</span> <span class="p">:</span> <span class="mi">2</span> <span class="p">}</span>   <span class="c1">// Note that keys which are strings in key position can skip the quotes - this is the same as { "a" : 1, "b" : 2}</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">mapInd</span><span class="p">[</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">])</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">mapInd</span><span class="p">.</span><span class="nx">a</span><span class="p">)</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">mapInd</span><span class="p">[</span><span class="dl">'</span><span class="s1">b</span><span class="dl">'</span><span class="p">])</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">mapInd</span><span class="p">.</span><span class="nx">b</span><span class="p">)</span>
+
+<span class="c1">// =&gt;     1</span>
+<span class="c1">//    1</span>
+<span class="c1">//    2</span>
+<span class="c1">//    2</span>
+</code></pre></div></div>
+
+<p>The method <code class="language-plaintext highlighter-rouge">Object.keys(x)</code> returns the list of the keys which are defined for any compound values.
+It operates both on arrays (the keys are the indexes) and on maps.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">mapKey</span> <span class="o">=</span> <span class="p">{</span> <span class="na">a</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">b</span> <span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+    <span class="nx">arrKey</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">b</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">c</span><span class="dl">'</span><span class="p">];</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">mapKey</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">arrKey</span><span class="p">));</span>
+
+<span class="c1">// =&gt;    [ 'a', 'b' ]</span>
+<span class="c1">//    [ '0', '1', '2' ]</span>
+</code></pre></div></div>
+<p>Alternatively, one can use the generalized <code class="language-plaintext highlighter-rouge">for</code> loops over arrays and maps:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// The backquote notation can be used to generate "interpolated strings"</span>
+<span class="c1">// The notation ${expression} in such a string is replaced by the value of the expression converted to a string.</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">k</span> <span class="k">in</span> <span class="nx">mapKey</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">k</span><span class="p">}</span><span class="s2"> has value </span><span class="p">${</span><span class="nx">mapKey</span><span class="p">[</span><span class="nx">k</span><span class="p">]}</span><span class="s2">`</span><span class="p">);</span>  
+<span class="p">}</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">arrKey</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">i</span><span class="p">}</span><span class="s2"> has value </span><span class="p">${</span><span class="nx">arrKey</span><span class="p">[</span><span class="nx">i</span><span class="p">]}</span><span class="s2">`</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// =&gt;</span>
+<span class="c1">//    a has value 1</span>
+<span class="c1">//    b has value 2</span>
+<span class="c1">//    0 has value a</span>
+<span class="c1">//    1 has value b</span>
+<span class="c1">//    2 has value c</span>
+</code></pre></div></div>
+
+<h2 id="variable-types-in-typescript-gradual-typing">Variable Types in TypeScript: Gradual Typing</h2>
+
+<p>In <em>static languages</em> like C++ and Java, variables must be typed - that is, when a variable is defined, its type must be declared by the programmer.</p>
+
+<p>In <em>dynamically typed languages</em> like JavaScript and Scheme, variables are not typed.<br>
+But when a variable is bound to a value, we can inspect its type at runtime (because values are always typed).</p>
+
+<p>TypeScript extends JavaScript and introduces <em>optional variable types</em>.
+TypeScript is compiled into JavaScript - and at compilation time, type checking is performed.
+There is no additional type checking happening at runtime after compilation has completed.</p>
+
+<p>Typing annotations can be introduced gradually as code matures.
+(See <a href="https://en.wikipedia.org/wiki/Gradual_typing">Wikipedia Gradual Typing</a>).</p>
+
+<p>Typing a variable means that the programmer declares how she intends to use the variable - which values it can be bound to.
+In TypeScript, this is performed by adding a type annotation to variable declarations:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">typedVarNum</span>  <span class="p">:</span> <span class="kr">number</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="nx">typedVarStr</span>  <span class="p">:</span> <span class="kr">string</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">blue</span><span class="dl">"</span><span class="p">,</span>
+    <span class="nx">typedVarBool</span> <span class="p">:</span> <span class="nx">boolean</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="summary">Summary</h2>
+
+<h3 id="concepts">Concepts</h3>
+<ul>
+  <li>Programming Language <em>semantics</em> defines the requirements for tools that manipulate programs: interpreters, compilers, debuggers etc.  It helps determine whether 2 programs are equivalent.</li>
+  <li>The <em>Operational Semantics</em> of programming language defines the meaning of programs by mapping programs to evaluation histories.</li>
+  <li>
+    <p><em>Operational semantics</em> provide recursive <em>evaluation rules</em> for each specific syntactic construct in a programming language.</p>
+  </li>
+  <li>
+    <p><em>Expressions</em> in an FP language are computed into <em>values</em>. This process can be described as <em>reduction</em>.</p>
+  </li>
+  <li><em>Runtime errors</em> can be triggered when parameters of the wrong type are passed to primitives (in Scheme) or when undefined variables are accessed.</li>
+  <li>
+    <p><em>Type safety</em> guarantees at compile time that a well-typed program will not lead to type runtime errors. It requires that the compiler determines the type of variables - which means to which types of values the variable can ever be bound.</p>
+  </li>
+  <li><em>Data types</em> are defined by 2 aspects: they are <em>sets of values</em> and they determine which <em>operations can be used on values</em>.</li>
+  <li>
+    <p><em>Values</em> can be <em>atomic</em> (no sub-part) or <em>compound</em> (made up of multiple parts).</p>
+  </li>
+  <li>TypeScript adds the option of <em>gradual typing</em> on top of JavaScript</li>
+  <li><em>Primitive atomic types</em> in TypeScript are <em>number</em>, <em>boolean</em>, <em>string</em>, <em>undefined</em> and <em>null</em>.</li>
+  <li><em>Primitive compound types</em> in TypeScript are <em>array</em> and <em>map</em>.</li>
+</ul>
+
+<h3 id="compound-types-operations">Compound Types Operations</h3>
+<ul>
+  <li>Literal constants for arrays are written as <code class="language-plaintext highlighter-rouge">[1, 2, 3]</code></li>
+  <li>Literal constants for maps are written as <code class="language-plaintext highlighter-rouge">{ k1 : 1, k2 : 2}</code></li>
+  <li>Parts of an array are accessed using number indexes starting with 0: <code class="language-plaintext highlighter-rouge">arr[0], arr[1]</code></li>
+  <li>Parts of a map are accessed using key indexes: <code class="language-plaintext highlighter-rouge">map[k1]</code> or the dot notation <code class="language-plaintext highlighter-rouge">map.k1</code></li>
+  <li>The list of indexes that can be used to access parts of a compound values is returned by <code class="language-plaintext highlighter-rouge">Object.keys(value)</code>
+or using the construct <code class="language-plaintext highlighter-rouge">for (let k in object) { ... }</code>.</li>
+</ul>
+
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

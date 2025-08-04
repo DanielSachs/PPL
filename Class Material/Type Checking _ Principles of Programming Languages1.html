@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)https://bguppl.github.io/interpreters/class_material/3.1TypeChecking.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Type Checking | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Type Checking">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/3.1TypeChecking.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/3.1TypeChecking.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Type Checking">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Type Checking","url":"https://bguppl.github.io/interpreters/class_material/3.1TypeChecking.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Type Checking _ Principles of Programming Languages1_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Type Checking _ Principles of Programming Languages1_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D43F.TEX-I::before {
+  padding: 0.683em 0.681em 0 0;
+  content: "L";
+}
+
+mjx-c.mjx-c34::before {
+  padding: 0.677em 0.5em 0 0;
+  content: "4";
+}
+
+mjx-c.mjx-c1D438.TEX-I::before {
+  padding: 0.68em 0.764em 0 0;
+  content: "E";
+}
+
+mjx-c.mjx-c1D447.TEX-I::before {
+  padding: 0.677em 0.704em 0 0;
+  content: "T";
+}
+
+mjx-c.mjx-c35::before {
+  padding: 0.666em 0.5em 0.022em 0;
+  content: "5";
+}
+
+mjx-c.mjx-c31::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "1";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Type Checking _ Principles of Programming Languages1_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="type-checking">Type Checking</h1>
+<h2 id="ppl-2023">PPL 2023</h2>
+
+<p>We return in this Chapter to the issue of type safety that was presented informally in
+<a href="https://bguppl.github.io/interpreters/class_material/1.1TypescriptDatatypes.html">Chapter 1</a> when we introduced the type system of TypeScript.<br>
+We investigate how we can analyze programs to verify that they are type safe.</p>
+
+<p>An attempt to apply a procedure to inappropriate data is a <em>type error</em>.<br>
+We develop techniques to analyze programs so that we can ensure they are <em>type safe</em> - that is, if we compute them, on any
+possible input values, we do not reach type errors.</p>
+
+<p>In order to support type checking, we will extend our language with type annotations - in the same way as TypeScript extends JavaScript.
+Given a program with annotations, a type checker can systematically identify unsafe code, as demonstrated below:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">f</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">([</span><span class="nf">n</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">])</span> <span class="nv">:</span> <span class="nv">number</span>
+    <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">3</span><span class="p">)))</span>
+    
+<span class="p">(</span><span class="nf">f</span> <span class="ss">'x</span><span class="p">)</span> <span class="nv">--&gt;</span> <span class="nv">Type</span> <span class="nv">error:</span> <span class="ss">'x</span> <span class="nv">is</span> <span class="nv">not</span> <span class="nv">a</span> <span class="nv">number</span>
+</code></pre></div></div>
+
+<p>We proceed in two stages:</p>
+<ul>
+  <li>We first analyze programs that include full type annotations and verify that they satisfy their type declarations.</li>
+  <li>We then analyze programs that include <strong>partial</strong> type annotations (and possibly no annotations at all) and <strong>infer</strong> the types of all variable declarations and functions, and check that the program is type safe.</li>
+</ul>
+
+<h2 id="type-safety-and-program-correctness">Type Safety and Program Correctness</h2>
+
+<p><strong>Contracts</strong> of programs provide specification for their most important properties:</p>
+<ul>
+  <li>Signature</li>
+  <li>Type preconditions and postconditions.</li>
+</ul>
+
+<p>Contracts say nothing about the specifics of the implementation (such as performance, concrete data structures used in the implementation).</p>
+
+<p>Proving program correctness consists in proving that a program implementation satisfies its contract.
+Type safety is one of the conditions we must check to prove correctness:</p>
+<ol>
+  <li><strong>Type correctness</strong>: Check well-typing of all expressions, and possibly infer missing types.</li>
+  <li><strong>Program verification</strong>: Show that if preconditions hold, then the program terminates, and the postconditions hold.</li>
+</ol>
+
+<p>Program correctness can be checked either <strong>statically</strong> or <strong>dynamically</strong>.</p>
+
+<p>In static program correctness the program text is analyzed without running it. 
+Static program analysis reveals problems that characterize the program independently of specific data.</p>
+
+<p>Static type checking verifies that the program will not encounter run time errors due to type mismatch problems.
+In dynamic program analysis, problems are detected by running the program on specific data. 
+Static correctness methods are <strong>strong</strong> because they analyze the program as a whole, and evaluate properties that hold for all possible applications on all possible data values. 
+Dynamic correctness methods, like <strong>unit testing</strong>, are complementary to static methods. 
+In particular, dynamic correctness can specify preconditions which are more complex than those implied by the type system of a language.
+For example, in Java, it is not possible to define a type that denotes even integers.  A function that has as a precondition that its parameter is an even number 
+cannot be verified using the Java type system using the static Java type checker.  It could be verified as an assertion at runtime or using unit tests.</p>
+
+<h2 id="types">Types</h2>
+
+<p>Let us recall the meaning of types we adopt:</p>
+
+<p>The semantics of a programming language defines types as subsets of the domain of computed values 
+That is, values are split into subsets, termed types, that collect together values of a similar kind and which can be passed to similar functions.</p>
+
+<p>In the Scheme subset that we have defined up to <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c34"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>4</mn></math></mjx-assistive-mml></mjx-container> - computed values are the union of the disjoint types Numbers, Booleans,  S-expressions, Closures, Primitive operators and Void.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Value</span> <span class="o">=</span> <span class="nb">Number</span> <span class="o">|</span> <span class="nb">Boolean</span> <span class="o">|</span> <span class="nx">Prim</span><span class="o">-</span><span class="nx">op</span> <span class="o">|</span> <span class="nx">Closure</span> <span class="o">|</span> <span class="nx">Void</span> <span class="o">|</span> <span class="nx">SExp</span>
+<span class="nx">SExp</span> <span class="o">=</span> <span class="nb">Symbol</span> <span class="o">|</span> <span class="nb">Number</span> <span class="o">|</span> <span class="nb">Boolean</span> <span class="o">|</span> <span class="nx">SExp</span><span class="p">[]</span>
+</code></pre></div></div>
+
+<p>The set of closures is defined inductively as mappings from tuples to values - where tuples are cartesian products
+of values - starting from the empty tuple, tuples of a single value, two values etc.</p>
+
+<p>Most programming languages admit <strong>fully typed semantics</strong>, <em>i.e.</em>, every computed value belongs to a known type.</p>
+
+<h3 id="type-systems">Type Systems</h3>
+
+<p>Refer to <a href="https://papl.cs.brown.edu/2020/types.html">PAPL 2020 Types</a> (Chapters 28 to 31) for more depth on this material.</p>
+
+<p>The semantics of a programming language defines a <strong>type system</strong>: it determines which types exist across the domain of computed values, how new types can be defined (through the usage of type constructors - such as List or Procedures or Union) and the possible relations among types (one type may be included in another, two types may be disjoint or overlap).</p>
+
+<p>The basis of type systems is the <strong>principle of substitutability</strong>: two types A and B “match” when values of one can be used in place of values of the other. Therefore, the design of a type system determines when substitutions are safe.</p>
+
+<p>The simplest form of substitutability is <strong>identity</strong>: a type can only be substituted with itself, and nothing else. 
+For instance, if the declared type of a function’s parameter is Number, then you can only call it with Number-typed values, nothing else. This is known as <strong>invariance</strong>: the set of values that can be passed into a function cannot vary from the set expected by that type.</p>
+
+<p>This is so obvious that it might seem to hardly warrant a name - however, it is useful to name this because it sets up a contrast with more complex type systems when richer, non-trivial notions of substitutability exist (think of Subtyping in Object Oriented systems and the usage of Interfaces).</p>
+
+<h3 id="soundness">Soundness</h3>
+
+<p>The key property of a type system is a set of rules which determine whether a given expression in the language is type safe - that is, whether the evaluation of this expression will <em>never</em> lead to type errors.</p>
+
+<p>Type safety is achieved by defining an analysis method called <strong>type checking</strong>. The goal of type checking is to verify that if an expression <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D438 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>E</mi></math></mjx-assistive-mml></mjx-container> is assigned type <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="2" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D447 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>T</mi></math></mjx-assistive-mml></mjx-container>, then, whenever <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="3" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D438 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>E</mi></math></mjx-assistive-mml></mjx-container> is computed, its value will be of type <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="4" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D447 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>T</mi></math></mjx-assistive-mml></mjx-container>.  If the type system has this property, we say that it is <strong>sound</strong>.</p>
+
+<p>Note that type checking does not guarantee that the program will always terminate (that would be a strong guarantee equivalent to solving the <em>Halting Problem</em>) nor that it will not throw any exceptions, such as divide by 0.  It only guarantees that the program when it is evaluated to a proper value will not throw type errors and will return a value in the predicted type.</p>
+
+<h3 id="type-errors">Type Errors</h3>
+
+<p>The type checker inspects every application nodes in the AST of a program <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="5" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D438 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>E</mi></math></mjx-assistive-mml></mjx-container>.  Each operand in an application is an expression of some type (which is verified inductively).  Therefore, we know that the value of the operand will be of that type.
+If the operands are not of the type expected by the operator of the application, we say that this operator invocation (<em>i.e.</em>, this application expression node in the AST) is a <strong>potential type error</strong>.</p>
+
+<p>If type errors are detected, the type checker can take some actions, which is also part of the language design.  It can refuse to execute or compile the program, or it can take corrective measures (like type casting).</p>
+
+<h2 id="associating-expressions-with-types">Associating Expressions with Types</h2>
+
+<p>Type checking and type inference require associating program expressions with types.</p>
+
+<p>In order to achieve this, we need to define two syntactic extensions to our language:</p>
+
+<ul>
+  <li>Define a type language to specify type expressions.</li>
+  <li>Define a way in the language to associate variables and procedures to type expressions.</li>
+</ul>
+
+<p>The extension of a language with type expressions is exactly what we observed in the transition from JavaScript to TypeScript.
+TypeScript defines a way to specify type expressions (primitive types like Number, Boolean, String and compound types such as maps, arrays and functions, or type unions).</p>
+
+<p>Similarly, we will define a new language, <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="6" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> which extends <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="7" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c34"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>4</mn></math></mjx-assistive-mml></mjx-container> by allowing the specification of type annotations.</p>
+
+<h2 id="type-language">Type Language</h2>
+
+<p>We start with a definition of the type language.<br>
+We actually already used this type language when we introduced Scheme in <a href="https://bguppl.github.io/interpreters/class_material/2.2Higher-Order-Functions-Let.html">Section 2.2</a>.
+In the code we wrote in Scheme, we added type annotations as part of the contract section of functions, under the type annotation.  Because we did not want to extend the language, we kept these annotations as comments in Scheme, as in the following example:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Purpose: Identity</span>
+<span class="c1">;; Signature: id(x)</span>
+<span class="c1">;; Type: [T -&gt; T]</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">id</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>Since we now know how to define our own language, we will add type annotations as part of the language <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="8" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container>.</p>
+
+<p>The possible type expressions we will consider are defined by the following syntax:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">texp</span><span class="o">&gt;</span>         <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">atomic</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">composite</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">tvar</span><span class="o">&gt;</span> 
+<span class="o">&lt;</span><span class="nx">atomic</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span>    <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">num</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">bool</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="k">void</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">num</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span>       <span class="p">::</span><span class="o">=</span> <span class="kr">number</span>   <span class="c1">// num-te()</span>
+<span class="o">&lt;</span><span class="nx">bool</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span>      <span class="p">::</span><span class="o">=</span> <span class="nx">boolean</span>  <span class="c1">// bool-te()</span>
+<span class="o">&lt;</span><span class="nx">str</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span>       <span class="p">::</span><span class="o">=</span> <span class="kr">string</span>   <span class="c1">// str-te()</span>
+<span class="o">&lt;</span><span class="k">void</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span>      <span class="p">::</span><span class="o">=</span> <span class="k">void</span>     <span class="c1">// void-te()</span>
+<span class="o">&lt;</span><span class="nx">composite</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">proc</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">tuple</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">non</span><span class="o">-</span><span class="nx">tuple</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">atomic</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">proc</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">tvar</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">proc</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span>      <span class="p">::</span><span class="o">=</span> <span class="p">[</span> <span class="o">&lt;</span><span class="nx">tuple</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="o">-&gt;</span> <span class="o">&lt;</span><span class="nx">non</span><span class="o">-</span><span class="nx">tuple</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="p">]</span> <span class="c1">// proc-te(param-tes: list(te), return-te: te)</span>
+<span class="o">&lt;</span><span class="nx">tuple</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span>     <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">non</span><span class="o">-</span><span class="nx">empty</span><span class="o">-</span><span class="nx">tuple</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">empty</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">non</span><span class="o">-</span><span class="nx">empty</span><span class="o">-</span><span class="nx">tuple</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span> <span class="o">&lt;</span><span class="nx">non</span><span class="o">-</span><span class="nx">tuple</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="o">*</span> <span class="o">&lt;</span><span class="nx">non</span><span class="o">-</span><span class="nx">tuple</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span> <span class="c1">// tuple-te(tes: list(te))</span>
+<span class="o">&lt;</span><span class="nx">empty</span><span class="o">-</span><span class="nx">te</span><span class="o">&gt;</span>     <span class="p">::</span><span class="o">=</span> <span class="nx">Empty</span>
+<span class="o">&lt;</span><span class="nx">tvar</span><span class="o">&gt;</span>         <span class="p">::</span><span class="o">=</span> <span class="nx">a</span> <span class="nx">symbol</span> <span class="nx">starting</span> <span class="kd">with</span> <span class="nx">T</span> <span class="c1">// tvar(id: Symbol)</span>
+</code></pre></div></div>
+
+<p>The following are all examples of legal type expressions according to this syntax:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">number</span>
+<span class="nv">boolean</span>
+<span class="nv">void</span>
+<span class="p">(</span><span class="nf">number</span> <span class="nv">-&gt;</span> <span class="nv">boolean</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">number</span> <span class="nv">*</span> <span class="nv">number</span> <span class="nv">-&gt;</span> <span class="nv">boolean</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">number</span> <span class="nv">-&gt;</span> <span class="p">(</span><span class="nf">number</span> <span class="nv">-&gt;</span> <span class="nv">boolean</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">Empty</span> <span class="nv">-&gt;</span> <span class="nv">number</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">Empty</span> <span class="nv">-&gt;</span> <span class="nv">void</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">T1</span> <span class="nv">-&gt;</span> <span class="nv">T1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="type-annotations">Type Annotations</h2>
+
+<p>We then define a way to add type annotations to expressions.</p>
+
+<p><strong>Where</strong> are type annotations needed within programs?</p>
+
+<p>They can occur in only two specific places:</p>
+<ul>
+  <li>As part of a variable declaration</li>
+  <li>As part of a procedure expression to specify the expected return type</li>
+</ul>
+
+<p>Accordingly, we extend the syntax of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="9" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c34"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>4</mn></math></mjx-assistive-mml></mjx-container> with type annotations in exactly those two expression types - these two changes are marked with <code class="language-plaintext highlighter-rouge">#### L5</code> below;
+The only changes in the syntax of L5 are optional type annotations in <code class="language-plaintext highlighter-rouge">var-decl</code> and <code class="language-plaintext highlighter-rouge">proc-exp</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">program</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span><span class="nx">L5</span> <span class="o">&lt;</span><span class="nx">exp</span><span class="o">&gt;+</span><span class="p">)</span> <span class="c1">// program(exps:List(exp))</span>
+<span class="o">&lt;</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">define</span><span class="o">-</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">define</span><span class="o">-</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span><span class="nx">define</span> <span class="o">&lt;</span><span class="kd">var</span><span class="o">-</span><span class="nx">decl</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span><span class="p">)</span> <span class="c1">// def-exp(var:var-decl, val:cexp)</span>
+<span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">num</span><span class="o">-</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="c1">// num-exp(val:Number)</span>
+       <span class="o">|</span> <span class="o">&lt;</span><span class="nx">bool</span><span class="o">-</span><span class="nx">exp</span><span class="o">&gt;</span>  <span class="c1">// bool-exp(val:Boolean)</span>
+       <span class="o">|</span> <span class="o">&lt;</span><span class="nx">prim</span><span class="o">-</span><span class="nx">op</span><span class="o">&gt;</span>   <span class="c1">// prim-op(op:Symbol)</span>
+       <span class="o">|</span> <span class="o">&lt;</span><span class="kd">var</span><span class="o">-</span><span class="nx">ref</span><span class="o">&gt;</span>   <span class="c1">// var-ref(var:Symbol)</span>
+       <span class="o">|</span> <span class="p">(</span><span class="k">if</span> <span class="o">&lt;</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">exp</span><span class="o">&gt;</span><span class="p">)</span> <span class="c1">// if-exp(test,then,else)</span>
+       <span class="o">|</span> <span class="p">(</span><span class="nx">quote</span> <span class="o">&lt;</span><span class="nx">sexp</span><span class="o">&gt;</span><span class="p">)</span> <span class="c1">// lit-exp(val:Sexp)</span>
+       <span class="o">|</span> <span class="p">(</span><span class="kd">let</span> <span class="p">(</span><span class="o">&lt;</span><span class="nx">binding</span><span class="o">&gt;*</span><span class="p">)</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;+</span><span class="p">)</span> <span class="c1">// let-exp(bindings:List(binding), body:List(cexp)) </span>
+       <span class="o">|</span> <span class="p">(</span><span class="nx">letrec</span> <span class="p">(</span><span class="o">&lt;</span><span class="nx">binding</span><span class="o">&gt;*</span><span class="p">)</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;+</span><span class="p">)</span> <span class="c1">// letrec-exp(bindings:List(binding), body:List(cexp)) </span>
+       <span class="o">|</span> <span class="p">(</span><span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;*</span><span class="p">)</span> <span class="c1">// app-exp(rator:cexp, rands:List(cexp))</span>
+
+       <span class="o">|</span> <span class="p">(</span><span class="nx">lambda</span> <span class="p">(</span><span class="o">&lt;</span><span class="kd">var</span><span class="o">-</span><span class="nx">decl</span><span class="o">&gt;*</span><span class="p">)</span> <span class="p">[:</span> <span class="o">&lt;</span><span class="nx">texp</span><span class="o">&gt;</span><span class="p">]?</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;+</span><span class="p">)</span> 
+               <span class="c1">// proc-exp(params:List(var-decl), body:List(cexp), return-te: Texp) ##### L5</span>
+<span class="o">&lt;</span><span class="kd">var</span><span class="o">-</span><span class="nx">decl</span><span class="o">&gt;</span>   <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">symbol</span><span class="o">&gt;</span> <span class="o">|</span> <span class="p">[</span><span class="o">&lt;</span><span class="nx">symbol</span><span class="o">&gt;</span> <span class="p">:</span> <span class="o">&lt;</span><span class="nx">texp</span><span class="o">&gt;</span><span class="p">]</span> <span class="c1">// var-decl(var:Symbol, type:Texp)  ##### L5</span>
+
+<span class="p">;;</span> <span class="nx">Unchanged</span>
+<span class="o">&lt;</span><span class="nx">prim</span><span class="o">-</span><span class="nx">op</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">+</span> <span class="o">|</span> <span class="o">-</span> <span class="o">|</span> <span class="o">*</span> <span class="o">|</span> <span class="sr">/ | &lt; | &gt; | = | not |  eq</span><span class="err">?
+</span>       <span class="o">|</span> <span class="nx">cons</span> <span class="o">|</span> <span class="nx">car</span> <span class="o">|</span> <span class="nx">cdr</span> <span class="o">|</span> <span class="nx">pair</span><span class="p">?</span> <span class="o">|</span> <span class="nx">list</span><span class="p">?</span> <span class="o">|</span> <span class="kr">number</span><span class="p">?</span> <span class="o">|</span> <span class="nx">boolean</span><span class="p">?</span> <span class="o">|</span> <span class="nx">symbol</span><span class="p">?</span> <span class="o">|</span> <span class="nx">display</span> <span class="o">|</span> <span class="nx">newline</span>
+<span class="o">&lt;</span><span class="nx">num</span><span class="o">-</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="nx">a</span> <span class="kr">number</span> <span class="nx">token</span>
+<span class="o">&lt;</span><span class="nx">bool</span><span class="o">-</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="err">#</span><span class="nx">t</span> <span class="o">|</span> <span class="err">#</span><span class="nx">f</span>
+<span class="o">&lt;</span><span class="kd">var</span><span class="o">-</span><span class="nx">ref</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="nx">an</span> <span class="nx">identifier</span> <span class="nx">token</span>
+<span class="o">&lt;</span><span class="nx">sexp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="nx">a</span> <span class="nx">symbol</span> <span class="nx">token</span> <span class="o">|</span> <span class="p">(</span> <span class="o">&lt;</span><span class="nx">sexp</span><span class="o">&gt;*</span> <span class="p">)</span>
+<span class="o">&lt;</span><span class="nx">binding</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span> <span class="o">&lt;</span><span class="kd">var</span><span class="o">-</span><span class="nx">decl</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;</span> <span class="p">)</span> <span class="c1">// Binding(var:var-decl, val:cexp)</span>
+</code></pre></div></div>
+
+<p>With this new syntax (heavily inspired by the TypeScript syntax), the following programs are fully annotated <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="10" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> programs:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">)</span> <span class="mi">5</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">:</span> <span class="p">(</span><span class="nf">number</span> <span class="nv">-&gt;</span> <span class="nv">number</span><span class="p">))</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">((</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">))</span> <span class="nv">:</span> <span class="nv">number</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">:</span> <span class="p">(</span><span class="nf">number</span> <span class="nv">*</span> <span class="nv">number</span> <span class="nv">-&gt;</span> <span class="nv">number</span><span class="p">))</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">((</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">)</span> <span class="p">(</span><span class="nf">y</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">))</span> <span class="nv">:</span> <span class="nv">number</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
+  
+<span class="p">(</span><span class="k">let</span> <span class="p">(((</span><span class="nf">a</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="p">((</span><span class="nf">b</span> <span class="nv">:</span> <span class="nv">boolean</span><span class="p">)</span> <span class="no">#t</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">if</span> <span class="nv">b</span> <span class="nv">a</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">a</span> <span class="mi">1</span><span class="p">)))</span>
+  
+<span class="p">(</span><span class="k">letrec</span> <span class="p">(((</span><span class="nf">a</span> <span class="nv">:</span> <span class="p">(</span><span class="nf">number</span> <span class="nv">-&gt;</span> <span class="nv">number</span><span class="p">))</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">((</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">))</span> <span class="nv">:</span> <span class="nv">number</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">a</span> <span class="mi">3</span><span class="p">))</span>
+  
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="nf">id</span> <span class="nv">:</span> <span class="p">(</span><span class="nf">T1</span> <span class="nv">-&gt;</span> <span class="nv">T1</span><span class="p">))</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">((</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">T1</span><span class="p">))</span> <span class="nv">:</span> <span class="nv">T1</span> <span class="nv">x</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>We defined type annotations as <strong>optional</strong> - so that the following programs are also legal expressions in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="11" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container>: 
+no type annotation on f and on return value of lambda</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">f</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">((</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">))</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span> 
+
+<span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">a</span> <span class="mi">1</span><span class="p">))</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">a</span> <span class="nv">a</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>The implementation of this syntax definition is available in:</p>
+<ul>
+  <li><a href="https://github.com/bguppl/interpreters/blob/master/src/L5/TExp.ts">TExp.ts</a>.</li>
+  <li><a href="https://github.com/bguppl/interpreters/blob/master/src/L5/L5-ast.ts">L5-ast.ts</a>.</li>
+</ul>
+
+<p>It includes the following functions:</p>
+<ul>
+  <li>parseTE(concrete-type-expression-string) -&gt; texp AST</li>
+  <li>unparseTExp(texp) -&gt; concrete-type-expression</li>
+  <li>parse(concrete-L5) -&gt; L5 AST</li>
+  <li>unparseL5(L5ast) -&gt; concrete L5 program</li>
+</ul>
+
+<p>Type expression ASTs look as shown in these examples:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">expect</span><span class="p">(</span><span class="nx">parseTE</span><span class="p">(</span><span class="dl">"</span><span class="s2">number</span><span class="dl">"</span><span class="p">)).</span><span class="nx">to</span><span class="p">.</span><span class="nx">deep</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">makeOk</span><span class="p">(</span><span class="nx">makeNumTExp</span><span class="p">()));</span>
+<span class="nx">expect</span><span class="p">(</span><span class="nx">parseTE</span><span class="p">(</span><span class="dl">"</span><span class="s2">boolean</span><span class="dl">"</span><span class="p">)).</span><span class="nx">to</span><span class="p">.</span><span class="nx">deep</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">makeOk</span><span class="p">(</span><span class="nx">makeBoolTExp</span><span class="p">()));</span>
+<span class="nx">expect</span><span class="p">(</span><span class="nx">parseTE</span><span class="p">(</span><span class="dl">"</span><span class="s2">T1</span><span class="dl">"</span><span class="p">)).</span><span class="nx">to</span><span class="p">.</span><span class="nx">deep</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">makeOk</span><span class="p">(</span><span class="nx">makeTVar</span><span class="p">(</span><span class="dl">"</span><span class="s2">T1</span><span class="dl">"</span><span class="p">)));</span>
+<span class="nx">expect</span><span class="p">(</span><span class="nx">parseTE</span><span class="p">(</span><span class="dl">"</span><span class="s2">(T * T -&gt; boolean)</span><span class="dl">"</span><span class="p">)).</span><span class="nx">to</span><span class="p">.</span><span class="nx">deep</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">makeOk</span><span class="p">(</span><span class="nx">makeProcTExp</span><span class="p">([</span><span class="nx">makeTVar</span><span class="p">(</span><span class="dl">"</span><span class="s2">T</span><span class="dl">"</span><span class="p">),</span> <span class="nx">makeTVar</span><span class="p">(</span><span class="dl">"</span><span class="s2">T</span><span class="dl">"</span><span class="p">)],</span> <span class="nx">makeBoolTExp</span><span class="p">())));</span>
+<span class="nx">expect</span><span class="p">(</span><span class="nx">parseTE</span><span class="p">(</span><span class="dl">"</span><span class="s2">(number -&gt; (number -&gt; number))</span><span class="dl">"</span><span class="p">)).</span>
+    <span class="nx">to</span><span class="p">.</span><span class="nx">deep</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">makeOk</span><span class="p">(</span><span class="nx">makeProcTExp</span><span class="p">([</span><span class="nx">makeNumTExp</span><span class="p">()],</span> <span class="nx">makeProcTExp</span><span class="p">([</span><span class="nx">makeNumTExp</span><span class="p">()],</span> <span class="nx">makeNumTExp</span><span class="p">()))));</span>
+<span class="nx">expect</span><span class="p">(</span><span class="nx">parseTE</span><span class="p">(</span><span class="dl">"</span><span class="s2">void</span><span class="dl">"</span><span class="p">)).</span><span class="nx">to</span><span class="p">.</span><span class="nx">deep</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">makeOk</span><span class="p">(</span><span class="nx">makeVoidTExp</span><span class="p">()));</span>
+<span class="nx">expect</span><span class="p">(</span><span class="nx">parseTE</span><span class="p">(</span><span class="dl">"</span><span class="s2">(Empty -&gt; void)</span><span class="dl">"</span><span class="p">)).</span><span class="nx">to</span><span class="p">.</span><span class="nx">deep</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">makeOk</span><span class="p">(</span><span class="nx">makeProcTExp</span><span class="p">([],</span> <span class="nx">makeVoidTExp</span><span class="p">())));</span>
+</code></pre></div></div>
+
+<p>The following two points about the syntax of type expressions hold for now:</p>
+
+<ul>
+  <li>At this point, we only support atomic type expressions (number, boolean, void) or procedure type expressions (number -&gt; number) - and not composite types such as List(number).</li>
+  <li>Type variables are used to represent the case of polymorphic functions such as [T -&gt; T] for the identity function.</li>
+</ul>
+
+<h3 id="annotated-asts">Annotated ASTs</h3>
+
+<p>ASTs with type annotations look as in the following examples:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">expect</span><span class="p">(</span><span class="nx">L5typeof</span><span class="p">(</span><span class="dl">"</span><span class="s2">(lambda((a : number) (b : number)) : (Pair number number) (cons a b))</span><span class="dl">"</span><span class="p">)).</span>
+    <span class="nx">toEqual</span><span class="p">(</span><span class="nx">makeOk</span><span class="p">(</span><span class="dl">"</span><span class="s2">(number * number -&gt; (Pair number number))</span><span class="dl">"</span><span class="p">));</span>
+</code></pre></div></div>
+
+<h2 id="type-analysis-algorithm">Type Analysis Algorithm</h2>
+
+<p>We develop an algorithm which operates over an annotated AST expression of <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="12" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> (the AST of the language with full type annotations for all var-decl nodes and all procedures), and verifies that the expression is type safe and will return its verified type.  This algorithm is a <strong>type checker</strong>.</p>
+
+<p>The specific errors we will detect are the following:</p>
+
+<ul>
+  <li>An attempt to apply a value which is neither a primitive nor a closure in an application expression.</li>
+  <li>An attempt to apply a procedure or a primitive operator to the wrong number of arguments.</li>
+  <li>An attempt to apply primitives to wrong type of arguments (for example, + to a non-number value)</li>
+  <li>An attempt to use a non-boolean expression as the test in an if-expression.</li>
+</ul>
+
+<p>We do not try to check for other types of errors - such as divide by zero or, if we had lists or arrays, reference to an index of bounds in the list or the array.</p>
+
+<p>We design this algorithm as a function <code class="language-plaintext highlighter-rouge">typeofExp</code> which given an expression will traverse the expression (the AST) and verify all the nodes in the AST for type correctness, and return the type the expression is expected to return.  That is, we first expect the function <code class="language-plaintext highlighter-rouge">typeofExp</code> to have the following type:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">typeofExp</span><span class="p">:</span> <span class="nx">Expr</span> <span class="o">-&gt;</span> <span class="nx">TExp</span>
+</code></pre></div></div>
+
+<p>Since we want to be able to process expressions that may include type errors, we adjust the signature to allow for Failure cases:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">typeofExp</span><span class="p">:</span> <span class="nx">Expr</span> <span class="o">-&gt;</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">TExp</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<h3 id="type-of-atomic-expressions">Type of Atomic Expressions</h3>
+
+<p>It is easy to think of how this function will work for simple expression types:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">typeofExp</span><span class="p">(</span> <span class="o">&lt;</span><span class="nx">NumExp</span> <span class="nx">val</span><span class="o">&gt;</span> <span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">NumTexp</span>
+</code></pre></div></div>
+
+<p>That is, the type of an AST node of the form <code class="language-plaintext highlighter-rouge">&lt;NumExp val&gt;</code> is Number.
+Similarly for booleans and strings.</p>
+
+<h3 id="type-environment">Type Environment</h3>
+
+<p>We then must decide what should be the type of an expression which only consists of a VarRef - that is a reference to a variable.</p>
+
+<p>Obviously, this depends on the context of the variable - since the same variable name in different contexts will yield different answers.  We must, therefore, extend the signature of the <code class="language-plaintext highlighter-rouge">typeofExp</code> operation to accept as an additional parameter the assumptions we make about the type of variables in our program.</p>
+
+<p>We had exactly the same issue when we defined the operational semantics in Chapter 2.  In order to compute the value of variables (even in the simplest model <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="13" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>1</mn></math></mjx-assistive-mml></mjx-container>), we introduced an <strong>environment</strong> which keeps track of <em>what we know about variables</em>.</p>
+
+<p>In a similar manner, we define <strong>type environments</strong> as a way to keep track of what we know about the <strong>type of variables</strong> in the program.  As usual, we define the type environment in an inductive manner:</p>
+
+<h4 id="definition-type-environment">Definition: Type Environment</h4>
+
+<ol>
+  <li>A type environment is a substitution of <strong>language variables</strong> to <strong>type expressions</strong>, <em>i.e.</em>, a mapping of a finite set of variables to type expressions.  It is denoted as a set of variable type assumptions. For example:</li>
+</ol>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="nl">x</span> <span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">y</span> <span class="p">:</span> <span class="p">(</span><span class="kr">number</span> <span class="o">-&gt;</span> <span class="nx">T</span><span class="p">)}</span>
+</code></pre></div></div>
+
+<p>In this type environment, the variable x is mapped to the Number type, and the variable y is mapped to the polymorphic procedure type <code class="language-plaintext highlighter-rouge">(number –&gt; T)</code>.</p>
+
+<p>The type of a variable v with respect to a type environment TEnv is denoted Tenv(v) (or <code class="language-plaintext highlighter-rouge">applyTEnv(Tenv, v)</code>).</p>
+
+<ol>
+  <li>
+    <p>The empty type environment, denoted {}, indicates that we make no assumptions about the types of variables.</p>
+  </li>
+  <li>
+    <p>Extending a type environment: we construct new type environments by combining new assumptions about variable-type mappings with another existing type environment.  Formally, this is achieved by composing substitutions.</p>
+  </li>
+</ol>
+
+<p>For example, if we combine the type assumption about the type of variable z: {z:Boolean} with the substitution above, we obtain:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="nl">x</span><span class="p">:</span><span class="nb">Number</span><span class="p">,</span> <span class="nx">y</span><span class="p">:(</span><span class="nb">Number</span> <span class="err">–</span><span class="o">&gt;</span> <span class="nx">T</span><span class="p">)]}</span> <span class="nx">o</span> <span class="p">{</span><span class="nl">z</span><span class="p">:</span><span class="nb">Boolean</span><span class="p">}</span> <span class="o">=</span> <span class="p">{</span><span class="na">x</span><span class="p">:</span><span class="nb">Number</span><span class="p">,</span> <span class="na">y</span><span class="p">:(</span><span class="nb">Number</span> <span class="err">–</span><span class="o">&gt;</span> <span class="nx">T</span><span class="p">),</span> <span class="na">z</span><span class="p">:</span><span class="nb">Boolean</span><span class="p">}</span>
+</code></pre></div></div>
+
+<p>The empty substitution is the neutral element of the substitution-composition operation:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{}</span> <span class="nx">o</span> <span class="p">{</span><span class="nl">x1</span><span class="p">:</span><span class="nx">T1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">xn</span><span class="p">:</span><span class="nx">Tn</span><span class="p">}</span> <span class="o">=</span> <span class="p">{</span><span class="na">x1</span><span class="p">:</span><span class="nx">T1</span><span class="p">,</span> <span class="p">...,</span> <span class="na">xn</span><span class="p">:</span><span class="nx">Tn</span><span class="p">}.</span>
+</code></pre></div></div>
+
+<p>The typeofExpr operation has thus the following signature and type definition:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">typeofExp</span><span class="p">:</span> <span class="nx">Exp</span> <span class="o">*</span> <span class="nx">TEnv</span> <span class="o">-&gt;</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">TExp</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>We make efforts in this section to reuse the same mechanisms we used when describing the operational semantics of the language - environments and substitutions.</p>
+
+<h4 id="type-of-variables">Type of Variables</h4>
+
+<p>Equipped with type environments, we can define the type of variable expressions:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">typeofExp</span><span class="p">(</span> <span class="o">&lt;</span><span class="nx">varref</span> <span class="kd">var</span><span class="o">&gt;</span><span class="p">,</span> <span class="nx">tenv</span> <span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">tenv</span><span class="p">(</span><span class="kd">var</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>What type should we return for a var in case we made no assumptions about its type in <code class="language-plaintext highlighter-rouge">Tenv</code>?</p>
+
+<p>At present, we will trigger this as an error - as we only consider the case of fully typed programs, <em>i.e.</em>, we require the programmer to declare the type of all the variables in the program.  Variables cannot be referenced if they are not declared beforehand.</p>
+
+<p>We will revisit this decision later when we consider the task of <strong>type inference</strong> as opposed to <strong>type checking</strong>.</p>
+
+<p>The decision we have taken will work as long as the type checker traverses the AST in a way that it will meet varDecl nodes before it meets varRef nodes corresponding to them.
+That is, the order in which we perform the traversal of the AST is important.  Again, we will relax this requirement when we expand the algorithm to deal with type inference.</p>
+
+<h2 id="typing-rules">Typing Rules</h2>
+
+<p>Before we can describe how the type checker processes compound expressions, we define a tool which will help us describe precisely the behavior of the type checker.</p>
+
+<p>In the same way as we defined <em>evaluation rules</em> for each type of expression, we define <em>type analysis rules</em>.  Type analysis rules will take the form of quantified 
+logical expressions which we call <em>type statements</em>.</p>
+
+<h3 id="type-statements">Type Statements</h3>
+
+<p>To describe the typing rules, we first define a useful device we call a <strong>typing statement</strong>:</p>
+
+<h4 id="definition-typing-statement">Definition: Typing Statement</h4>
+
+<p>A typing statement is a true/false formula that states a judgment about the <strong>type of an expression, given a type environment</strong>.</p>
+
+<p>Notation: <code class="language-plaintext highlighter-rouge">Tenv |- e:t</code></p>
+
+<p>This statement means that if the type of variables in a language expression e is as specified in Tenv,
+then the type of e is t.</p>
+
+<p>For example, the typing statement:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="nl">x</span><span class="p">:</span><span class="nb">Number</span><span class="p">}</span> <span class="o">|-</span> <span class="p">(</span><span class="o">+</span> <span class="nx">x</span> <span class="mi">5</span><span class="p">):</span><span class="nb">Number</span>
+</code></pre></div></div>
+
+<p>states that under the assumption that the type of x is Number, the type of (+ x 5) is Number.</p>
+
+<p>The typing statement:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="nl">f</span><span class="p">:[</span><span class="nx">T1</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">],</span> <span class="nx">g</span><span class="p">:</span><span class="nx">T1</span><span class="p">}</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">f</span> <span class="nx">g</span><span class="p">):</span><span class="nx">T2</span>
+</code></pre></div></div>
+
+<p>states that for every consistent replacement of <code class="language-plaintext highlighter-rouge">T1</code>, <code class="language-plaintext highlighter-rouge">T2</code>, under the assumption that the type
+of <code class="language-plaintext highlighter-rouge">f</code> is <code class="language-plaintext highlighter-rouge">[T1 –&gt; T2]</code>, and the type of <code class="language-plaintext highlighter-rouge">g</code> is <code class="language-plaintext highlighter-rouge">T1</code>, the type of <code class="language-plaintext highlighter-rouge">(f g)</code> is <code class="language-plaintext highlighter-rouge">T2</code>.</p>
+
+<p>The following typing statements are false:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="nl">f</span><span class="p">:[</span><span class="nx">T1</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">]}</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">f</span> <span class="nx">g</span><span class="p">):</span><span class="nx">T2</span>
+</code></pre></div></div>
+
+<p>This is false because having no type assumption on <code class="language-plaintext highlighter-rouge">g</code>, <code class="language-plaintext highlighter-rouge">(f g)</code> might not satisfy the well-typing rules of Scheme, and create a runtime error.</p>
+
+<p>The typing statement:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="nl">f</span><span class="p">:[</span><span class="nx">Empty</span> <span class="o">-&gt;</span> <span class="nx">T2</span><span class="p">],</span> <span class="nx">g</span><span class="p">:</span><span class="nx">T2</span><span class="p">}</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">f</span> <span class="nx">g</span><span class="p">):</span><span class="nx">T2</span>
+</code></pre></div></div>
+
+<p>is false because based on the operational semantics of Scheme, if <code class="language-plaintext highlighter-rouge">f</code> is a parameter-less procedure, the expression <code class="language-plaintext highlighter-rouge">(f g)</code> does not satisfy the well-typing rules of Scheme.</p>
+
+<h3 id="typing-rules-1">Typing Rules</h3>
+
+<p>Let us enumerate typing rules for each type of expression in the language, starting with simple expression types.
+These typing rules define the type system of our programming language.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Typing</span> <span class="nx">rule</span> <span class="nb">Number</span><span class="p">:</span>
+
+<span class="nx">For</span> <span class="nx">every</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span> <span class="nx">and</span> <span class="kr">number</span> <span class="nx">_n</span><span class="p">:</span>
+<span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">num_exp</span> <span class="nx">_n</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Number</span>
+
+<span class="nx">Typing</span> <span class="nx">rule</span> <span class="nb">Boolean</span> <span class="p">:</span>
+
+<span class="nx">For</span> <span class="nx">every</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span> <span class="nx">and</span> <span class="nx">boolean</span> <span class="nx">_b</span><span class="p">:</span>
+<span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">bool_exp</span> <span class="nx">_b</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Boolean</span>
+
+<span class="nx">Typing</span> <span class="nx">rule</span> <span class="nx">Variable</span> <span class="p">:</span>
+
+<span class="nx">For</span> <span class="nx">every</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span> <span class="nx">and</span> <span class="nx">variable</span> <span class="nx">_v</span><span class="p">:</span>
+<span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">varref</span> <span class="nx">_v</span><span class="p">)</span> <span class="p">:</span> <span class="nx">Tenv</span><span class="p">(</span><span class="nx">_v</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>For primitive operators, we use the type definition of each primitive operator.</p>
+
+<p>We know for example that <code class="language-plaintext highlighter-rouge">+</code> is a procedure with type <code class="language-plaintext highlighter-rouge">(Number * ... * Number -&gt; Number)</code>.  We express this in a single typing rule for each primitive procedure:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">For</span> <span class="nx">every</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span><span class="p">:</span>
+<span class="nx">_Tenv</span> <span class="o">|-</span> <span class="o">+</span> <span class="p">:</span> <span class="p">(</span><span class="nb">Number</span> <span class="o">*</span> <span class="p">...</span> <span class="o">*</span> <span class="nb">Number</span> <span class="o">-&gt;</span> <span class="nb">Number</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>In the implementation of the type checker, to simplify the code, we ignore variadic primitives - and consider <code class="language-plaintext highlighter-rouge">+, -, * and /</code> to be binary operators only.</p>
+
+<p>Similarly, for other primitives:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">For</span> <span class="nx">every</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span><span class="p">:</span>
+<span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">not</span> <span class="p">:</span> <span class="p">[</span><span class="nx">_S</span> <span class="o">-&gt;</span> <span class="nb">Boolean</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">_S</code> is a type variable. That is, <code class="language-plaintext highlighter-rouge">not</code> is a polymorphic primitive procedure - it applies to any type and returns a boolean value.</p>
+
+<p>The display procedure has the typing rule:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">For</span> <span class="nx">every</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span><span class="p">:</span>
+<span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">display</span><span class="p">:(</span><span class="nx">_S</span> <span class="o">-&gt;</span> <span class="k">void</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">display</code> is also a polymorphic primitive procedure.</p>
+
+<p><strong>QUESTION</strong>: How different is it to state that <code class="language-plaintext highlighter-rouge">not</code> is a polymorphic procedure and to state that it is a procedure which receives a parameter of type <em>any</em>?</p>
+
+<h2 id="typing-rule-for-procedures">Typing Rule for Procedures</h2>
+
+<p>The expressions which include variable declarations are more complex and they involve multiple type environments.
+Let us review the rule for typing procedure expressions.</p>
+
+<p>A procedure has the structure <code class="language-plaintext highlighter-rouge">(lambda (x1 ... xn) body)</code>.
+With type annotations, we have: <code class="language-plaintext highlighter-rouge">(lambda (x1:t1 ... xn:tn) : t body)</code>.</p>
+
+<p>What should be the type of this expression?</p>
+
+<p>If we trust the annotations, the answer is simple:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">typeofExp</span><span class="p">(</span><span class="nx">lambda</span> <span class="p">(</span><span class="nx">x1</span><span class="p">:</span><span class="nx">t1</span> <span class="p">...</span> <span class="nx">xn</span><span class="p">:</span><span class="nx">tn</span><span class="p">)</span> <span class="p">:</span> <span class="nx">t</span> <span class="nx">body</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="nx">t1</span> <span class="o">*</span> <span class="p">...</span> <span class="o">*</span> <span class="nx">tn</span> <span class="o">-&gt;</span> <span class="nx">t</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>But can we trust the annotations in a specific expression?  This is exactly what we want to check, by traversing
+the body and type checking it under specific typing assumptions.</p>
+
+<p>The rule for our language reads as follows:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Typing</span> <span class="nx">rule</span> <span class="nx">Procedure</span> <span class="p">:</span>
+<span class="nx">For</span> <span class="nx">every</span><span class="p">:</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span><span class="p">,</span>
+           <span class="nx">variables</span> <span class="nx">_x1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_xn</span><span class="p">,</span> <span class="nx">n</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+           <span class="nx">expressions</span> <span class="nx">_e1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_em</span><span class="p">,</span> <span class="nx">m</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">and</span>
+           <span class="kd">type</span> <span class="nx">expressions</span> <span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span><span class="nx">_Sn</span><span class="p">,</span> <span class="nx">_U1</span><span class="p">,</span> <span class="p">...,</span><span class="nx">_Um</span> <span class="p">:</span>
+
+<span class="nx">Procedure</span> <span class="kd">with</span> <span class="nx">parameters</span> <span class="p">(</span><span class="nx">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="nx">o</span> <span class="p">{</span><span class="nl">_x1</span><span class="p">:</span><span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_xn</span><span class="p">:</span><span class="nx">_Sn</span> <span class="p">}</span> <span class="o">|-</span> <span class="nx">_ei</span><span class="p">:</span><span class="nx">_Ui</span> <span class="k">for</span> <span class="nx">all</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">..</span><span class="nx">m</span> <span class="p">,</span>
+    <span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">lambda</span> <span class="p">(</span><span class="nx">_x1</span> <span class="p">...</span> <span class="nx">_xn</span> <span class="p">)</span> <span class="nx">_e1</span> <span class="p">...</span> <span class="nx">_em</span><span class="p">)</span> <span class="p">:</span> <span class="p">[</span><span class="nx">_S1</span> <span class="o">*</span> <span class="p">...</span> <span class="o">*</span> <span class="nx">_Sn</span> <span class="o">-&gt;</span> <span class="nx">_Um</span><span class="p">]</span>
+
+<span class="nx">Parameter</span><span class="o">-</span><span class="nx">less</span> <span class="nx">Procedure</span> <span class="p">(</span><span class="nx">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_ei</span><span class="p">:</span><span class="nx">_Ui</span> <span class="k">for</span> <span class="nx">all</span> <span class="nx">i</span><span class="o">=</span><span class="mi">1</span><span class="p">..</span><span class="nx">m</span><span class="p">,</span>
+    <span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">lambda</span> <span class="p">()</span> <span class="nx">_e1</span> <span class="p">...</span> <span class="nx">_em</span><span class="p">)</span> <span class="p">:</span> <span class="p">[</span><span class="nx">Empty</span> <span class="o">-&gt;</span> <span class="nx">_Um</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>The type of the body is the type of the last expression in the body
+(the body is a list of expressions meant to be evaluated in sequence - the value of the body is the value of the last expression,
+hence the type of the body is the type of the last expression).</p>
+
+<p>Still, we apply the rule to all the expressions in the body, to actually type check them.</p>
+
+<p>The rule indicates that we type check the body in a Tenv where we assume that the parameters have the declared types.</p>
+
+<h4 id="meta-variables">Meta-variables</h4>
+
+<p>The typing rules include meta-variables for language expressions, type expressions and type environments.
+When rules are instantiated, the meta-variables are replaced by real expressions of the same kind.
+The meta-variables should not be confused with language or type variables. 
+Therefore, they deliberately are preceded with an underscore to distinguish them from non-meta-variables.</p>
+
+<p>Each typing rule specifies an independent (standalone), universally quantified typing statement. 
+The meta-variables used in different rules are not related, and can be consistently renamed.</p>
+
+<h4 id="exhaustive-sub-expression-typing">Exhaustive sub-expression typing</h4>
+
+<p>Every typing rule requires typing statements for all sub-expressions of the expression for which a typing statement is derived.
+This property guarantees type safety – the typing algorithm assigns a type to every sub-expression which is evaluated at run-time.</p>
+
+<p>We will need to specify rules for if-exp, application expressions, let and letrec expressions as we go to complete the specification of the type system of the language.</p>
+
+<h2 id="type-checking-algorithm">Type Checking Algorithm</h2>
+
+<p>We now have the tools to specify the type checking algorithm:</p>
+
+<p>We assume here that <strong>all</strong> variable declarations and procedures in the object program we will analyze are fully type annotated.</p>
+
+<p>The algorithm traverses the AST of the expression, as we have learned to do when writing interpreters:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Purpose: Compute the type of an expression</span>
+<span class="c1">// Traverse the AST and check the type according to the exp type.</span>
+<span class="c1">// We assume that all variables and procedures have been explicitly typed in the program.</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">typeofExp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">exp</span><span class="p">:</span> <span class="nx">Parsed</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">:</span> <span class="nx">TEnv</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">TExp</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">isNumExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">typeofNum</span><span class="p">(</span><span class="nx">exp</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">isBoolExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">typeofBool</span><span class="p">(</span><span class="nx">exp</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">isStrExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">typeofStr</span><span class="p">(</span><span class="nx">exp</span><span class="p">))</span> <span class="p">:</span>
+    <span class="nx">isPrimOp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofPrim</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isVarRef</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">applyTEnv</span><span class="p">(</span><span class="nx">tenv</span><span class="p">,</span> <span class="nx">exp</span><span class="p">.</span><span class="kd">var</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isIfExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofIf</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isProcExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofProc</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isAppExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofApp</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isLetExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofLet</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isLetrecExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofLetrec</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isDefineExp</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofDefine</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nx">isProgram</span><span class="p">(</span><span class="nx">exp</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typeofProgram</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">)</span> <span class="p">:</span>
+    <span class="c1">// Skip isSetExp(exp) isLitExp(exp)</span>
+    <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">Unknown type</span><span class="dl">"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Each rule is implemented in a dedicated procedure which traverses inductively its parameter.</p>
+
+<p>The first few types of simple expressions are simple procedures:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// a number literal has type num-te</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">typeofNum</span> <span class="o">=</span> <span class="p">(</span><span class="nx">n</span><span class="p">:</span> <span class="nx">NumExp</span><span class="p">):</span> <span class="nx">NumTExp</span> <span class="o">=&gt;</span> <span class="nx">makeNumTExp</span><span class="p">();</span>
+
+<span class="c1">// a boolean literal has type bool-te</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">typeofBool</span> <span class="o">=</span> <span class="p">(</span><span class="nx">b</span><span class="p">:</span> <span class="nx">BoolExp</span><span class="p">):</span> <span class="nx">BoolTExp</span> <span class="o">=&gt;</span> <span class="nx">makeBoolTExp</span><span class="p">();</span>
+
+<span class="c1">// a string literal has type str-te</span>
+<span class="kd">const</span> <span class="nx">typeofStr</span> <span class="o">=</span> <span class="p">(</span><span class="nx">s</span><span class="p">:</span> <span class="nx">StrExp</span><span class="p">):</span> <span class="nx">StrTExp</span> <span class="o">=&gt;</span> <span class="nx">makeStrTExp</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>These procedures do not take Tenv as a parameter because they are true regardless of the TEnv state.</p>
+
+<p>For primitive operators, we map the operator to its type expression:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// primitive ops have known proc-te types</span>
+<span class="kd">const</span> <span class="nx">numOpTExp</span> <span class="o">=</span> <span class="nx">parseTE</span><span class="p">(</span><span class="dl">'</span><span class="s1">(number * number -&gt; number)</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">numCompTExp</span> <span class="o">=</span> <span class="nx">parseTE</span><span class="p">(</span><span class="dl">'</span><span class="s1">(number * number -&gt; boolean)</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">boolOpTExp</span> <span class="o">=</span> <span class="nx">parseTE</span><span class="p">(</span><span class="dl">'</span><span class="s1">(boolean * boolean -&gt; boolean)</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">typePredTExp</span> <span class="o">=</span> <span class="nx">parseTE</span><span class="p">(</span><span class="dl">'</span><span class="s1">(T -&gt; boolean)</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">// Todo: cons, car, cdr</span>
+<span class="kd">const</span> <span class="nx">typeofPrim</span> <span class="o">=</span> <span class="p">(</span><span class="nx">p</span><span class="p">:</span> <span class="nx">PrimOp</span><span class="p">):</span> <span class="nx">TExp</span> <span class="o">|</span> <span class="nb">Error</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="dl">'</span><span class="s1">+</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">-</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">*</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">].</span><span class="nx">includes</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">op</span><span class="p">)</span> <span class="p">?</span> <span class="nx">numOpTExp</span> <span class="p">:</span>
+    <span class="p">[</span><span class="dl">'</span><span class="s1">and</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">or</span><span class="dl">'</span><span class="p">].</span><span class="nx">includes</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">op</span><span class="p">)</span> <span class="p">?</span> <span class="nx">boolOpTExp</span> <span class="p">:</span>
+    <span class="p">[</span><span class="dl">'</span><span class="s1">&gt;</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">&lt;</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">=</span><span class="dl">'</span><span class="p">].</span><span class="nx">includes</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">op</span><span class="p">)</span> <span class="p">?</span> <span class="nx">numCompTExp</span> <span class="p">:</span>
+    <span class="p">[</span><span class="dl">'</span><span class="s1">number?</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">boolean?</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">string?</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">symbol?</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">list?</span><span class="dl">'</span><span class="p">].</span><span class="nx">includes</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">op</span><span class="p">)</span> <span class="p">?</span> <span class="nx">typePredTExp</span> <span class="p">:</span>
+    <span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">op</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">not</span><span class="dl">'</span><span class="p">)</span> <span class="p">?</span> <span class="nx">parseTE</span><span class="p">(</span><span class="dl">'</span><span class="s1">(boolean -&gt; boolean)</span><span class="dl">'</span><span class="p">)</span> <span class="p">:</span>
+    <span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">op</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">eq?</span><span class="dl">'</span><span class="p">)</span> <span class="p">?</span> <span class="nx">parseTE</span><span class="p">(</span><span class="dl">'</span><span class="s1">(T1 * T2 -&gt; boolean)</span><span class="dl">'</span><span class="p">)</span> <span class="p">:</span>
+    <span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">op</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">string=?</span><span class="dl">'</span><span class="p">)</span> <span class="p">?</span> <span class="nx">parseTE</span><span class="p">(</span><span class="dl">'</span><span class="s1">(T1 * T2 -&gt; boolean)</span><span class="dl">'</span><span class="p">)</span> <span class="p">:</span>
+    <span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">op</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">display</span><span class="dl">'</span><span class="p">)</span> <span class="p">?</span> <span class="nx">parseTE</span><span class="p">(</span><span class="dl">'</span><span class="s1">(T -&gt; void)</span><span class="dl">'</span><span class="p">)</span> <span class="p">:</span>
+    <span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">op</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">newline</span><span class="dl">'</span><span class="p">)</span> <span class="p">?</span> <span class="nx">parseTE</span><span class="p">(</span><span class="dl">'</span><span class="s1">(Empty -&gt; void)</span><span class="dl">'</span><span class="p">)</span> <span class="p">:</span>
+    <span class="nb">Error</span><span class="p">(</span><span class="s2">`Unknown primitive </span><span class="p">${</span><span class="nx">p</span><span class="p">.</span><span class="nx">op</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: In this implementation, we describe the <code class="language-plaintext highlighter-rouge">not</code> primitive as a procedure of type <code class="language-plaintext highlighter-rouge">[Boolean -&gt; Boolean]</code> whereas we specified <code class="language-plaintext highlighter-rouge">not</code> as a polymorphic operator above in the not-typing rule.  The reason is that at this point we have not introduced the tools that will allow us to deal with polymorphic types - we will revisit this in the next lecture.</p>
+
+<p><strong>Note</strong>: At this step, we have decided to consider primitives in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="14" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c35"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>5</mn></math></mjx-assistive-mml></mjx-container> as:</p>
+<ul>
+  <li>non-variadic (they take exactly two parameters - not like the variadic primitives in Scheme)</li>
+  <li>strictly types (they expect parameters to be of a specific type - not like the flexible primitives in JavaScript)</li>
+</ul>
+
+<h3 id="type-checking-compound-expressions">Type Checking Compound Expressions</h3>
+
+<p>Let us now consider a case of a compound expression without variable declarations: what should be the type of an if expression?</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Purpose: compute the type of an if-exp</span>
+<span class="c1">// Typing rule:</span>
+<span class="c1">//   if type&lt;test&gt;(tenv) = boolean</span>
+<span class="c1">//      type&lt;then&gt;(tenv) = t1</span>
+<span class="c1">//      type&lt;else&gt;(tenv) = t1</span>
+<span class="c1">// then type&lt;(if test then else)&gt;(tenv) = t1</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">typeofIf</span> <span class="o">=</span> <span class="p">(</span><span class="nx">ifExp</span><span class="p">:</span> <span class="nx">IfExp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">:</span> <span class="nx">TEnv</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">TExp</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">testTE</span> <span class="o">=</span> <span class="nx">typeofExp</span><span class="p">(</span><span class="nx">ifExp</span><span class="p">.</span><span class="nx">test</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">thenTE</span> <span class="o">=</span> <span class="nx">typeofExp</span><span class="p">(</span><span class="nx">ifExp</span><span class="p">.</span><span class="nx">then</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">altTE</span> <span class="o">=</span> <span class="nx">typeofExp</span><span class="p">(</span><span class="nx">ifExp</span><span class="p">.</span><span class="nx">alt</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">constraint1</span> <span class="o">=</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">testTE</span><span class="p">,</span> <span class="nx">testTE</span> <span class="o">=&gt;</span> <span class="nx">checkEqualType</span><span class="p">(</span><span class="nx">testTE</span><span class="p">,</span> <span class="nx">makeBoolTExp</span><span class="p">(),</span> <span class="nx">ifExp</span><span class="p">));</span>
+    <span class="kd">const</span> <span class="nx">constraint2</span> <span class="o">=</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">thenTE</span><span class="p">,</span> <span class="p">(</span><span class="na">thenTE</span><span class="p">:</span> <span class="nx">TExp</span><span class="p">)</span> <span class="o">=&gt;</span>
+                            <span class="nx">bind</span><span class="p">(</span><span class="nx">altTE</span><span class="p">,</span> <span class="p">(</span><span class="na">altTE</span><span class="p">:</span> <span class="nx">TExp</span><span class="p">)</span> <span class="o">=&gt;</span>
+                                <span class="nx">checkEqualType</span><span class="p">(</span><span class="nx">thenTE</span><span class="p">,</span> <span class="nx">altTE</span><span class="p">,</span> <span class="nx">ifExp</span><span class="p">)));</span>
+    <span class="k">return</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">constraint1</span><span class="p">,</span> <span class="p">(</span><span class="na">_c1</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span> <span class="o">=&gt;</span>
+                <span class="nx">bind</span><span class="p">(</span><span class="nx">constraint2</span><span class="p">,</span> <span class="p">(</span><span class="na">_c2</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span> <span class="o">=&gt;</span>
+                    <span class="nx">thenTE</span><span class="p">));</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>We check that the components of the expression are well typed, by invoking recursively typeofExp of each of the three components of the if-exp.  We then compare the type computed by typeofExp with our expectations:</p>
+
+<ul>
+  <li>The test component must be a boolean</li>
+  <li>The then and else components must be of the same type</li>
+  <li>The type of the whole if-exp is that of the then component (same as the else component)</li>
+</ul>
+
+<p>The If-exp typing rule is thus specified as follows:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">For</span> <span class="nx">every</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span><span class="p">,</span>
+          <span class="nx">expressions</span> <span class="nx">_test</span><span class="p">,</span> <span class="nx">_then</span><span class="p">,</span> <span class="nx">_else</span>
+          <span class="kd">type</span> <span class="nx">expression</span> <span class="nx">_S</span><span class="p">:</span>
+<span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_test</span> <span class="p">:</span> <span class="nb">Boolean</span>
+     <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_then</span> <span class="p">:</span> <span class="nx">_S</span>
+     <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_else</span> <span class="p">:</span> <span class="nx">_S</span>
+<span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="k">if</span> <span class="nx">_test</span> <span class="nx">_then</span> <span class="nx">_else</span><span class="p">)</span> <span class="p">:</span> <span class="nx">_S</span>
+</code></pre></div></div>
+
+<p>In this rule, the constraint that the type of the <code class="language-plaintext highlighter-rouge">then</code> component and <code class="language-plaintext highlighter-rouge">else</code> component are compatible is captured by the fact 
+that the same meta-variable appears (_S).</p>
+
+<p>In the type checking algorithm, we enforce this by invoking the function <code class="language-plaintext highlighter-rouge">checkEqualType</code>.</p>
+
+<p>At this stage, this constraint checking is implemented as a simple equality test:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Purpose: Check that type expressions are equivalent</span>
+<span class="c1">// as part of a fully-annotated type check process of exp.</span>
+<span class="c1">// Return an error if the types are different - true otherwise.</span>
+<span class="c1">// Exp is only passed for documentation purposes.</span>
+<span class="kd">const</span> <span class="nx">checkEqualType</span> <span class="o">=</span> <span class="p">(</span><span class="nx">te1</span><span class="p">:</span> <span class="nx">TExp</span><span class="p">,</span> <span class="nx">te2</span><span class="p">:</span> <span class="nx">TExp</span><span class="p">,</span> <span class="nx">exp</span><span class="p">:</span> <span class="nx">Exp</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="kc">true</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+  <span class="nx">equals</span><span class="p">(</span><span class="nx">te1</span><span class="p">,</span> <span class="nx">te2</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">:</span>
+  <span class="nx">bind</span><span class="p">(</span><span class="nx">unparseTExp</span><span class="p">(</span><span class="nx">te1</span><span class="p">),</span> <span class="p">(</span><span class="nx">te1</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">bind</span><span class="p">(</span><span class="nx">unparseTExp</span><span class="p">(</span><span class="nx">te2</span><span class="p">),</span> <span class="p">(</span><span class="nx">te2</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="nx">bind</span><span class="p">(</span><span class="nx">unparse</span><span class="p">(</span><span class="nx">exp</span><span class="p">),</span> <span class="p">(</span><span class="nx">exp</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="o">=&gt;</span> 
+        <span class="nx">makeFailure</span><span class="o">&lt;</span><span class="kc">true</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">`Incompatible types: </span><span class="p">${</span><span class="nx">te1</span><span class="p">}</span><span class="s2"> and </span><span class="p">${</span><span class="nx">te2</span><span class="p">}</span><span class="s2"> in </span><span class="p">${</span><span class="nx">exp</span><span class="p">}</span><span class="s2">`</span><span class="p">))));</span>
+</code></pre></div></div>
+
+<p>This type equality test is appropriate in the case of type checking, we will change this to a more complex mechanism when we turn to the type inference algorithm.</p>
+
+<p>This procedure implements the <strong>invariant</strong> type system we discussed above - types are compatible if and only if they are identical.</p>
+
+<p>Recall that in TypeScript we have a richer type system with subtyping (for example between map types and disjoint union types),
+and to type check such relations a more complex version of <code class="language-plaintext highlighter-rouge">checkEqualType</code> would be necessary.</p>
+
+<h2 id="typing-expressions-with-variable-declarations">Typing Expressions with Variable Declarations</h2>
+
+<p>Let us analyze how the type checker implements the typing rule for procedure expressions:
+We specified this rule as follows:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Typing</span> <span class="nx">rule</span> <span class="nx">Procedure</span> <span class="p">:</span>
+<span class="nx">For</span> <span class="nx">every</span><span class="p">:</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span><span class="p">,</span>
+           <span class="nx">variables</span> <span class="nx">_x1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_xn</span><span class="p">,</span> <span class="nx">n</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+           <span class="nx">expressions</span> <span class="nx">_e1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_em</span><span class="p">,</span> <span class="nx">m</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">and</span>
+           <span class="kd">type</span> <span class="nx">expressions</span> <span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span><span class="nx">_Sn</span><span class="p">,</span> <span class="nx">_U1</span><span class="p">,</span> <span class="p">...,</span><span class="nx">_Um</span> <span class="p">:</span>
+
+<span class="nx">Procedure</span> <span class="kd">with</span> <span class="nx">parameters</span> <span class="p">(</span><span class="nx">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="nx">o</span> <span class="p">{</span><span class="nl">_x1</span><span class="p">:</span><span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_xn</span><span class="p">:</span><span class="nx">_Sn</span> <span class="p">}</span> <span class="o">|-</span> <span class="nx">_ei</span><span class="p">:</span><span class="nx">_Ui</span> <span class="k">for</span> <span class="nx">all</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">..</span><span class="nx">m</span> <span class="p">,</span>
+    <span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">lambda</span> <span class="p">(</span><span class="nx">_x1</span> <span class="p">...</span> <span class="nx">_xn</span> <span class="p">)</span> <span class="nx">_e1</span> <span class="p">...</span> <span class="nx">_em</span><span class="p">)</span> <span class="p">:</span> <span class="p">[</span><span class="nx">_S1</span> <span class="o">*</span> <span class="p">...</span> <span class="o">*</span> <span class="nx">_Sn</span> <span class="o">-&gt;</span> <span class="nx">_Um</span><span class="p">]</span>
+
+<span class="nx">Parameter</span><span class="o">-</span><span class="nx">less</span> <span class="nx">Procedure</span> <span class="p">(</span><span class="nx">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_ei</span><span class="p">:</span><span class="nx">_Ui</span> <span class="k">for</span> <span class="nx">all</span> <span class="nx">i</span><span class="o">=</span><span class="mi">1</span><span class="p">..</span><span class="nx">m</span><span class="p">,</span>
+    <span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">lambda</span> <span class="p">()</span> <span class="nx">_e1</span> <span class="p">...</span> <span class="nx">_em</span><span class="p">)</span> <span class="p">:</span> <span class="p">[</span><span class="nx">Empty</span> <span class="o">-&gt;</span> <span class="nx">_Um</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>The corresponding code in the type checker includes the recursive traversal of the sub-components in the body of the procedure:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Purpose: compute the type of a proc-exp</span>
+<span class="c1">// Typing rule:</span>
+<span class="c1">// If   type&lt;body&gt;(extend-tenv(x1=t1,...,xn=tn; tenv)) = t</span>
+<span class="c1">// then type&lt;lambda (x1:t1,...,xn:tn) : t exp)&gt;(tenv) = (t1 * ... * tn -&gt; t)</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">typeofProc</span> <span class="o">=</span> <span class="p">(</span><span class="nx">proc</span><span class="p">:</span> <span class="nx">ProcExp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">:</span> <span class="nx">TEnv</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">TExp</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">argsTEs</span> <span class="o">=</span> <span class="nx">map</span><span class="p">((</span><span class="nx">vd</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">vd</span><span class="p">.</span><span class="nx">texp</span><span class="p">,</span> <span class="nx">proc</span><span class="p">.</span><span class="nx">args</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">extTEnv</span> <span class="o">=</span> <span class="nx">makeExtendTEnv</span><span class="p">(</span><span class="nx">map</span><span class="p">((</span><span class="nx">vd</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">vd</span><span class="p">.</span><span class="kd">var</span><span class="p">,</span> <span class="nx">proc</span><span class="p">.</span><span class="nx">args</span><span class="p">),</span> <span class="nx">argsTEs</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">constraint1</span> <span class="o">=</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">typeofExps</span><span class="p">(</span><span class="nx">proc</span><span class="p">.</span><span class="nx">body</span><span class="p">,</span> <span class="nx">extTEnv</span><span class="p">),</span>
+                             <span class="p">(</span><span class="na">body</span><span class="p">:</span> <span class="nx">TExp</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">checkEqualType</span><span class="p">(</span><span class="nx">body</span><span class="p">,</span> <span class="nx">proc</span><span class="p">.</span><span class="nx">returnTE</span><span class="p">,</span> <span class="nx">proc</span><span class="p">));</span>
+    <span class="k">return</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">constraint1</span><span class="p">,</span> <span class="nx">_</span> <span class="o">=&gt;</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">makeProcTExp</span><span class="p">(</span><span class="nx">argsTEs</span><span class="p">,</span> <span class="nx">proc</span><span class="p">.</span><span class="nx">returnTE</span><span class="p">)));</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>Finally, let us consider the typing rule for application expression:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Typing</span> <span class="nx">rule</span> <span class="nx">Application</span> <span class="p">:</span>
+<span class="nx">For</span> <span class="nx">every</span><span class="p">:</span> <span class="kd">type</span> <span class="nx">environment</span> <span class="nx">_Tenv</span><span class="p">,</span>
+           <span class="nx">expressions</span> <span class="nx">_f</span><span class="p">,</span> <span class="nx">_e1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_en</span><span class="p">,</span> <span class="nx">n</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="p">,</span> <span class="nx">and</span>
+           <span class="kd">type</span> <span class="nx">expressions</span> <span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_Sn</span><span class="p">,</span> <span class="nx">_S</span><span class="p">:</span>
+
+<span class="nx">Procedure</span> <span class="kd">with</span> <span class="nx">parameters</span> <span class="p">(</span><span class="nx">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_f</span> <span class="p">:</span> <span class="p">[</span><span class="nx">_S1</span><span class="o">*</span><span class="p">...</span><span class="o">*</span><span class="nx">_Sn</span> <span class="o">-&gt;</span> <span class="nx">_S</span><span class="p">],</span>
+         <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_e1</span> <span class="p">:</span> <span class="nx">_S1</span><span class="p">,</span> <span class="p">...,</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_en</span> <span class="p">:</span> <span class="nx">_Sn</span>
+    <span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">_f</span> <span class="nx">_e1</span> <span class="p">...</span> <span class="nx">_en</span><span class="p">)</span> <span class="p">:</span> <span class="nx">_S</span>
+
+<span class="nx">Parameter</span><span class="o">-</span><span class="nx">less</span> <span class="nx">Procedure</span> <span class="p">(</span><span class="nx">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nx">If</span>   <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="nx">_f</span> <span class="p">:</span> <span class="p">[</span><span class="nx">Empty</span> <span class="o">-&gt;</span> <span class="nx">_S</span><span class="p">]</span>
+    <span class="nx">Then</span> <span class="nx">_Tenv</span> <span class="o">|-</span> <span class="p">(</span><span class="nx">_f</span><span class="p">)</span> <span class="p">:</span> <span class="nx">_S</span>
+</code></pre></div></div>
+
+<p>The implementation in the type checker of this rule is:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Purpose: compute the type of an app-exp</span>
+<span class="c1">// Typing rule:</span>
+<span class="c1">// If   type&lt;rator&gt;(tenv) = (t1*..*tn -&gt; t)</span>
+<span class="c1">//      type&lt;rand1&gt;(tenv) = t1</span>
+<span class="c1">//      ...</span>
+<span class="c1">//      type&lt;randn&gt;(tenv) = tn</span>
+<span class="c1">// then type&lt;(rator rand1...randn)&gt;(tenv) = t</span>
+<span class="c1">// We also check the correct number of arguments is passed.</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">typeofApp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">app</span><span class="p">:</span> <span class="nx">AppExp</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">:</span> <span class="nx">TEnv</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">TExp</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">bind</span><span class="p">(</span><span class="nx">typeofExp</span><span class="p">(</span><span class="nx">app</span><span class="p">.</span><span class="nx">rator</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">),</span> <span class="p">(</span><span class="nx">ratorTE</span><span class="p">:</span> <span class="nx">TExp</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nx">isProcTExp</span><span class="p">(</span><span class="nx">ratorTE</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">unparseTExp</span><span class="p">(</span><span class="nx">ratorTE</span><span class="p">),</span> <span class="p">(</span><span class="na">rator</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="o">=&gt;</span>
+                        <span class="nx">bind</span><span class="p">(</span><span class="nx">unparse</span><span class="p">(</span><span class="nx">app</span><span class="p">),</span> <span class="p">(</span><span class="na">exp</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="o">=&gt;</span>
+                            <span class="nx">makeFailure</span><span class="o">&lt;</span><span class="nx">TExp</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">`Application of non-procedure: </span><span class="p">${</span><span class="nx">rator</span><span class="p">}</span><span class="s2"> in </span><span class="p">${</span><span class="nx">exp</span><span class="p">}</span><span class="s2">`</span><span class="p">)));</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">app</span><span class="p">.</span><span class="nx">rands</span><span class="p">.</span><span class="nx">length</span> <span class="o">!==</span> <span class="nx">ratorTE</span><span class="p">.</span><span class="nx">paramTEs</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">unparse</span><span class="p">(</span><span class="nx">app</span><span class="p">),</span> <span class="p">(</span><span class="na">exp</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">makeFailure</span><span class="o">&lt;</span><span class="nx">TExp</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">`Wrong parameter numbers passed to proc: </span><span class="p">${</span><span class="nx">exp</span><span class="p">}</span><span class="s2">`</span><span class="p">));</span>
+        <span class="p">}</span>
+        <span class="kd">const</span> <span class="nx">constraints</span> <span class="o">=</span> <span class="nx">zipWithResult</span><span class="p">((</span><span class="nx">rand</span><span class="p">,</span> <span class="nx">trand</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">typeofExp</span><span class="p">(</span><span class="nx">rand</span><span class="p">,</span> <span class="nx">tenv</span><span class="p">),</span> <span class="p">(</span><span class="na">typeOfRand</span><span class="p">:</span> <span class="nx">TExp</span><span class="p">)</span> <span class="o">=&gt;</span> 
+                                                                <span class="nx">checkEqualType</span><span class="p">(</span><span class="nx">typeOfRand</span><span class="p">,</span> <span class="nx">trand</span><span class="p">,</span> <span class="nx">app</span><span class="p">)),</span>
+                                          <span class="nx">app</span><span class="p">.</span><span class="nx">rands</span><span class="p">,</span> 
+                                          <span class="nx">ratorTE</span><span class="p">.</span><span class="nx">paramTEs</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">constraints</span><span class="p">,</span> <span class="nx">_</span> <span class="o">=&gt;</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">ratorTE</span><span class="p">.</span><span class="nx">returnTE</span><span class="p">));</span>
+    <span class="p">});</span>
+</code></pre></div></div>
+
+<p>Observe how the implementation verifies additional semantic errors:</p>
+<ul>
+  <li>Invocation of a non-procedure type</li>
+  <li>Invocation of a procedure with the wrong number of parameters</li>
+</ul>
+
+<h2 id="type-checking-examples">Type Checking Examples</h2>
+
+<p>Consider the following examples of application of the type checker:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">))</span> <span class="nv">=&gt;</span> <span class="ss">'number</span>
+<span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="no">#t</span> <span class="no">#f</span><span class="p">))</span> <span class="nv">=&gt;</span> <span class="ss">'boolean</span>
+
+<span class="p">(</span><span class="k">lambda</span> <span class="p">((</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">))</span> <span class="nv">:</span> <span class="nv">number</span> <span class="nv">x</span><span class="p">))</span> <span class="nv">=&gt;</span> <span class="o">'</span><span class="p">(</span><span class="nf">number</span> <span class="nv">-&gt;</span> <span class="nv">number</span><span class="p">)</span>
+<span class="p">(</span><span class="k">lambda</span> <span class="p">((</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">))</span> <span class="nv">:</span> <span class="nv">boolean</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)))</span> <span class="nv">=&gt;</span> <span class="o">'</span><span class="p">(</span><span class="nf">number</span> <span class="nv">-&gt;</span> <span class="nv">boolean</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">lambda</span> <span class="p">((</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">))</span> <span class="nv">:</span> <span class="p">(</span><span class="nf">number</span> <span class="nv">-&gt;</span> <span class="nv">number</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">((</span><span class="nf">y</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">))</span> <span class="nv">:</span> <span class="nv">number</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">y</span> <span class="nv">x</span><span class="p">))))</span>
+     <span class="nv">=&gt;</span>
+<span class="p">(</span><span class="nf">number</span> <span class="nv">-&gt;</span> <span class="p">(</span><span class="nf">number</span> <span class="nv">-&gt;</span> <span class="nv">number</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">lambda</span> <span class="p">((</span><span class="nf">f</span> <span class="nv">:</span> <span class="p">(</span><span class="nf">number</span> <span class="nv">-&gt;</span> <span class="nv">number</span><span class="p">)))</span> <span class="nv">:</span> <span class="nv">number</span> <span class="p">(</span><span class="nf">f</span> <span class="mi">2</span><span class="p">)))</span>
+     <span class="nv">=&gt;</span>
+<span class="p">((</span><span class="nf">number</span> <span class="nv">-&gt;</span> <span class="nv">number</span><span class="p">)</span> <span class="nv">-&gt;</span> <span class="nv">number</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">let</span> <span class="p">(((</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">)</span> <span class="mi">1</span><span class="p">))</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="mi">2</span><span class="p">)))</span> <span class="nv">=&gt;</span> <span class="ss">'number</span>
+
+<span class="p">(</span><span class="k">let</span> <span class="p">(((</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="p">((</span><span class="nf">y</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">((</span><span class="nf">a</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">))</span> <span class="nv">:</span> <span class="nv">number</span> <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">a</span><span class="p">)</span> <span class="nv">y</span><span class="p">))))</span>
+<span class="nv">=&gt;</span>
+<span class="p">(</span><span class="nf">number</span> <span class="nv">-&gt;</span> <span class="nv">number</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">lambda</span> <span class="p">((</span><span class="nf">x</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">))</span> <span class="nv">:</span> <span class="nv">number</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">(((</span><span class="nf">y</span> <span class="nv">:</span> <span class="nv">number</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))))</span>
+<span class="nv">=&gt;</span>
+<span class="p">(</span><span class="nf">number</span> <span class="nv">-&gt;</span> <span class="nv">number</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="static-vs-dynamic-analysis">Static vs. Dynamic Analysis</h2>
+
+<p>Let us observe the structure of the type checker: it is a typical syntax-driven traversal of the expression AST.</p>
+<ul>
+  <li>All the nodes in the AST are exhaustively traversed.</li>
+  <li>On each node, we apply a typing rule and compute a type value.</li>
+  <li>When we traverse expressions which traverse a scope contour (bind variable declarations to values - such as application expressions, let or letrec expressions) or a new scope (such as procedure expressions), we maintain an environment to reflect the structure of the accessible variables.</li>
+</ul>
+
+<p>This structure is parallel to the structure of the interpreters we analyzed in Chapter 2.</p>
+
+<p>There are, however, important differences between the type checker and the interpreter:
+See <a href="https://papl.cs.brown.edu/2019/safety-soundness.html">PAPL 2019 Chapter 28</a></p>
+
+<ul>
+  <li>The type checker sees only program text, whereas the interpreter runs over actual data.</li>
+  <li>The type environment binds identifiers to types, whereas the interpreter’s environment binds identifiers to values or locations (boxes).</li>
+  <li>The type checker compresses (even infinite) sets of values into types, whereas the interpreter treats the elements of these sets distinctly.</li>
+  <li>The type checker always terminates, whereas the interpreter might not.</li>
+  <li>The type checker passes over the body of each expression only once, whereas the interpreter might pass over each body anywhere from zero to infinite times.</li>
+</ul>
+
+<h2 id="summary">Summary</h2>
+
+<ul>
+  <li>Type safety is one of the conditions we must check to prove correctness:</li>
+  <li>
+    <p>Type checking consists of verifying the type of all sub-expressions , and possibly infer missing types.</p>
+  </li>
+  <li>
+    <p>Program correctness can be checked either statically or dynamically. In static program correctness the program text is analyzed without running it.</p>
+  </li>
+  <li>We design a <strong>type language</strong> to specify the expected type of variables and expressions in the language.</li>
+  <li>
+    <p>We extend the syntax of the programming language to allow association of <strong>type annotations</strong> (in the type language) with variable declarations and procedures.</p>
+  </li>
+  <li>The semantics of the programming language specifies <strong>typing rules</strong> which determine the type of each expression types under the assumption that the variables are associated to specific types.</li>
+  <li>
+    <p>The assumptions we make about the typing of variables are specified in a <strong>type environment</strong>.</p>
+  </li>
+  <li>The type checking algorithm determines how to traverse the AST of an expression to check that all the nodes in the expression are correctly typed and compatible with the type annotations.</li>
+</ul>
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

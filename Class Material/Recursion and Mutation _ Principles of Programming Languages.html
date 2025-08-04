@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)https://bguppl.github.io/interpreters/class_material/2.8RecursionMutation.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Recursion and Mutation | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Recursion and Mutation">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/2.8RecursionMutation.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/2.8RecursionMutation.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Recursion and Mutation">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Recursion and Mutation","url":"https://bguppl.github.io/interpreters/class_material/2.8RecursionMutation.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Recursion and Mutation _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Recursion and Mutation _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-mo {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-stretchy-h {
+  display: inline-table;
+  width: 100%;
+}
+
+mjx-stretchy-h > * {
+  display: table-cell;
+  width: 0;
+}
+
+mjx-stretchy-h > * > mjx-c {
+  display: inline-block;
+  transform: scalex(1.0000001);
+}
+
+mjx-stretchy-h > * > mjx-c::before {
+  display: inline-block;
+  width: initial;
+}
+
+mjx-stretchy-h > mjx-ext {
+  /* IE */ overflow: hidden;
+  /* others */ overflow: clip visible;
+  width: 100%;
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c::before {
+  transform: scalex(500);
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c {
+  width: 0;
+}
+
+mjx-stretchy-h > mjx-beg > mjx-c {
+  margin-right: -.1em;
+}
+
+mjx-stretchy-h > mjx-end > mjx-c {
+  margin-left: -.1em;
+}
+
+mjx-stretchy-v {
+  display: inline-block;
+}
+
+mjx-stretchy-v > * {
+  display: block;
+}
+
+mjx-stretchy-v > mjx-beg {
+  height: 0;
+}
+
+mjx-stretchy-v > mjx-end > mjx-c {
+  display: block;
+}
+
+mjx-stretchy-v > * > mjx-c {
+  transform: scaley(1.0000001);
+  transform-origin: left center;
+  overflow: hidden;
+}
+
+mjx-stretchy-v > mjx-ext {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  border: 0px solid transparent;
+  /* IE */ overflow: hidden;
+  /* others */ overflow: visible clip;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c::before {
+  width: initial;
+  box-sizing: border-box;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c {
+  transform: scaleY(500) translateY(.075em);
+  overflow: visible;
+}
+
+mjx-mark {
+  display: inline-block;
+  height: 0px;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D43F.TEX-I::before {
+  padding: 0.683em 0.681em 0 0;
+  content: "L";
+}
+
+mjx-c.mjx-c34::before {
+  padding: 0.677em 0.5em 0 0;
+  content: "4";
+}
+
+mjx-c.mjx-c2212::before {
+  padding: 0.583em 0.778em 0.082em 0;
+  content: "\2212";
+}
+
+mjx-c.mjx-c1D44F.TEX-I::before {
+  padding: 0.694em 0.429em 0.011em 0;
+  content: "b";
+}
+
+mjx-c.mjx-c1D45C.TEX-I::before {
+  padding: 0.441em 0.485em 0.011em 0;
+  content: "o";
+}
+
+mjx-c.mjx-c1D465.TEX-I::before {
+  padding: 0.442em 0.572em 0.011em 0;
+  content: "x";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Recursion and Mutation _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="recursion-and-mutation">Recursion and Mutation</h1>
+<h2 id="ppl-2023">PPL 2023</h2>
+
+<p>The environment model we have introduced in the previous lecture has a limitation: it does not support recursive functions.
+Consider the following program:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nf">fact</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span> 
+              <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+                  <span class="mi">1</span>
+                  <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="p">(</span><span class="nf">fact</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)))))))</span>
+  <span class="p">(</span><span class="nf">fact</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nv">=&gt;</span>
+<span class="nv">Error:</span> <span class="nv">fact:</span> <span class="nv">undefined</span><span class="c1">; cannot reference an identifier before its definition</span>
+</code></pre></div></div>
+
+<p>The reason we cannot invoke <code class="language-plaintext highlighter-rouge">fact</code> in the body of the closure is that the closure is evaluated in the global environment, 
+<strong>before the fact binding is added</strong>.  Hence, when we apply the closure by invoking <code class="language-plaintext highlighter-rouge">(fact 3)</code>, we evaluate the body of the closure in the same global environment - and not in the environment created by the let expression.</p>
+
+<p>The solution introduced in Scheme in order to address this issue is a separate special form called <strong>letrec</strong>.  <code class="language-plaintext highlighter-rouge">Letrec</code> has exactly the same syntax as let, but <strong>different scoping rules</strong>: the right-side of the bindings in <code class="language-plaintext highlighter-rouge">letrec</code> are evaluated in the environment which includes the bindings.</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">letrec</span> <span class="p">((</span><span class="nf">fact</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span> 
+                 <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+                     <span class="mi">1</span>
+                     <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="p">(</span><span class="nf">fact</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)))))))</span>
+  <span class="p">(</span><span class="nf">fact</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nv">=&gt;</span> <span class="mi">6</span>
+</code></pre></div></div>
+
+<p>We address in this lecture how the interpreter must be modified to support <code class="language-plaintext highlighter-rouge">letrec</code>.</p>
+
+<p><strong><em>Global Recursive Definition</em></strong></p>
+
+<p>A similar problem exists when evaluating global definitions of recursive functions with <code class="language-plaintext highlighter-rouge">define</code>.<br>
+Recall from the binding rules we presented in the Section <a href="https://bguppl.github.io/interpreters/class_material/class_material/2.4SyntacticOperations.html">Scheme Binding Rules</a>
+that in an expression <code class="language-plaintext highlighter-rouge">(define var val)</code>, <code class="language-plaintext highlighter-rouge">val</code> should be evaluated within the scope of the <code class="language-plaintext highlighter-rouge">var</code> declaration.  But our implementation of the environment 
+model does not allow this.  An indeed the following test <strong>fails</strong> when we use the L4-eval interpreter
+(see <a href="https://github.com/bguppl/interpreters/blob/master/test/L4/L4-eval.test.ts">L4-eval.tests.ts</a>).</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Recursive procedure = does not work with ExtEnv</span>
+<span class="c1">// message: 'Error: Bad argument: "var not found f"'</span>
+<span class="nx">assert</span><span class="p">(</span><span class="nx">isError</span><span class="p">(</span><span class="nx">evalParse4</span><span class="p">(</span><span class="dl">"</span><span class="s2">(L4 (define f (lambda (x) (if (= x 0) 1 (* x (f (- x 1)))))) (f 3))</span><span class="dl">"</span><span class="p">)));</span>
+</code></pre></div></div>
+
+<p>We remember, however, that similar code <strong>did work</strong> when using the L3-eval interpreter
+(see <a href="https://github.com/bguppl/interpreters/blob/master/test/L3/L3.test.ts">L3.tests.ts</a>):</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">//</span> <span class="nv">L3</span> <span class="nv">recursive</span> <span class="nv">function</span> <span class="nv">definition:</span> <span class="nv">map</span>
+<span class="nv">assert</span><span class="o">.</span><span class="nv">deepEqual</span><span class="p">(</span><span class="nf">evalParse</span><span class="p">(</span><span class="o">`</span>
+<span class="p">(</span><span class="nf">L3</span> <span class="p">(</span><span class="k">define</span> <span class="nv">map</span>
+            <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">l</span><span class="p">)</span>
+              <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">eq?</span> <span class="nv">l</span> <span class="o">'</span><span class="p">())</span>
+                  <span class="nv">l</span>
+                  <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">car</span> <span class="nv">l</span><span class="p">))</span> <span class="p">(</span><span class="nb">map</span> <span class="nv">f</span> <span class="p">(</span><span class="nb">cdr</span> <span class="nv">l</span><span class="p">))))))</span>
+    <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
+         <span class="o">'</span><span class="p">(</span><span class="nf">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)))</span><span class="o">`</span><span class="p">)</span><span class="o">,</span>
+    <span class="nv">makeCompoundSExp</span><span class="p">([</span><span class="nf">1,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">9</span><span class="p">]))</span><span class="c1">;</span>
+</code></pre></div></div>
+
+<p>That is, we did not meet the problem of global recursive functions in the substitution model, but we do face it in the environment model.  Try to understand why this was the case.</p>
+
+<p>It is impossible to define recursive functions using the <code class="language-plaintext highlighter-rouge">let</code> expression in both models (substitution and environment models).</p>
+
+<p>In this lecture, we clarify how to process recursive definitions - both local (with letrec) and global (with define).</p>
+
+<h2 id="recursive-environment">Recursive Environment</h2>
+
+<p>The semantic evaluation rule of <code class="language-plaintext highlighter-rouge">letrec</code> we want to achieve is that the right hand side of the bindings are evaluated in the environment that already includes the bindings.  That is, we want to evaluate:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span> 
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="mi">1</span>
+      <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="p">(</span><span class="nf">fact</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>in an environment where a binding for <code class="language-plaintext highlighter-rouge">fact</code> already exists. This is important, because the resulting value - a closure - must keep a reference to this environment if we want the recursion to work.</p>
+
+<p>The problem is naturally that we cannot create such an environment because we haven’t yet computed the value for <code class="language-plaintext highlighter-rouge">fact</code> - chicken and egg problem.</p>
+
+<p>If we could create circular data structures, we could think of a solution to this conundrum.</p>
+
+<p>We find a solution that is specialized to procedures and exploits their property.</p>
+
+<p>Let us consider the syntax of <code class="language-plaintext highlighter-rouge">letrec</code> - and keep it only for cases where we want to bind procedures to names.
+In other cases, there is rarely a reason to choose letrec instead of <code class="language-plaintext highlighter-rouge">let</code> (there are some cases where this might be useful, but we will not consider them at this point).</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">letrec</span><span class="o">-</span><span class="nx">exp</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span><span class="nx">letrec</span> <span class="p">(</span><span class="o">&lt;</span><span class="nx">pbinding</span><span class="o">&gt;*</span><span class="p">)</span> <span class="o">&lt;</span><span class="nx">cexp</span><span class="o">&gt;+</span><span class="p">)</span> <span class="c1">// letrec-exp(bindings:List(Binding), body:List(Cexp))</span>
+<span class="o">&lt;</span><span class="nx">pbinding</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span><span class="o">&lt;</span><span class="kd">var</span><span class="o">-</span><span class="nx">decl</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">proc</span><span class="o">-</span><span class="nx">exp</span><span class="o">&gt;</span><span class="p">)</span> <span class="c1">// binding(var:Var-decl, val:proc-exp)</span>
+</code></pre></div></div>
+
+<p>In this syntax, the right-hand side of a binding in <code class="language-plaintext highlighter-rouge">letrec</code> can only be procedure expression (lambda).</p>
+
+<p>Let us consider the evaluation rule of the closely related <code class="language-plaintext highlighter-rouge">lex-exp</code> and pinpoint what exactly must be changed for <code class="language-plaintext highlighter-rouge">letrec</code>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">If</span> <span class="nx">exp</span> <span class="o">=</span> <span class="kd">let</span><span class="o">-</span><span class="nx">exp</span><span class="p">(</span><span class="nx">bindings</span><span class="p">,</span> <span class="nx">body</span><span class="p">):</span>
+  <span class="nx">env</span><span class="o">-</span><span class="nb">eval</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">env</span><span class="p">)</span> <span class="k">is</span> <span class="nx">computed</span> <span class="nx">by</span><span class="p">:</span>
+      <span class="kd">let</span> <span class="nx">vars</span> <span class="o">=</span> <span class="nx">variables</span> <span class="k">in</span> <span class="nx">bindings</span>
+          <span class="nx">vals</span> <span class="o">=</span> <span class="nx">value</span> <span class="nx">expressions</span> <span class="k">in</span> <span class="nx">bindings</span>
+          <span class="c1">// ### WE MUST CHANGE THIS FOR LETREC</span>
+          <span class="kd">let</span> <span class="nx">cvals</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="nx">env</span><span class="p">)</span> <span class="k">for</span> <span class="nx">val</span> <span class="k">in</span> <span class="nx">vals</span>  
+              <span class="k">return</span> <span class="nb">eval</span><span class="o">-</span><span class="nx">sequence</span><span class="p">(</span><span class="nx">body</span><span class="p">,</span> 
+                                   <span class="nx">extend</span><span class="o">-</span><span class="nx">env</span><span class="p">(</span><span class="nx">env</span><span class="p">,</span> <span class="nx">make</span><span class="o">-</span><span class="nx">frame</span><span class="p">(</span><span class="nx">vars</span><span class="p">,</span> <span class="nx">cvals</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>We must change the way the values of the vars are computed - so that they are computed in the right environment.</p>
+
+<p>This is where we see the opportunity: in order to compute a closure, we do in fact very little - we package three values together, the procedure params, the procedure body and the current environment.  That is, the computation of a closure is really a simple affair - no recursion, just packing 3 values together into a closure structure.</p>
+
+<p>Our problem is that when we want to compute these closures, we do not have access to the env value to be packed into the closure (recall that a closure is an object with 3 fields <code class="language-plaintext highlighter-rouge">closure(bindings, body, env)</code>).</p>
+
+<p>The solution to this problem is: <strong>delay</strong>.<br>
+We do not have the <code class="language-plaintext highlighter-rouge">env</code> value when we create the closure - but we do not really need it at this point.
+We will need it in the future when the closure is applied. 
+When the closure will be applied, we will have access to the new env.</p>
+
+<p>Putting these ideas together, we define a new version of the environment data structure which supports a new special form of environments which we call recursive environments:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">env</span><span class="o">&gt;</span>          <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nx">empty</span><span class="o">-</span><span class="nx">env</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">extended</span><span class="o">-</span><span class="nx">env</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">recursive</span><span class="o">-</span><span class="nx">env</span><span class="o">&gt;</span>  <span class="c1">// Add a new option for environments</span>
+<span class="o">&lt;</span><span class="nx">empty</span><span class="o">-</span><span class="nx">env</span><span class="o">&gt;</span>    <span class="p">::</span><span class="o">=</span> <span class="p">()</span>  <span class="c1">// no fields - a singleton data type.</span>
+<span class="o">&lt;</span><span class="nx">extended</span><span class="o">-</span><span class="nx">env</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="nx">extended</span><span class="o">-</span><span class="nx">env</span><span class="p">(</span><span class="nx">frame</span><span class="p">:</span><span class="nx">Frame</span><span class="p">,</span> <span class="nx">enclosing</span><span class="o">-</span><span class="nx">env</span><span class="p">:</span><span class="nx">Env</span><span class="p">)</span> <span class="c1">// Linked list of frames as previously</span>
+<span class="o">&lt;</span><span class="nx">rec</span><span class="o">-</span><span class="nx">env</span><span class="o">&gt;</span>      <span class="p">::</span><span class="o">=</span> <span class="nx">rec</span><span class="o">-</span><span class="nx">env</span><span class="p">(</span><span class="nx">vars</span><span class="p">:</span><span class="nx">List</span><span class="p">(</span><span class="kr">string</span><span class="p">),</span> <span class="nx">paramss</span><span class="p">:</span><span class="nx">List</span><span class="p">(</span><span class="nx">List</span><span class="p">(</span><span class="kd">var</span><span class="o">-</span><span class="nx">decl</span><span class="p">)),</span> <span class="nx">bodies</span><span class="p">:</span><span class="nx">List</span><span class="p">(</span><span class="nx">List</span><span class="p">(</span><span class="nx">Cexp</span><span class="p">),</span> <span class="nx">enclosing</span><span class="o">-</span><span class="nx">env</span><span class="p">:</span><span class="nx">Env</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>A rec-env stores a frame mapping names to “almost closures” - that is a list of params and a body.
+We do <strong>not</strong> store the closure-env in the rec-env.</p>
+
+<p>But when we compute the <code class="language-plaintext highlighter-rouge">apply-env</code> of a rec-env to a string, we construct the closure at lookup time, with the correct env:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">define</span> <span class="nx">apply</span><span class="o">-</span><span class="nx">env</span><span class="p">(</span><span class="nx">env</span><span class="p">:</span><span class="nx">Env</span><span class="p">,</span> <span class="kd">var</span><span class="p">:</span><span class="kr">string</span><span class="p">)</span>
+  <span class="c1">// Same definition as the regular env</span>
+  <span class="k">if</span> <span class="nx">env</span> <span class="k">is</span> <span class="nx">empty</span><span class="o">-</span><span class="nx">env</span><span class="p">:</span>
+    <span class="nx">error</span> <span class="dl">"</span><span class="s2">Var not found</span><span class="dl">"</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="nx">env</span> <span class="k">is</span> <span class="nx">extended</span><span class="o">-</span><span class="nx">env</span><span class="p">:</span>
+    <span class="k">if</span> <span class="kd">var</span> <span class="k">is</span> <span class="nx">found</span> <span class="k">in</span> <span class="nx">env</span><span class="o">-&gt;</span><span class="nx">frame</span><span class="p">(</span><span class="nx">env</span><span class="p">)</span> <span class="k">return</span> <span class="nx">apply</span><span class="o">-</span><span class="nx">frame</span><span class="p">(</span><span class="nx">frame</span><span class="p">,</span> <span class="kd">var</span><span class="p">)</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="nx">apply</span><span class="o">-</span><span class="nx">env</span><span class="p">(</span><span class="nx">env</span><span class="o">-&gt;</span><span class="nx">enclosing</span><span class="o">-</span><span class="nx">env</span><span class="p">(</span><span class="nx">env</span><span class="p">),</span> <span class="kd">var</span><span class="p">)</span>
+
+  <span class="c1">// New case of the recursive end</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="nx">env</span> <span class="k">is</span> <span class="nx">rec</span><span class="o">-</span><span class="nx">env</span><span class="p">:</span>
+    <span class="k">if</span> <span class="kd">var</span> <span class="k">is</span> <span class="nx">the</span> <span class="nx">ith</span> <span class="nx">item</span> <span class="k">in</span> <span class="nx">env</span><span class="o">-&gt;</span><span class="nx">vars</span><span class="p">:</span>
+      <span class="kd">let</span> <span class="nx">params</span> <span class="o">=</span> <span class="nx">env</span><span class="o">-&gt;</span><span class="nx">paramss</span><span class="p">(</span><span class="nx">env</span><span class="p">)[</span><span class="nx">i</span><span class="p">]</span>
+          <span class="nx">body</span> <span class="o">=</span> <span class="nx">env</span><span class="o">-&gt;</span><span class="nx">bodies</span><span class="p">(</span><span class="nx">env</span><span class="p">)[</span><span class="nx">i</span><span class="p">]</span>
+          <span class="c1">// Construct the closure at lookup time using the env itself</span>
+          <span class="k">return</span> <span class="nx">make</span><span class="o">-</span><span class="nx">closure</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="nx">body</span><span class="p">,</span> <span class="nx">env</span><span class="p">)</span>
+    <span class="k">else</span>
+      <span class="k">return</span> <span class="nx">apply</span><span class="o">-</span><span class="nx">env</span><span class="p">(</span><span class="nx">env</span><span class="o">-&gt;</span><span class="nx">enclosing</span><span class="o">-</span><span class="nx">env</span><span class="p">(</span><span class="nx">env</span><span class="p">),</span> <span class="kd">var</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Observe how the closure is constructed at lookup time - when we retrieve the value of a variable from a recursive env.
+At this point, we have access to all the required components: params, body and the env to construct the correct closure.</p>
+
+<h2 id="implementation-of-the-recursive-environment-model">Implementation of the Recursive Environment Model</h2>
+
+<p>This model of recursive environments is implemented in our code in the <a href="https://github.com/bguppl/interpreters/tree/master/src/L4">L4 interpreter</a>:</p>
+<ul>
+  <li>AST for L4 - with let and letrec: <a href="https://github.com/bguppl/interpreters/blob/master/src/L4/L4-ast.ts">L4-ast.ts</a></li>
+  <li>Immutable environment data type - empty-env, extend-env, rec-env: <a href="https://github.com/bguppl/interpreters/blob/master/src/L4/L4-env.ts">L4-env.ts</a></li>
+  <li>Values for L4: <a href="https://github.com/bguppl/interpreters/blob/master/src/L4/L4-value.ts">L4-value.ts</a></li>
+  <li>Environment-based interpreter with direct evaluation of let and letrec: <a href="https://github.com/bguppl/interpreters/blob/master/src/L4/L4-eval.ts">L4-eval.ts</a></li>
+</ul>
+
+<p>This interpreter supports letrec expressions and recursive local procedures such as the fact example above, or mutually recursive procedures such as this example program:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">f</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">letrec</span> <span class="p">((</span><span class="nb">even?</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+                       <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">x</span> <span class="mi">0</span><span class="p">)</span>
+                           <span class="no">#t</span>
+                           <span class="p">(</span><span class="nb">odd?</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)))))</span>
+             <span class="p">(</span><span class="nb">odd?</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+                      <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">x</span> <span class="mi">0</span><span class="p">)</span>
+                          <span class="no">#f</span>
+                          <span class="p">(</span><span class="nb">even?</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">))))))</span>
+       <span class="p">(</span><span class="nb">even?</span> <span class="nv">x</span><span class="p">))))</span>
+<span class="p">(</span><span class="nf">f</span> <span class="mi">10</span><span class="p">)</span>
+<span class="nv">=&gt;</span> <span class="no">#t</span>
+</code></pre></div></div>
+
+<h2 id="handling-recursive-define-expressions">Handling Recursive define Expressions</h2>
+
+<p>The solution we have implemented for <code class="language-plaintext highlighter-rouge">letrec</code> must be extended to support recursive toplevel definitions using <code class="language-plaintext highlighter-rouge">define</code> expressions.</p>
+
+<p>Recall that we handled define expressions in the <code class="language-plaintext highlighter-rouge">eval-program</code> procedure: we obtain a list of expressions, which can be either CExp or DefExp expressions.  We evaluate each one in turn, if it is a DefExp, we evaluate it and obtain a new environment, which is then used for the remaining expressions.</p>
+
+<p>To support recursive define expressions, we must consider the cases where the value of the DefExp is a ProcExp or a non-procedural expression.</p>
+
+<p>This is handled in the following code:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Eval a sequence of expressions when the first exp is a Define.</span>
+<span class="c1">// Compute the rhs of the define, extend the env with the new binding</span>
+<span class="c1">// then compute the rest of the exps in the new env.</span>
+<span class="kd">const</span> <span class="nx">evalDefineExps</span> <span class="o">=</span> <span class="p">(</span><span class="nx">def</span><span class="p">:</span> <span class="nx">Exp</span><span class="p">,</span> <span class="nx">exps</span><span class="p">:</span> <span class="nx">Exp</span><span class="p">[],</span> <span class="nx">env</span><span class="p">:</span> <span class="nx">Env</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">Value</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">isDefineExp</span><span class="p">(</span><span class="nx">def</span><span class="p">)</span> <span class="p">?</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">applicativeEval</span><span class="p">(</span><span class="nx">def</span><span class="p">.</span><span class="nx">val</span><span class="p">,</span> <span class="nx">env</span><span class="p">),</span>
+                            <span class="p">(</span><span class="nx">rhs</span><span class="p">:</span> <span class="nx">Value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">evalSequence</span><span class="p">(</span><span class="nx">exps</span><span class="p">,</span> <span class="nx">makeExtEnv</span><span class="p">([</span><span class="nx">def</span><span class="p">.</span><span class="kd">var</span><span class="p">.</span><span class="kd">var</span><span class="p">],</span> <span class="p">[</span><span class="nx">rhs</span><span class="p">],</span> <span class="nx">env</span><span class="p">)))</span> <span class="p">:</span>
+    <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">Unexpected </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">def</span><span class="p">);</span>
+
+<span class="c1">// ============================================</span>
+<span class="c1">// Eval a sequence of expressions when the first exp is a Define.</span>
+<span class="c1">// Compute the rhs of the define, extend the env with the new binding</span>
+<span class="c1">// then compute the rest of the exps in the new env.</span>
+<span class="kd">const</span> <span class="nx">evalDefineExps</span> <span class="o">=</span> <span class="p">(</span><span class="nx">exps</span><span class="p">:</span> <span class="nx">Exp</span><span class="p">[],</span> <span class="nx">env</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">Value</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">def</span> <span class="o">=</span> <span class="nx">first</span><span class="p">(</span><span class="nx">exps</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">isDefineExp</span><span class="p">(</span><span class="nx">def</span><span class="p">))</span> <span class="p">{</span>
+        <span class="c1">// Check if rhs is ProcExp - use a recEnv - else an extEnv</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">isProcExp</span><span class="p">(</span><span class="nx">def</span><span class="p">.</span><span class="nx">val</span><span class="p">))</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">newEnv</span> <span class="o">=</span> <span class="nx">makeRecEnv</span><span class="p">([</span><span class="nx">def</span><span class="p">.</span><span class="kd">var</span><span class="p">.</span><span class="kd">var</span><span class="p">],</span> <span class="p">[</span><span class="nx">def</span><span class="p">.</span><span class="nx">val</span><span class="p">.</span><span class="nx">args</span><span class="p">],</span> <span class="p">[</span><span class="nx">def</span><span class="p">.</span><span class="nx">val</span><span class="p">.</span><span class="nx">body</span><span class="p">],</span> <span class="nx">env</span><span class="p">);</span>
+            <span class="k">return</span> <span class="nx">evalExps</span><span class="p">(</span><span class="nx">rest</span><span class="p">(</span><span class="nx">exps</span><span class="p">),</span> <span class="nx">newEnv</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">rhs</span> <span class="o">=</span> <span class="nx">applicativeEval</span><span class="p">(</span><span class="nx">def</span><span class="p">.</span><span class="nx">val</span><span class="p">,</span> <span class="nx">env</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">isFailure</span><span class="p">(</span><span class="nx">rhs</span><span class="p">))</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">rhs</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="kd">const</span> <span class="nx">newEnv</span> <span class="o">=</span> <span class="nx">makeExtEnv</span><span class="p">([</span><span class="nx">def</span><span class="p">.</span><span class="kd">var</span><span class="p">.</span><span class="kd">var</span><span class="p">],</span> <span class="p">[</span><span class="nx">rhs</span><span class="p">],</span> <span class="nx">env</span><span class="p">);</span>
+                <span class="k">return</span> <span class="nx">evalSequence</span><span class="p">(</span><span class="nx">rest</span><span class="p">(</span><span class="nx">exps</span><span class="p">),</span> <span class="nx">newEnv</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">MakeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">never</span><span class="dl">"</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>With this definition, our interpreter supports recursive toplevel procedures such as this program:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">f</span> 
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="mi">1</span>
+        <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+</code></pre></div></div>
+
+<h3 id="forward-definitions-and-toplevel-mutual-recursion">Forward Definitions and Toplevel Mutual Recursion</h3>
+
+<p>This implementation of define, however, has 2 limitations:</p>
+
+<p>The following program fails:</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">f</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">g</span> <span class="nv">x</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">g</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">f</span> <span class="mi">5</span><span class="p">)</span>
+<span class="nv">=&gt;</span> <span class="nv">error</span> <span class="nv">-</span> <span class="nv">g</span> <span class="nv">is</span> <span class="nv">undefined</span>
+</code></pre></div></div>
+
+<p>This happens because, when we evaluate the first <code class="language-plaintext highlighter-rouge">define</code>, we obtain a closure which refers to the environment which contains <code class="language-plaintext highlighter-rouge">f</code> - but <code class="language-plaintext highlighter-rouge">g</code> is not yet defined.</p>
+
+<p>When we later define <code class="language-plaintext highlighter-rouge">g</code> in the second define, the environment attached to the <code class="language-plaintext highlighter-rouge">f</code> closure is not updated - it still does not know about <code class="language-plaintext highlighter-rouge">g</code>.</p>
+
+<p>This behavior does not fit what happens in Scheme and in JavaScript.</p>
+
+<p>But it is in fact similar to what happens in languages like Java and C++ and Pascal.  In such languages, a function cannot use in its body another function which is not already declared (in a header or in an import).</p>
+
+<p>The second problem is that we cannot define toplevel mutually recursive procedures in this implementation:</p>
+
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">define</span> <span class="nv">even?</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">x</span> <span class="mi">0</span><span class="p">)</span> <span class="no">#t</span> <span class="p">(</span><span class="nb">odd?</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)))))</span>
+<span class="p">(</span><span class="k">define</span> <span class="nv">odd?</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">x</span> <span class="mi">0</span><span class="p">)</span> <span class="no">#f</span> <span class="p">(</span><span class="nb">even?</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)))))</span>
+<span class="p">(</span><span class="nb">even?</span> <span class="mi">10</span><span class="p">)</span>
+<span class="nv">=&gt;</span> <span class="nv">error:</span> <span class="nv">odd?</span> <span class="nv">is</span> <span class="nv">not</span> <span class="nv">defined</span>
+</code></pre></div></div>
+
+<p>We now develop a variant environment model which implements the behavior of the global environment according to the Scheme semantics and supports the 2 cases above.</p>
+
+<h2 id="recursion-using-mutation">Recursion using Mutation</h2>
+
+<p>Another way to support recursion in the interpreter - for both <code class="language-plaintext highlighter-rouge">letrec</code> and <code class="language-plaintext highlighter-rouge">define</code> - is to use <strong>mutation in the environment</strong>.</p>
+
+<p>Let us first introduce support for mutation in our subset of TypeScript by introducing the <strong>Box</strong> data type.</p>
+
+<h3 id="box-datatype-in-typescript">Box Datatype in TypeScript</h3>
+
+<p>The box datatype is a way to encapsulate places where we want to allow mutation in our program.</p>
+
+<p>The box datatype is defined by the following interface:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Purpose: value constructor for box datatype</span>
+<span class="c1">// Signature: makeBox(v)</span>
+<span class="c1">// Type: [T -&gt; Box(T)]</span>
+
+<span class="c1">// Purpose: Type predicate for box datatype</span>
+<span class="c1">// Signature: isBox(x)</span>
+<span class="c1">// Type: [any -&gt; Boolean]</span>
+
+<span class="c1">// Purpose: Accessor for the box datatype</span>
+<span class="c1">// Signature: unbox(b)</span>
+<span class="c1">// Type: [Box(T) -&gt; T]</span>
+
+<span class="c1">// Purpose: Mutator for the box datatype</span>
+<span class="c1">// Signature: setBox(b, v)</span>
+<span class="c1">// Type: [Box(T) * T -&gt; void]</span>
+</code></pre></div></div>
+
+<p>We do not really need the box datatype in TypeScript, since TypeScript supports mutation (it is not a pure functional language).  But we introduce this datatype to mark explicitly the places where we use mutation - so that we can analyze and control precisely the impact of these mutations.</p>
+
+<p>We implement the box datatype as follows <a href="https://github.com/bguppl/interpreters/blob/master/src/shared/box.ts">shared/box.ts</a>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ========================================================</span>
+<span class="c1">// Box datatype</span>
+<span class="c1">// Encapsulate mutation in a single type.</span>
+<span class="kd">type</span> <span class="nx">Box</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">[</span><span class="nx">T</span><span class="p">];</span>
+<span class="kd">const</span> <span class="nx">makeBox</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">T</span><span class="p">):</span> <span class="nx">Box</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">([</span><span class="nx">x</span><span class="p">]);</span>
+<span class="kd">const</span> <span class="nx">unbox</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">b</span><span class="p">:</span> <span class="nx">Box</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">):</span> <span class="nx">T</span> <span class="o">=&gt;</span> <span class="nx">b</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="kd">const</span> <span class="nx">setBox</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">b</span><span class="p">:</span> <span class="nx">Box</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="nx">v</span><span class="p">:</span> <span class="nx">T</span><span class="p">):</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nx">v</span><span class="p">;</span> <span class="k">return</span><span class="p">;</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="mutable-environment-data-type">Mutable Environment Data Type</h3>
+
+<p>On the basis of the Box datatype, we define a new mutable environment data type.
+We distinguish two types of environments:</p>
+<ul>
+  <li>The global-environment:
+    <ul>
+      <li>Contains the primitive bindings when the interpreter starts in a single frame.</li>
+      <li>The frame can be extended with new bindings (using the <code class="language-plaintext highlighter-rouge">define</code> special form).</li>
+      <li>Has no enclosing-environment.</li>
+      <li>Is the last element in all the extended environments.</li>
+    </ul>
+  </li>
+  <li>Extended environments:
+    <ul>
+      <li>These are all the other environments constructed at runtime;</li>
+      <li>They form a linked chain of frames ending with the global-environment;</li>
+      <li>One cannot add a binding to the frame of an extended environment (in contrast to the global environment).</li>
+      <li>But one can change the value of variable in a binding after the binding has been initialized.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>In this new model, the data types of env are:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">box</span><span class="o">-</span><span class="nx">env</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="o">&lt;</span><span class="nb">global</span><span class="o">-</span><span class="nx">env</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nx">extended</span><span class="o">-</span><span class="nx">box</span><span class="o">-</span><span class="nx">env</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nb">global</span><span class="o">-</span><span class="nx">env</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span><span class="nb">global</span><span class="o">-</span><span class="nx">env</span> <span class="nx">frame</span><span class="p">)</span> <span class="c1">// global-env(frame:Box(Frame))</span>
+<span class="o">&lt;</span><span class="nx">extended</span><span class="o">-</span><span class="nx">box</span><span class="o">-</span><span class="nx">env</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span><span class="nx">extended</span><span class="o">-</span><span class="nx">box</span><span class="o">-</span><span class="nx">env</span> <span class="nx">frame</span> <span class="nx">enclosing</span><span class="o">-</span><span class="nx">env</span><span class="p">)</span> <span class="c1">// extended-box-env(vars:List(string), frame: Frame)</span>
+
+<span class="o">&lt;</span><span class="nx">fbinding</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">val</span><span class="p">)</span> <span class="c1">// binding(var:string, val:Box(Value))</span>
+<span class="o">&lt;</span><span class="nx">frame</span><span class="o">&gt;</span> <span class="p">::</span><span class="o">=</span> <span class="p">(</span><span class="nx">frame</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">val</span><span class="p">)</span><span class="o">*</span><span class="p">)</span> <span class="c1">// frame(bindings:List(fbinding))</span>
+</code></pre></div></div>
+
+<p>The following operations are defined on this datatype:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Purpose: lookup the value of a var in a frame.</span>
+<span class="c1">// Signature: applyFrame(frame, var)</span>
+<span class="c1">// Type: [Frame * string -&gt; Value]</span>
+
+<span class="c1">// Purpose: update the value of a binding in a frame</span>
+<span class="c1">// Signature: setVarFrame(frame, var, val)</span>
+<span class="c1">// Type: [Frame * string * Value -&gt; void]</span>
+
+<span class="c1">// Purpose: lookup the value of a var in an environment</span>
+<span class="c1">// Signature: applyEnv(env, var)</span>
+<span class="c1">// Type: [Box-env * string -&gt; Value]</span>
+</code></pre></div></div>
+
+<p>A key transformation in this model is that variables are now bound to Boxes that contain their values.
+In all previous models, variables were directly bound to Values.
+See <a href="https://github.com/bguppl/interpreters/blob/master/src/L4/L4-env-box.ts">L4-env-box.ts</a>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">map</span><span class="p">,</span> <span class="nx">prepend</span><span class="p">,</span> <span class="nx">zipWith</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">ramda</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="c1">// ========================================================</span>
+<span class="c1">// Frame binding</span>
+<span class="kd">type</span> <span class="nx">FBinding</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">FBinding</span><span class="dl">"</span><span class="p">;</span>
+    <span class="nl">var</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="nl">val</span><span class="p">:</span> <span class="nx">Box</span><span class="o">&lt;</span><span class="nx">Value</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isFBinding</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">FBinding</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">FBinding</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">makeFBinding</span> <span class="o">=</span> <span class="p">(</span><span class="nx">v</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span> <span class="nx">Value</span><span class="p">):</span> <span class="nx">FBinding</span> <span class="o">=&gt;</span>
+    <span class="p">({</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">FBinding</span><span class="dl">"</span><span class="p">,</span> <span class="na">var</span><span class="p">:</span> <span class="nx">v</span><span class="p">,</span> <span class="na">val</span><span class="p">:</span> <span class="nx">makeBox</span><span class="p">(</span><span class="nx">val</span><span class="p">)});</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">getFBindingVar</span> <span class="o">=</span> <span class="p">(</span><span class="nx">f</span><span class="p">:</span> <span class="nx">FBinding</span><span class="p">):</span> <span class="kr">string</span> <span class="o">=&gt;</span> <span class="nx">f</span><span class="p">.</span><span class="kd">var</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">getFBindingVal</span> <span class="o">=</span> <span class="p">(</span><span class="nx">f</span><span class="p">:</span> <span class="nx">FBinding</span><span class="p">):</span> <span class="nx">Value</span> <span class="o">=&gt;</span> <span class="nx">unbox</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">val</span><span class="p">);</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">setFBinding</span> <span class="o">=</span> <span class="p">(</span><span class="nx">f</span><span class="p">:</span> <span class="nx">FBinding</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span> <span class="nx">Value</span><span class="p">):</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">setBox</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">val</span><span class="p">,</span> <span class="nx">val</span><span class="p">);</span> <span class="k">return</span><span class="p">;</span> <span class="p">};</span>
+
+<span class="c1">// ========================================================</span>
+<span class="c1">// Frame</span>
+<span class="k">export</span> <span class="kd">type</span> <span class="nx">Frame</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Frame</span><span class="dl">"</span><span class="p">;</span>
+    <span class="nl">fbindings</span><span class="p">:</span> <span class="nx">FBinding</span><span class="p">[];</span>
+<span class="p">};</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">makeFrame</span> <span class="o">=</span> <span class="p">(</span><span class="nx">vars</span><span class="p">:</span> <span class="kr">string</span><span class="p">[],</span> <span class="nx">vals</span><span class="p">:</span> <span class="nx">Value</span><span class="p">[]):</span> <span class="nx">Frame</span> <span class="o">=&gt;</span>
+    <span class="p">({</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Frame</span><span class="dl">"</span><span class="p">,</span> <span class="na">fbindings</span><span class="p">:</span> <span class="nx">zipWith</span><span class="p">(</span><span class="nx">makeFBinding</span><span class="p">,</span> <span class="nx">vars</span><span class="p">,</span> <span class="nx">vals</span><span class="p">)});</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">extendFrame</span> <span class="o">=</span> <span class="p">(</span><span class="nx">frame</span><span class="p">:</span> <span class="nx">Frame</span><span class="p">,</span> <span class="nx">v</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span> <span class="nx">Value</span><span class="p">):</span> <span class="nx">Frame</span> <span class="o">=&gt;</span>
+    <span class="p">({</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Frame</span><span class="dl">"</span><span class="p">,</span> <span class="na">fbindings</span><span class="p">:</span> <span class="nx">prepend</span><span class="p">(</span><span class="nx">makeFBinding</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">val</span><span class="p">),</span> <span class="nx">frame</span><span class="p">.</span><span class="nx">fbindings</span><span class="p">)});</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isFrame</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">Frame</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">Frame</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">frameVars</span> <span class="o">=</span> <span class="p">(</span><span class="nx">frame</span><span class="p">:</span> <span class="nx">Frame</span><span class="p">):</span> <span class="kr">string</span><span class="p">[]</span> <span class="o">=&gt;</span> <span class="nx">map</span><span class="p">(</span><span class="nx">getFBindingVar</span><span class="p">,</span> <span class="nx">frame</span><span class="p">.</span><span class="nx">fbindings</span><span class="p">);</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">frameVals</span> <span class="o">=</span> <span class="p">(</span><span class="nx">frame</span><span class="p">:</span> <span class="nx">Frame</span><span class="p">):</span> <span class="nx">Value</span><span class="p">[]</span> <span class="o">=&gt;</span> <span class="nx">map</span><span class="p">(</span><span class="nx">getFBindingVal</span><span class="p">,</span> <span class="nx">frame</span><span class="p">.</span><span class="nx">fbindings</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">applyFrame</span> <span class="o">=</span> <span class="p">(</span><span class="nx">frame</span><span class="p">:</span> <span class="nx">Frame</span><span class="p">,</span> <span class="nx">v</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">FBinding</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nx">frameVars</span><span class="p">(</span><span class="nx">frame</span><span class="p">).</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">v</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nx">pos</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">?</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">frame</span><span class="p">.</span><span class="nx">fbindings</span><span class="p">[</span><span class="nx">pos</span><span class="p">])</span> <span class="p">:</span> <span class="nx">makeFailure</span><span class="p">(</span><span class="s2">`Var not found: $</span><span class="p">${</span><span class="nx">v</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">setVarFrame</span> <span class="o">=</span> <span class="p">(</span><span class="nx">frame</span><span class="p">:</span> <span class="nx">Frame</span><span class="p">,</span> <span class="nx">v</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span> <span class="nx">Value</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">bind</span><span class="p">(</span><span class="nx">applyFrame</span><span class="p">(</span><span class="nx">frame</span><span class="p">,</span> <span class="nx">v</span><span class="p">),</span>
+         <span class="p">(</span><span class="nx">bdg</span><span class="p">:</span> <span class="nx">FBinding</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">makeOk</span><span class="p">(</span><span class="nx">setFBinding</span><span class="p">(</span><span class="nx">bdg</span><span class="p">,</span> <span class="nx">val</span><span class="p">)));</span>
+</code></pre></div></div>
+
+<p>The global-env is modeled as a single global variable - <strong>the-global-env</strong> with a specific method to add a binding to the single frame of the global env:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ========================================================</span>
+<span class="c1">// GlobalEnv</span>
+<span class="c1">// global-env - has a mutable frame - so that we can add bindings at any time - and impact</span>
+<span class="c1">// all existing environments which extend the global env.</span>
+<span class="kd">type</span> <span class="nx">GlobalEnv</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">GlobalEnv</span><span class="dl">"</span><span class="p">;</span>
+    <span class="nl">frame</span><span class="p">:</span> <span class="nx">Box</span><span class="o">&lt;</span><span class="nx">Frame</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">isGlobalEnv</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">x</span> <span class="k">is</span> <span class="nx">GlobalEnv</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">tag</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">GlobalEnv</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">makeGlobalEnv</span> <span class="o">=</span> <span class="p">():</span> <span class="nx">GlobalEnv</span> <span class="o">=&gt;</span> <span class="p">({</span><span class="na">tag</span><span class="p">:</span> <span class="dl">"</span><span class="s2">GlobalEnv</span><span class="dl">"</span><span class="p">,</span> <span class="na">frame</span><span class="p">:</span> <span class="nx">makeBox</span><span class="p">(</span><span class="nx">makeFrame</span><span class="p">([],</span> <span class="p">[]))});</span>
+
+<span class="c1">// There is a single mutable value in the type Global-env</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">theGlobalEnv</span> <span class="o">=</span> <span class="nx">makeGlobalEnv</span><span class="p">();</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">globalEnvSetFrame</span> <span class="o">=</span> <span class="p">(</span><span class="nx">ge</span><span class="p">:</span> <span class="nx">GlobalEnv</span><span class="p">,</span> <span class="nx">f</span><span class="p">:</span> <span class="nx">Frame</span><span class="p">):</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="nx">setBox</span><span class="p">(</span><span class="nx">ge</span><span class="p">.</span><span class="nx">frame</span><span class="p">,</span> <span class="nx">f</span><span class="p">);</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">globalEnvAddBinding</span> <span class="o">=</span> <span class="p">(</span><span class="nx">v</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">val</span><span class="p">:</span> <span class="nx">Value4</span><span class="p">):</span> <span class="k">void</span> <span class="o">=&gt;</span>
+    <span class="nx">globalEnvSetFrame</span><span class="p">(</span><span class="nx">theGlobalEnv</span><span class="p">,</span>
+                      <span class="nx">extendFrame</span><span class="p">(</span><span class="nx">unbox</span><span class="p">(</span><span class="nx">theGlobalEnv</span><span class="p">.</span><span class="nx">frame</span><span class="p">),</span> <span class="nx">v</span><span class="p">,</span> <span class="nx">val</span><span class="p">));</span>
+
+<span class="kd">const</span> <span class="nx">applyGlobalEnvBdg</span> <span class="o">=</span> <span class="p">(</span><span class="nx">ge</span><span class="p">:</span> <span class="nx">GlobalEnv</span><span class="p">,</span> <span class="nx">v</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">FBinding</span> <span class="o">|</span> <span class="nb">Error</span> <span class="o">=&gt;</span>
+    <span class="nx">applyFrame</span><span class="p">(</span><span class="nx">unbox</span><span class="p">(</span><span class="nx">ge</span><span class="p">.</span><span class="nx">frame</span><span class="p">),</span> <span class="nx">v</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>This data type is implemented in <a href="https://github.com/bguppl/interpreters/blob/master/src/L4/L4-env-box.ts">L4-env-box.ts</a>.</p>
+
+<h3 id="recursion-with-box-env">Recursion with Box-Env</h3>
+
+<p>On the basis of the box-env, we implement the let-rec evaluation rule as follows:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// @@ L4-EVAL-BOX </span>
+<span class="c1">// LETREC: Direct evaluation rule without syntax expansion</span>
+<span class="c1">// 1. extend the env with vars initialized to void (temporary value)</span>
+<span class="c1">// 2. compute the vals in the new extended env</span>
+<span class="c1">// 3. update the bindings of the vars to the computed vals</span>
+<span class="c1">// 4. compute body in extended env</span>
+<span class="kd">const</span> <span class="nx">evalLetrec</span> <span class="o">=</span> <span class="p">(</span><span class="nx">exp</span><span class="p">:</span> <span class="nx">LetrecExp</span><span class="p">,</span> <span class="nx">env</span><span class="p">:</span> <span class="nx">Env</span><span class="p">):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">Value</span><span class="o">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">vars</span> <span class="o">=</span> <span class="nx">map</span><span class="p">((</span><span class="na">b</span><span class="p">:</span> <span class="nx">Binding</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">b</span><span class="p">.</span><span class="kd">var</span><span class="p">.</span><span class="kd">var</span><span class="p">,</span> <span class="nx">exp</span><span class="p">.</span><span class="nx">bindings</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">vals</span> <span class="o">=</span> <span class="nx">map</span><span class="p">((</span><span class="na">b</span><span class="p">:</span> <span class="nx">Binding</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">val</span><span class="p">,</span> <span class="nx">exp</span><span class="p">.</span><span class="nx">bindings</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">extEnv</span> <span class="o">=</span> <span class="nx">makeExtEnv</span><span class="p">(</span><span class="nx">vars</span><span class="p">,</span> <span class="nx">repeat</span><span class="p">(</span><span class="kc">undefined</span><span class="p">,</span> <span class="nx">vars</span><span class="p">.</span><span class="nx">length</span><span class="p">),</span> <span class="nx">env</span><span class="p">);</span>
+    <span class="c1">// @@ Compute the vals in the extended env</span>
+    <span class="kd">const</span> <span class="nx">cvalsResult</span> <span class="o">=</span> <span class="nx">mapResult</span><span class="p">((</span><span class="na">v</span><span class="p">:</span> <span class="nx">CExp</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">applicativeEval</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">extEnv</span><span class="p">),</span> <span class="nx">vals</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">mapv</span><span class="p">(</span><span class="nx">cvalsResult</span><span class="p">,</span> <span class="p">(</span><span class="na">cvals</span><span class="p">:</span> <span class="nx">Value</span><span class="p">[])</span> <span class="o">=&gt;</span> 
+                        <span class="nx">zipWith</span><span class="p">((</span><span class="nx">bdg</span><span class="p">,</span> <span class="nx">cval</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">setFBinding</span><span class="p">(</span><span class="nx">bdg</span><span class="p">,</span> <span class="nx">cval</span><span class="p">),</span> <span class="nx">extEnv</span><span class="p">.</span><span class="nx">frame</span><span class="p">.</span><span class="nx">fbindings</span><span class="p">,</span> <span class="nx">cvals</span><span class="p">));</span>
+    <span class="k">return</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">result</span><span class="p">,</span> <span class="nx">_</span> <span class="o">=&gt;</span> <span class="nx">evalSequence</span><span class="p">(</span><span class="nx">exp</span><span class="p">.</span><span class="nx">body</span><span class="p">,</span> <span class="nx">extEnv</span><span class="p">));</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>We first create the environment with dummy temporary values for all the vars declared in the <code class="language-plaintext highlighter-rouge">letrec</code>
+(in the expression <code class="language-plaintext highlighter-rouge">makeExtEnv(vars, repeat(undefined, vars.length), env)</code>), then we evaluate them in this environment; finally we update the bindings with the computed values.</p>
+
+<p>Define expressions are handled as part of the <code class="language-plaintext highlighter-rouge">eval-program</code> which is modified as follows:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Eval a sequence of expressions when the first exp is a Define.</span>
+<span class="c1">// Compute the rhs of the define, extend the env with the new binding</span>
+<span class="c1">// then compute the rest of the exps in the new env.</span>
+<span class="c1">// L4-BOX @@</span>
+<span class="c1">// define always updates theGlobalEnv</span>
+<span class="c1">// We also only expect defineExps at the top level.</span>
+<span class="kd">const</span> <span class="nx">evalDefineExps</span> <span class="o">=</span> <span class="p">(</span><span class="nx">def</span><span class="p">:</span> <span class="nx">Exp</span><span class="p">,</span> <span class="nx">exps</span><span class="p">:</span> <span class="nx">Exp</span><span class="p">[]):</span> <span class="nx">Result</span><span class="o">&lt;</span><span class="nx">Value</span><span class="o">&gt;</span> <span class="o">=&gt;</span>
+    <span class="nx">isDefineExp</span><span class="p">(</span><span class="nx">def</span><span class="p">)</span> <span class="p">?</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">applicativeEval</span><span class="p">(</span><span class="nx">def</span><span class="p">.</span><span class="nx">val</span><span class="p">,</span> <span class="nx">theGlobalEnv</span><span class="p">),</span> <span class="p">(</span><span class="nx">rhs</span><span class="p">:</span> <span class="nx">Value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> 
+                            <span class="nx">globalEnvAddBinding</span><span class="p">(</span><span class="nx">def</span><span class="p">.</span><span class="kd">var</span><span class="p">.</span><span class="kd">var</span><span class="p">,</span> <span class="nx">rhs</span><span class="p">);</span>
+                            <span class="k">return</span> <span class="nx">evalSequence</span><span class="p">(</span><span class="nx">exps</span><span class="p">,</span> <span class="nx">theGlobalEnv</span><span class="p">);</span> 
+                       <span class="p">})</span> <span class="p">:</span>
+    <span class="nx">makeFailure</span><span class="p">(</span><span class="dl">"</span><span class="s2">Unexpected </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">def</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The evaluation rule for def-exp is the only place which invokes the special method <code class="language-plaintext highlighter-rouge">globalEnvAddBinding</code> which adds a binding to the single frame of the global env.  When this is performed, in effect, all the extended environments which exist at this point are modified - since their last frame is updated.</p>
+
+<p>The frame is updated by adding the new binding at the beginning of the frame - thus shadowing the previously defined value for the defined string.  We could change the implementation to prevent the re-definition of strings in the global environment.</p>
+
+<p>The full implementation of the L4 language extended with the set! mutation special form and with the Box-Env model is available in the following code:</p>
+<ul>
+  <li><a href="https://github.com/bguppl/interpreters/blob/master/src/L4/L4-eval-box.ts">L4-eval-box.ts</a> - interpreter for L4 with mutation and globalEnv</li>
+  <li><a href="https://github.com/bguppl/interpreters/blob/master/src/L4/L4-env-box.ts">L4-env-box.ts</a> - environment for L4 Box - globalEnv and extended Env.</li>
+  <li><a href="https://github.com/bguppl/interpreters/blob/master/src/L4/L4-value-box.ts">L4-value-box.ts</a> - values for L4 Box: S-expression and closures with captured env box.</li>
+  <li><a href="https://github.com/bguppl/interpreters/blob/master/test/L4/L4-eval-box.test.ts">L4-tests-box.ts</a> - tests for L4 Box interpreter.</li>
+</ul>
+
+<p>There are no differences in the AST definition between <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c34"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>4</mn></math></mjx-assistive-mml></mjx-container> and <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D43F TEX-I"></mjx-c></mjx-mi><mjx-mn class="mjx-n"><mjx-c class="mjx-c34"></mjx-c></mjx-mn><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c2212"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="3"><mjx-c class="mjx-c1D44F TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45C TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D465 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi><mn>4</mn><mo>−</mo><mi>b</mi><mi>o</mi><mi>x</mi></math></mjx-assistive-mml></mjx-container>.</p>
+
+<h2 id="denoted-values">Denoted Values</h2>
+
+<p>The change we have brought to the mutable environment is quite profound.</p>
+<ul>
+  <li>In all the previous models we had, variables were bound to values.</li>
+  <li>In this model, variables are bound to boxes that contain values.  The bindings are thus mutable.</li>
+</ul>
+
+<p>This modification opens the route to implementing variants of the interpreter such as passing arguments by reference as can be done in C++.  We will not pursue this route further, but obviously it would have deep impact on the language design.</p>
+
+<p>In general, when describing the operational semantics of a programming language, we have so far described two sets:</p>
+<ul>
+  <li>Expressions</li>
+  <li>Values</li>
+</ul>
+
+<p>We now see that in addition to these two sets - it is important to also describe the set called <strong>Denoted Values</strong> which is the set of objects bound to variables.  In all the interpreters we have seen before the box-env model, the set structure of the interpreters was:</p>
+
+<ul>
+  <li>Input: Expressions (AST)</li>
+  <li>Computed values: Value (Number | Boolean | Sexp | Void | Closure)</li>
+  <li>Denoted values = Computed values</li>
+</ul>
+
+<p>In the last model, we obtain:</p>
+
+<ul>
+  <li>Input: Expressions (AST)</li>
+  <li>Computed values: Value (Number | Boolean | Sexp | Void | Closure)</li>
+  <li>Denoted values = Box(Computed values)</li>
+</ul>
+
+<p>We could design a language which distinguishes mutable and immutable variables.  In this case, the structure of the sets would be:</p>
+
+<ul>
+  <li>Input: Expressions (AST)</li>
+  <li>Computed values: Value (Number | Boolean | Sexp | Void | Closure)</li>
+  <li>Denoted values = Box(Computed values) | Computed Values</li>
+</ul>
+
+<p>This is basically the structure of TypeScript when using the <em>immutable.js</em> package mentioned in the first chapter.</p>
+
+<h2 id="summary">Summary</h2>
+
+<ol>
+  <li>The environment model requires specific development to support recursive procedures.
+No such specific care was required in the substitution environment. (Explain why?)</li>
+  <li>
+    <p>Letrec is a special form in Scheme specifically designed to allow the definition of recursive local procedures.</p>
+  </li>
+  <li>We reviewed 2 distinct implementations of the env-model which support recursion:
+    <ul>
+      <li>using the rec-env environment implementation.</li>
+      <li>using mutation in the box-env environment implementation.</li>
+    </ul>
+  </li>
+  <li>In the rec-env implementation, we store closures in the environment without their env reference, and construct the actual
+closure value only at lookup time.</li>
+  <li>
+    <p>The rec-env implementation does not model correctly forward usages of toplevel functions and mutually recursive toplevel functions.</p>
+  </li>
+  <li>We model mutation in the meta-language with the Box datatype (makeBox, isBox, unbox, setBox)</li>
+  <li>The box-env data structure has 2 variants: global-env and extended-env; frames map variables to Box(value).</li>
+  <li>
+    <p>The global-env supports a specific add-binding! method which other envs do not.</p>
+  </li>
+  <li>In the definition of an interpreter, we distinguish 3 sets: Expressions, Computed Values and Denoted Values.</li>
+</ol>
+
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

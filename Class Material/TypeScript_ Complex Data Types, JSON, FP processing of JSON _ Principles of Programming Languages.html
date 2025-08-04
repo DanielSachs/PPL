@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<!-- saved from url=(0075)https://bguppl.github.io/interpreters/class_material/1.2TypescriptJSON.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>TypeScript: Complex Data Types, JSON, FP processing of JSON | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="TypeScript: Complex Data Types, JSON, FP processing of JSON">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/1.2TypescriptJSON.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/1.2TypescriptJSON.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="TypeScript: Complex Data Types, JSON, FP processing of JSON">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"TypeScript: Complex Data Types, JSON, FP processing of JSON","url":"https://bguppl.github.io/interpreters/class_material/1.2TypescriptJSON.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./TypeScript_ Complex Data Types, JSON, FP processing of JSON _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./TypeScript_ Complex Data Types, JSON, FP processing of JSON _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./TypeScript_ Complex Data Types, JSON, FP processing of JSON _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="typescript-complex-data-types-json-fp-processing-of-json">TypeScript: Complex Data Types, JSON, FP processing of JSON</h1>
+<h3 id="ppl-2023">PPL 2023</h3>
+
+<p>On the basis of the distinction atomic types / compound types, we can define more complex data types - that embed recursively
+maps and arrays.  We introduce <strong>Javascript Object Notation (JSON)</strong> which has become a common language to exchange complex data values across systems 
+(for example, between a client and a server or to store values in databases).</p>
+
+<p>We present the different types of JSON values and finally, we describe how <strong>higher-order functional patterns</strong> make processing of JSON values convenient and expressive.</p>
+
+<h2 id="literal-expressions-in-programming-languages">Literal Expressions in Programming Languages</h2>
+
+<p>In general, programming languages provide ways to specify values as part of expressions. 
+<strong>Literal expressions</strong> are the syntactic representation of values that appear as part of expressions.</p>
+
+<p>For example, consider the expression:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">v</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+    <span class="p">(</span><span class="nx">v</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">?</span> <span class="dl">"</span><span class="s2">ok</span><span class="dl">"</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">nok</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>In this compound expression, the sub-expressions <code class="language-plaintext highlighter-rouge">42</code>, <code class="language-plaintext highlighter-rouge">0</code>, <code class="language-plaintext highlighter-rouge">"ok"</code> and <code class="language-plaintext highlighter-rouge">"nok"</code> are all syntactic representations of 
+primitive values.  These expressions are string encodings of values each according to the rules of the 
+syntax of the language and to the type of the value (number, string, boolean).</p>
+
+<p>Distinguish between <strong>literal expressions</strong> and the <strong>values</strong> they represent:</p>
+<ul>
+  <li><strong>Literal expressions</strong> are part of the syntax of a programming language; they are evaluated.</li>
+  <li><strong>Values</strong> are the result of the evaluation; they are part of the semantics of the language.</li>
+</ul>
+
+<p>All programming languages provide syntax to write literal expressions for <strong>atomic values</strong>.</p>
+
+<p>For compound values, languages like Java and C++ provide no or very limited ways to specify literal expressions.
+For example, in Java to bind a list to its value, the following syntax must be used:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"avi"</span><span class="o">,</span> <span class="s">"bob"</span><span class="o">,</span> <span class="s">"chloe"</span><span class="o">));</span>
+</code></pre></div></div>
+
+<p>In contrast, in JavaScript, one would write directly a compound array values as:</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">names</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">avi</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">bob</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">chloe</span><span class="dl">"</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p>The key difference is that the Java expression is an invocation of constructor methods, while in JavaScript compound values can be written directly.  This difference becomes more significant as we consider even more complex value types.</p>
+
+<h2 id="complex-data-values-in-javascript">Complex Data Values in JavaScript</h2>
+
+<p>By combining arrays and maps, one can construct expressive data structures in JavaScript.
+For example, we can encode values such as:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">person1</span> <span class="o">=</span> <span class="p">{</span><span class="na">name</span><span class="p">:</span><span class="dl">"</span><span class="s2">avi</span><span class="dl">"</span><span class="p">,</span> <span class="na">age</span><span class="p">:</span><span class="mi">25</span><span class="p">},</span>
+    <span class="nx">person2</span> <span class="o">=</span> <span class="p">{</span><span class="na">name</span><span class="p">:</span><span class="dl">"</span><span class="s2">beate</span><span class="dl">"</span><span class="p">,</span> <span class="na">age</span><span class="p">:</span><span class="mi">23</span><span class="p">},</span>
+    <span class="nx">csDept</span> <span class="o">=</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span><span class="dl">"</span><span class="s2">CS</span><span class="dl">"</span><span class="p">,</span> <span class="na">faculty</span><span class="p">:</span><span class="dl">"</span><span class="s2">Natural Sciences</span><span class="dl">"</span><span class="p">},</span>
+    <span class="nx">course</span> <span class="o">=</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span><span class="dl">"</span><span class="s2">PPL</span><span class="dl">"</span><span class="p">,</span> <span class="na">dept</span><span class="p">:</span><span class="nx">csDept</span><span class="p">,</span> <span class="na">students</span><span class="p">:[</span><span class="nx">person1</span><span class="p">,</span> <span class="nx">person2</span><span class="p">]}</span>
+  <span class="nx">course</span>
+<span class="c1">// ==&gt;</span>
+<span class="c1">//      { name: 'PPL',</span>
+<span class="c1">//        dept: { name: 'CS', faculty: 'Natural Sciences' },</span>
+<span class="c1">//        students: [ { name: 'avi', age: 25 }, { name: 'beate', age: 23 } ] }</span>
+</code></pre></div></div>
+
+<p>We can also write this value directly, without building it “piece by piece” as a compound literal value expression.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">ppl</span> <span class="o">=</span> <span class="p">{</span> 
+  <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">PPL</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">dept</span><span class="p">:</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">CS</span><span class="dl">'</span><span class="p">,</span> <span class="na">faculty</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Natural Sciences</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="na">students</span><span class="p">:</span> <span class="p">[</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">avi</span><span class="dl">'</span><span class="p">,</span> <span class="na">age</span><span class="p">:</span> <span class="mi">25</span> <span class="p">},</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">beate</span><span class="dl">'</span><span class="p">,</span> <span class="na">age</span><span class="p">:</span> <span class="mi">23</span> <span class="p">}</span> <span class="p">]</span> <span class="p">};</span>
+    <span class="nx">ppl</span><span class="p">.</span><span class="nx">students</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">name</span><span class="p">;</span>
+<span class="c1">// =&gt;     'avi'</span>
+</code></pre></div></div>
+<p>In contrast, in Java, we would have to construct this complex value by invoking <code class="language-plaintext highlighter-rouge">new</code> on each sub-component, then consruct the value bottom up until the toplevel expression.  We would also need to define classes to describe the type of each subexpression - <code class="language-plaintext highlighter-rouge">Person</code>, <code class="language-plaintext highlighter-rouge">Dept</code>, <code class="language-plaintext highlighter-rouge">Course</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Person</span> <span class="o">{</span> <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span> <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span> <span class="o">...}</span>
+<span class="kd">class</span> <span class="nc">Dept</span> <span class="o">{</span> <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span> <span class="kd">private</span> <span class="nc">String</span> <span class="n">faculty</span><span class="o">;</span> <span class="o">...}</span>
+<span class="kd">class</span> <span class="nc">Course</span> <span class="o">{</span> <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span> <span class="kd">private</span> <span class="nc">Dept</span> <span class="n">dept</span><span class="o">;</span> <span class="kd">private</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Person</span><span class="o">&gt;</span> <span class="n">students</span><span class="o">;</span> <span class="o">...</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addStudent</span><span class="o">(</span><span class="nc">Persont</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span> <span class="n">students</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">p</span><span class="o">);</span> <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Person</span> <span class="n">person1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Person</span><span class="o">(</span><span class="s">"avi"</span><span class="o">,</span> <span class="mi">25</span><span class="o">);</span>
+        <span class="nc">Person</span> <span class="n">person2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Person</span><span class="o">(</span><span class="s">"beate"</span><span class="o">,</span> <span class="mi">23</span><span class="o">);</span>
+        <span class="nc">Dept</span> <span class="n">csDept</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Dept</span><span class="o">(</span><span class="s">"cs"</span><span class="o">,</span> <span class="s">"Natural Sciences"</span><span class="o">);</span>
+        <span class="nc">Course</span> <span class="n">ppl</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Course</span><span class="o">(</span><span class="s">"ppl"</span><span class="o">,</span> <span class="n">csDept</span><span class="o">);</span>
+        <span class="n">ppl</span><span class="o">.</span><span class="na">addStudent</span><span class="o">(</span><span class="n">person1</span><span class="o">);</span>
+        <span class="n">ppl</span><span class="o">.</span><span class="na">addStudent</span><span class="o">(</span><span class="n">person2</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The JavaScript handling of complex literal values is more concise.
+Conciseness is important because it <em>encourages the programmer</em> to use the facility.</p>
+
+<p>But the main difference is that complex data structures can be defined without having to define each unit as a new type - they come with less “baggage”.  The key benefit of the easy manipulation of complex values is that different processes can exchange complex values without sharing code.  In JavaScript, this is enabled by the JSON interface.</p>
+
+<h2 id="the-json-interface">The JSON Interface</h2>
+
+<p>JSON stands for Java Script Object Notation.
+It is a standard way to serialize JavaScript compound values into strings and vice-versa, parse JSON strings into compound JavaScript values.</p>
+
+<p>The key difference between the way we described the encoding of compound literal expressions above and JSON is that:</p>
+<ul>
+  <li>Compound literal expressions are part of the syntax of the JavaScript language.  A compound literal expression is a sub-expression of a JavaScript program - which when it is evaluated yields a compound value.  Compound literal expressions are read by the parser of the programming language when a program is loaded, interpreted or compiled.</li>
+  <li>JSON is a runtime mechanism which permits a process to read and write compound values (from files or from sockets).</li>
+</ul>
+
+<p>JSON plays a central role in all data exchange in client-server communication, and serialization of values in databases.
+JSON is supported in a wide range of programming languages - not only in JavaScript. There are JSON libraries in Java, C++, Python etc.<br>
+JSON plays a role similar to XML in enabling data exchange across heterogeneous processes.</p>
+
+<p>The key parts of JSON are the <code class="language-plaintext highlighter-rouge">stringify()</code> and <code class="language-plaintext highlighter-rouge">parse()</code> methods which form the JSON interface.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">person1</span> <span class="o">=</span> <span class="p">{</span> <span class="na">name</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">Yosi</span><span class="dl">"</span><span class="p">,</span> <span class="na">age</span> <span class="p">:</span> <span class="mi">31</span><span class="p">,</span> <span class="na">city</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">Beer Sheva</span><span class="dl">"</span> <span class="p">},</span>
+    <span class="nx">person1JSON</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">person1</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">person1JSON</span><span class="p">)</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`person1JSON is of type </span><span class="p">${</span><span class="k">typeof</span> <span class="nx">person1JSON</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+<span class="c1">// =&gt;</span>
+<span class="c1">//     {"name":"Yosi","age":31,"city":"Beer Sheva"}</span>
+<span class="c1">//     person1JSON is of type string</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">person2</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">person1JSON</span><span class="p">)</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">person2</span><span class="p">)</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`person2 is of type </span><span class="p">${</span><span class="k">typeof</span> <span class="nx">person2</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+<span class="c1">// =&gt;</span>
+<span class="c1">//     { name: 'Yosi', age: 31, city: 'Beer Sheva' }</span>
+<span class="c1">//     person2 is of type object</span>
+</code></pre></div></div>
+
+<h3 id="json-syntax">JSON Syntax</h3>
+
+<p>The JSON syntax (which means the way complex values are serialized into strings) is a bit more “strict” than the syntax in JavaScript maps: all keys must be written with double quotes so that you need to write <code class="language-plaintext highlighter-rouge">{ "a":1 }</code> and not <code class="language-plaintext highlighter-rouge">{ a:1 }</code>.</p>
+
+<p>The JSON notation supports values of the following data types:</p>
+<ul>
+  <li>string</li>
+  <li>number</li>
+  <li>boolean</li>
+  <li>null</li>
+  <li>maps whose key values are JSON objects (recursively)</li>
+  <li>array of JSON values (recursively)</li>
+</ul>
+
+<p>In JavaScript, values can be all of the above, plus any other valid JavaScript expression, including:</p>
+<ul>
+  <li>functions</li>
+  <li>undefined</li>
+</ul>
+
+<p>The JSON interface defines the following two methods:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">JSON.stringify(o)</code> maps a value to a string.</li>
+  <li><code class="language-plaintext highlighter-rouge">JSON.parse(s)</code> maps a string (written according to the JSON syntax) to a value.</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">JSON.stringify()</code> and <code class="language-plaintext highlighter-rouge">JSON.parse()</code> also work on atomic values:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="dl">'</span><span class="s1">2</span><span class="dl">'</span><span class="p">)))</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="dl">'</span><span class="s1">true</span><span class="dl">'</span><span class="p">)))</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="dl">'</span><span class="s1">"abc"</span><span class="dl">'</span><span class="p">)))</span>
+<span class="c1">// =&gt;</span>
+<span class="c1">// number</span>
+<span class="c1">// boolean</span>
+<span class="c1">// string</span>
+</code></pre></div></div>
+
+<h2 id="complex-compound-data">Complex Compound Data</h2>
+
+<p>We have described compound data as data combined using two <em>container</em> types - arrays and maps.</p>
+
+<p>These two container types can be <strong>combined in a recursive manner</strong> - so that arrays can contain other arrays or maps,
+and maps can contain other maps or arrays recursively.</p>
+
+<p>For example:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">dept</span> <span class="o">=</span> <span class="p">{</span><span class="dl">"</span><span class="s2">deptName</span><span class="dl">"</span><span class="p">:</span><span class="dl">"</span><span class="s2">accounting</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">employees</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span> <span class="dl">"</span><span class="s2">firstName</span><span class="dl">"</span><span class="p">:</span><span class="dl">"</span><span class="s2">John</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">lastName</span><span class="dl">"</span><span class="p">:</span><span class="dl">"</span><span class="s2">Doe</span><span class="dl">"</span> <span class="p">},</span>
+                    <span class="p">{</span> <span class="dl">"</span><span class="s2">firstName</span><span class="dl">"</span><span class="p">:</span><span class="dl">"</span><span class="s2">Anna</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">lastName</span><span class="dl">"</span><span class="p">:</span><span class="dl">"</span><span class="s2">Smith</span><span class="dl">"</span> <span class="p">},</span>
+                    <span class="p">{</span> <span class="dl">"</span><span class="s2">firstName</span><span class="dl">"</span><span class="p">:</span><span class="dl">"</span><span class="s2">Peter</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">lastName</span><span class="dl">"</span><span class="p">:</span><span class="dl">"</span><span class="s2">Jones</span><span class="dl">"</span> <span class="p">}</span>
+                <span class="p">]};</span>
+</code></pre></div></div>
+<p>The <code class="language-plaintext highlighter-rouge">dept</code> value is a map which has a key <code class="language-plaintext highlighter-rouge">employees</code> with a value which is an embedded array whose items are nested maps.</p>
+
+<p>To take apart the components of this value, the getters can be combined:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">dept</span><span class="p">.</span><span class="nx">employees</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">firstName</span>
+<span class="c1">// =&gt;     'John'</span>
+</code></pre></div></div>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">dept</span><span class="p">[</span><span class="dl">"</span><span class="s2">employees</span><span class="dl">"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="dl">"</span><span class="s2">lastName</span><span class="dl">"</span><span class="p">]</span>
+<span class="c1">// =&gt;     'Doe'</span>
+</code></pre></div></div>
+
+<p>Similarly, arrays can contain nested arrays or maps.</p>
+
+<p><strong>JavaScript Arrays are heterogeneous</strong> - they can contain items of different types.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">heteroArr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="dl">"</span><span class="s2">a</span><span class="dl">"</span><span class="p">],</span>
+    <span class="nx">nestedArr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">{</span><span class="na">a</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="na">b</span><span class="p">:</span><span class="mi">2</span><span class="p">}]</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">heteroArr contains items of the following types: </span><span class="dl">"</span><span class="p">)</span>
+  <span class="nx">heteroArr</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">x</span><span class="p">))</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">nestedArr contains items of the following types: </span><span class="dl">"</span><span class="p">)</span>
+  <span class="nx">nestedArr</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">x</span><span class="p">))</span>
+<span class="c1">// =&gt;</span>
+<span class="c1">//    heteroArr contains items of the following types: </span>
+<span class="c1">//    number</span>
+<span class="c1">//    boolean</span>
+<span class="c1">//    string</span>
+<span class="c1">//    nestedArr contains items of the following types: </span>
+<span class="c1">//    number</span>
+<span class="c1">//    object</span>
+<span class="c1">//    object</span>
+</code></pre></div></div>
+
+<h2 id="map-and-array-mutators">Map and Array Mutators</h2>
+
+<p>In JavaScript, compound values are <strong>mutable</strong>.  This means that, in addition to accessing parts of a compound value, JavaScript allows us:</p>
+<ul>
+  <li>to change the value of components of a larger compound value and</li>
+  <li>to remove components of larger compound values.</li>
+</ul>
+
+<p>The fact that variables and the basic data types in JavaScript are mutable makes <em>real</em> functional programming difficult - since FP requires variables and compound data structures to be immutable.  There are libraries, though, that enable the definition of immutable data structures and their efficient manipulation - such as https://facebook.github.io/immutable-js/.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">dept</span>
+<span class="c1">// =&gt;</span>
+<span class="c1">//    { deptName: 'accounting',</span>
+<span class="c1">//      employees: </span>
+<span class="c1">//       [ { firstName: 'John', lastName: 'Doe' },</span>
+<span class="c1">//         { firstName: 'Anna', lastName: 'Smith' },</span>
+<span class="c1">//         { firstName: 'Peter', lastName: 'Jones' } ] }</span>
+</code></pre></div></div>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">dept</span><span class="p">.</span><span class="nx">deptName</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">programming</span><span class="dl">'</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">delete</span><span class="p">(</span><span class="nx">dept</span><span class="p">.</span><span class="nx">employees</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">lastName</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">dept</span>
+<span class="c1">// =&gt;</span>
+<span class="c1">//    { deptName: 'programming',</span>
+<span class="c1">//      employees: </span>
+<span class="c1">//       [ { firstName: 'John' },</span>
+<span class="c1">//         { firstName: 'Anna', lastName: 'Smith' },</span>
+<span class="c1">//         { firstName: 'Peter', lastName: 'Jones' } ] }</span>
+</code></pre></div></div>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">mutableArr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+  <span class="nx">mutableArr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="nx">mutableArr</span>
+<span class="c1">// =&gt;     [ 1, 1, 2 ]</span>
+</code></pre></div></div>
+
+<h2 id="array-primitive-mutators">Array Primitive Mutators</h2>
+
+<p>JavaScript Arrays have many built-in primitives that allow mutation or copy of array values.
+It is sometimes difficult to keep track of which operations modify the array (mutators) and which operations
+create new array values.</p>
+
+<p>For example, <code class="language-plaintext highlighter-rouge">sort()</code> and <code class="language-plaintext highlighter-rouge">reverse()</code> are mutators:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">a1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a1</span><span class="p">.</span><span class="nx">sort</span><span class="p">())</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a1</span><span class="p">)</span>
+<span class="c1">// =&gt;</span>
+<span class="c1">//    [ 1, 2, 3, 4, 5 ]</span>
+<span class="c1">//    [ 1, 2, 3, 4, 5 ]</span>
+</code></pre></div></div>
+
+<p>As you see above, after the <code class="language-plaintext highlighter-rouge">sort()</code> method is invoked on an array, the array is modified in place.
+<code class="language-plaintext highlighter-rouge">sort()</code> is a mutator.  Similarly, <code class="language-plaintext highlighter-rouge">reverse()</code> is a mutator:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">a2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a2</span><span class="p">.</span><span class="nx">reverse</span><span class="p">())</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a2</span><span class="p">)</span>
+<span class="c1">// =&gt;</span>
+<span class="c1">//  [ 4, 3, 2, 1 ]</span>
+<span class="c1">//  [ 4, 3, 2, 1 ]</span>
+</code></pre></div></div>
+
+<p>The methods <code class="language-plaintext highlighter-rouge">push()</code> and <code class="language-plaintext highlighter-rouge">pop()</code> are also mutators:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">a1</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span>
+<span class="c1">// =&gt;    5</span>
+<span class="nx">a1</span>
+<span class="c1">// =&gt;   [ 1, 2, 3, 4 ]</span>
+<span class="nx">a1</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="c1">// =&gt; 5</span>
+<span class="nx">a1</span>
+<span class="c1">// =&gt;     [ 1, 2, 3, 4, 5 ]</span>
+</code></pre></div></div>
+
+<p>The methods <code class="language-plaintext highlighter-rouge">shift()</code> and <code class="language-plaintext highlighter-rouge">unshift()</code> are similar to <code class="language-plaintext highlighter-rouge">pop()</code> and <code class="language-plaintext highlighter-rouge">push()</code> but operate on the beginning of the array (while push and pop operate on the end of the array). They are also mutators:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">a1</span><span class="p">.</span><span class="nx">shift</span><span class="p">()</span>
+<span class="c1">// =&gt; 1</span>
+<span class="nx">a1</span>
+<span class="c1">// =&gt;  [ 2, 3, 4, 5 ]</span>
+<span class="nx">a1</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">// =&gt;  5</span>
+<span class="nx">a1</span>
+<span class="c1">// =&gt;    [ 1, 2, 3, 4, 5 ]</span>
+</code></pre></div></div>
+
+<p>In contrast, the <code class="language-plaintext highlighter-rouge">concat()</code> method returns a copy of the original arrays and does not modifiy its arguments:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">a1</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">a2</span><span class="p">)</span>
+<span class="c1">// =&gt;     [ 1, 2, 3, 4, 5, 4, 3, 2, 1 ]</span>
+<span class="nx">a1</span>
+<span class="c1">// =&gt;    [ 1, 2, 3, 4, 5 ]</span>
+<span class="nx">a2</span>
+<span class="c1">// =&gt;    [ 4, 3, 2, 1 ]</span>
+</code></pre></div></div>
+
+<h2 id="useful-array-methods">Useful Array Methods</h2>
+
+<p>The following methods are included in the Array interface:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">length</code>: returns the number of elements in the array</li>
+  <li><code class="language-plaintext highlighter-rouge">includes(x)</code>: returns true if x is an element in the array, false otherwise</li>
+  <li><code class="language-plaintext highlighter-rouge">indexOf(x)</code>: returns the index of x within the array, -1 if x is not in the array</li>
+  <li><code class="language-plaintext highlighter-rouge">join(delimiter)</code>: returns a string with all the items of the array serialized with delimiter between them.</li>
+  <li><code class="language-plaintext highlighter-rouge">slice(start, end)</code>: returns a shallow copy of a sub-sequence from the array.</li>
+  <li><code class="language-plaintext highlighter-rouge">splice(index)</code>: splits the array at the index position, and returns the suffix of the array after index (mutator).</li>
+</ul>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">am</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`am has </span><span class="p">${</span><span class="nx">am</span><span class="p">.</span><span class="nx">length</span><span class="p">}</span><span class="s2"> items`</span><span class="p">)</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`am.includes(2) is </span><span class="p">${</span><span class="nx">am</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="mi">2</span><span class="p">)}</span><span class="s2">`</span><span class="p">)</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`am.indexOf(2) is </span><span class="p">${</span><span class="nx">am</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="mi">2</span><span class="p">)}</span><span class="s2">`</span><span class="p">)</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`am.join() is </span><span class="p">${</span><span class="nx">am</span><span class="p">.</span><span class="nx">join</span><span class="p">()}</span><span class="s2">`</span><span class="p">)</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`am.slice(2,4) is </span><span class="p">${</span><span class="nx">am</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)}</span><span class="s2">`</span><span class="p">)</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`am.splice(2) is </span><span class="p">${</span><span class="nx">am</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">2</span><span class="p">)}</span><span class="s2">`</span><span class="p">)</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`am is [</span><span class="p">${</span><span class="nx">am</span><span class="p">}</span><span class="s2">] after splice(2)`</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    am has 6 items
+    am.includes(2) is true
+    am.indexOf(2) is 1
+    am.join() is 1,2,3,4,5,6
+    am.slice(2,4) is 3,4
+    am.splice(2) is 3,4,5,6
+    am is [1,2] after splice(2)
+</code></pre></div></div>
+
+<h2 id="higher-order-methods-on-arrays-and-json">Higher Order Methods on Arrays and JSON</h2>
+
+<p>The Array interface includes higher order methods - that is, methods which receive a function as an argument.
+These methods are extremely versatile:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">a.sort((a,b) =&gt; a &gt; b)</code>: sort the elements with the comparator passed as a parameter (mutator).</li>
+  <li><code class="language-plaintext highlighter-rouge">a.map(x =&gt; x*x)</code>: return a new array of the same length as <code class="language-plaintext highlighter-rouge">a</code> [f(x) for x in a]</li>
+  <li><code class="language-plaintext highlighter-rouge">a.filter(pred)</code>: return a new array with all elements <code class="language-plaintext highlighter-rouge">x</code> in <code class="language-plaintext highlighter-rouge">a</code> that satisfy <code class="language-plaintext highlighter-rouge">pred(x)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">a.find(pred)</code>: return the first element <code class="language-plaintext highlighter-rouge">x</code> of <code class="language-plaintext highlighter-rouge">a</code> which satisfies <code class="language-plaintext highlighter-rouge">pred(x)</code> (similar to <code class="language-plaintext highlighter-rouge">filter</code> but returns only one item)</li>
+  <li><code class="language-plaintext highlighter-rouge">a.findIndex(pred)</code>: same as <code class="language-plaintext highlighter-rouge">find</code>, but returns the position of the first item <code class="language-plaintext highlighter-rouge">x</code> in <code class="language-plaintext highlighter-rouge">a</code> which satisfies <code class="language-plaintext highlighter-rouge">pred(x)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">a.every(pred)</code>: return <code class="language-plaintext highlighter-rouge">true</code> if all elements in <code class="language-plaintext highlighter-rouge">a</code> satisfy <code class="language-plaintext highlighter-rouge">pred</code></li>
+  <li><code class="language-plaintext highlighter-rouge">a.some(pred)</code>: return <code class="language-plaintext highlighter-rouge">true</code> if at least one element in <code class="language-plaintext highlighter-rouge">a</code> satisfies <code class="language-plaintext highlighter-rouge">pred</code></li>
+  <li><code class="language-plaintext highlighter-rouge">a.forEach(f)</code>: applies the function <code class="language-plaintext highlighter-rouge">f</code> on all elements of <code class="language-plaintext highlighter-rouge">a</code> - useful only when <code class="language-plaintext highlighter-rouge">f</code> has side effects.</li>
+  <li><code class="language-plaintext highlighter-rouge">a.reduce((acc, item) =&gt; transformer, init)</code>: transforms the array by applying the same transformer function on each item in <code class="language-plaintext highlighter-rouge">a</code> and accumulating the successive results of the transformer.</li>
+</ul>
+
+<p>Of these many methods, the most important are:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">map</code></li>
+  <li><code class="language-plaintext highlighter-rouge">filter</code></li>
+  <li><code class="language-plaintext highlighter-rouge">reduce</code></li>
+</ul>
+
+<p>The importance of these functions is that they allow us to manipulate complex values as a whole, instead of writing code
+that iterates (loops) over each item.  This gives a declarative flavor to the code that manipulates JSON values - similar
+to SQL over relational data.</p>
+
+<p>Consider the following example JSON value:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">people</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Avi</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">age</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
+    <span class="na">gender</span><span class="p">:</span> <span class="dl">'</span><span class="s1">m</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">cs</span><span class="p">:</span> <span class="kc">true</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Ben</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">age</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+    <span class="na">gender</span><span class="p">:</span> <span class="dl">'</span><span class="s1">m</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">cs</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="p">},</span>
+   <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Gila</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">age</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
+    <span class="na">gender</span><span class="p">:</span> <span class="dl">'</span><span class="s1">f</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">cs</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="p">},</span>
+   <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Dalia</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">age</span><span class="p">:</span> <span class="mi">27</span><span class="p">,</span>
+    <span class="na">gender</span><span class="p">:</span> <span class="dl">'</span><span class="s1">f</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">cs</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">];</span>
+</code></pre></div></div>
+<p>We can use <code class="language-plaintext highlighter-rouge">filter()</code> with appropriate predicates to perform operations similar to a <code class="language-plaintext highlighter-rouge">select</code> in SQL:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Select the people who are CS students</span>
+<span class="nx">people</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">p</span> <span class="o">=&gt;</span> <span class="nx">p</span><span class="p">.</span><span class="nx">cs</span><span class="p">)</span>
+<span class="c1">// =&gt;</span>
+<span class="c1">//    [ { name: 'Avi', age: 23, gender: 'm', cs: true },</span>
+<span class="c1">//      { name: 'Gila', age: 24, gender: 'f', cs: true } ]</span>
+
+<span class="c1">// Select people by gender</span>
+<span class="nx">people</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">p</span> <span class="o">=&gt;</span> <span class="nx">p</span><span class="p">.</span><span class="nx">gender</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">f</span><span class="dl">'</span><span class="p">)</span>
+<span class="c1">// =&gt;</span>
+<span class="c1">//    [ { name: 'Gila', age: 24, gender: 'f', cs: true },</span>
+<span class="c1">//      { name: 'Dalia', age: 27, gender: 'f', cs: false } ]</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">map</code> can be used to compute transformations of the input items.
+For example, assume we want to compute the year of birth of each person, we can compute:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">people</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">p</span> <span class="o">=&gt;</span> <span class="mi">2021</span> <span class="o">-</span> <span class="nx">p</span><span class="p">.</span><span class="nx">age</span><span class="p">)</span>
+<span class="c1">// =&gt;    [ 1998, 1996, 1997, 1994 ]</span>
+</code></pre></div></div>
+
+<p>If we want to modify the maps of each person, we can use mutation:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// When a fat-array function body contains more than one expression - we must put the body in {} and use "return"</span>
+<span class="c1">// When the body has only one expression, we can skip both (x =&gt; x*x)</span>
+<span class="nx">people</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">p</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="nx">p</span><span class="p">.</span><span class="nx">birthYear</span> <span class="o">=</span> <span class="mi">2021</span><span class="o">-</span><span class="nx">p</span><span class="p">.</span><span class="nx">age</span><span class="p">;</span> <span class="k">return</span> <span class="nx">p</span><span class="p">})</span>
+<span class="c1">// =&gt;</span>
+<span class="c1">//  [ { name: 'Avi', age: 23, gender: 'm', cs: true, birthYear: 1998 },</span>
+<span class="c1">//    { name: 'Ben', age: 25, gender: 'm', cs: false, birthYear: 1996 },</span>
+<span class="c1">//    { name: 'Gila', age: 24, gender: 'f', cs: true, birthYear: 1997 },</span>
+<span class="c1">//    { name: 'Dalia', age: 27, gender: 'f', cs: false, birthYear: 1994 } ]</span>
+</code></pre></div></div>
+
+<p>As we can see, the application of a function with mutation through <code class="language-plaintext highlighter-rouge">map</code> modified the original JSON objec</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">people</span>
+<span class="c1">// =&gt;</span>
+<span class="c1">//    [ { name: 'Avi', age: 23, gender: 'm', cs: true, birthYear: 1998 },</span>
+<span class="c1">//      { name: 'Ben', age: 25, gender: 'm', cs: false, birthYear: 1996 },</span>
+<span class="c1">//      { name: 'Gila', age: 24, gender: 'f', cs: true, birthYear: 1997 },</span>
+<span class="c1">//      { name: 'Dalia', age: 27, gender: 'f', cs: false, birthYear: 1994 } ]</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">map()</code> and <code class="language-plaintext highlighter-rouge">filter()</code> return an array based on the original array.</p>
+
+<h2 id="reduce">Reduce</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">reduce()</code> method transforms the array into a single value through iterative application through each item.
+It applies a function against an accumulator and each value of the array (from left-to-right) to reduce it to a single value.</p>
+
+<p><code class="language-plaintext highlighter-rouge">reduce()</code> is often called <code class="language-plaintext highlighter-rouge">fold()</code> or <code class="language-plaintext highlighter-rouge">accumulate()</code> in other FP languages.</p>
+
+<p>It iterates over a list, applying a function to an accumulated value and the next item in the list, until the iteration is complete and the accumulated value gets returned.</p>
+
+<p><code class="language-plaintext highlighter-rouge">reduce()</code> takes a reducer function and an initial value, and returns the accumulated value.
+The reducer function receives two arguments: the current accumulator and the current item.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">array</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span>
+  <span class="nx">reducer</span><span class="p">:</span> <span class="p">(</span><span class="nx">accumulator</span><span class="p">:</span> <span class="kr">any</span><span class="p">,</span> <span class="nx">current</span><span class="p">:</span> <span class="kr">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">any</span><span class="p">,</span>
+  <span class="nx">initialValue</span><span class="p">:</span> <span class="kr">any</span>
+<span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">accumulator</span><span class="p">:</span> <span class="kr">any</span>
+</code></pre></div></div>
+
+<p>This is useful for any type of aggregation which would be similar to a <code class="language-plaintext highlighter-rouge">group by</code> statement in SQL over the array.</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Sum of all elements in the array</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">].</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">acc</span> <span class="o">+</span> <span class="nx">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="c1">// =&gt; 12</span>
+</code></pre></div></div>
+
+<p>For each element in the array, the reducer is called and passed the accumulator and the current value. 
+The reducer’s job is to “fold” the current value into the accumulated value. 
+The reducer returns the new accumulated value, and reduce() moves on to the next value in the array. 
+The reducer needs an initial value to start with, so the initial value is passed as a parameter to <code class="language-plaintext highlighter-rouge">reduce()</code>.</p>
+
+<p><strong>NOTE</strong>: In general, it makes sense that the initial value should be a neutral element for the accumulator function.</p>
+
+<p>In the case of our sum, the first time the reducer is called, acc starts with 0 - the value we passed to <code class="language-plaintext highlighter-rouge">reduce()</code> as the second parameter.</p>
+
+<p>The reducer returns 0 + 2 (2 was the first element in the array), which is 2.</p>
+
+<p>For the next call, acc = 2, n = 4 and the reducer returns the result of 2 + 4 (6).</p>
+
+<p>In the last iteration, acc = 6, n = 6, and the reducer returns 12.</p>
+
+<p>Since the iteration is finished, .reduce() returns the final accumulated value, 12.</p>
+
+<p>In this case, we passed in an anonymous reducing function, but we can abstract it and give it a name:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">sumReducer</span> <span class="o">=</span> <span class="p">(</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">acc</span> <span class="o">+</span> <span class="nx">n</span><span class="p">;</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">].</span><span class="nx">reduce</span><span class="p">(</span><span class="nx">sumReducer</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="c1">// =&gt; 12</span>
+</code></pre></div></div>
+<p>If we want to trace the behavior of the reducer, we can add calls to log:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">tracingSumReducer</span> <span class="o">=</span> <span class="p">(</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Reduce </span><span class="p">${</span><span class="nx">acc</span><span class="p">}</span><span class="s2"> + </span><span class="p">${</span><span class="nx">n</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span> <span class="k">return</span> <span class="nx">acc</span><span class="o">+</span><span class="nx">n</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">].</span><span class="nx">reduce</span><span class="p">(</span><span class="nx">tracingSumReducer</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="c1">// =&gt;</span>
+<span class="c1">//  Reduce 0 + 2</span>
+<span class="c1">//  Reduce 2 + 4</span>
+<span class="c1">//  Reduce 6 + 6</span>
+<span class="c1">//  12</span>
+</code></pre></div></div>
+
+<p>Reduce can map to values of different types than those present in the array on which it iterates:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Sum age of all persons in the people array</span>
+<span class="nx">people</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">acc</span> <span class="o">+</span> <span class="nx">p</span><span class="p">.</span><span class="nx">age</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="c1">// =&gt;    99</span>
+</code></pre></div></div>
+
+<p>And reduce can return compound values as well:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Count number of men and women</span>
+<span class="nx">people</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span>
+    <span class="p">(</span><span class="nx">counter</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">p</span><span class="p">.</span><span class="nx">gender</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">m</span><span class="dl">'</span> <span class="p">?</span> <span class="nx">counter</span><span class="p">.</span><span class="nx">men</span><span class="o">++</span> <span class="p">:</span> <span class="nx">counter</span><span class="p">.</span><span class="nx">women</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nx">counter</span><span class="p">;</span>
+    <span class="p">},</span> <span class="p">{</span><span class="na">men</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="na">women</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span>
+<span class="c1">// =&gt;     { men: 2, women: 2 }</span>
+</code></pre></div></div>
+
+<h2 id="summary">Summary</h2>
+
+<h3 id="literal-expressions-and-complex-values">Literal Expressions and Complex Values</h3>
+<ul>
+  <li>Programming languages define as part of their syntax ways to describe <strong>literal expressions</strong> which are evaluated to values.</li>
+  <li>JavaScript (and most <em>dynamic programming languages</em> which do not require type declarations for all variables) allow programmers to write <strong>literal compound expressions</strong> which encode compound values.</li>
+  <li>Compound values can be embedded recursively to yield complex data structures.</li>
+  <li>JavaScript variables and data structures are mutable.</li>
+</ul>
+
+<h3 id="json">JSON</h3>
+<ul>
+  <li>JSON is a string serialization of JavaScript values (atomic and compound).</li>
+  <li>The JSON interface includes 2 functions: <code class="language-plaintext highlighter-rouge">JSON.stringify()</code> and <code class="language-plaintext highlighter-rouge">JSON.parse()</code></li>
+  <li>JSON values can include embedded arrays and maps in a recursive manner - down to atomic values in the leaves.</li>
+  <li>JSON compound values can be taken apart using composed accessors - for example <code class="language-plaintext highlighter-rouge">dept.employees[0].firstName</code>.</li>
+  <li>JSON compound values can be mutated in place using composed mutators - for example, <code class="language-plaintext highlighter-rouge">dept.employees[0].firstName = 'avi'</code></li>
+  <li>Components within a JSON compound value can be removed using the <code class="language-plaintext highlighter-rouge">delete()</code> operator.</li>
+  <li>Arrays include primitive methods to access and mutate them: <code class="language-plaintext highlighter-rouge">length, includes(x), indexOf(x), join(delimiter), slice(start, end), splice(index)</code>.</li>
+  <li>Arrays include higher-order methods which receive functions as parameters.  In particular, <code class="language-plaintext highlighter-rouge">map(), filter()</code> and <code class="language-plaintext highlighter-rouge">reduce()</code> are extremely useful.</li>
+</ul>
+
+<h2 id="exercises">Exercises</h2>
+
+<h3 id="map-filter-reduce">Map, Filter, Reduce</h3>
+
+<ol>
+  <li>Define a function <code class="language-plaintext highlighter-rouge">product(arrayNumbers)</code> which returns the product of all the numbers in an array of numbers.
+<strong>Example:</strong>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>product([1,2,3]) -&gt; 6
+</code></pre></div>    </div>
+    <p>What should be the value of <code class="language-plaintext highlighter-rouge">product([])</code>? Justify.</p>
+  </li>
+  <li>Using the Ramda function range (http://ramdajs.com/docs/#range) - define a version of the <code class="language-plaintext highlighter-rouge">factorial()</code> function using
+<code class="language-plaintext highlighter-rouge">reduce()</code>.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import * as R from 'ramda'; 
+R.range(1,5)
+[ 1,2,3,4 ]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Define <code class="language-plaintext highlighter-rouge">map()</code> using <code class="language-plaintext highlighter-rouge">reduce()</code>.</p>
+  </li>
+  <li>Define <code class="language-plaintext highlighter-rouge">filter()</code> using <code class="language-plaintext highlighter-rouge">reduce()</code>.</li>
+</ol>
+
+<h3 id="json-1">JSON</h3>
+
+<ol>
+  <li>
+    <p>Run the exercises in http://reactivex.io/learnrx/</p>
+  </li>
+  <li>
+    <p>Consider the following JSON value (obtained from a call to a Netflix API):</p>
+  </li>
+</ol>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">movieLists</span> <span class="o">=</span> <span class="p">[</span>
+		<span class="p">{</span>
+			<span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">New Releases</span><span class="dl">"</span><span class="p">,</span>
+			<span class="na">videos</span><span class="p">:</span> <span class="p">[</span>
+				<span class="p">{</span>
+					<span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">70111470</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">title</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Die Hard</span><span class="dl">"</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">boxart</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/DieHard.jpg</span><span class="dl">"</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">uri</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://api.netflix.com/catalog/titles/movies/70111470</span><span class="dl">"</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">rating</span><span class="dl">"</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">bookmark</span><span class="dl">"</span><span class="p">:</span> <span class="p">[]</span>
+				<span class="p">},</span>
+				<span class="p">{</span>
+					<span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">654356453</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">title</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Bad Boys</span><span class="dl">"</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">boxart</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/BadBoys.jpg</span><span class="dl">"</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">uri</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://api.netflix.com/catalog/titles/movies/70111470</span><span class="dl">"</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">rating</span><span class="dl">"</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">bookmark</span><span class="dl">"</span><span class="p">:</span> <span class="p">[{</span> <span class="na">id</span><span class="p">:</span> <span class="mi">432534</span><span class="p">,</span> <span class="na">time</span><span class="p">:</span> <span class="mi">65876586</span> <span class="p">}]</span>
+				<span class="p">}</span>
+			<span class="p">]</span>
+		<span class="p">},</span>
+		<span class="p">{</span>
+			<span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Dramas</span><span class="dl">"</span><span class="p">,</span>
+			<span class="na">videos</span><span class="p">:</span> <span class="p">[</span>
+				<span class="p">{</span>
+					<span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">65432445</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">title</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">The Chamber</span><span class="dl">"</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">boxart</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/TheChamber.jpg</span><span class="dl">"</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">uri</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://api.netflix.com/catalog/titles/movies/70111470</span><span class="dl">"</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">rating</span><span class="dl">"</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">bookmark</span><span class="dl">"</span><span class="p">:</span> <span class="p">[]</span>
+				<span class="p">},</span>
+				<span class="p">{</span>
+					<span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">675465</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">title</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Fracture</span><span class="dl">"</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">boxart</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://cdn-0.nflximg.com/images/2891/Fracture.jpg</span><span class="dl">"</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">uri</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://api.netflix.com/catalog/titles/movies/70111470</span><span class="dl">"</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">rating</span><span class="dl">"</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
+					<span class="dl">"</span><span class="s2">bookmark</span><span class="dl">"</span><span class="p">:</span> <span class="p">[{</span> <span class="na">id</span><span class="p">:</span> <span class="mi">432534</span><span class="p">,</span> <span class="na">time</span><span class="p">:</span> <span class="mi">65876586</span> <span class="p">}]</span>
+				<span class="p">}</span>
+			<span class="p">]</span>
+		<span class="p">}</span>
+	<span class="p">]</span>
+</code></pre></div></div>
+
+<p>This JSON value is a sort of <strong>tree</strong> with two levels - with a list of video objects at the 2nd level.</p>
+
+<p>Using only <code class="language-plaintext highlighter-rouge">map(), filter()</code> and <code class="language-plaintext highlighter-rouge">reduce()</code> - compute the following values:</p>
+<ul>
+  <li>The number of movies in the “Dramas” category</li>
+  <li>The number of movies (in all categories)</li>
+  <li>The list of the names and urls of movies with a rating of 5.0</li>
+</ul>
+
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>

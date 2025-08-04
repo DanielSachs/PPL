@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<!-- saved from url=(0077)https://bguppl.github.io/interpreters/class_material/5.2LogicProgramming.html -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="module" id="truffle-injected" data-runtime="bkkjeefjfjcfdfifddmkdmcpmaakmelp" src="chrome-extension://bkkjeefjfjcfdfifddmkdmcpmaakmelp/injected-script/index.js"></script>
+
+    
+    
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Logic Programming | Principles of Programming Languages</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Logic Programming">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Course Website">
+<meta property="og:description" content="Course Website">
+<link rel="canonical" href="https://bguppl.github.io/interpreters/class_material/5.2LogicProgramming.html">
+<meta property="og:url" content="https://bguppl.github.io/interpreters/class_material/5.2LogicProgramming.html">
+<meta property="og:site_name" content="Principles of Programming Languages">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Logic Programming">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Course Website","headline":"Logic Programming","url":"https://bguppl.github.io/interpreters/class_material/5.2LogicProgramming.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="preload" href="./Logic Programming _ Principles of Programming Languages_files/css" as="style" type="text/css" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./Logic Programming _ Principles of Programming Languages_files/style.css">
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-msub {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-mo {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-stretchy-h {
+  display: inline-table;
+  width: 100%;
+}
+
+mjx-stretchy-h > * {
+  display: table-cell;
+  width: 0;
+}
+
+mjx-stretchy-h > * > mjx-c {
+  display: inline-block;
+  transform: scalex(1.0000001);
+}
+
+mjx-stretchy-h > * > mjx-c::before {
+  display: inline-block;
+  width: initial;
+}
+
+mjx-stretchy-h > mjx-ext {
+  /* IE */ overflow: hidden;
+  /* others */ overflow: clip visible;
+  width: 100%;
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c::before {
+  transform: scalex(500);
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c {
+  width: 0;
+}
+
+mjx-stretchy-h > mjx-beg > mjx-c {
+  margin-right: -.1em;
+}
+
+mjx-stretchy-h > mjx-end > mjx-c {
+  margin-left: -.1em;
+}
+
+mjx-stretchy-v {
+  display: inline-block;
+}
+
+mjx-stretchy-v > * {
+  display: block;
+}
+
+mjx-stretchy-v > mjx-beg {
+  height: 0;
+}
+
+mjx-stretchy-v > mjx-end > mjx-c {
+  display: block;
+}
+
+mjx-stretchy-v > * > mjx-c {
+  transform: scaley(1.0000001);
+  transform-origin: left center;
+  overflow: hidden;
+}
+
+mjx-stretchy-v > mjx-ext {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  border: 0px solid transparent;
+  /* IE */ overflow: hidden;
+  /* others */ overflow: visible clip;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c::before {
+  width: initial;
+  box-sizing: border-box;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c {
+  transform: scaleY(500) translateY(.075em);
+  overflow: visible;
+}
+
+mjx-mark {
+  display: inline-block;
+  height: 0px;
+}
+
+mjx-TeXAtom {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D461.TEX-I::before {
+  padding: 0.626em 0.361em 0.011em 0;
+  content: "t";
+}
+
+mjx-c.mjx-c31::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "1";
+}
+
+mjx-c.mjx-c2C::before {
+  padding: 0.121em 0.278em 0.194em 0;
+  content: ",";
+}
+
+mjx-c.mjx-c2E::before {
+  padding: 0.12em 0.278em 0 0;
+  content: ".";
+}
+
+mjx-c.mjx-c1D45B.TEX-I::before {
+  padding: 0.442em 0.6em 0.011em 0;
+  content: "n";
+}
+
+mjx-c.mjx-c1D453.TEX-I::before {
+  padding: 0.705em 0.55em 0.205em 0;
+  content: "f";
+}
+
+mjx-c.mjx-c28::before {
+  padding: 0.75em 0.389em 0.25em 0;
+  content: "(";
+}
+
+mjx-c.mjx-c29::before {
+  padding: 0.75em 0.389em 0.25em 0;
+  content: ")";
+}
+
+mjx-c.mjx-c1D460.TEX-I::before {
+  padding: 0.442em 0.469em 0.01em 0;
+  content: "s";
+}
+
+mjx-c.mjx-c1D44B.TEX-I::before {
+  padding: 0.683em 0.852em 0 0;
+  content: "X";
+}
+
+mjx-c.mjx-c2260::before {
+  padding: 0.716em 0.778em 0.215em 0;
+  content: "\2260";
+}
+
+mjx-c.mjx-c2209::before {
+  padding: 0.716em 0.667em 0.215em 0;
+  content: "\2209";
+}
+
+mjx-c.mjx-c5C::before {
+  padding: 0.75em 0.5em 0.25em 0;
+  content: "\5C";
+}
+
+mjx-c.mjx-c6E::before {
+  padding: 0.442em 0.556em 0 0;
+  content: "n";
+}
+
+mjx-c.mjx-c6F::before {
+  padding: 0.448em 0.5em 0.01em 0;
+  content: "o";
+}
+
+mjx-c.mjx-c74::before {
+  padding: 0.615em 0.389em 0.01em 0;
+  content: "t";
+}
+
+mjx-c.mjx-c69::before {
+  padding: 0.669em 0.278em 0 0;
+  content: "i";
+}
+
+mjx-c.mjx-c73::before {
+  padding: 0.448em 0.394em 0.011em 0;
+  content: "s";
+}
+
+mjx-c.mjx-c1D443.TEX-I::before {
+  padding: 0.683em 0.751em 0 0;
+  content: "P";
+}
+
+mjx-c.mjx-c7C::before {
+  padding: 0.75em 0.278em 0.249em 0;
+  content: "|";
+}
+
+mjx-c.mjx-c2212::before {
+  padding: 0.583em 0.778em 0.082em 0;
+  content: "\2212";
+}
+
+mjx-c.mjx-c1D444.TEX-I::before {
+  padding: 0.704em 0.791em 0.194em 0;
+  content: "Q";
+}
+</style></head>
+
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="./Logic Programming _ Principles of Programming Languages_files/tex-mml-chtml.js.download"></script>
+
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Principles of Programming Languages</h1>
+        <h2 class="project-tagline">Course Website</h2>
+        
+        <a href="https://github.com/bguppl/interpreters" class="btn">View on GitHub</a>
+        
+        
+    </header>
+
+    <main id="content" class="main-content" role="main">
+        <h1 id="logic-programming">Logic Programming</h1>
+
+<h2 id="ppl2023">PPL2023</h2>
+
+<h3 id="sources">Sources</h3>
+<ul>
+  <li><a href="https://www.cs.bgu.ac.il/~mira/ppl-book-full.pdf">Principles of Programming Languages, Mira Balaban, 2017 (7.2)</a></li>
+  <li><a href="http://lpn.swi-prolog.org/lpnpage.php?pagetype=html&amp;pageid=lpn-htmlch4">Learn Prolog Now Chapter 4</a> List processing</li>
+  <li><a href="http://lpn.swi-prolog.org/lpnpage.php?pagetype=html&amp;pageid=lpn-htmlch6">Learn Prolog Now Chapter 6</a> Append, Reverse</li>
+</ul>
+
+<h3 id="introduction">Introduction</h3>
+<p>We introduced a restricted form of Logic Programming called <em>Relational Logic Programming</em> in the previous Section.
+We noted that RLP is decidable (and hence not Turing-complete).  RLP is still expressive enough to describe full relational algebra operations extended with recursive operations (such as transitive closure).</p>
+
+<p>We now move on to full Logic Programming - and present a programming language which is Turing-complete.
+The increment from RLP to LP is remarkably small in terms of language design: we simply introduce <strong>recursive terms</strong>, using a new compound syntactic construct we call a <strong>functor</strong>.  Functors enable LP to describe recursive data structures.</p>
+
+<p>As a consequence of introducing recursive terms:</p>
+<ol>
+  <li>A more complex unification operation must be defined - we must introduce the <em>occur-check</em> restriction to avoid loops.</li>
+  <li>The language becomes only partially decidable. That is, while the answer to a query in relational logic programming can always be decided to be a success or a failure, logic programming is partially decidable, like all other general purpose programming languages.</li>
+</ol>
+
+<p>We present the updated syntax (concrete and abstract) to support recursive terms and the adjustments required in the operational semantics to extend RLP into LP.  We then describe how to model abstract data structures in Logic Programming, and specifically how to manage lists.</p>
+
+<h2 id="syntax-of-complex-terms-with-functors">Syntax of Complex Terms with Functors</h2>
+
+<p>The only difference between the syntax of Logic Programming and the syntax of Relational Logic Programming is the addition of a new kind of a constant symbol: Functor (function symbol). It enriches the set of terms so that they can describe structured data.</p>
+
+<h3 id="definition-terms-in-logic-programming">Definition: Terms in Logic Programming</h3>
+
+<p>The syntax of terms is now inductive:</p>
+<ol>
+  <li><em>Base case</em>: Individual constant symbols and variables are terms (these are the only cases that exist in RLP).</li>
+  <li><em>Inductive step</em>: For terms <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-msub><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D461 TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: -0.15em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-script></mjx-msub><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="2"><mjx-c class="mjx-c2E"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="2"><mjx-c class="mjx-c2E"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="2"><mjx-c class="mjx-c2E"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="2"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-msub space="2"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D461 TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: -0.15em;"><mjx-mi class="mjx-i" size="s"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi></mjx-script></mjx-msub></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>t</mi><mn>1</mn></msub><mo>,</mo><mo>.</mo><mo>.</mo><mo>.</mo><mo>,</mo><msub><mi>t</mi><mi>n</mi></msub></math></mjx-assistive-mml></mjx-container>, and a functor <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D453 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>f</mi></math></mjx-assistive-mml></mjx-container>, <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="2" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D453 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-msub><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D461 TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: -0.15em;"><mjx-mn class="mjx-n" size="s"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-script></mjx-msub><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="2"><mjx-c class="mjx-c2E"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="2"><mjx-c class="mjx-c2E"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="2"><mjx-c class="mjx-c2E"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="2"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-msub space="2"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D461 TEX-I"></mjx-c></mjx-mi><mjx-script style="vertical-align: -0.15em;"><mjx-mi class="mjx-i" size="s"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi></mjx-script></mjx-msub><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>f</mi><mo stretchy="false">(</mo><msub><mi>t</mi><mn>1</mn></msub><mo>,</mo><mo>.</mo><mo>.</mo><mo>.</mo><mo>,</mo><msub><mi>t</mi><mi>n</mi></msub><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container> is a term.</li>
+</ol>
+
+<p><strong>Examples of Composite Terms</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">cons(a, [])</code> – describes the list <code class="language-plaintext highlighter-rouge">[a]</code>. <code class="language-plaintext highlighter-rouge">[]</code> is an individual constant, standing for the empty list. The <code class="language-plaintext highlighter-rouge">cons</code> functor has a syntactic sugar notation as an infix operator <code class="language-plaintext highlighter-rouge">|</code>: <code class="language-plaintext highlighter-rouge">cons(a,[])</code> is written: <code class="language-plaintext highlighter-rouge">[a | []]</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">cons(b,cons(a,[ ]))</code> the list <code class="language-plaintext highlighter-rouge">[b, a]</code>, or <code class="language-plaintext highlighter-rouge">[b | [a | []]]</code>. The syntax <code class="language-plaintext highlighter-rouge">[b, a]</code> uses the printed form of lists in Prolog.</li>
+  <li><code class="language-plaintext highlighter-rouge">cons(cons(a, []), cons(b, cons(a, [])))</code> – the list <code class="language-plaintext highlighter-rouge">[[a], [b, a]]</code>, or <code class="language-plaintext highlighter-rouge">[[a | []] | [b | [a, | []]]]</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">time(monday, 12, 14)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">street(alon, 32)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tree(Element, Left, Right)</code> – a binary tree, with <code class="language-plaintext highlighter-rouge">Element</code> as the root, <code class="language-plaintext highlighter-rouge">Left</code> and <code class="language-plaintext highlighter-rouge">Right</code> as its sub-trees.</li>
+  <li><code class="language-plaintext highlighter-rouge">tree(5, tree(8, void, void), tree(9, void, tree(3, void, void)))</code></li>
+</ul>
+
+<h3 id="atomic-formulas-with-composite-terms">Atomic Formulas with Composite Terms</h3>
+
+<p>The arguments in atomic formulas can now be composite terms. For example:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">father(abraham,isaac)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">p(f(f(f(g(a, g(b, c))))))</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ancestor(mary, sister_of(friend_of(john)))</code></li>
+  <li><code class="language-plaintext highlighter-rouge">append(cons(a, cons(b, [])), cons(c, cons(d, [])))</code></li>
+  <li><code class="language-plaintext highlighter-rouge">cons(a, cons(b, cons(c, cons(d, []))))</code></li>
+  <li><code class="language-plaintext highlighter-rouge">append([a, b], [c, d], [a, b, c, d])</code></li>
+</ul>
+
+<h3 id="functor-arity">Functor Arity</h3>
+
+<p>Every functor has an arity, that is, it specifies the number of arguments the functor expects. 
+In the examples above:</p>
+<ul>
+  <li>The arity of cons is 2.</li>
+  <li>The arity of sister_of is 1.</li>
+  <li>The arity of time is 3.</li>
+  <li>The arity of street is 2.</li>
+</ul>
+
+<h3 id="nested-functors-vs-predicates">Nested Functors vs. Predicates</h3>
+
+<p>Functors can be nested: Terms might have unbound depth: <code class="language-plaintext highlighter-rouge">f(f(f(g(a, g(b, c)))))</code>.
+The number of different atomic formulas that can be constructed from a given finite set of predicate, functor and individual constant symbols is unbounded - in contrast to Relational Logic Programming. (Observe that the BNF of RLP presented in the previous Section is <strong>not</strong> recursive).</p>
+
+<p>In contract to terms, predicate symbols cannot be nested:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">p(f(f(f(g(a, g(b, c))))))</code> – <code class="language-plaintext highlighter-rouge">p</code> is a predicate symbol, while <code class="language-plaintext highlighter-rouge">f</code>, <code class="language-plaintext highlighter-rouge">g</code>, are functors.</li>
+  <li><code class="language-plaintext highlighter-rouge">ancestor(mary, sister_of(friend_of(john)))</code> – <code class="language-plaintext highlighter-rouge">ancestor</code> is a predicate symbol, and <code class="language-plaintext highlighter-rouge">sister_of</code>, <code class="language-plaintext highlighter-rouge">friend_of</code> are functors.</li>
+  <li><code class="language-plaintext highlighter-rouge">course(ppl, time(monday, 12, 14), location(building34, 201))</code> – <code class="language-plaintext highlighter-rouge">course</code> is a predicate symbol, and <code class="language-plaintext highlighter-rouge">time</code>, <code class="language-plaintext highlighter-rouge">location</code> are  functors.</li>
+  <li><code class="language-plaintext highlighter-rouge">address(street(alon, 32), shikun_M, tel_aviv, israel)</code> – <code class="language-plaintext highlighter-rouge">address</code> is a predicate symbol, and <code class="language-plaintext highlighter-rouge">street</code>, <code class="language-plaintext highlighter-rouge">shikun_M</code> are functors.</li>
+</ul>
+
+<p>The syntax of terms and of atomic formulas is identical. They differ in the position (context) in statements:</p>
+<ul>
+  <li>Terms are arguments to either terms and to predicates.</li>
+  <li>Atomic formulas appear inside rules and facts.</li>
+</ul>
+
+<h2 id="formal-syntax-for-composite-terms">Formal Syntax for Composite Terms</h2>
+
+<p>To support composite terms, we add the following concrete syntax rules:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;term&gt; -&gt; &lt;constant&gt; | &lt;variable&gt; | &lt;composite-term&gt;
+&lt;composite-term&gt; -&gt; &lt;functor&gt; ’(’ (&lt;term&gt;’,’)* &lt;term&gt;’)’
+&lt;functor&gt; -&gt; &lt;constant&gt;
+</code></pre></div></div>
+
+<p>The corresponding abstract syntax for terms is adapted is:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;term&gt;: &lt;constant&gt; | &lt;variable&gt; | &lt;composite-term&gt;
+&lt;composite-term&gt;: {functor: &lt;constant&gt;, args: &lt;term&gt;[]};
+</code></pre></div></div>
+
+<p>This last rule is the first recursive data type in the AST of Logic Programming we have met.</p>
+
+<h2 id="operational-semantics">Operational Semantics</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">answer-query</code> abstract interpreter, presented in the previous section on Relational Logic Programming, applies
+to Logic Programming as well. The only difference is that the unification algorithm has to be extended to handle composite terms.</p>
+
+<h3 id="unification-of-composite-terms">Unification of Composite Terms</h3>
+
+<p>The presence of function symbols complicates the unification step in the abstract interpreter.
+Recall that the rule selection procedure tries to unify a query goal (an atomic formula) with the head of the selected rule (an atomic formula). The unification operation, if successful, produces a substitution (most general unifier) for the variables in the atomic formulas.</p>
+
+<p>The notion of substitution is modified to support composite terms by adding the <strong>occur-check</strong> condition:</p>
+
+<p><strong>Definition: Substitution with Composite Terms</strong>: A substitution <code class="language-plaintext highlighter-rouge">s</code> is a finite mapping from <code class="language-plaintext highlighter-rouge">variables</code> to <code class="language-plaintext highlighter-rouge">terms</code>, such that <code class="language-plaintext highlighter-rouge">s(X)</code> does not include <code class="language-plaintext highlighter-rouge">X</code>.  All the rest of the substitution and unification terminology stays unchanged.</p>
+
+<p>Observe the difference with the definition we had for RLP:</p>
+
+<p><strong>Definition: Substitution with Atomic Terms</strong>: A substitution <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="3" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D460 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>s</mi></math></mjx-assistive-mml></mjx-container> in logic programming involves <em>logic variables</em> as variables and <em>logic terms</em> as values, such that <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="4" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D460 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c2260"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="4"><mjx-c class="mjx-c1D44B TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>s</mi><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo><mo>≠</mo><mi>X</mi></math></mjx-assistive-mml></mjx-container>.</p>
+
+<ul>
+  <li>For atomic terms, the condition is the simple <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="5" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D460 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c2260"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="4"><mjx-c class="mjx-c1D44B TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>s</mi><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo><mo>≠</mo><mi>X</mi></math></mjx-assistive-mml></mjx-container>.</li>
+  <li>For composite terms, the condition is: <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="6" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c2209"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="4"><mjx-c class="mjx-c1D460 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>X</mi><mo>∉</mo><mi>s</mi><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container>.</li>
+</ul>
+
+<p>Testing the condition <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="7" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44B TEX-I"></mjx-c></mjx-mi><mjx-mtext class="mjx-n" style="color: red;"><mjx-c class="mjx-c5C"></mjx-c><mjx-c class="mjx-c6E"></mjx-c><mjx-c class="mjx-c6F"></mjx-c><mjx-c class="mjx-c74"></mjx-c><mjx-c class="mjx-c69"></mjx-c><mjx-c class="mjx-c6E"></mjx-c><mjx-c class="mjx-c73"></mjx-c></mjx-mtext><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>X</mi><mtext mathcolor="red">\notins</mtext><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container> is an expensive computational operation (it is an unbounded operation because composite terms can have unbounded depth).  Occur-check makes unification expensive.</p>
+
+<h3 id="examples-of-unification-with-composite-terms">Examples of Unification with Composite Terms</h3>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">unify</span><span class="p">(</span><span class="ss">member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="ss">tree</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Left</span><span class="p">,</span> <span class="nv">Right</span><span class="p">)),</span> 
+      <span class="ss">member</span><span class="p">(</span><span class="nv">Y</span><span class="p">,</span> <span class="ss">tree</span><span class="p">(</span><span class="m">9</span><span class="p">,</span> <span class="ss">void</span><span class="p">,</span> <span class="ss">tree</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="ss">void</span><span class="p">,</span> <span class="ss">void</span><span class="p">))))</span>
+<span class="p">--&gt;</span>
+<span class="p">{</span><span class="nv">Y</span><span class="o">=</span><span class="m">9</span><span class="p">,</span> <span class="nv">X</span><span class="o">=</span><span class="m">9</span><span class="p">,</span> <span class="nv">Left</span><span class="o">=</span><span class="ss">void</span><span class="p">,</span> <span class="nv">Right</span><span class="o">=</span><span class="ss">tree</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="ss">void</span><span class="p">,</span> <span class="ss">void</span><span class="p">)}</span>
+</code></pre></div></div>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">unify</span><span class="p">(</span><span class="ss">member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="ss">tree</span><span class="p">(</span><span class="m">9</span><span class="p">,</span> <span class="ss">void</span><span class="p">,</span> <span class="ss">tree</span><span class="p">(</span><span class="nv">E1</span><span class="p">,</span> <span class="nv">L1</span><span class="p">,</span> <span class="nv">R1</span><span class="p">)),</span>
+      <span class="ss">member</span><span class="p">(</span><span class="nv">Y</span><span class="p">,</span> <span class="ss">tree</span><span class="p">(</span><span class="nv">Y</span><span class="p">,</span> <span class="nv">Z</span><span class="p">,</span> <span class="ss">tree</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="ss">void</span><span class="p">,</span> <span class="ss">void</span><span class="p">))))</span>
+<span class="p">--&gt;</span>
+<span class="p">{</span><span class="nv">Y</span><span class="o">=</span><span class="m">9</span><span class="p">,</span> <span class="nv">X</span><span class="o">=</span><span class="m">9</span><span class="p">,</span> <span class="nv">Z</span><span class="o">=</span><span class="ss">void</span><span class="p">,</span> <span class="nv">E1</span><span class="o">=</span><span class="m">3</span><span class="p">,</span> <span class="nv">L1</span><span class="o">=</span><span class="ss">void</span><span class="p">,</span> <span class="nv">R1</span><span class="o">=</span><span class="ss">void</span><span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">unify</span><span class="p">(</span><span class="ss">t</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="ss">f</span><span class="p">(</span><span class="ss">a</span><span class="p">),</span> <span class="nv">X</span><span class="p">),</span> 
+      <span class="ss">t</span><span class="p">(</span><span class="ss">g</span><span class="p">(</span><span class="nv">U</span><span class="p">),</span> <span class="nv">U</span><span class="p">,</span> <span class="nv">W</span><span class="p">))</span>
+<span class="p">--&gt;</span>
+<span class="p">{</span><span class="nv">X</span><span class="o">=</span><span class="ss">g</span><span class="p">(</span><span class="ss">f</span><span class="p">(</span><span class="ss">a</span><span class="p">)),</span> <span class="nv">U</span><span class="o">=</span><span class="ss">f</span><span class="p">(</span><span class="ss">a</span><span class="p">),</span> <span class="nv">W</span><span class="o">=</span><span class="ss">g</span><span class="p">(</span><span class="ss">f</span><span class="p">(</span><span class="ss">a</span><span class="p">))}</span>
+</code></pre></div></div>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">unify</span><span class="p">(</span><span class="ss">t</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="ss">f</span><span class="p">(</span><span class="nv">X</span><span class="p">),</span> <span class="nv">X</span><span class="p">),</span>
+      <span class="ss">t</span><span class="p">(</span><span class="ss">g</span><span class="p">(</span><span class="nv">U</span><span class="p">),</span> <span class="nv">U</span><span class="p">,</span> <span class="nv">W</span><span class="p">))</span>
+<span class="ss">fails</span> 
+<span class="nv">Occurs</span><span class="o">-</span><span class="ss">check</span> <span class="ss">fails</span> <span class="ss">when</span> <span class="ss">extending</span> <span class="p">{</span><span class="nv">X</span> <span class="o">=</span> <span class="ss">g</span><span class="p">(</span><span class="nv">U</span><span class="p">)}</span> <span class="ss">with</span> <span class="p">{</span><span class="ss">f</span><span class="p">(</span><span class="nv">X</span><span class="p">)</span> <span class="o">=</span> <span class="nv">U</span><span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">unify</span><span class="p">(</span><span class="ss">append</span><span class="p">([</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">],</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">],</span> <span class="nv">List</span><span class="p">),</span>
+      <span class="ss">append</span><span class="p">([</span><span class="nv">X</span> <span class="p">|</span> <span class="nv">Xs</span><span class="p">],</span> <span class="nv">Ys</span><span class="p">,</span> <span class="p">[</span><span class="nv">X</span> <span class="p">|</span> <span class="nv">Zs</span><span class="p">]))</span>
+<span class="p">--&gt;</span>      
+<span class="p">{</span><span class="nv">X</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="nv">Xs</span><span class="o">=</span><span class="p">[</span><span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">],</span> <span class="nv">Ys</span><span class="o">=</span><span class="p">[</span><span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">],</span> <span class="nv">List</span><span class="o">=</span><span class="p">[</span><span class="m">1</span> <span class="p">|</span> <span class="nv">Zs</span><span class="p">]}</span>
+</code></pre></div></div>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">unify</span><span class="p">(</span><span class="ss">append</span><span class="p">([</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">],</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">],</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">]),</span>
+      <span class="ss">append</span><span class="p">([</span><span class="nv">X</span> <span class="p">|</span> <span class="nv">Xs</span><span class="p">],</span> <span class="nv">Ys</span><span class="p">,</span> <span class="p">[</span><span class="nv">Xs</span> <span class="p">|</span> <span class="nv">Zs</span><span class="p">]))</span>
+<span class="p">--&gt;</span>
+<span class="ss">fails</span>
+<span class="ss">when</span> <span class="ss">trying</span> <span class="ss">to</span> <span class="ss">extend</span> <span class="p">{</span><span class="nv">X</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="nv">Xs</span> <span class="o">=</span> <span class="p">[</span><span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">],</span> <span class="nv">Ys</span> <span class="o">=</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">]}</span> <span class="ss">with</span> <span class="p">{</span><span class="nv">Xs</span> <span class="o">=</span> <span class="m">3</span><span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="expressivity-and-decidability-of-logic-programming">Expressivity and Decidability of Logic Programming</h2>
+
+<p>Logic Programming has the expressive power of Turing machines. That is, every computable program can be written in Logic Programming. In particular, every Scheme program can be written in Prolog, and vice versa.</p>
+
+<p>Logic Programming is only partially decidable - unlike Relational Logic Programming. That is, the problem “Is Q provable from P”, denoted <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="8" style="font-size: 117.4%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D443 TEX-I"></mjx-c></mjx-mi><mjx-texatom texclass="ORD"><mjx-mo class="mjx-n"><mjx-c class="mjx-c7C"></mjx-c></mjx-mo></mjx-texatom><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c2212"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="3"><mjx-c class="mjx-c1D444 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mrow data-mjx-texclass="ORD"><mo stretchy="false">|</mo></mrow><mo>−</mo><mi>Q</mi></math></mjx-assistive-mml></mjx-container>, is partially decidable. The finiteness argument of Relational Logic Programming does not apply here since
+in the presence of recursive terms, the number of different atomic formulas is unbounded (since terms can be nested up to unbounded depth). Therefore, terminating proofs can have an unbounded length - even with a finite vocabulary of functors, predicates and constants.</p>
+
+<h2 id="defining-recursive-data-structures-with-logic-programming">Defining Recursive Data Structures with Logic Programming</h2>
+
+<p>Composite terms allow us to define abstract data types in LP.  This requires some change of habit though - because we do not compute terms with functions that construct new complex values.  Instead, when we program in LP, we define <strong>relations</strong> among values.  When we check whether two values stand in relation, we instantiate some logical variables to make the predicate hold.
+When this happens, we end up constructing complex values.</p>
+
+<p>Let us consider this strategy with a Tree data structure.</p>
+
+<h3 id="trees-in-lp">Trees in LP</h3>
+
+<p>The predicate <code class="language-plaintext highlighter-rouge">binary_tree</code> corresponds to the membership predicate of values to the <code class="language-plaintext highlighter-rouge">binary_tree</code> datatype.
+It holds only for values which belong to the tree datatype.  Values of this type are composite terms with the functor <code class="language-plaintext highlighter-rouge">tree/3</code>.
+This functor has no primitive (pre-defined) semantic.  We define its semantic by using it in specific predicates.</p>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: binary_tree(T)/1</span>
+<span class="c1">% Purpose: T is a binary tree.</span>
+<span class="ss">binary_tree</span><span class="p">(</span><span class="ss">void</span><span class="p">).</span>
+<span class="ss">binary_tree</span><span class="p">(</span><span class="ss">tree</span><span class="p">(</span><span class="nv">Element</span><span class="p">,</span> <span class="nv">Left</span><span class="p">,</span> <span class="nv">Right</span><span class="p">))</span> <span class="p">:-</span> <span class="ss">binary_tree</span><span class="p">(</span><span class="nv">Left</span><span class="p">),</span> <span class="ss">binary_tree</span><span class="p">(</span><span class="nv">Right</span><span class="p">).</span>
+</code></pre></div></div>
+
+<p>We define recursive procedures over such composite values as relations.  The relation <code class="language-plaintext highlighter-rouge">tree_member(X, T)</code> holds when <code class="language-plaintext highlighter-rouge">X</code> is bound to a value that occurs as one of the nodes in <code class="language-plaintext highlighter-rouge">T</code>.</p>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: tree_member(X, T)/2</span>
+<span class="c1">% Purpose: X is a member of T.</span>
+<span class="ss">tree_member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="ss">tree</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">_</span><span class="p">,</span> <span class="nv">_</span><span class="p">)).</span>
+<span class="ss">tree_member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="ss">tree</span><span class="p">(</span><span class="nv">Y</span><span class="p">,</span> <span class="nv">Left</span><span class="p">,</span> <span class="nv">_</span><span class="p">)):-</span> <span class="ss">tree_member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Left</span><span class="p">).</span>
+<span class="ss">tree_member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="ss">tree</span><span class="p">(</span><span class="nv">Y</span><span class="p">,</span> <span class="nv">_</span><span class="p">,</span> <span class="nv">Right</span><span class="p">)):-</span> <span class="ss">tree_member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Right</span><span class="p">).</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">X</code> might be equal to <code class="language-plaintext highlighter-rouge">Y</code> in the second and third clauses. That means that different proof paths provide repeated answers.</p>
+
+<h4 id="example-queries-with-trees">Example Queries with Trees</h4>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">?-</span> <span class="ss">tree_member</span><span class="p">(</span><span class="ss">g</span><span class="p">(</span><span class="nv">X</span><span class="p">),</span>
+               <span class="ss">tree</span><span class="p">(</span><span class="ss">g</span><span class="p">(</span><span class="ss">a</span><span class="p">),</span>
+                    <span class="ss">tree</span><span class="p">(</span><span class="ss">g</span><span class="p">(</span><span class="ss">b</span><span class="p">),</span> <span class="ss">void</span><span class="p">,</span> <span class="ss">void</span><span class="p">),</span>
+                    <span class="ss">tree</span><span class="p">(</span><span class="ss">f</span><span class="p">(</span><span class="ss">a</span><span class="p">),</span> <span class="ss">void</span><span class="p">,</span> <span class="ss">void</span><span class="p">))).</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="ss">a</span><span class="p">;</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="ss">b</span><span class="p">;</span>
+<span class="ss">false</span>
+
+<span class="o">?-</span> <span class="ss">tree_member</span><span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="nv">Tree</span><span class="p">).</span>
+<span class="nv">Tree</span> <span class="o">=</span> <span class="ss">tree</span><span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="nv">_</span><span class="p">,</span> <span class="nv">_</span><span class="p">);</span>
+<span class="nv">Tree</span> <span class="o">=</span> <span class="ss">tree</span><span class="p">(</span><span class="nv">_</span><span class="p">,</span> <span class="ss">tree</span><span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="nv">_</span><span class="p">,</span> <span class="nv">_</span><span class="p">),</span> <span class="nv">_</span><span class="p">);</span>
+<span class="nv">Tree</span> <span class="o">=</span> <span class="ss">tree</span><span class="p">(</span><span class="nv">_</span><span class="p">,</span> <span class="ss">tree</span><span class="p">(</span><span class="nv">_</span><span class="p">,</span> <span class="ss">tree</span><span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="nv">_</span><span class="p">,</span> <span class="nv">_</span><span class="p">),</span> <span class="nv">_</span><span class="p">),</span> <span class="nv">_</span><span class="p">);</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<p>Observe that in the first query above, the parameter <code class="language-plaintext highlighter-rouge">X</code> contains a variable, while the parameter <code class="language-plaintext highlighter-rouge">Tree</code> is completely bound to constants (no variables).  In contrast, in the second query, <code class="language-plaintext highlighter-rouge">X</code> is bound to a constant (<code class="language-plaintext highlighter-rouge">a</code>) while <code class="language-plaintext highlighter-rouge">Tree</code> is bound to a variable.  The same procedure can be invoked in different ways - which are called <strong>modes</strong> - depending on which parameter is bound to constants and which is bound to variables.</p>
+
+<p>In this example, the procedure <code class="language-plaintext highlighter-rouge">tree_member</code>, when it is invoked in the second mode with a free variable <code class="language-plaintext highlighter-rouge">Tree</code> is used as a <strong>generator</strong> of values. (In this example, the procedure is the generator of all possible trees which contain <code class="language-plaintext highlighter-rouge">a</code>.)</p>
+
+<h3 id="church-numeral-encoding">Church Numeral Encoding</h3>
+
+<p>In LP, we did not introduce number terms - only symbols.  Prolog extends LP with arithmetic and numeric terms.
+There is, however, a theoretical method to represent natural numbers using only symbols - called <a href="https://en.wikipedia.org/wiki/Church_encoding">Church Numeral Encodings</a>.</p>
+
+<p>In Church encoding, natural numbers are represented by terms constructed from the symbol 0 and the functor <code class="language-plaintext highlighter-rouge">s/1</code>:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">0</code> - denotes zero</li>
+  <li><code class="language-plaintext highlighter-rouge">s(0)</code> - denotes 1</li>
+  <li><code class="language-plaintext highlighter-rouge">s(...s(s(0))...)</code> n times - denotes n</li>
+  <li>In general, if <code class="language-plaintext highlighter-rouge">N</code> is the Church encoding of <code class="language-plaintext highlighter-rouge">n</code>, then <code class="language-plaintext highlighter-rouge">s(N)</code> is the Church encoding of <code class="language-plaintext highlighter-rouge">n+1</code>.</li>
+</ul>
+
+<h4 id="membership-predicate">Membership Predicate</h4>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: natural_number(N)/1</span>
+<span class="c1">% Purpose: N is a natural number.</span>
+<span class="ss">natural_number</span><span class="p">(</span><span class="m">0</span><span class="p">).</span>
+<span class="ss">natural_number</span><span class="p">(</span><span class="ss">s</span><span class="p">(</span><span class="nv">X</span><span class="p">))</span> <span class="p">:-</span> <span class="ss">natural_number</span><span class="p">(</span><span class="nv">X</span><span class="p">).</span>
+</code></pre></div></div>
+
+<h4 id="arithmetic-operations-on-church-numerals">Arithmetic Operations on Church Numerals</h4>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: plus(X, Y, Z)/3</span>
+<span class="c1">% Purpose: Z is the sum of X and Y.</span>
+<span class="ss">plus</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="nv">X</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">natural_number</span><span class="p">(</span><span class="nv">X</span><span class="p">).</span>
+<span class="ss">plus</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="ss">s</span><span class="p">(</span><span class="nv">Y</span><span class="p">),</span> <span class="ss">s</span><span class="p">(</span><span class="nv">Z</span><span class="p">))</span> <span class="p">:-</span> <span class="ss">plus</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Z</span><span class="p">).</span>
+</code></pre></div></div>
+
+<p>Example queries:</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">?-</span> <span class="ss">plus</span><span class="p">(</span><span class="ss">s</span><span class="p">(</span><span class="m">0</span><span class="p">),</span> <span class="m">0</span><span class="p">,</span> <span class="ss">s</span><span class="p">(</span><span class="m">0</span><span class="p">)).</span> <span class="c1">% checks 1+0=1</span>
+<span class="ss">true</span><span class="p">.</span>
+</code></pre></div></div>
+
+<p>By changing the mode of the query, we compute substration:</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">?-</span> <span class="ss">plus</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="ss">s</span><span class="p">(</span><span class="m">0</span><span class="p">),</span> <span class="ss">s</span><span class="p">(</span><span class="ss">s</span><span class="p">(</span><span class="m">0</span><span class="p">)).</span> <span class="c1">% checks X+1=2, e.g., compute 2-1</span>
+<span class="nv">X</span><span class="o">=</span><span class="ss">s</span><span class="p">(</span><span class="m">0</span><span class="p">).</span>
+</code></pre></div></div>
+
+<p>By using a more abstract mode, we obtain a generator of pairs of numbers:</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% checks X+Y=2 - all pairs of natural numbers, whose sum equals 2</span>
+<span class="o">?-</span> <span class="ss">plus</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="ss">s</span><span class="p">(</span><span class="ss">s</span><span class="p">(</span><span class="m">0</span><span class="p">))).</span> 
+<span class="nv">X</span><span class="o">=</span><span class="m">0</span><span class="p">,</span> <span class="nv">Y</span><span class="o">=</span><span class="ss">s</span><span class="p">(</span><span class="ss">s</span><span class="p">(</span><span class="m">0</span><span class="p">));</span>
+<span class="nv">X</span><span class="o">=</span><span class="ss">s</span><span class="p">(</span><span class="m">0</span><span class="p">),</span> <span class="nv">Y</span><span class="o">=</span><span class="ss">s</span><span class="p">(</span><span class="m">0</span><span class="p">);</span>
+<span class="nv">X</span><span class="o">=</span><span class="ss">s</span><span class="p">(</span><span class="ss">s</span><span class="p">(</span><span class="m">0</span><span class="p">)),</span> <span class="nv">Y</span><span class="o">=</span><span class="m">0</span><span class="p">.</span>
+</code></pre></div></div>
+
+<p>Natural number binary relation - Less than or equal:</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: le(X,Y)/2</span>
+<span class="c1">% Purpose: X is less or equal Y.</span>
+<span class="ss">le</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="nv">X</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">natural_number</span><span class="p">(</span><span class="nv">X</span><span class="p">).</span>
+<span class="ss">le</span><span class="p">(</span><span class="ss">s</span><span class="p">(</span><span class="nv">X</span><span class="p">),</span> <span class="ss">s</span><span class="p">(</span><span class="nv">Z</span><span class="p">))</span> <span class="p">:-</span> <span class="ss">le</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Z</span><span class="p">).</span>
+</code></pre></div></div>
+
+<p>Natural numbers multiplication:</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: Times(X,Y,Z)/2</span>
+<span class="c1">% Purpose: Z = X*Y</span>
+<span class="ss">times</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="nv">X</span><span class="p">,</span> <span class="m">0</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">natural_number</span><span class="p">(</span><span class="nv">X</span><span class="p">).</span>
+<span class="ss">times</span><span class="p">(</span><span class="ss">s</span><span class="p">(</span><span class="nv">X</span><span class="p">),</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Z</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">times</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">XY</span><span class="p">),</span> <span class="ss">plus</span><span class="p">(</span><span class="nv">XY</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Z</span><span class="p">).</span>
+</code></pre></div></div>
+
+<h3 id="lists">Lists</h3>
+
+<h4 id="syntax-for-lists">Syntax for Lists</h4>
+
+<p>Lists are defined inductively - using a special infix operator (<code class="language-plaintext highlighter-rouge">|</code>) and a special notation <code class="language-plaintext highlighter-rouge">[a, b, c]</code> as syntactic sugar for nested <code class="language-plaintext highlighter-rouge">cons/2</code> terms:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">[]</code> is the empty list.</li>
+  <li><code class="language-plaintext highlighter-rouge">[Head | Tail]</code> is syntactic sugar for the composite term <code class="language-plaintext highlighter-rouge">cons(Head, Tail)</code>, where Tail is a list term.</li>
+</ul>
+
+<p>Simple syntax for bounded length lists:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">[a | []] = [a]</code></li>
+  <li><code class="language-plaintext highlighter-rouge">[a | [b | []]] = [a,b]</code></li>
+</ul>
+
+<h4 id="membership-predicate-1">Membership Predicate</h4>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">list</span><span class="p">([]).</span>
+<span class="ss">list</span><span class="p">([</span><span class="nv">X</span> <span class="p">|</span> <span class="nv">Xs</span><span class="p">])</span> <span class="p">:-</span> <span class="ss">list</span><span class="p">(</span><span class="nv">Xs</span><span class="p">).</span>
+</code></pre></div></div>
+
+<h4 id="list-membership">List Membership</h4>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: member(X, List)/2</span>
+<span class="c1">% Purpose: X is a member of List.</span>
+<span class="ss">member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="p">[</span><span class="nv">X</span><span class="p">|</span><span class="nv">Xs</span><span class="p">]).</span>
+<span class="ss">member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="p">[</span><span class="nv">Y</span><span class="p">|</span><span class="nv">Ys</span><span class="p">])</span> <span class="p">:-</span> <span class="ss">member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Ys</span><span class="p">).</span>
+
+<span class="o">?-</span> <span class="ss">member</span><span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="p">[</span><span class="ss">b</span><span class="p">,</span> <span class="ss">c</span><span class="p">,</span> <span class="ss">a</span><span class="p">,</span> <span class="ss">d</span><span class="p">]).</span> <span class="c1">% checks membership</span>
+<span class="o">?-</span> <span class="ss">member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="p">[</span><span class="ss">b</span><span class="p">,</span> <span class="ss">c</span><span class="p">,</span> <span class="ss">a</span><span class="p">,</span> <span class="ss">d</span><span class="p">]).</span> <span class="c1">% takes an element from a list</span>
+<span class="o">?-</span> <span class="ss">member</span><span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="nv">Z</span><span class="p">).</span> <span class="c1">% generates a list containing b</span>
+</code></pre></div></div>
+
+<h4 id="list-concatenation">List Concatenation</h4>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: append(List1, List2, List3)/3</span>
+<span class="c1">% Purpose: List3 is the concatenation of List1 and List2.</span>
+<span class="ss">append</span><span class="p">([],</span> <span class="nv">Xs</span><span class="p">,</span> <span class="nv">Xs</span><span class="p">).</span>
+<span class="ss">append</span><span class="p">([</span><span class="nv">X</span> <span class="p">|</span> <span class="nv">Xs</span><span class="p">],</span> <span class="nv">Y</span><span class="p">,</span> <span class="p">[</span><span class="nv">X</span> <span class="p">|</span> <span class="nv">Zs</span><span class="p">])</span> <span class="p">:-</span> <span class="ss">append</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Zs</span><span class="p">).</span>
+
+<span class="o">?-</span> <span class="ss">append</span><span class="p">([</span><span class="ss">a</span><span class="p">,</span><span class="ss">b</span><span class="p">],</span> <span class="p">[</span><span class="ss">c</span><span class="p">],</span> <span class="nv">X</span><span class="p">).</span>        <span class="c1">% concatenation of two lists</span>
+<span class="o">?-</span> <span class="ss">append</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span> <span class="p">[</span><span class="ss">a</span><span class="p">,</span><span class="ss">d</span><span class="p">],</span> <span class="p">[</span><span class="ss">b</span><span class="p">,</span><span class="ss">c</span><span class="p">,</span><span class="ss">a</span><span class="p">,</span><span class="ss">d</span><span class="p">]).</span> <span class="c1">% finds a difference between lists</span>
+<span class="o">?-</span> <span class="ss">append</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span> <span class="nv">Ys</span><span class="p">,</span> <span class="p">[</span><span class="ss">a</span><span class="p">,</span><span class="ss">b</span><span class="p">,</span><span class="ss">c</span><span class="p">,</span><span class="ss">d</span><span class="p">]).</span>    <span class="c1">% divides a list into two lists</span>
+</code></pre></div></div>
+
+<h4 id="list-selection-using-append">List Selection using append</h4>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% (a) List prefix and suffix:</span>
+<span class="ss">prefix</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span> <span class="nv">Ys</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">append</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span> <span class="nv">Zs</span><span class="p">,</span> <span class="nv">Ys</span><span class="p">).</span>
+<span class="ss">suffix</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span> <span class="nv">Ys</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">append</span><span class="p">(</span><span class="nv">Zs</span><span class="p">,</span> <span class="nv">Xs</span><span class="p">,</span> <span class="nv">Ys</span><span class="p">).</span>
+
+<span class="c1">% (b) Redefine member:</span>
+<span class="ss">member</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Ys</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">append</span><span class="p">(</span><span class="nv">Zs</span><span class="p">,</span> <span class="p">[</span><span class="nv">X</span> <span class="p">|</span> <span class="nv">Xs</span><span class="p">],</span> <span class="nv">Ys</span><span class="p">).</span>
+
+<span class="c1">% (c) Adjacent list elements:</span>
+<span class="ss">adjacent</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Zs</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">append</span><span class="p">(</span><span class="nv">Ws</span><span class="p">,</span> <span class="p">[</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span> <span class="p">|</span> <span class="nv">Ys</span><span class="p">],</span> <span class="nv">Zs</span><span class="p">).</span>
+
+<span class="c1">% (d) Last element of a list:</span>
+<span class="ss">last</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Ys</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">append</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span> <span class="p">[</span><span class="nv">X</span><span class="p">],</span> <span class="nv">Ys</span><span class="p">).</span>
+</code></pre></div></div>
+
+<h4 id="list-reverse">List Reverse</h4>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% (a) A recursive version:</span>
+<span class="c1">% Signature: reverse(List1, List2)/2</span>
+<span class="c1">% Purpose: List2 is the reverse of List1.</span>
+<span class="ss">reverse</span><span class="p">([],</span> <span class="p">[]).</span>
+<span class="ss">reverse</span><span class="p">([</span><span class="nv">H</span> <span class="p">|</span> <span class="nv">T</span><span class="p">],</span> <span class="nv">R</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">reverse</span><span class="p">(</span><span class="nv">T</span><span class="p">,</span> <span class="nv">S</span><span class="p">),</span> <span class="ss">append</span><span class="p">(</span><span class="nv">S</span><span class="p">,</span> <span class="p">[</span><span class="nv">H</span><span class="p">],</span> <span class="nv">R</span><span class="p">).</span>
+
+<span class="o">?-</span> <span class="ss">reverse</span><span class="p">([</span><span class="ss">a</span><span class="p">,</span> <span class="ss">b</span><span class="p">,</span> <span class="ss">c</span><span class="p">,</span> <span class="ss">d</span><span class="p">],</span> <span class="nv">R</span><span class="p">).</span>
+<span class="nv">R</span><span class="o">=</span><span class="p">[</span><span class="ss">d</span><span class="p">,</span> <span class="ss">c</span><span class="p">,</span> <span class="ss">b</span><span class="p">,</span> <span class="ss">a</span><span class="p">]</span>
+
+<span class="c1">% But, what about the other mode of this predicate:</span>
+<span class="o">?-</span> <span class="ss">reverse</span><span class="p">(</span><span class="nv">R</span><span class="p">,</span> <span class="p">[</span><span class="ss">a</span><span class="p">,</span> <span class="ss">b</span><span class="p">,</span> <span class="ss">c</span><span class="p">,</span> <span class="ss">d</span><span class="p">]).</span>
+</code></pre></div></div>
+
+<p>Starting to build the proof tree, we see that the second query is</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">?-</span> <span class="ss">reverse</span><span class="p">(</span><span class="nv">T1</span><span class="p">,</span> <span class="nv">S1</span><span class="p">),</span> <span class="ss">append</span><span class="p">(</span><span class="nv">S1</span><span class="p">,</span> <span class="p">[</span><span class="nv">H1</span><span class="p">],</span> <span class="p">[</span><span class="ss">a</span><span class="p">,</span> <span class="ss">b</span><span class="p">,</span> <span class="ss">c</span><span class="p">,</span> <span class="ss">d</span><span class="p">]).</span>
+</code></pre></div></div>
+<p>This query fails on the first rule, and needs the second. The second rule is applied four times, until four elements are unified with the four elements of the input list. We can try reversing the rule body:</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">reverse</span><span class="p">([</span><span class="nv">H</span> <span class="p">|</span> <span class="nv">T</span><span class="p">],</span> <span class="nv">R</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">append</span><span class="p">(</span><span class="nv">S</span><span class="p">,</span> <span class="p">[</span><span class="nv">H</span><span class="p">],</span> <span class="nv">R</span><span class="p">),</span> <span class="ss">reverse</span><span class="p">(</span><span class="nv">T</span><span class="p">,</span> <span class="nv">S</span><span class="p">).</span>
+</code></pre></div></div>
+<p>The new version gives a good performance on the last direction, but poor performance on the former direction.</p>
+
+<p>Conclusion: Rule body ordering impacts the performance in various directions.</p>
+
+<p>What about reversing rule ordering? In the reversed direction - an infinite loop.</p>
+
+<p>Typical error: Wrong “assembly” of resulting lists:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wrong_reverse([H | T], R):- wrong_reverse(T, S), append(S, H, R).
+</code></pre></div></div>
+
+<p>(b) An iterative version:</p>
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Signature: reverse(List1, List2)/2</span>
+<span class="c1">% Purpose: List2 is the reverse of List1. This version uses an additional</span>
+<span class="c1">% reverse helper procedure, that uses an accumulator.</span>
+<span class="ss">reverse</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span> <span class="nv">Ys</span><span class="p">):-</span> <span class="ss">reverse_help</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,[],</span><span class="nv">Ys</span><span class="p">).</span>
+<span class="ss">reverse_help</span><span class="p">([</span><span class="nv">X</span> <span class="p">|</span> <span class="nv">Xs</span><span class="p">],</span> <span class="nv">Acc</span><span class="p">,</span> <span class="nv">Ys</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">reverse_help</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span> <span class="p">[</span><span class="nv">X</span> <span class="p">|</span> <span class="nv">Acc</span><span class="p">],</span> <span class="nv">Ys</span><span class="p">).</span> 
+<span class="ss">reverse_help</span><span class="p">([],</span> <span class="nv">Ys</span><span class="p">,</span> <span class="nv">Ys</span><span class="p">).</span>
+
+<span class="o">?-</span> <span class="ss">reverse</span><span class="p">([</span><span class="ss">a</span><span class="p">,</span> <span class="ss">b</span><span class="p">,</span> <span class="ss">c</span><span class="p">,</span> <span class="ss">d</span><span class="p">],</span> <span class="nv">R</span><span class="p">).</span>
+<span class="nv">R</span><span class="o">=</span><span class="p">[</span><span class="ss">d</span><span class="p">,</span> <span class="ss">c</span><span class="p">,</span> <span class="ss">b</span><span class="p">,</span> <span class="ss">a</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>The length of the single success path is linear in the list length, while in the former version it is quadratic.</p>
+
+<p>The reverse_help procedure is a helper procedure that should not reside in the global name space. Unfortunately, Logic Programming does not support nesting of name spaces (like Scheme with <code class="language-plaintext highlighter-rouge">letrec</code>). All names reside in the global space.</p>
+
+
+
+        <footer class="site-footer">
+            
+            <span class="site-footer-owner"><a href="https://github.com/bguppl/interpreters">interpreters</a> is maintained by <a href="https://github.com/bguppl">bguppl</a>.</span>
+            
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
+  :host {
+    all: initial;
+  }
+
+  .gf-scroll-remove::-webkit-scrollbar {
+    border-radius-bottom-right: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .give-freely-close-button:hover {
+    opacity: 0.7;
+  }
+
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 1em 0;
+  }
+
+  @media (max-width: 600px), (max-height: 480px) {
+    #give-freely-checkout-popup {
+      display: none !important;
+    }
+  }
+</style><div><div class="gf-app"></div></div></template></div></body></html>
